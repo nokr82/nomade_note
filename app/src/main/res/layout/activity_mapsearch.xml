@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+
+        <!-- 타이틀 -->
+        <LinearLayout
+            android:id="@+id/titleLL"
+            android:background="@drawable/background_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+                <LinearLayout
+                    android:id="@+id/titleBackLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/back_white"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/logoIVLL"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/logoTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="#ffffff"
+                            android:text="지도검색"/>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:visibility="invisible">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/back_white"/>
+
+                </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/background_gradient"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="50dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/background_border_radius2_000000">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="9dp"
+                            android:src="@mipmap/search_op" />
+
+                        <EditText
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:gravity="center"
+                            android:hint="키워드 검색"
+                            android:textColor="#ffffff"
+                            android:textColorHint="#ffffff"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="9dp"
+                            android:src="@mipmap/search_op"
+                            android:visibility="invisible" />
+                </LinearLayout>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="200dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" 
+                    android:src="@mipmap/time_bg"
+                    android:scaleType="centerCrop"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#90000000"/>
+                
+                <TextView
+                    android:id="@+id/titleTV"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="55dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:textColor="#ffffff"
+                    android:gravity="center_horizontal"
+                    android:text="광화문"
+                    />
+
+                <LinearLayout
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="35dp"
+                    android:layout_below="@+id/titleTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                        
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="#ffffff"
+                                    android:textStyle="bold"
+                                    android:gravity="center_horizontal"
+                                    android:text="평균 체류시간"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#ffffff"
+                                    android:gravity="center_horizontal"
+                                    android:text="01:20"
+                                    />
+                                
+                        </LinearLayout>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                                android:background="#ffffff"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="12sp"
+                                    android:textColor="#ffffff"
+                                    android:textStyle="bold"
+                                    android:gravity="center_horizontal"
+                                    android:text="평균 소비금액"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#ffffff"
+                                    android:gravity="center_horizontal"
+                                    android:text="100$"
+                                    />
+
+                        </LinearLayout>
+                        
+                        
+                </LinearLayout>
+
+        </RelativeLayout>
+
+
+        
+        <ListView
+            android:paddingTop="7dp"
+            android:id="@+id/scrapLV"
+            android:background="#e7eaed"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </ListView>
+
+
+
+
+
+
+
+
+</LinearLayout>

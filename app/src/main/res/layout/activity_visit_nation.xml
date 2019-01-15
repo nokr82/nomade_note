@@ -1,0 +1,100 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+
+            <!-- 타이틀 -->
+            <LinearLayout
+                android:id="@+id/titleLL"
+                android:background="@drawable/background_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <LinearLayout
+                    android:id="@+id/titleBackLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/back_white"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/logoIVLL"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/logoTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:textColor="#ffffff"
+                        android:text="방문국가 기록"/>
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center"
+                    android:visibility="invisible">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/back_white"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/map_bg">
+
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/visitLV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </ListView>
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
