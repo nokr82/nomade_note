@@ -86,15 +86,32 @@
                     android:paddingBottom="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="11sp"
-                        android:textColor="#4a4a4a"
-                        android:textStyle="bold"
-                        android:text="작성시간 : 2017. 10.22   PM10:30"
-                        />
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11sp"
+                            android:textColor="#4a4a4a"
+                            android:textStyle="bold"
+                            android:text="작성시간 : "
+                            />
+
+                        <TextView
+                            android:id="@+id/pulldateTV"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textSize="11sp"
+                            android:textColor="#4a4a4a"
+                            android:textStyle="bold"
+                            android:text="2017. 10.22   PM10:30"
+                            />
+
+                    </LinearLayout>
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -323,10 +340,47 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:background="@null"
-                    android:text="음료수 샌드위치"/>
+                    android:hint="내용을 입력해주세요."/>
 
 
             </ScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="105dp">
+
+            <LinearLayout
+                android:id="@+id/addpictureLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="105dp"
+                        android:layout_height="105dp"
+                        android:layout_margin="5dp"
+                        android:background="@mipmap/imgcopy" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/addPicturesLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
 
         </LinearLayout>
 

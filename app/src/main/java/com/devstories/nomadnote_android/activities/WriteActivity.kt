@@ -5,10 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_write.*
 
 class WriteActivity : RootActivity() {
@@ -17,6 +20,8 @@ class WriteActivity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
 
     var menu_position = 1
+
+    val SELECT_PICTURE = 1000
 
 
 
@@ -32,12 +37,13 @@ class WriteActivity : RootActivity() {
         var timesplit = time.split(":")
         timeET.setText(timesplit.get(0))
         minuteET.setText(timesplit.get(1))
-
-
-
-
-
-
+        var edittime = ""
+        if (timesplit.get(0).toInt() >= 12){
+            edittime += " PM " + (timesplit.get(0).toInt() - 12).toString() + ":" + timesplit.get(1)
+        } else {
+            edittime += " AM " + timesplit.get(0)+ ":" + timesplit.get(1)
+        }
+        pulldateTV.setText(Utils.todayStr() + "" + edittime)
 
     }
     fun click(){
@@ -89,6 +95,11 @@ class WriteActivity : RootActivity() {
             addContent()
         }
 
+        //이미지추가
+        addpictureLL.setOnClickListener {
+            permission()
+        }
+
 
     }
 
@@ -130,6 +141,30 @@ class WriteActivity : RootActivity() {
         historyTV.setTextColor(Color.parseColor("#878787"))
         museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         museumTV.setTextColor(Color.parseColor("#878787"))
+    }
+
+    private fun permission() {
+
+        val permissionlistener = object : PermissionListener {
+            override fun onPermissionGranted() {
+
+                var intent = Intent(context, FindPictureGridActivity::class.java)
+                startActivityForResult(intent, SELECT_PICTURE)
+
+            }
+
+            override fun onPermissionDenied(deniedPermissions: List<String>) {
+
+            }
+
+        }
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
+                .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.CAMERA, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
+
     }
 
 
