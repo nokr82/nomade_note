@@ -151,6 +151,25 @@ public class Utils {
         return reg_dt;
     }
 
+    public static String todayStr() {
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", java.util.Locale.KOREA);
+
+        Date d = new Date();
+        return sdf1.format(d);
+
+    }
+
+    public static String timeStr() {
+
+        SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm", java.util.Locale.KOREA);
+
+        Date d = new Date();
+        return sdf1.format(d);
+
+    }
+
+
     /**
      * EXIF정보를 회전각도로 변환하는 메서드
      *
