@@ -54,6 +54,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/addcontentLL"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingLeft="25dp"
@@ -120,6 +121,7 @@
                           />
 
                       <EditText
+                          android:id="@+id/locationET"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:textSize="12sp"
@@ -145,14 +147,45 @@
                             android:text="소비시간"
                             />
 
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#4a4a4a"
-                            android:padding="7dp"
+                        <LinearLayout
                             android:background="@drawable/background_border_radius8_000000"
-                            android:text="12:30"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <EditText
+                                android:id="@+id/timeET"
+                                android:inputType="number"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:textSize="12sp"
+                                android:textColor="#4a4a4a"
+                                android:padding="7dp"
+                                android:background="@null"
+                                android:maxLength="2"
+                                android:singleLine="true"/>
+                            <TextView
+                                android:inputType="number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp"
+                                android:textColor="#4a4a4a"
+                                android:background="@null"
+                                android:text=":"/>
+                            <EditText
+                                android:id="@+id/minuteET"
+                                android:inputType="number"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:textSize="12sp"
+                                android:textColor="#4a4a4a"
+                                android:padding="7dp"
+                                android:background="@null"
+                                android:maxLength="2"
+                                android:singleLine="true"/>
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -170,14 +203,32 @@
                             android:text="소비금액"
                             />
 
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#4a4a4a"
-                            android:padding="7dp"
+                        <LinearLayout
                             android:background="@drawable/background_border_radius8_000000"
-                            android:text="10$"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+                            <EditText
+                                android:id="@+id/moneyET"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="12sp"
+                                android:textColor="#4a4a4a"
+                                android:padding="7dp"
+                                android:background="@null"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:text="0"/>
+                            <TextView
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textSize="12sp"
+                                android:textColor="#4a4a4a"
+                                android:padding="7dp"
+                                android:text="$"/>
+                        </LinearLayout>
 
 
                     </LinearLayout>
@@ -190,6 +241,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/healingTV"
                         android:layout_marginRight="5dp"
                         android:padding="4dp"
                         android:layout_width="0dp"
@@ -201,6 +253,7 @@
                         android:textSize="10dp"
                         android:textColor="#ffffff"/>
                     <TextView
+                        android:id="@+id/hotplaceTV"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/background_border_radius8_000000"
                         android:padding="4dp"
@@ -212,6 +265,7 @@
                         android:gravity="center"
                         android:textColor="#878787"/>
                     <TextView
+                        android:id="@+id/literatureTV"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/background_border_radius8_000000"
                         android:padding="4dp"
@@ -223,6 +277,7 @@
                         android:textSize="10dp"
                         android:textColor="#878787"/>
                     <TextView
+                        android:id="@+id/historyTV"
                         android:layout_marginRight="5dp"
                         android:background="@drawable/background_border_radius8_000000"
                         android:padding="4dp"
@@ -235,6 +290,7 @@
                         android:text="역사 스타일"
                         />
                     <me.grantland.widget.AutofitTextView
+                        android:id="@+id/museumTV"
                         android:singleLine="true"
                         android:background="@drawable/background_border_radius8_000000"
                         android:padding="4dp"
@@ -262,6 +318,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
                 <EditText
+                    android:id="@+id/contentET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
