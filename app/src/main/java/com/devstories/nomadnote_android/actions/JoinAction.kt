@@ -9,7 +9,7 @@ object JoinAction {
 
     // 핸드폰 인증
     fun send_sms(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/join/sms_code.json", params, handler)
+        HttpClient.post("/join/sms_code", params, handler)
     }
 
     // 회원가입
@@ -18,8 +18,8 @@ object JoinAction {
     }
 
     // 닉네임 체크
-    fun check_nick_name(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/join/check_nick_name.json", params, handler)
+    fun check_email(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/join/check_email", params, handler)
     }
 
 }
