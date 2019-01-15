@@ -19,7 +19,7 @@ object JoinAction {
 
     // 닉네임 체크
     fun check_email(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/join/check_email", params, handler)
+        HttpClient.post("/api/member/check_email", params, handler)
     }
 
 }

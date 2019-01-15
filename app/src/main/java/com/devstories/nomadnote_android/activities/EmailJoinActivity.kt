@@ -75,9 +75,9 @@ class EmailJoinActivity : RootActivity() {
                 }
 
                 try {
-                    val result = response!!.getString("result")
 
-                    val message: String = response!!.getString("message")
+                    val result =   Utils.getString(response,"result")
+
 
 
                     if ("ok" == result) {
