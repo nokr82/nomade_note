@@ -15,6 +15,7 @@ import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.loopj.android.http.RequestParams
 import kotlinx.android.synthetic.main.activity_write.*
 import java.util.ArrayList
 
@@ -27,7 +28,7 @@ class WriteActivity : RootActivity() {
 
     val SELECT_PICTURE = 1000
 
-    var images_path: ArrayList<String>? = null
+    var images_path: ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,6 +127,14 @@ class WriteActivity : RootActivity() {
             Toast.makeText(context, "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show()
             return
         }
+
+        val params = RequestParams()
+//        params.put("member_id",)
+//        params.put("place_name",)
+//        params.put("duration",)
+//        params.put("cost",)
+//        params.put("place_id",)
+//        params.put("country_id",)
 
 
 

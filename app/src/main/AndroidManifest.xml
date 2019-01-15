@@ -71,7 +71,8 @@
             android:name=".activities.VisitNationActivity"
             android:theme="@style/NoTitleDialog"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".activities.FindPictureGridActivity"></activity>
+        <activity android:name=".activities.FindPictureGridActivity"
+            android:theme="@style/NoTitleDialog" ></activity>
     </application>
 
 </manifest>
