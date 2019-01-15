@@ -29,13 +29,13 @@ class EmailJoinActivity : RootActivity() {
             finish()
         }
 
-        email = Utils.getString(emailET)
-        pw = Utils.getString(pwET)
-        pw2 = Utils.getString(pw2ET)
+
 
 
         joinTV.setOnClickListener {
-
+            email = Utils.getString(emailET)
+            pw = Utils.getString(pwET)
+            pw2 = Utils.getString(pw2ET)
             if (email.equals("")){
                 Toast.makeText(context,"이메일을 입력해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
