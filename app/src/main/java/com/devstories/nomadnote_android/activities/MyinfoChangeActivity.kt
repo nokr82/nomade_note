@@ -2,7 +2,6 @@ package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.RootActivity

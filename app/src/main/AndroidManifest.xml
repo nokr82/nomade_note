@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.devstories.nomadnote_android">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,10 +21,10 @@
             </intent-filter>
         </activity>
 
-      <!--  <activity
-            android:name=".activities.IntroActivity"
-            android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>-->
+        <!--  <activity
+              android:name=".activities.IntroActivity"
+              android:theme="@style/NoTitleDialog"
+              android:windowSoftInputMode="adjustResize|stateHidden"/>-->
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/NoTitleDialog"
