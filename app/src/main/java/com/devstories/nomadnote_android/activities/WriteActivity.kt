@@ -1,11 +1,14 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.RootActivity
@@ -13,6 +16,7 @@ import com.devstories.nomadnote_android.base.Utils
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.activity_write.*
+import java.util.ArrayList
 
 class WriteActivity : RootActivity() {
 
@@ -23,7 +27,7 @@ class WriteActivity : RootActivity() {
 
     val SELECT_PICTURE = 1000
 
-
+    var images_path: ArrayList<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,6 +171,41 @@ class WriteActivity : RootActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
 
+                SELECT_PICTURE -> {
+
+                    var item = data?.getStringArrayExtra("images")//photoPath
+                    //var name = data?.getStringArrayExtra("displayname")
+
+                    for (i in 0..(item!!.size - 1)) {
+                        val str = item[i]
+
+                        images_path!!.add(str)
+
+                        var add_file = Utils.getImage(context.contentResolver, str)
+
+                        var imageView = View.inflate(context, R.layout.item_addgoods, null)
+                        val imageIV: ImageView = imageView.findViewById(R.id.addedImgIV)
+                        val delIV: ImageView = imageView.findViewById(R.id.delIV)
+                        imageIV.setImageBitmap(add_file)
+                        addPicturesLL?.addView(imageView)
+
+                        delIV.setOnClickListener {
+                            if (addPicturesLL != null) {
+                                addPicturesLL!!.removeView(imageView)
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+    }
 
 }
