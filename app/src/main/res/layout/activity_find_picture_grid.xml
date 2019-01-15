@@ -60,7 +60,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="#ccccccc" />
+        android:background="#cccccc" />
     <GridView
         android:scrollbars="none"
         android:id="@+id/selectGV"
