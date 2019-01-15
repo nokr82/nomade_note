@@ -17,7 +17,7 @@
             android:id="@+id/picture_grid_click"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/griditemclick_selector"
+            android:background="@mipmap/btn_select_picture"
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:textColor="#ffffff"
