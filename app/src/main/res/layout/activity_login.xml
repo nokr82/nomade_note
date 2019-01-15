@@ -47,6 +47,7 @@
 
     </LinearLayout>
         <LinearLayout
+            android:id="@+id/naverLL"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="4dp"
@@ -69,6 +70,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/googleLL"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="4dp"
@@ -91,6 +93,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/facebookLL"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="4dp"

@@ -14,6 +14,8 @@ class LoginActivity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
 
 
+    var jointype = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -30,10 +32,29 @@ class LoginActivity : RootActivity() {
         }
         kakaoLL.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)
+            jointype = 1
+            intent.putExtra("jointype",jointype)
+            startActivity(intent)
+        }
+        naverLL.setOnClickListener {
+            val intent = Intent(context, Login2Activity::class.java)
+            jointype = 2
+            intent.putExtra("jointype",jointype)
+            startActivity(intent)
+        }
+        googleLL.setOnClickListener {
+            val intent = Intent(context, Login2Activity::class.java)
+            jointype = 3
+            intent.putExtra("jointype",jointype)
             startActivity(intent)
         }
 
-
+        facebookLL.setOnClickListener {
+            val intent = Intent(context, Login2Activity::class.java)
+            jointype = 4
+            intent.putExtra("jointype",jointype)
+            startActivity(intent)
+        }
 
     }
 

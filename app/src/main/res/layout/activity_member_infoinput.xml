@@ -39,11 +39,13 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/manLL"
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 <ImageView
+    android:id="@+id/manckIV"
     android:layout_width="10dp"
     android:layout_gravity="center"
     android:layout_marginBottom="10dp"
@@ -60,11 +62,13 @@
 
 
             <LinearLayout
+                android:id="@+id/femaleLL"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <ImageView
+                    android:id="@+id/femaleckIV"
                     android:layout_width="10dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
@@ -99,6 +103,7 @@
             android:background="@drawable/background_border_radius5_000000">
 
             <EditText
+                android:id="@+id/nameET"
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:layout_height="wrap_content"
@@ -117,8 +122,10 @@
             android:background="@drawable/background_border_radius5_000000">
 
             <EditText
+                android:id="@+id/ageET"
                 android:layout_width="match_parent"
                 android:gravity="center"
+                android:inputType="number"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textColorHint="#878787"

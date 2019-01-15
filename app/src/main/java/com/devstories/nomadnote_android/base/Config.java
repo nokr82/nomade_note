@@ -2,7 +2,7 @@ package com.devstories.nomadnote_android.base;
 
 public class Config {
 
-    public static String url = "http://54.180.8.186";
+    public static String url = "http://52.79.207.123";
 
     public static String device = "A";
     public static String gcm_sender_id = "882000133096";
