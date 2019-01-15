@@ -14,7 +14,7 @@ object JoinAction {
 
     // 회원가입
     fun join(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/join/join.json", params, handler)
+        HttpClient.post("/api/member/join", params, handler)
     }
 
     // 닉네임 체크
