@@ -40,6 +40,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+
+    implementation 'com.google.firebase:firebase-core:15.0.2'
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+
     implementation 'gun0912.ted:tedpermission:2.2.2'
     implementation files('libs/libDaumMapAndroid.jar')
     implementation 'com.mcxiaoke.volley:library:1.0.8'

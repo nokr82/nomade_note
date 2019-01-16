@@ -79,8 +79,8 @@ class Solo_time_Fragment : Fragment()  {
 
     fun my_timeline(){
         val params = RequestParams()
-//        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
-        params.put("member_id", "1")
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+//        params.put("member_id", "1")
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
 

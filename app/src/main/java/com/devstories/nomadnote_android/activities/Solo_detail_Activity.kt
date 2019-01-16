@@ -6,9 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -54,44 +56,6 @@ class Solo_detail_Activity : RootActivity() {
             finish()
         }
 
-        healingTV.setOnClickListener {
-            menuSetImage()
-            healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
-            healingTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 1
-        }
-
-        //핫플레이스
-        hotplaceTV.setOnClickListener {
-            menuSetImage()
-            hotplaceTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
-            hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 2
-        }
-
-        //문학 스타일
-        literatureTV.setOnClickListener {
-            menuSetImage()
-            literatureTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
-            literatureTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 3
-        }
-
-        //역사 스타일
-        historyTV.setOnClickListener {
-            menuSetImage()
-            historyTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
-            historyTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 4
-        }
-
-        //박물관 스타일
-        museumTV.setOnClickListener {
-            menuSetImage()
-            museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
-            museumTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 5
-        }
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -132,6 +96,19 @@ class Solo_detail_Activity : RootActivity() {
                         durationTV.setText(duration)
                         costTV.setText(cost + "$")
                         contentTV.setText(contents)
+
+                        val member = response!!.getJSONObject("member")
+                        val founder_id = Utils.getString(member,"id")
+                        val name = Utils.getString(member,"name")
+                        val age = Utils.getString(member,"age")
+
+                        if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
+                            modifyIV.visibility = View.GONE
+                            lockIV.visibility = View.GONE
+                        }
+
+                        infoTV.setText(name+"/"+age+"세")
+
 
                         if (timesplit.get(0).toInt() >= 12){
                             createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))

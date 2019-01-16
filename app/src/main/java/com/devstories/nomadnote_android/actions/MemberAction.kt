@@ -14,4 +14,8 @@ object MemberAction {
     fun my_info(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/my_info", params, handler)
     }
+
+    fun regist_token(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/regist_token", params, handler)
+    }
 }
