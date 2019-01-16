@@ -9,7 +9,7 @@ object TimelineAction {
 
     // 타임라인 작성
     fun addtimeline(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/timeline/addtimeline.json", params, handler)
+        HttpClient.post("api/timeline/addtimeline", params, handler)
     }
 
 
