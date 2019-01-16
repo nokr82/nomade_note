@@ -20,11 +20,18 @@
 
 
     </LinearLayout>
-    
-    
+
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
     <LinearLayout
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
@@ -110,7 +117,7 @@
          android:textColor="#ffffff"/>
     </LinearLayout>
 
-
+        </LinearLayout>
     </ScrollView>
 
 
