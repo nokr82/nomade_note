@@ -530,7 +530,7 @@
                 android:background="#9b9b9b" />
             <LinearLayout
                 android:id="@+id/op_payLL"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:orientation="vertical">
