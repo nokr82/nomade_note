@@ -70,12 +70,14 @@ class Login2Activity : RootActivity() {
 
 
                         PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
+                        PrefUtils.setPreference(context, "name", Utils.getString(data, "name"))
                         PrefUtils.setPreference(context, "email", Utils.getString(data, "email"))
                         PrefUtils.setPreference(context, "passwd", Utils.getString(data, "passwd"))
                         PrefUtils.setPreference(context, "gender", Utils.getString(data, "gender"))
                         PrefUtils.setPreference(context, "age", Utils.getInt(data, "age"))
 //                        PrefUtils.setPreference(context, "sns_key", Utils.getString(data, "sns_key"))
 
+                        Utils.hideKeyboard(context)
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
