@@ -14,12 +14,12 @@ object JoinAction {
 
     // 회원가입
     fun join(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/api/member/join", params, handler)
+        HttpClient.post("/api/join/join", params, handler)
     }
 
     // 닉네임 체크
     fun check_email(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/api/member/check_email", params, handler)
+        HttpClient.post("/api/join/check_email", params, handler)
     }
 
 }
