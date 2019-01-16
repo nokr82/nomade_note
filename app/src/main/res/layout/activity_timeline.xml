@@ -90,6 +90,7 @@
             android:src="@mipmap/man"
             />
             <TextView
+                android:id="@+id/infoTV"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,19 +99,68 @@
                 android:gravity="center_horizontal"
                 android:text="노마드 / 35세"
                 />
-            <TextView
-                android:paddingTop="20dp"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11sp"
-                android:textColor="#878787"
-                android:text="파리, 01:34, 200$
-2018. 07.02 PM10:30"
-                />
+                android:paddingTop="20dp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/placeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#878787"
+                        android:text="파리"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#878787"
+                        android:text=","
+                        />
+                    <TextView
+                        android:id="@+id/durationTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#878787"
+                        android:text="01:34"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#878787"
+                        android:text=" , "
+                        />
+                    <TextView
+                        android:id="@+id/costTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#878787"
+                        android:text="200$"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/createdTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="#878787"
+                    android:text="2018. 07.02 PM10:30"
+                    />
+
+            </LinearLayout>
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="140dp">
             <TextView
+                android:id="@+id/contentTV"
                 android:paddingTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/healingTV"
                     android:padding="4dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -134,6 +185,7 @@
                     android:textSize="10dp"
                     android:textColor="#ffffff"/>
                 <TextView
+                    android:id="@+id/hotplaceTV"
                     android:padding="4dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -143,6 +195,7 @@
                     android:gravity="center"
                     android:textColor="#878787"/>
                 <TextView
+                    android:id="@+id/literatureTV"
                     android:padding="4dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -152,6 +205,7 @@
                     android:textSize="10dp"
                     android:textColor="#878787"/>
                 <TextView
+                    android:id="@+id/historyTV"
                     android:padding="4dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -162,6 +216,7 @@
                     android:text="역사 스타일"
                  />
                 <TextView
+                    android:id="@+id/museumTV"
                     android:padding="4dp"
                     android:layout_width="0dp"
                     android:layout_weight="1"

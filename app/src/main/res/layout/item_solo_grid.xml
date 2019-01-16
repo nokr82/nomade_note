@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <RelativeLayout
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:id="@+id/soloRL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/background_border_radius6_000000">
+
+        <ImageView
+            android:id="@+id/backgroundIV"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_border_radius6_000000"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/contentTV"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:text="20년지기 친구들과 파리여행"/>
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/placeTV"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text="파리"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text=","
+                    />
+                <TextView
+                    android:id="@+id/durationTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text="01:34"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text=", "
+                />
+                <TextView
+                    android:id="@+id/costTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text="200$ "
+                    />
+                <TextView
+                    android:id="@+id/createdTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:textColor="#ffffff"
+                    android:lineSpacingExtra="1sp"
+                    android:text=" 2018. 07.02 PM10:30"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

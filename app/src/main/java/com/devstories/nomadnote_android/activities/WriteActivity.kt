@@ -1,8 +1,10 @@
 package com.devstories.nomadnote_android.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -11,12 +13,20 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_write.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.ArrayList
 
 class WriteActivity : RootActivity() {
@@ -97,7 +107,21 @@ class WriteActivity : RootActivity() {
         }
 
         addcontentLL.setOnClickListener {
-            addContent()
+
+            val builder = AlertDialog.Builder(context)
+            builder
+                    .setMessage("등록하시겠습니까 ?")
+
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                        addContent()
+                    })
+                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                    })
+
+            val alert = builder.create()
+            alert.show()
         }
 
         //이미지추가
@@ -122,19 +146,121 @@ class WriteActivity : RootActivity() {
             return
         }
 
-        val content = contentET.text.toString()
-        if (content == "" || content == null){
-            Toast.makeText(context, "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show()
+        val contents = contentET.text.toString()
+        if (contents == "" || contents == null){
+            Toast.makeText(context, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val fulltime = time +":"+ minute
+        val money = moneyET.text.toString()
+        if (money.length == 0){
+            Toast.makeText(context, "금액을 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
         val params = RequestParams()
-//        params.put("member_id",)
-//        params.put("place_name",)
-//        params.put("duration",)
-//        params.put("cost",)
-//        params.put("place_id",)
-//        params.put("country_id",)
+        params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
+        params.put("place_name",location)
+        params.put("duration",fulltime)
+        params.put("cost",money)
+        params.put("contents",contents)
+        params.put("place_id","1")
+        params.put("country_id","1")
+        params.put("style_id",menu_position)
+
+        TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
 
 
 

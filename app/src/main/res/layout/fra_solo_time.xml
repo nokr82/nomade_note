@@ -214,6 +214,22 @@
         android:padding="20dp"
         android:layout_weight="1"
         android:orientation="vertical">
+        <GridView
+            android:background="#e7eaed"
+            android:id="@+id/gridGV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </GridView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:background="#e7eaed"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="20dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/soloRL"
