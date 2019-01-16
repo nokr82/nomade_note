@@ -32,7 +32,14 @@ class Other_time_Fragment : Fragment()  {
         OthertimeAdapter = OthertimeAdapter(myContext, R.layout.item_scrap, 10)
         otherLV.adapter = OthertimeAdapter
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 
 
 }

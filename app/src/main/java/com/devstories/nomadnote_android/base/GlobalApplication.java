@@ -9,6 +9,7 @@ import android.view.Display;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.kakao.auth.KakaoSDK;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 //import com.kakao.auth.KakaoSDK;
@@ -45,7 +46,7 @@ public class GlobalApplication extends MultiDexApplication {
         super.onCreate();
         instance = this;
 
-//        KakaoSDK.init(new KakaoSDKAdapter());
+        KakaoSDK.init(new KakaoSDKAdapter());
 
         com.nostra13.universalimageloader.core.ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
 

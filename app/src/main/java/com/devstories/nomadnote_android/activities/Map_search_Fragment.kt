@@ -53,6 +53,13 @@ fun click(){
         startActivity(intent)
     }
 }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 
 }

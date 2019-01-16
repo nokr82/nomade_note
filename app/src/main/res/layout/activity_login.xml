@@ -22,7 +22,7 @@
         android:layout_marginRight="40dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    
+
         <LinearLayout
             android:id="@+id/kakaoLL"
         android:layout_width="match_parent"

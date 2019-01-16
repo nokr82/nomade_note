@@ -71,5 +71,12 @@ class IntroActivity : RootActivity() {
             //PrefUtils.setPreference(context, "company_id", 1)
         }
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 }

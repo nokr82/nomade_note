@@ -1,5 +1,7 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.ProgressDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -8,7 +10,8 @@ import com.devstories.nomadnote_android.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : FragmentActivity() {
-
+    lateinit var context: Context
+    private var progressDialog: ProgressDialog? = null
 
     val Solo_time_Fragment : Solo_time_Fragment = Solo_time_Fragment()
     val Map_search_Fragment : Map_search_Fragment = Map_search_Fragment()
@@ -98,5 +101,14 @@ class MainActivity : FragmentActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+
+    }
 
 }
