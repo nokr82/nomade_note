@@ -274,7 +274,7 @@ class LoginActivity : RootActivity() {
                 // show dialog
                 if (progressDialog != null) {
 
-                    progressDialog!!.show()
+//                    progressDialog!!.show()
                 }
             }
 
