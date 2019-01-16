@@ -33,6 +33,13 @@ class VisitNationActivity : RootActivity() {
         visitLV.adapter = VisitNationAdapter
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 
 }

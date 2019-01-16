@@ -57,7 +57,14 @@ class Solo_detail_Activity : RootActivity() {
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
     fun detail_timeline(){
         val params = RequestParams()
 //        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))

@@ -29,7 +29,14 @@ class MapSearchActivity : RootActivity() {
 
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 
 
 }

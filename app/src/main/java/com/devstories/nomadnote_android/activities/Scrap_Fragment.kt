@@ -33,7 +33,14 @@ class Scrap_Fragment : Fragment()  {
         ScrapAdapter = ScrapAdapter(myContext, R.layout.item_scrap, 10)
         scrapLV.adapter = ScrapAdapter
     }
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 
 
 }

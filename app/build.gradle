@@ -10,8 +10,8 @@ android {
         applicationId "com.devstories.nomadnote_android"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "2.0.6"
     }
     buildTypes {
         release {
@@ -52,7 +52,9 @@ dependencies {
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.github.paolorotolo:expandableheightlistview:1.0.0'
 
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.5.1'
+    // 카카오톡 sdk를 사용하기 위해 필요.
+    implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: project.KAKAO_SDK_VERSION
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 
     implementation('io.nlopez.smartlocation:library:3.3.3') {
         transitive = false

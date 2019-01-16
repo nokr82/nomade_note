@@ -204,6 +204,13 @@ class Solo_time_Fragment : Fragment()  {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+    }
 }
 
