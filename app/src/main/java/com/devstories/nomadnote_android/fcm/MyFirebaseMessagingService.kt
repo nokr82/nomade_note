@@ -1,4 +1,4 @@
-package com.devstories.nomadnote_android.activities
+package com.devstories.nomadnote_android.fcm
 
 
 import android.app.NotificationChannel
@@ -17,6 +17,7 @@ import android.support.v4.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.activities.IntroActivity
 
 /**
  * Created by dev1 on 2017-12-15.

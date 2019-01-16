@@ -7,7 +7,18 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.MemberAction
+import com.devstories.nomadnote_android.base.Config
+import com.devstories.nomadnote_android.base.PrefUtils
+import com.devstories.nomadnote_android.base.Utils
+import com.google.firebase.iid.FirebaseInstanceId
+import com.loopj.android.http.JsonHttpResponseHandler
+import com.loopj.android.http.RequestParams
+import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 class MainActivity : FragmentActivity() {
     lateinit var context: Context
@@ -29,6 +40,9 @@ class MainActivity : FragmentActivity() {
         soloTV.setTextColor(Color.parseColor("#0c6e87"))
         titleLL.visibility = View.GONE
         click()
+        context = this
+
+        updateToken()
 
     }
 
@@ -99,6 +113,110 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
         }
 
+    }
+
+    private fun updateToken() {
+        val params = RequestParams()
+        val member_id = PrefUtils.getIntPreference(context, "member_id")
+        val member_token = FirebaseInstanceId.getInstance().token
+
+        println("-------updatetoken0000")
+
+        if (member_id == -1 || null == member_token || "" == member_token || member_token.length < 1) {
+            return
+        }
+        params.put("member_id", member_id)
+        params.put("token", member_token)
+        params.put("device", Config.device)
+
+        println("member_token$member_token")
+        println("device${Config.device}")
+
+        MemberAction.regist_token(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {}
+
+            private fun error() {
+
+                if (progressDialog != null) {
+                    Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                }
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+//                val member_id = PrefUtils.getIntPreference(context, "member_id")
+//                LogAction.log(javaClass.toString(), member_id, responseString)
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

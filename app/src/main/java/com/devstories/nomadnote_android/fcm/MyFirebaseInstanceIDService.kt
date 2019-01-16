@@ -1,4 +1,4 @@
-package com.devstories.nomadnote_android.activities
+package com.devstories.nomadnote_android.fcm
 
 
 import android.os.Handler
