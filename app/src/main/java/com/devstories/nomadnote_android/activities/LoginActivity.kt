@@ -13,6 +13,9 @@ import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.kakao.auth.AuthType
 import com.kakao.auth.ErrorCode
 import com.kakao.auth.ISessionCallback
@@ -22,7 +25,6 @@ import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
 import com.kakao.usermgmt.callback.MeResponseCallback
 import com.kakao.usermgmt.response.model.UserProfile
-import com.kakao.usermgmt.response.model.User
 import com.kakao.util.exception.KakaoException
 import com.kakao.util.helper.log.Logger
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -34,6 +36,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 class LoginActivity : RootActivity() {
 
@@ -41,9 +44,14 @@ class LoginActivity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
     private var userManagement: UserManagement? = null
     private var callback: SessionCallback? = null
+    private var callbackManager: CallbackManager? = null
+    private var accessToken: AccessToken? = null
+
     var jointype = -1
     private var kakao_ID: String? = null
     private var sns_name: String? = null
+    private var facebook_ID: String? = null
+    private var facebook_NAME: String? = null
 
     var email = ""
 
@@ -55,6 +63,10 @@ class LoginActivity : RootActivity() {
 
         callback = SessionCallback()
         Session.getCurrentSession().addCallback(callback)
+
+        FacebookSdk.sdkInitialize(applicationContext)
+        callbackManager = CallbackManager.Factory.create()
+
 
         userManagement = UserManagement.getInstance()
         try {
@@ -102,10 +114,11 @@ class LoginActivity : RootActivity() {
         }
 
         facebookLL.setOnClickListener {
-            val intent = Intent(context, Login2Activity::class.java)
+          /*  val intent = Intent(context, Login2Activity::class.java)
             jointype = 4
             intent.putExtra("jointype",jointype)
-            startActivity(intent)
+            startActivity(intent)*/
+            disconnectFromFacebook()
         }
 
     }
@@ -117,7 +130,7 @@ class LoginActivity : RootActivity() {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
-
+        callbackManager!!.onActivityResult(requestCode, resultCode, data)
     }
 
     //카카오톡 시작
@@ -171,11 +184,12 @@ class LoginActivity : RootActivity() {
                 Log.d("유저정보", userProfile.toString())
                 kakao_ID = userProfile.id.toString()
                 sns_name = userProfile.nickname
-                sns_join("", "1", kakao_ID!!, userProfile.nickname)
+                email = ""
+                sns_join(email, "1", kakao_ID!!, userProfile.nickname)
             }
         })
     }
-    fun sns_join(email:String,join_type:String,sns_key:String,name:String) {
+    fun sns_join(email:String, join_type:String, sns_key: String?, name: String?) {
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
@@ -290,6 +304,79 @@ class LoginActivity : RootActivity() {
             override fun onCompleteLogout() {}
         })
     }
+
+    // 페이스북 로그아웃
+    fun disconnectFromFacebook() {
+        //        LoginManager.getInstance().logOut();
+        //        if (accessToken == null) {
+        //            doStartWithFacebook();
+        //            return;
+        //        }
+        GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, GraphRequest.Callback {
+            LoginManager.getInstance().logOut()
+            doStartWithFacebook()
+        }).executeAsync()
+    }
+    private fun doStartWithFacebook() {
+        if (AccessToken.getCurrentAccessToken() != null) {
+            this.accessToken = AccessToken.getCurrentAccessToken()
+            fetchUserData()
+        } else {
+            LoginManager.getInstance().logInWithReadPermissions(this@LoginActivity, Arrays.asList("public_profile", "email"))
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    object : FacebookCallback<LoginResult> {
+                        override fun onSuccess(loginResult: LoginResult) {
+                            accessToken = loginResult.accessToken
+                            fetchUserData()
+                        }
+
+                        override fun onCancel() {
+                            Toast.makeText(dialogContext, "페이스북 로그인 취소", Toast.LENGTH_LONG).show()
+                        }
+
+                        override fun onError(exception: FacebookException) {
+                            Toast.makeText(dialogContext, exception.message, Toast.LENGTH_LONG).show()
+                        }
+                    })
+        }
+    }
+
+     private fun fetchUserData() {
+val request = GraphRequest.newMeRequest(
+accessToken
+) { `object`, response ->
+    var id:String? = null
+    var name:String? = null
+    var eamil:String? = null
+
+    try {
+        if (`object`.has("id") && !`object`.isNull("id")) {
+            id = `object`.getString("id")
+        }
+
+        if (`object`.has("name") && !`object`.isNull("name")) {
+            name = `object`.getString("name")
+        }
+
+        if (`object`.has("email") && !`object`.isNull("email")) {
+            eamil = `object`.getString("email")
+        }
+
+    } catch (e:JSONException) {
+        e.printStackTrace()
+    }
+
+    facebook_ID = id
+    facebook_NAME = name
+
+    sns_join(eamil!!, "4", facebook_ID, facebook_NAME)
+}
+         val parameters = Bundle()
+parameters.putString("fields", "id,name,link, email")
+         request.parameters = parameters
+request.executeAsync()
+}
+
     override fun onDestroy() {
         super.onDestroy()
 

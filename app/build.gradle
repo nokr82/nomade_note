@@ -32,7 +32,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'me.grantland:autofittextview:0.2.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -52,6 +51,11 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.github.paolorotolo:expandableheightlistview:1.0.0'
+
+    //페이스북로그인
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+
+
 
     // 카카오톡 sdk를 사용하기 위해 필요.
     implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: project.KAKAO_SDK_VERSION
