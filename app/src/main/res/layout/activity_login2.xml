@@ -49,6 +49,7 @@
             android:background="@drawable/background_border_radius5_000000">
 
             <EditText
+                android:id="@+id/emailET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
@@ -66,6 +67,7 @@
             android:background="@drawable/background_border_radius5_000000">
 
             <EditText
+                android:id="@+id/passwdET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
