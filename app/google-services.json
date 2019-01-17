@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1079035027448",
+    "firebase_url": "https://nomadenote-16d52.firebaseio.com",
+    "project_id": "nomadenote-16d52",
+    "storage_bucket": "nomadenote-16d52.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079035027448:android:b3185d2a6ae58b3a",
+        "android_client_info": {
+          "package_name": "com.devstories.nomadnote_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1079035027448-9npv08aqeb1gcnkd8v69abksps5jshf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.devstories.nomadnote_android",
+            "certificate_hash": "ebcb295d71149973573b66cbe6f49d2049206fc9"
+          }
+        },
+        {
+          "client_id": "1079035027448-plur6s9lud2e99tggbkn5uf4jmlabb9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1079035027448-plur6s9lud2e99tggbkn5uf4jmlabb9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

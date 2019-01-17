@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
@@ -16,11 +17,23 @@ import com.devstories.nomadnote_android.base.Utils
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.*
 import com.kakao.auth.AuthType
 import com.kakao.auth.ErrorCode
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.StringSet.email
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
 import com.kakao.usermgmt.callback.MeResponseCallback
@@ -38,7 +51,10 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
-class LoginActivity : RootActivity() {
+class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedListener {
+    override fun onConnectionFailed(p0: ConnectionResult) {
+
+    }
 
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
@@ -52,7 +68,10 @@ class LoginActivity : RootActivity() {
     private var sns_name: String? = null
     private var facebook_ID: String? = null
     private var facebook_NAME: String? = null
-
+    private val RC_SIGN_IN = 1000
+    private lateinit var mAuth: FirebaseAuth;
+    private var mGoogleApiClient: GoogleApiClient? = null
+    private var mGoogleSignInClient: GoogleSignInClient? = null
     var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,9 +85,21 @@ class LoginActivity : RootActivity() {
 
         FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
-
-
         userManagement = UserManagement.getInstance()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+       /* mGoogleApiClient = GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build()*/
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        mAuth = FirebaseAuth.getInstance()
+
+
+
         try {
             val info = context.packageManager.getPackageInfo("com.devstories.nomadnote_android", PackageManager.GET_SIGNATURES)
             for (signature in info.signatures) {
@@ -93,31 +124,30 @@ class LoginActivity : RootActivity() {
             startActivity(intent)
         }
         kakaoLL.setOnClickListener {
-            /*val intent = Intent(context, Login2Activity::class.java)
-            jointype = 1
-            intent.putExtra("jointype",jointype)
-            startActivity(intent)*/
             kakaoLogout()
             Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, this)
         }
         naverLL.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)
             jointype = 2
-            intent.putExtra("jointype",jointype)
+            intent.putExtra("jointype", jointype)
             startActivity(intent)
         }
         googleLL.setOnClickListener {
-            val intent = Intent(context, Login2Activity::class.java)
-            jointype = 3
-            intent.putExtra("jointype",jointype)
-            startActivity(intent)
+            /* val intent = Intent(context, Login2Activity::class.java)
+             jointype = 3
+             intent.putExtra("jointype",jointype)
+             startActivity(intent)*/
+//            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
+            val signInIntent =mGoogleSignInClient!!.getSignInIntent()
+            startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
         facebookLL.setOnClickListener {
-          /*  val intent = Intent(context, Login2Activity::class.java)
-            jointype = 4
-            intent.putExtra("jointype",jointype)
-            startActivity(intent)*/
+            /*  val intent = Intent(context, Login2Activity::class.java)
+              jointype = 4
+              intent.putExtra("jointype",jointype)
+              startActivity(intent)*/
             disconnectFromFacebook()
         }
 
@@ -128,9 +158,93 @@ class LoginActivity : RootActivity() {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             return
         }
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Log.d("구글띠",task.toString())
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                Log.d("구글띠",account.toString())
+                if (account != null) {
+                    firebaseAuthWithGoogle(account)
+                }
+            } catch (e: ApiException) {
+                Log.d("에러",e.toString())
+            }
 
+        }
+
+
+        /*if (requestCode == RC_SIGN_IN){
+            val result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            Log.d("구글띠",result.toString())
+            if (result.isSuccess) {
+                //구글 로그인 성공해서 파베에 인증
+                val account = result.signInAccount
+
+                Log.d("구글띠",account.toString())
+
+                if (account != null) {
+                    firebaseAuthWithGoogle(account)
+                }
+            }
+        }*/
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
+    }
+
+
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+
+        // System.out.println("acct : " + acct);
+
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, object : OnCompleteListener<AuthResult>{
+                    override fun onComplete(task: Task<AuthResult>) {
+                        if (task.isSuccessful) {
+                            val user = mAuth.currentUser
+
+                            // System.out.println("user : "  + user);
+
+                            if (user != null) {
+                                sns_join(user.getUid(), user.getDisplayName()!!, user.getEmail(), "google")
+                            }
+                            //                            isMember(user.getEmail(), "4", user.getUid(), user.getDisplayName());
+                        } else {
+
+                            // Utils.alert(context, "Exception 2 : " + task.getException().getLocalizedMessage());
+
+                            var errorMag = "로그인에 실패하였습니다."
+                            val errorCode = (task.exception as FirebaseAuthException).getErrorCode()
+                            when (errorCode) {
+
+                                "ERROR_OPERATION_NOT_ALLOWED", "ERROR_REQUIRES_RECENT_LOGIN", "ERROR_USER_MISMATCH", "ERROR_INVALID_CUSTOM_TOKEN", "ERROR_CUSTOM_TOKEN_MISMATCH" -> errorMag = "구글 로그인 중 장애가 발생하였습니다."
+
+                                "ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL", "ERROR_INVALID_CREDENTIAL" -> errorMag = "로그인 정보가 일치하지 않거나 유효기간이 지났습니다."
+
+                                "ERROR_INVALID_EMAIL" -> errorMag = "이메일 주소가 형식에 맞지 않습니다."
+
+                                "ERROR_WRONG_PASSWORD" -> errorMag = "비밀번호가 일치하지 않습니다."
+
+                                "ERROR_EMAIL_ALREADY_IN_USE" -> errorMag = "이메일은 이미 다른 사용자가 사용중입니다."
+
+                                "ERROR_CREDENTIAL_ALREADY_IN_USE" -> errorMag = "로그인 정보는 이미 다른 계저에 등록되어 있습니다."
+
+                                "ERROR_USER_DISABLED" -> errorMag = "사용자 계정이 관리자에 의해 비활성화 되어있습니다."
+
+                                "ERROR_INVALID_USER_TOKEN", "ERROR_USER_TOKEN_EXPIRED" -> errorMag = "로그인 정보가 유효하지 않습니다. 다시 로그인해주세요."
+
+                                "ERROR_USER_NOT_FOUND" -> errorMag = "해당 계정이 존재하지 않습니다."
+
+                                "ERROR_WEAK_PASSWORD" -> errorMag = "비밀번호가 유효하지 않습니다."
+                            }
+
+                            Utils.alert(context, "$errorMag\n계정을 확인한 뒤 다시 시도해주세요.")
+                        }
+
+                    }
+                })
     }
 
     //카카오톡 시작
@@ -144,9 +258,9 @@ class LoginActivity : RootActivity() {
             if (exception != null) {
                 //                Logger.e(exception);
                 if ("CANCELED_OPERATION" == exception.errorType.toString()) {
-                    Toast.makeText(dialogContext, "카카오톡 로그인 취소", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "카카오톡 로그인 취소", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(dialogContext, exception.errorType.toString(), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, exception.errorType.toString(), Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -159,7 +273,7 @@ class LoginActivity : RootActivity() {
             override fun onFailure(errorResult: ErrorResult?) {
                 val message = "failed to get user info. msg=" + errorResult!!
                 Logger.d(message)
-                Toast.makeText(dialogContext, errorResult.errorMessage, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, errorResult.errorMessage, Toast.LENGTH_LONG).show()
 
                 val result = ErrorCode.valueOf(errorResult.errorCode)
                 if (result == ErrorCode.CLIENT_ERROR_CODE) {
@@ -189,12 +303,13 @@ class LoginActivity : RootActivity() {
             }
         })
     }
-    fun sns_join(email:String, join_type:String, sns_key: String?, name: String?) {
+
+    fun sns_join(email: String, join_type: String, sns_key: String?, name: String?) {
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
-        params.put("email",email )
-        params.put("sns_key",sns_key )
+        params.put("email", email)
+        params.put("sns_key", sns_key)
 
 
 
@@ -216,7 +331,6 @@ class LoginActivity : RootActivity() {
                         startActivity(intent)
 
                     } else {
-
 
 
                         Toast.makeText(context, response!!.getString("message"), Toast.LENGTH_LONG).show()
@@ -299,6 +413,7 @@ class LoginActivity : RootActivity() {
             }
         })
     }
+
     private fun kakaoLogout() {
         userManagement!!.requestLogout(object : LogoutResponseCallback() {
             override fun onCompleteLogout() {}
@@ -317,6 +432,7 @@ class LoginActivity : RootActivity() {
             doStartWithFacebook()
         }).executeAsync()
     }
+
     private fun doStartWithFacebook() {
         if (AccessToken.getCurrentAccessToken() != null) {
             this.accessToken = AccessToken.getCurrentAccessToken()
@@ -331,51 +447,52 @@ class LoginActivity : RootActivity() {
                         }
 
                         override fun onCancel() {
-                            Toast.makeText(dialogContext, "페이스북 로그인 취소", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "페이스북 로그인 취소", Toast.LENGTH_LONG).show()
                         }
 
                         override fun onError(exception: FacebookException) {
-                            Toast.makeText(dialogContext, exception.message, Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, exception.message, Toast.LENGTH_LONG).show()
                         }
                     })
         }
     }
 
-     private fun fetchUserData() {
-val request = GraphRequest.newMeRequest(
-accessToken
-) { `object`, response ->
-    var id:String? = null
-    var name:String? = null
-    var eamil:String? = null
+    private fun fetchUserData() {
+        val request = GraphRequest.newMeRequest(
+                accessToken
+        ) { `object`, response ->
+            var id: String? = null
+            var name: String? = null
+            var eamil: String? = null
 
-    try {
-        if (`object`.has("id") && !`object`.isNull("id")) {
-            id = `object`.getString("id")
+            try {
+                if (`object`.has("id") && !`object`.isNull("id")) {
+                    id = `object`.getString("id")
+                }
+
+                if (`object`.has("name") && !`object`.isNull("name")) {
+                    name = `object`.getString("name")
+                }
+
+                if (`object`.has("email") && !`object`.isNull("email")) {
+                    eamil = `object`.getString("email")
+                }
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            facebook_ID = id
+            facebook_NAME = name
+
+            sns_join(eamil!!, "4", facebook_ID, facebook_NAME)
         }
-
-        if (`object`.has("name") && !`object`.isNull("name")) {
-            name = `object`.getString("name")
-        }
-
-        if (`object`.has("email") && !`object`.isNull("email")) {
-            eamil = `object`.getString("email")
-        }
-
-    } catch (e:JSONException) {
-        e.printStackTrace()
+        val parameters = Bundle()
+        parameters.putString("fields", "id,name,link, email")
+        request.parameters = parameters
+        request.executeAsync()
     }
 
-    facebook_ID = id
-    facebook_NAME = name
-
-    sns_join(eamil!!, "4", facebook_ID, facebook_NAME)
-}
-         val parameters = Bundle()
-parameters.putString("fields", "id,name,link, email")
-         request.parameters = parameters
-request.executeAsync()
-}
 
     override fun onDestroy() {
         super.onDestroy()
