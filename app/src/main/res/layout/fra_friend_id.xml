@@ -108,6 +108,7 @@
             android:text="무모한자신감 장착"
             />
         <TextView
+            android:id="@+id/addTV"
             android:layout_marginTop="10dp"
             android:layout_width="100dp"
             android:layout_height="35dp"
