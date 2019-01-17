@@ -5,13 +5,10 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.*
-import com.kakao.s2.StringSet.count
 import kotlinx.android.synthetic.main.fra_friend_add.*
 
 class Friend_Fragment : Fragment()  {
@@ -19,8 +16,8 @@ class Friend_Fragment : Fragment()  {
     private var progressDialog: ProgressDialog? = null
 
     val Friend_add_Fragment : Friend_add_Fragment = Friend_add_Fragment()
-    val Friend_id_phone_Fragment : Friend_id_phone_Fragment = Friend_id_phone_Fragment()
-
+    val Friend_id_Fragment : Friend_id_Fragment = Friend_id_Fragment()
+    val Friend_phone_Fragment : Friend_phone_Fragment = Friend_phone_Fragment()
 
     var f_type = -1
     var type = -1
@@ -72,22 +69,14 @@ class Friend_Fragment : Fragment()  {
     fun click(){
         phoneLL.setOnClickListener {
             setmenu()
-            var args: Bundle = Bundle()
-            type=1
-            args.putInt("type", type)
-            Friend_id_phone_Fragment.setArguments(args)
-            childFragmentManager.beginTransaction().replace(R.id.friendFL, Friend_id_phone_Fragment).commit()
+            childFragmentManager.beginTransaction().replace(R.id.friendFL,Friend_phone_Fragment).commit()
             phoneTV.setTextColor(Color.parseColor("#000000"))
             phoneV.setBackgroundColor(Color.parseColor("#000000"))
 
         }
         idLL.setOnClickListener {
             setmenu()
-            var args: Bundle = Bundle()
-            type=2
-            args.putInt("type", type)
-            Friend_id_phone_Fragment.setArguments(args)
-            childFragmentManager.beginTransaction().replace(R.id.friendFL, Friend_id_phone_Fragment).commit()
+            childFragmentManager.beginTransaction().replace(R.id.friendFL, Friend_id_Fragment).commit()
             idTV.setTextColor(Color.parseColor("#000000"))
             idV.setBackgroundColor(Color.parseColor("#000000"))
         }
