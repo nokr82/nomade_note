@@ -675,7 +675,7 @@
                 android:background="#9b9b9b" />
             <LinearLayout
                 android:id="@+id/op_snsLL"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="111dp"
                 android:orientation="vertical">
@@ -696,21 +696,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
+                        android:id="@+id/instaIV"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/insta_bg"/>
                     <ImageView
+                        android:id="@+id/facebookIV"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/face_bg"/>
                     <ImageView
+                        android:id="@+id/naverIV"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/naver_bg"/>
                     <ImageView
+                        android:id="@+id/kakaoIV"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"

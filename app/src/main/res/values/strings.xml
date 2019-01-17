@@ -2,5 +2,6 @@
     <string name="app_name">Nomadnote</string>
     <string name="facebook_app_id">2158792287772424</string>
     <string name="fb_login_protocol_scheme">fb2158792287772424</string>
-
+    <string name="kakao_scheme">kakao30c846cc5fc8a6f301a8fc0cc2e9e7f3</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>

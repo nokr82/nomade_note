@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.R.id.*
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config

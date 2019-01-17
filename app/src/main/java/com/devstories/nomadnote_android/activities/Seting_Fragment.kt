@@ -1,23 +1,59 @@
 package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.Config
+import com.facebook.FacebookSdk
+import com.facebook.FacebookSdk.getApplicationContext
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.widget.ShareDialog
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.message.template.ButtonObject
+import com.kakao.message.template.ContentObject
+import com.kakao.message.template.FeedTemplate
+import com.kakao.message.template.LinkObject
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
+import com.kakao.util.helper.log.Logger
 import kotlinx.android.synthetic.main.fra_setting.*
-import kotlinx.android.synthetic.main.fra_setting.view.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 class Seting_Fragment : Fragment()  {
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
+    var REQUEST_EXTERNAL_STORAGE_CODE = 1
+    var permissionCheck = false
+    private lateinit var activity:MainActivity
+
     var f_type = -1
+
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -25,6 +61,9 @@ class Seting_Fragment : Fragment()  {
         return inflater.inflate(R.layout.fra_setting, container, false)
 
     }
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -32,6 +71,9 @@ class Seting_Fragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity = getActivity() as MainActivity
+        FacebookSdk.sdkInitialize(getApplicationContext())
+        AppEventsLogger.activateApp(myContext)
 
         click()
         op_click()
@@ -39,6 +81,23 @@ class Seting_Fragment : Fragment()  {
     }
 
     fun op_click(){
+
+        instaIV.setOnClickListener {
+            shareInstagram()
+        }
+        facebookIV.setOnClickListener {
+            shareFacebook()
+        }
+        naverIV.setOnClickListener {
+
+        }
+        kakaoIV.setOnClickListener {
+            shareKakao()
+        }
+
+
+
+
 
         //친구추가
         op_idLL.setOnClickListener {
@@ -178,6 +237,134 @@ class Seting_Fragment : Fragment()  {
         }
     }
 
+    fun shareKakao() {
+        val url = "market://details?id=donggolf.android"
+        val imgBuilder = ContentObject.newBuilder("노마드 노트",
+                Config.url + "/data/member/5c3cb2dc-c8a8-4351-9b29-16b9ac1f19c8",
+                LinkObject.newBuilder().setWebUrl(url).setMobileWebUrl(url).build())
+                .setDescrption("노마드 노트")
+                .build()
+
+
+        val builder = FeedTemplate.newBuilder(imgBuilder)
+        builder.addButton(ButtonObject("노마드 노트", LinkObject.newBuilder()
+                .setWebUrl(url)
+                .setMobileWebUrl(url)
+                .build()))
+
+        val params = builder.build()
+
+        KakaoLinkService.getInstance().sendDefault(myContext, params, object : ResponseCallback<KakaoLinkResponse>() {
+            override fun onFailure(errorResult: ErrorResult) {
+                Logger.e(errorResult.toString())
+            }
+
+            override fun onSuccess(result: KakaoLinkResponse) {
+
+            }
+        })
+
+
+    }
+    fun shareFacebook() {
+        val content = ShareLinkContent.Builder()
+
+                //링크의 콘텐츠 제목
+                .setContentTitle("페이스북 공유 링크입니다.")
+
+                //게시물에 표시될 썸네일 이미지의 URL
+                .setImageUrl(Uri.parse("https://lh3.googleusercontent.com/hmVeH1KmKDy1ozUlrjtYMHpzSDrBv9NSbZ0DPLzR8HdBip9kx3wn_sXmHr3wepCHXA=rw"))
+
+                //공유될 링크
+                .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.devstories.nomadnote_android"))
+
+                //게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
+                .setContentDescription("문장1, 문장2, 문장3, 문장4")
+                .build()
+
+        val shareDialog = ShareDialog(this)
+        shareDialog.show(content, ShareDialog.Mode.FEED)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
+    }
+    fun shareInstagram() {
+        //외부저장 권한 요청(안드로이드 6.0 이후 필수)
+        onRequestPermission()
+
+        if (permissionCheck) {
+            val bm = BitmapFactory.decodeResource(resources, R.drawable.kakao_default_profile_image)
+            val storage = Environment.getExternalStorageDirectory().absolutePath
+            val fileName = ".png"
+
+            val folderName = "/nomadnote/"
+            val fullPath = storage + folderName
+            val filePath: File
+
+            try {
+                filePath = File(fullPath)
+                if (!filePath.isDirectory) {
+                    filePath.mkdirs()
+                }
+                val fos = FileOutputStream(fullPath + fileName)
+                bm.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                fos.flush()
+                fos.close()
+
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "image/*"
+            val uri = Uri.fromFile(File(fullPath, fileName))
+            try {
+//                share.putExtra(Intent.EXTRA_STREAM, uri)
+                share.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
+                share.setPackage("com.instagram.android")
+                startActivity(share)
+            } catch (e: ActivityNotFoundException) {
+                Log.d("에러",e.toString())
+                Toast.makeText(myContext, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+            } catch (e: Exception) {
+                Log.d("에러",e.toString())
+                e.printStackTrace()
+            }
+
+        }
+    }
+
+    fun onRequestPermission() {
+        val permissionReadStorage = ContextCompat.checkSelfPermission(getApplicationContext(),
+                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permissionWriteStorage = ContextCompat.checkSelfPermission(getApplicationContext(),
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(activity, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_CODE)
+        } else {
+            permissionCheck = true //이미 허용되어 있으므로 PASS
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_EXTERNAL_STORAGE_CODE -> for (i in permissions.indices) {
+                val permission = permissions[i]
+                val grantResult = grantResults[i]
+                if (permission == android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(myContext, "허용했으니 가능함", Toast.LENGTH_LONG).show()
+                        permissionCheck = true
+                    } else {
+                        Toast.makeText(myContext, "허용하지 않으면 공유 못함 ㅋ", Toast.LENGTH_LONG).show()
+                        permissionCheck = false
+                    }
+                }
+            }
+        }
+    }
 
 
     fun setmenu2(){

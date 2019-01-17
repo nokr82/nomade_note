@@ -56,11 +56,14 @@ dependencies {
 
     //페이스북로그인
     implementation 'com.facebook.android:facebook-login:[4,5)'
-
+    implementation 'com.facebook.android:facebook-android-sdk:4.+'
 
 
     // 카카오톡 sdk를 사용하기 위해 필요.
     implementation group: 'com.kakao.sdk', name: 'kakaotalk', version: project.KAKAO_SDK_VERSION
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+
+
     implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
 
     implementation('io.nlopez.smartlocation:library:3.3.3') {
