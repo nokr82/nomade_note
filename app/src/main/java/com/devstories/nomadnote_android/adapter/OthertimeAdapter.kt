@@ -5,9 +5,7 @@ import android.graphics.Color
 import android.media.Image
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
@@ -68,7 +66,22 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
             item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
         }
 
+        var isSel = json.getBoolean("isSelectedOp")
 
+        if (isSel){
+            item.trustLL.visibility = View.VISIBLE
+            item.trustIV.setImageResource(R.mipmap.op_file)
+        } else {
+            item.trustLL.visibility = View.GONE
+            item.trustIV.setImageResource(R.mipmap.icon_scrap)
+        }
+
+
+//        item.trustRL.setOnClickListener {
+//            isSel = !isSel
+//            json.put("isSelectedOp",isSel)
+//            notifyDataSetChanged()
+//        }
 
         return retView
 
@@ -110,6 +123,8 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
         var museumTV:me.grantland.widget.AutofitTextView
         var iconIV : ImageView
         var trustIV : ImageView
+        var trustLL : LinearLayout
+        var trustRL : RelativeLayout
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
@@ -126,6 +141,8 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
             museumTV = v.findViewById<View>(R.id.museumTV) as me.grantland.widget.AutofitTextView
             iconIV = v.findViewById<View>(R.id.iconIV) as ImageView
             trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
+            trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
+            trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
 
         }
     }
@@ -172,5 +189,6 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
             }
         }
     }
+
 
 }

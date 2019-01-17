@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.adapter.ScrapAdapter
 import com.devstories.nomadnote_android.base.RootActivity
 import kotlinx.android.synthetic.main.activity_mapsearch.*
 
@@ -24,7 +23,7 @@ class MapSearchActivity : RootActivity() {
         titleBackLL.setOnClickListener {
             finish()
         }
-        ScrapAdapter = ScrapAdapter(context, R.layout.item_scrap, 10)
+//        ScrapAdapter = ScrapAdapter(context, R.layout.item_scrap, 10)
         scrapLV.adapter = ScrapAdapter
 
 

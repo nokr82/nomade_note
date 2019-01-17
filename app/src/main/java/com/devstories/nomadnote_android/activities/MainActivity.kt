@@ -37,8 +37,6 @@ class MainActivity : FragmentActivity() {
     val Quest_stack_Fragment : Quest_stack_Fragment = Quest_stack_Fragment()
     val Friend_Fragment : Friend_Fragment = Friend_Fragment()
 
-
-
     internal var friendReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {

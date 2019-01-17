@@ -22,5 +22,10 @@ object TimelineAction {
         HttpClient.post("/api/timeline/detail_timeline", params, handler)
     }
 
+    //스크랩
+    fun set_scrap(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/set_scrap", params, handler)
+    }
+
 
 }

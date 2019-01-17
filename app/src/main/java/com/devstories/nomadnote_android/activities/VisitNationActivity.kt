@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.adapter.ScrapAdapter
 import com.devstories.nomadnote_android.adapter.VisitNationAdapter
 import com.devstories.nomadnote_android.base.RootActivity
 import kotlinx.android.synthetic.main.activity_visit_nation.*

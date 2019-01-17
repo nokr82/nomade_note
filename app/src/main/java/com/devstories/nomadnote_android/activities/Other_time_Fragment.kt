@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.GridView
+import android.widget.ImageView
 import android.widget.ListView
+import android.widget.RelativeLayout
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
@@ -58,6 +60,20 @@ class Other_time_Fragment : Fragment()  {
         otherLV.setOnItemClickListener { parent, view, position, id ->
             val timeline = timelineDatas.get(position)
             val timeline_id = Utils.getString(timeline, "id")
+            var chk = Utils.getBoolen(timeline, "isSelectedOp")
+
+            var view: View = View.inflate(context, R.layout.item_scrap, null)
+            var trustRL: RelativeLayout = view.findViewById(R.id.trustRL) as RelativeLayout
+
+            trustRL.setOnClickListener {
+                println("----------click")
+                if (chk){
+                    timelineDatas[position].put("isSelectedOp", false)
+                } else {
+                    timelineDatas[position].put("isSelectedOp", true)
+                }
+                OthertimeAdapter.notifyDataSetChanged()
+            }
 
             val intent = Intent(myContext, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
@@ -91,6 +107,12 @@ class Other_time_Fragment : Fragment()  {
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
                                 timelineDatas.add(timeline)
+                                var scrap = Utils.getString(timeline,"scrap")
+                                if (scrap == "1"){
+                                    timelineDatas[i].put("isSelectedOp", false)
+                                } else {
+                                    timelineDatas[i].put("isSelectedOp", true)
+                                }
                             }
                         }
                         OthertimeAdapter.notifyDataSetChanged()
