@@ -7,6 +7,168 @@
   >
 
 
+    <!-- 타이틀 -->
+    <LinearLayout
+        android:id="@+id/titleLL"
+        android:background="@drawable/background_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:id="@+id/titleBackLL"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back_white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/logoIVLL"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/logoTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#ffffff"
+                android:text="친구 추가 관리"/>
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back_white"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/phoneLL"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/phoneTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="연락처로 친구 추가"
+                android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/phoneV"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/idLL"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/idTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID 검색"
+                android:textColor="#878787"
+                android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/idV"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#878787"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/addLL"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/addTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="추가리스트 보기"
+                android:textColor="#878787"
+                android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/addV"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000000"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@+id/friendFL"
+        android:paddingTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+
+
+
+
+
 
 
 

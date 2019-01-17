@@ -17,6 +17,7 @@ class Seting_Fragment : Fragment()  {
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
+    var f_type = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -45,6 +46,11 @@ class Seting_Fragment : Fragment()  {
             if(it.isSelected) {
                 setmenu()
                 op_idIV.setImageResource(R.mipmap.icon_check)
+                f_type = 2
+                var intent = Intent()
+                intent.putExtra("type",f_type)
+                intent.action = "FRIEND"
+                myContext!!.sendBroadcast(intent)
             } else {
                 op_idIV.setImageResource(R.drawable.circle_background3)
             }
@@ -54,6 +60,11 @@ class Seting_Fragment : Fragment()  {
             if(it.isSelected) {
                 setmenu()
                 op_addIV.setImageResource(R.mipmap.icon_check)
+                f_type = 3
+                var intent = Intent()
+                intent.putExtra("type",f_type)
+                intent.action = "FRIEND"
+                myContext!!.sendBroadcast(intent)
             } else {
                 op_addIV.setImageResource(R.drawable.circle_background3)
             }
@@ -63,6 +74,11 @@ class Seting_Fragment : Fragment()  {
             if(it.isSelected) {
                 setmenu()
                 op_telIV.setImageResource(R.mipmap.icon_check)
+                f_type = 1
+                var intent = Intent()
+                intent.putExtra("type",f_type)
+                intent.action = "FRIEND"
+                myContext!!.sendBroadcast(intent)
             } else {
                 op_telIV.setImageResource(R.drawable.circle_background3)
             }
@@ -161,6 +177,8 @@ class Seting_Fragment : Fragment()  {
             }
         }
     }
+
+
 
     fun setmenu2(){
         op_1gbIV.setImageResource(R.drawable.circle_background3)

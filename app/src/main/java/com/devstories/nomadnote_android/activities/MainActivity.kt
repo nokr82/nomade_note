@@ -1,17 +1,22 @@
 package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.R.id.titleLL
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.firebase.iid.FirebaseInstanceId
+import com.kakao.s2.StringSet.count
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -30,8 +35,24 @@ class MainActivity : FragmentActivity() {
     val Scrap_Fragment : Scrap_Fragment = Scrap_Fragment()
     val Seting_Fragment : Seting_Fragment = Seting_Fragment()
     val Quest_stack_Fragment : Quest_stack_Fragment = Quest_stack_Fragment()
+    val Friend_Fragment : Friend_Fragment = Friend_Fragment()
 
 
+
+    internal var friendReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+
+                var f_type = intent.getIntExtra("type", -1)
+
+                titleLL.visibility = View.GONE
+                var args: Bundle = Bundle()
+                args.putInt("type", f_type)
+                Friend_Fragment.setArguments(args)
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Friend_Fragment).commit()
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +62,10 @@ class MainActivity : FragmentActivity() {
         titleLL.visibility = View.GONE
         click()
         context = this
+
+        var filter1 = IntentFilter("FRIEND")
+        registerReceiver(friendReciver, filter1)
+
 
         updateToken()
 
