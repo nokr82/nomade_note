@@ -14,6 +14,15 @@ object MemberAction {
     fun my_info(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/my_info", params, handler)
     }
+    fun add_friend(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/add_friend", params, handler)
+    }
+    fun my_friend(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/my_friend", params, handler)
+    }
+    fun search_member(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/search_member", params, handler)
+    }
 
     fun regist_token(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/regist_token", params, handler)

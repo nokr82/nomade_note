@@ -15,6 +15,7 @@
           >
 
                 <ImageView
+                    android:id="@+id/profileIV"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="9dp"
@@ -22,17 +23,14 @@
                     android:src="@mipmap/man"/>
 
 
-
-
-
-                       <TextView
-                           android:layout_width="0dp"
-                           android:layout_weight="1"
-                           android:layout_height="wrap_content"
-                           android:textSize="12sp"
-                           android:textColor="#4a4a4a"
-                           android:text="이현수"
-                           />
+           <TextView
+               android:id="@+id/nameTV"
+               android:layout_width="0dp"
+               android:layout_height="wrap_content"
+               android:layout_weight="1"
+               android:text="이현수"
+               android:textColor="#4a4a4a"
+               android:textSize="12sp" />
 
 
                <LinearLayout
@@ -42,8 +40,10 @@
                    android:gravity="center_vertical|right"
                    >
                        <TextView
+                           android:id="@+id/shareTV"
                            android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
+                           android:layout_height="match_parent"
+                           android:gravity="center"
                            android:textSize="11sp"
                            android:textColor="#000000"
                            android:text="공유"
@@ -55,9 +55,11 @@
                             android:layout_height="12dp"
                             android:background="#000000"/>
                    <TextView
+                       android:id="@+id/deleteTV"
                        android:layout_marginLeft="10dp"
                        android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
+                       android:layout_height="match_parent"
+                       android:gravity="center"
                        android:textSize="11sp"
                        android:textColor="#D0021B"
                        android:text="삭제"
