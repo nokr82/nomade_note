@@ -16,12 +16,14 @@
         android:gravity="center"
         android:background="@drawable/background_stroke_000000">
         <ImageView
-            android:layout_marginLeft="3dp"
+            android:padding="5dp"
+            android:id="@+id/searchIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"/>
 
         <EditText
+            android:id="@+id/emailET"
             android:singleLine="true"
             android:layout_width="match_parent"
             android:background="@null"
@@ -31,6 +33,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/startLL"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,6 +74,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/friendLL"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,11 +85,13 @@
         >
 
         <ImageView
+            android:id="@+id/genderIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/man"/>
 
         <TextView
+            android:id="@+id/nameTV"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +99,7 @@
             android:textStyle="bold"
             android:text="레츠니"/>
         <TextView
+            android:id="@+id/statTV"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
