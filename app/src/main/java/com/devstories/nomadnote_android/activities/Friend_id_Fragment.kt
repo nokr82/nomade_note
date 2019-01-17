@@ -18,9 +18,8 @@ class Friend_id_Fragment : Fragment()  {
 
 
 
-    var f_type = -1
 
-    var searchtype = ""
+    var searchtype = "id"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
