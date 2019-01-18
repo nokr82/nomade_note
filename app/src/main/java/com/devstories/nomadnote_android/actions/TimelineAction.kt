@@ -27,5 +27,9 @@ object TimelineAction {
         HttpClient.post("/api/timeline/set_scrap", params, handler)
     }
 
+    //키워드,스크랩 검색
+    fun search_keword(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/search_keword", params, handler)
+    }
 
 }
