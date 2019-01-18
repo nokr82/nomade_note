@@ -52,7 +52,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         var style = Utils.getString(timeline,"style_id")
 
-        var member = json.getJSONObject("member")
+        var member = timeline.getJSONObject("member")
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         item.infoTV.setText(name+"/"+age+"세")

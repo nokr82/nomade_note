@@ -21,6 +21,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.facebook.FacebookSdk
 import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
@@ -412,6 +413,48 @@ class Seting_Fragment : Fragment()  {
             if ( op_memoryLL.visibility==View.GONE){
                 op_memoryLL.visibility = View.VISIBLE
                 memoryIV.rotation = 90f
+
+                if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
+                    var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+                    var disk = PrefUtils.getIntPreference(context, "disk")
+
+                    var pay_sub = payment_byte.toString().substring(0,1)
+                    if (pay_sub == "-") {
+                        var pay_split = payment_byte.toString().split("-")
+                        println("---pay-split${pay_split.get(0)}")
+                        if (pay_split.get(0) == "-") {
+                            payment_byte = pay_split.get(1).toInt()
+                            println("-split payment_byte $payment_byte")
+                        }
+                    }
+
+
+                    var disk_sub = payment_byte.toString().substring(0,1)
+                    if (disk_sub == "-") {
+                        println("---pay-split${disk_sub.get(0)}")
+                        var disk_split = disk.toString().split("-")
+                        if (disk_split.get(0) == "-") {
+                            disk = disk_split.get(1).toInt()
+                            println("-split disk $disk")
+                        }
+                    }
+
+                    var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
+
+                    var rament = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+                    var payment =  Math.round((payment_byte / (1024 * 1024) * 10).toDouble()) as Long / 10
+
+                    var dif = payment - rament
+
+                    var maxabs = Math.abs(max)
+                    var ramentabs = Math.abs(rament)
+                    var paymentabs = Math.abs(dif)
+
+                    mydataTV.setText("총 " + maxabs.toString() + "GB")
+                    remantTV.setText(paymentabs.toString() + "MB")
+                    useTV.setText(ramentabs.toString()+"MB")
+                }
+
             }else{
                 op_memoryLL.visibility = View.GONE
                 memoryIV.rotation = 0f

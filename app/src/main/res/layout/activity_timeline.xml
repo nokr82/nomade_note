@@ -250,16 +250,21 @@
             <ImageView
                 android:id="@+id/modifyIV"
                 android:padding="9dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@mipmap/pen"/>
             <ImageView
                 android:id="@+id/lockIV"
                 android:padding="9dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@mipmap/shiels_r"/>
-
+            <ImageView
+                android:id="@+id/deleteIV"
+                android:padding="9dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/icon_out"/>
 
         </LinearLayout>
 

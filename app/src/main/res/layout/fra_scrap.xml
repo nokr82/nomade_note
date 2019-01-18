@@ -10,18 +10,27 @@
             android:layout_width="match_parent"
             android:gravity="center_vertical"
             android:layout_height="42dp">
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/searchLL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:paddingLeft="25dp"
                     android:paddingRight="10.5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/search"/>
+                    android:gravity="center">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/search"/>
+                </LinearLayout>
 
                 <EditText
+                    android:id="@+id/keywordET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="12sp"
                     android:textColor="#4a4a4a"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch"
                     android:textColorHint="#4a4a4a"
                     android:hint="스크랩 검색"
                     android:background="@null"/>

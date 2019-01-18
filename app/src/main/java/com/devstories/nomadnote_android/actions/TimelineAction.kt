@@ -32,4 +32,14 @@ object TimelineAction {
         HttpClient.post("/api/timeline/search_keword", params, handler)
     }
 
+    //업데이트
+    fun update_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/update_timeline", params, handler)
+    }
+
+    //삭제
+    fun delete_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/delete_timeline", params, handler)
+    }
+
 }

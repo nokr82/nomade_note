@@ -186,11 +186,36 @@ class MyinfoChangeActivity : RootActivity() {
                         age =  Utils.getInt(member, "age")
                         gender =  Utils.getString(member, "gender")
                         phone = Utils.getInt(member,"phone")
+                        val disk =member.getJSONArray("disk")
+                        val payment_sum = Utils.getInt(member,"payment_sum")
+
                         if (gender == "M"){
                             manIV.visibility = View.VISIBLE
                         }else if (gender =="F"){
                             femaleckIV.visibility = View.VISIBLE
                         }
+
+                        var disk_byte = 1073741824
+                        if (disk.length()>0){
+                            for (i in 0 until disk.length()){
+                                val disk_item = disk.get(i) as JSONObject
+                                val category = Utils.getInt(disk_item,"category")
+
+                                if (category == 1){
+                                    disk_byte += 1073741824
+                                } else if (category == 2){
+                                    disk_byte += 644245094
+                                } else {
+                                    disk_byte += 21474836
+                                }
+
+                            }
+                        }
+
+                        PrefUtils.setPreference(context, "disk", disk_byte)
+                        PrefUtils.setPreference(context, "payment_byte", payment_sum)
+
+
                         nameET.setText(name)
                         ageET.setText(age.toString())
                         phoneET.setText(phone.toString())

@@ -3,13 +3,16 @@ package com.devstories.nomadnote_android.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.GridView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -34,6 +37,19 @@ class Solo_time_Fragment : Fragment()  {
     lateinit var gridGV:GridView
 
     var SOLO_WRITE = 1000
+    var RESET = 0
+
+    lateinit var activity: MainActivity
+
+    internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                my_timeline()
+            }
+        }
+    }
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -56,6 +72,11 @@ class Solo_time_Fragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         click()
+
+        activity = getActivity() as MainActivity
+
+        val filter1 = IntentFilter("UPDATE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter1)
     }
     fun click(){
 //        soloRL.setOnClickListener {
@@ -73,8 +94,141 @@ class Solo_time_Fragment : Fragment()  {
 
             val intent = Intent(myContext, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
-            startActivity(intent)
+            startActivityForResult(intent,RESET)
         }
+
+        keywordET.setOnEditorActionListener() { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val srchWd = keywordET.text.toString()
+                if (srchWd != null && srchWd != "") {
+                    search_scrap()
+                }
+
+                if (srchWd == null || srchWd == "") {
+                    my_timeline()
+                }
+
+                Utils.hideKeyboard(context)
+            } else {
+            }
+            false
+        }
+    }
+
+    fun search_scrap(){
+        var keyword = keywordET.text.toString()
+        if (keyword == "" || keyword == null){
+            my_timeline()
+            return
+        }
+
+
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("keyword", keyword)
+//        params.put("member_id", "1")
+
+        TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        if (timelineDatas != null){
+                            timelineDatas.clear()
+                        }
+
+                        val datas = response!!.getJSONArray("timeline")
+                        if (datas.length() > 0){
+                            for (i in 0 until datas.length()){
+                                val timeline = datas.get(i) as JSONObject
+                                timelineDatas.add(timeline)
+                            }
+                        }
+                        timelineAdaper.notifyDataSetChanged()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
     }
 
     fun my_timeline(){
@@ -196,6 +350,12 @@ class Solo_time_Fragment : Fragment()  {
                 SOLO_WRITE -> {
                     if (data!!.getStringExtra("reset") != null){
                        my_timeline()
+                    }
+                }
+
+                RESET -> {
+                    if (data!!.getStringExtra("reset") != null){
+                        my_timeline()
                     }
                 }
             }

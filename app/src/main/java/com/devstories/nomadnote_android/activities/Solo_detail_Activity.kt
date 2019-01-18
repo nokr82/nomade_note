@@ -1,7 +1,10 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -31,6 +34,8 @@ class Solo_detail_Activity : RootActivity() {
     var timeline_id = ""
     var menu_position = 1
 
+    var MODIFY = 100
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +61,31 @@ class Solo_detail_Activity : RootActivity() {
     fun click(){
         titleBackLL.setOnClickListener {
             finish()
+        }
+
+        modifyIV.setOnClickListener {
+            val intent = Intent(context, WriteActivity::class.java)
+            intent.putExtra("timeline_id",timeline_id)
+            startActivityForResult(intent,MODIFY)
+        }
+
+        deleteIV.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder
+
+                    .setMessage("삭제하시겠습니까 ?")
+
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                        delete_timeline()
+                        dialog.cancel()
+
+                    })
+                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                    })
+
+            val alert = builder.create()
+            alert.show()
         }
 
     }
@@ -115,6 +145,7 @@ class Solo_detail_Activity : RootActivity() {
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
+                            deleteIV.visibility = View.GONE
                         }
 
                         infoTV.setText(name+"/"+age+"세")
@@ -276,4 +307,120 @@ class Solo_detail_Activity : RootActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+
+                MODIFY -> {
+                    if (data!!.getStringExtra("reset") != null) {
+                        timeline_id = data!!.getStringExtra("timeline_id")
+                        detail_timeline()
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
+    fun delete_timeline(){
+        val params = RequestParams()
+        params.put("timeline_id", timeline_id)
+
+        TimelineAction.delete_timeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
 }

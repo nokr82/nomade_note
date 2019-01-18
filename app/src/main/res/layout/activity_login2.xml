@@ -80,6 +80,8 @@
                 android:textSize="14dp"
                 android:textColorHint="#878787"
                 android:hint="비밀번호 (영문,숫자,특수문자)"
+                android:inputType="textPassword"
+                android:singleLine="true"
                 android:background="@null"
                 />
 

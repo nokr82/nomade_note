@@ -291,8 +291,8 @@
 
 
             <LinearLayout
-                android:id="@+id/op_memoryLL"
                 android:visibility="gone"
+                android:id="@+id/op_memoryLL"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:orientation="vertical">
@@ -312,6 +312,7 @@
                      android:text="전체 메모리"
                      />
                  <TextView
+                     android:id="@+id/mydataTV"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
                      android:textSize="12sp"
@@ -335,6 +336,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
                     <TextView
+                        android:id="@+id/useTV"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -343,6 +345,7 @@
                         android:text="600MB"
                         />
                     <TextView
+                        android:id="@+id/remantTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"

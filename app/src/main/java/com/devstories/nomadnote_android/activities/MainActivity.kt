@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.view.View
+import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.R.id.titleLL
 import com.devstories.nomadnote_android.actions.MemberAction
@@ -51,6 +52,17 @@ class MainActivity : FragmentActivity() {
             }
         }
     }
+
+    internal var timelineReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+
+            }
+        }
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,8 +76,11 @@ class MainActivity : FragmentActivity() {
         var filter1 = IntentFilter("FRIEND")
         registerReceiver(friendReciver, filter1)
 
+        var filter2 = IntentFilter("UPDATE_TIMELINE")
+        registerReceiver(timelineReciver, filter2)
 
         updateToken()
+        loadInfo()
 
     }
 
@@ -251,5 +266,102 @@ class MainActivity : FragmentActivity() {
 
 
     }
+
+    fun loadInfo() {
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+
+        MemberAction.my_info(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+
+                        var member = response.getJSONObject("member")
+                        var disk = Utils.getInt(member,"disk")
+                        var payment_sum = member.getJSONArray("payments")
+
+                        var payment_byte = 1073741824
+                        if (payment_sum.length()>0){
+                            for (i in 0 until payment_sum.length()){
+                                val payment_item = payment_sum.get(i) as JSONObject
+                                val category = Utils.getInt(payment_item,"category")
+
+                                if (category == 1){
+                                    payment_byte = payment_byte + 1073741824
+                                } else if (category == 2){
+                                    payment_byte = payment_byte + 644245094
+                                } else {
+                                    payment_byte = payment_byte + 21474836
+                                }
+
+                            }
+                        }
+
+                        var diskabs =  Math.abs(disk)
+                        var payment_byteabs = Math.abs(payment_byte)
+
+                        PrefUtils.setPreference(context, "disk", diskabs)
+                        PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
+
+                    } else {
+                        Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
+
 
 }
