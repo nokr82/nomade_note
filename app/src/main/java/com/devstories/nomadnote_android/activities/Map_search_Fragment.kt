@@ -308,7 +308,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                             marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
 
-                            marker.isShowCalloutBalloonOnTouch = false
+                            marker.isShowCalloutBalloonOnTouch = true
 
 
                             mapView.addPOIItem(marker)
@@ -445,14 +445,19 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     }
 
     override fun onPOIItemSelected(MapView: MapView?, marker: MapPOIItem?) {
-
-        println("test ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: ")
-
         selected_item = marker!!.userObject as JSONObject
-        Log.d("정보",selected_item.toString())
-
+        showplace(selected_item!!)
 
     }
+
+ fun showplace(json: JSONObject) {
+     val place_id =Utils.getInt(json,"id")
+     val intent = Intent(myContext, MapSearchActivity::class.java)
+     intent.putExtra("place_id", place_id)
+     startActivity(intent)
+
+    }
+
 
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
 

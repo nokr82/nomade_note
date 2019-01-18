@@ -7,7 +7,7 @@ import com.loopj.android.http.RequestParams
 
 object PlaceAction {
 
-    // 핸드폰 인증
+    // 장소불러오기
     fun load_place(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/place/load_place", params, handler)
     }
