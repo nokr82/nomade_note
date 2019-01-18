@@ -111,13 +111,14 @@
         </LinearLayout>
 
         <ImageView
+            android:visibility="visible"
             android:layout_width="115dp"
             android:layout_height="77dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="11dp"
             android:background="@drawable/background_border_radius8_000000"
             android:scaleType="centerCrop"
-            android:src="@mipmap/time_bg" />
+            android:id="@+id/backgroundIV"/>
 
 
 

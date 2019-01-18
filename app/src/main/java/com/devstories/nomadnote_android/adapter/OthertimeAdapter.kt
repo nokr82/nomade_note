@@ -2,11 +2,14 @@ package com.devstories.nomadnote_android.activities
 
 import android.content.Context
 import android.graphics.Color
+import android.media.Image
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.Config
+import com.nostra13.universalimageloader.core.ImageLoader
 import com.devstories.nomadnote_android.base.Utils
 
 
@@ -49,12 +52,20 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 
         var style = Utils.getString(json,"style_id")
 
-        var member = json.getJSONObject("Member")
+        var member = json.getJSONObject("member")
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         item.infoTV.setText(name+"/"+age+"세")
 
         setMenuImage(style.toInt())
+
+        var image = json.getJSONArray("images")
+        if (image.length() > 0){
+            val image_item = image.get(image.length()-1) as JSONObject
+            val image_uri = Utils.getString(image_item,"image_uri")
+            var uri = Config.url+"/" + image_uri
+            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+        }
 
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
@@ -126,6 +137,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var trustIV : ImageView
         var trustLL : LinearLayout
         var trustRL : RelativeLayout
+        var backgroundIV : ImageView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
@@ -144,6 +156,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
             trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
             trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
+            backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
 
         }
     }

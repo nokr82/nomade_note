@@ -76,7 +76,6 @@ class Scrap_Fragment : Fragment()  {
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("type", "scrap")
 
-
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
