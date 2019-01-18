@@ -20,6 +20,9 @@ object MemberAction {
     fun my_friend(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/my_friend", params, handler)
     }
+    fun friend_del(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/del_friend", params, handler)
+    }
     fun search_member(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/search_member", params, handler)
     }

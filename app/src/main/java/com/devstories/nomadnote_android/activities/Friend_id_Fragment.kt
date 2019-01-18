@@ -79,6 +79,7 @@ class Friend_id_Fragment : Fragment()  {
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
+                        addTV.visibility = View.VISIBLE
                         startLL.visibility = View.GONE
                         friendLL.visibility = View.VISIBLE
                         var member = response.getJSONObject("member")
