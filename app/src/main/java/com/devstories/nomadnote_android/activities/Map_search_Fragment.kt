@@ -9,15 +9,48 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.devstories.nomadnote_android.R
 import kotlinx.android.synthetic.main.fra_map_search.*
-import net.daum.mf.map.api.MapCurrentLocationMarker
+import kotlinx.android.synthetic.main.fra_map_search.view.*
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 
-class Map_search_Fragment : Fragment()  {
+
+class Map_search_Fragment : Fragment(), MapView.POIItemEventListener,MapView.CurrentLocationEventListener {
+    override fun onCurrentLocationUpdateFailed(p0: MapView?) {
+
+    }
+
+    override fun onCurrentLocationUpdate(p0: MapView?, p1: MapPoint?, p2: Float) {
+
+    }
+
+    override fun onCurrentLocationUpdateCancelled(p0: MapView?) {
+
+    }
+
+    override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {
+
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
+
+    }
+
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
+
+    }
+
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+
+    }
+
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
-    private var mapView: MapView? = null
 
     private lateinit var activity:MainActivity
 
@@ -36,23 +69,36 @@ class Map_search_Fragment : Fragment()  {
         super.onActivityCreated(savedInstanceState)
 
         activity = getActivity() as MainActivity
-        mapView = MapView(activity)
-        mapLL.addView(mapView)
 
+        val mapView = MapView(activity)
+        val mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155)
+        val mapPoint2 = MapPoint.mapPointWithGeoCoord(38.5514579595, 126.951949155)
+        mapView.setMapCenterPoint(mapPoint, true)
+        mapRL.addView(mapView)
+        val marker = MapPOIItem()
+        marker.itemName = "한세사이버보안고등학교"
+        marker.tag = 0
+        marker.mapPoint = mapPoint
+        // 기본으로 제공하는 BluePin 마커 모양.
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+        // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        mapView.addPOIItem(marker)
+        val marker2 = MapPOIItem()
+        marker2.itemName = "테스트"
+        marker2.tag = 1
+        marker2.mapPoint = mapPoint2
+        // 기본으로 제공하는 BluePin 마커 모양.
+        marker2.markerType = MapPOIItem.MarkerType.BluePin
+        // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        marker2.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        mapView.addPOIItem(marker2)
 
-        click()
     }
 
 
 
 
-fun click(){
-
-    mapLL.setOnClickListener {
-        val intent = Intent(myContext, MapSearchActivity::class.java)
-        startActivity(intent)
-    }
-}
     override fun onDestroy() {
         super.onDestroy()
 
