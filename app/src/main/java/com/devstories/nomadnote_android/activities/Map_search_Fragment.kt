@@ -62,6 +62,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     var longitude = 126.9107831
     private var isShowing = false
 
+    lateinit var mapView:MapView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext)
@@ -76,7 +78,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         super.onActivityCreated(savedInstanceState)
 
         activity = getActivity() as MainActivity
-        var mapView:MapView = MapView(activity)
+        mapView = MapView(activity)
 
         val mapPoint2 = MapPoint.mapPointWithGeoCoord(38.5514579595, 126.951949155)
         mapRL.addView(mapView)
@@ -218,16 +220,14 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     }
 
     override fun onMapViewInitialized(p0: MapView?) {
+        mapView.setPOIItemEventListener(this)
     }
 
     override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
     }
 
     override fun onMapViewMoveFinished(mapView: MapView?, mapPoint: MapPoint?) {
-        mapRL.removeAllViews()
-        var mapView:MapView = MapView(activity)
         if (isShowing) {
-            mapRL.addView(mapView)
             if (mapView != null) {
                 if (mapView.isShowingCurrentLocationMarker) {
                     if (mapView != null) {
@@ -283,9 +283,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
-                        mapRL.removeAllViews()
-                        var mapView:MapView = MapView(activity)
-                        mapRL.addView(mapView)
+//                        mapRL.removeAllViews()
+//                        mapView = MapView(activity)
+//                        mapRL.addView(mapView)
                         val place = response!!.getJSONArray("place")
 // 지도
                         for (i in 0 until place.length()) {
@@ -308,12 +308,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                             marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
 
-                            marker.isShowCalloutBalloonOnTouch = true
+                            marker.isShowCalloutBalloonOnTouch = false
+
 
                             mapView.addPOIItem(marker)
                         }
-
-
 
                     }
 
@@ -418,8 +417,6 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     override fun onLocationUpdated(location: Location?) {
         stopLocation()
         if (location != null) {
-            activity = getActivity() as MainActivity
-            var mapView:MapView = MapView(activity)
             if (myLocation) {
                 latitude = location.getLatitude()
                 longitude = location.getLongitude()
@@ -447,9 +444,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     }
 
-    override fun onPOIItemSelected(MapView: MapView?, mapPOIItem: MapPOIItem?) {
-        selected_item = mapPOIItem!!.userObject as JSONObject
-//        showInfo(selected_item)
+    override fun onPOIItemSelected(MapView: MapView?, marker: MapPOIItem?) {
+
+        println("test ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: ")
+
+        selected_item = marker!!.userObject as JSONObject
         Log.d("정보",selected_item.toString())
 
 
