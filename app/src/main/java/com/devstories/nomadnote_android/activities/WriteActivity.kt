@@ -287,8 +287,8 @@ class WriteActivity : RootActivity() {
         val permissionlistener = object : PermissionListener {
             override fun onPermissionGranted() {
 
-//                var intent = Intent(context, FindPictureGridActivity::class.java)
-//                startActivityForResult(intent, SELECT_PICTURE)
+                var intent = Intent(context, FindPictureGridActivity::class.java)
+                startActivityForResult(intent, SELECT_PICTURE)
 
             }
 

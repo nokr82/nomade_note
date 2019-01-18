@@ -2,22 +2,21 @@ package com.devstories.nomadnote_android.activities
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Utils
 
 
-open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) : ArrayAdapter<JSONObject>(context,view, data){
+open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, other_time_Fragment: Other_time_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
 
     private lateinit var item: ViewHolder
     var view:Int = view
     var data:ArrayList<JSONObject> = data
     var menu_position = 1
+    var other_time_Fragment = other_time_Fragment
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -43,6 +42,7 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
         var cost = Utils.getString(json,"cost")
         var contents = Utils.getString(json,"contents")
         var created = Utils.getString(json,"created_at")
+        var timeline_id = Utils.getString(json,"id")
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
@@ -77,11 +77,12 @@ open class OthertimeAdapter(context: Context, view:Int, data:ArrayList<JSONObjec
         }
 
 
-//        item.trustRL.setOnClickListener {
-//            isSel = !isSel
-//            json.put("isSelectedOp",isSel)
-//            notifyDataSetChanged()
-//        }
+        item.trustRL.setOnClickListener {
+            isSel = !isSel
+            json.put("isSelectedOp",isSel)
+            notifyDataSetChanged()
+            other_time_Fragment.set_scrap(timeline_id)
+        }
 
         return retView
 

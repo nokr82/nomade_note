@@ -2,22 +2,21 @@ package com.devstories.nomadnote_android.activities
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Utils
 
 
-open class ScrapAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) : ArrayAdapter<JSONObject>(context,view, data){
+open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
 
     private lateinit var item: ViewHolder
     var view:Int = view
     var data:ArrayList<JSONObject> = data
     var menu_position = 1
+    var scrap_Fragment = scrap_Fragment
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -44,6 +43,7 @@ open class ScrapAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var cost = Utils.getString(timeline,"cost")
         var contents = Utils.getString(timeline,"contents")
         var created = Utils.getString(timeline,"created_at")
+        var timeline_id = Utils.getString(timeline,"id")
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
@@ -78,11 +78,13 @@ open class ScrapAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         }
 
 
-//        item.trustRL.setOnClickListener {
-//            isSel = !isSel
-//            json.put("isSelectedOp",isSel)
-//            notifyDataSetChanged()
-//        }
+        item.trustRL.setOnClickListener {
+            isSel = !isSel
+            json.put("isSelectedOp",isSel)
+            scrap_Fragment.set_scrap(timeline_id)
+            removeItem(position)
+            notifyDataSetChanged()
+        }
 
         return retView
 
