@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/circle_background_map">
+        <TextView
+            android:id="@+id/titleTV"
+            android:paddingTop="25dp"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:text="세종문화회관"
+            />
+        <TextView
+            android:id="@+id/timeTV"
+            android:layout_below="@+id/titleTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:text="05:00"
+            />
+        <RelativeLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:layout_below="@+id/timeTV"
+            android:background="@drawable/circle_background_map_2"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="11sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="300$"
+                />
+
+        </RelativeLayout>
+        
+        
+        
+    </RelativeLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
