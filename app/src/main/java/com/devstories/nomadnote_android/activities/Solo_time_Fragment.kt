@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -143,7 +144,11 @@ class Solo_time_Fragment : Fragment()  {
                             timelineDatas.clear()
                         }
 
+
+
+
                         val datas = response!!.getJSONArray("timeline")
+
                         if (datas.length() > 0){
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
@@ -250,6 +255,25 @@ class Solo_time_Fragment : Fragment()  {
                         if (timelineDatas != null){
                             timelineDatas.clear()
                         }
+                        val friends = response!!.getJSONArray("friend")
+                        Log.d("친구",friends.toString())
+                        if (friends.length() > 0){
+                            for (i in 0 until friends.length()){
+                                val timeline = friends.get(i) as JSONObject
+                                Log.d("친구",timeline.toString())
+                                val friend_timeline = timeline.getJSONArray("timelines")
+                                Log.d("친구",friend_timeline.toString())
+                                if (friend_timeline.length() > 0){
+                                    for (i in 0 until friend_timeline.length()){
+                                        val timeline = friend_timeline.get(i) as JSONObject
+                                        Log.d("친구",timeline.toString())
+                                        timelineDatas.add(timeline)
+                                    }
+                                }
+
+                            }
+                        }
+
 
                         val datas = response!!.getJSONArray("timeline")
                         if (datas.length() > 0){
