@@ -47,6 +47,7 @@ open class FriendAdapter(context: Context, view:Int, data:ArrayList<JSONObject>,
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         var gender = Utils.getString(member,"gender")
+        var pem_id = Utils.getInt(member,"id")
         var updated_at = Utils.getString(json,"updated_at")
 
 
@@ -61,7 +62,7 @@ open class FriendAdapter(context: Context, view:Int, data:ArrayList<JSONObject>,
         item.nameTV.setText(name)
 
         item.deleteTV.setOnClickListener {
-            Friend_add_Fragment.friend_del(updated_at)
+            Friend_add_Fragment.friend_del(pem_id)
         }
 
 

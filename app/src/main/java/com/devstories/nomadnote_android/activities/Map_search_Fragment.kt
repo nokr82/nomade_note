@@ -24,7 +24,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.R.id.center
+import com.devstories.nomadnote_android.actions.PlaceAction
+import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
+import com.loopj.android.http.JsonHttpResponseHandler
+import com.loopj.android.http.RequestParams
+import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
 import io.nlopez.smartlocation.location.config.LocationAccuracy
@@ -35,6 +41,9 @@ import kotlinx.android.synthetic.main.fra_map_search.view.*
 import net.daum.mf.map.api.MapCurrentLocationMarker
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
@@ -45,7 +54,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     private lateinit var activity:MainActivity
 
     private var myLocation = true
-
+    private var selected_item: JSONObject? = null
     val REQUEST_FINE_LOCATION = 100
     val REQUEST_ACCESS_COARSE_LOCATION = 101
 
@@ -69,24 +78,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         activity = getActivity() as MainActivity
         var mapView:MapView = MapView(activity)
 
-        val mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155)
         val mapPoint2 = MapPoint.mapPointWithGeoCoord(38.5514579595, 126.951949155)
         mapRL.addView(mapView)
         mapView.setMapViewEventListener(this)
+
         mapView.setCurrentLocationMarker(MapCurrentLocationMarker())
-        val marker = MapPOIItem()
-        marker.itemName = "테스트"
-        marker.mapPoint = mapPoint
 
-        marker.markerType = MapPOIItem.MarkerType.CustomImage
-        marker.customImageResourceId = R.layout.item_map
-
-        marker.selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-        marker.customSelectedImageResourceId = R.layout.item_map
-
-        marker.isShowCalloutBalloonOnTouch = false
-
-        mapView.addPOIItem(marker)
 
         initGPS()
         if (permissionCheck()) {
@@ -228,8 +225,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     override fun onMapViewMoveFinished(mapView: MapView?, mapPoint: MapPoint?) {
         mapRL.removeAllViews()
+        var mapView:MapView = MapView(activity)
         if (isShowing) {
-            var mapView:MapView = MapView(activity)
             mapRL.addView(mapView)
             if (mapView != null) {
                 if (mapView.isShowingCurrentLocationMarker) {
@@ -238,13 +235,27 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
                     }
                 }
             }
-
         }
 
         myLocation = false
-
+    /*    val mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155)
+        val marker = MapPOIItem()
+        marker.itemName = "테스트"
+        marker.mapPoint = mapPoint
+        marker.markerType = MapPOIItem.MarkerType.BluePin
+        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        marker.isShowCalloutBalloonOnTouch = true
+        mapView.addPOIItem(marker)
+        val mapPoint2 = MapPoint.mapPointWithGeoCoord(37.48906326293945, 126.75608825683594)
+        val marker2 = MapPOIItem()
+        marker2.itemName = "테스트"
+        marker2.mapPoint = mapPoint2
+        marker2.markerType = MapPOIItem.MarkerType.BluePin
+        marker2.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        marker2.isShowCalloutBalloonOnTouch = true
+        mapView.addPOIItem(marker2)*/
         val gc = mapPoint!!.getMapPointGeoCoord()
-
+        load_place()
         latitude = gc.latitude
         longitude = gc.longitude
         Log.d("좌표",latitude.toString())
@@ -254,6 +265,139 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
 
     }
+
+    //장소불러오기
+    fun load_place(){
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+
+
+        PlaceAction.load_place(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        mapRL.removeAllViews()
+                        var mapView:MapView = MapView(activity)
+                        mapRL.addView(mapView)
+                        val place = response!!.getJSONArray("place")
+// 지도
+                        for (i in 0 until place.length()) {
+                            val place_o = place.getJSONObject(i)
+                            Log.d("플리이스",place_o.toString())
+
+                            val placename = Utils.getString(place_o, "place")
+
+                            val lat = Utils.getDouble(place_o, "lat")
+                            val lng = Utils.getDouble(place_o, "lng")
+
+                            val mapPoint = MapPoint.mapPointWithGeoCoord(lat, lng)
+
+                            val marker = MapPOIItem()
+                            marker.itemName = placename
+                            marker.userObject = place_o
+                            marker.mapPoint = mapPoint
+
+                            marker.markerType = MapPOIItem.MarkerType.BluePin
+
+                            marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+
+                            marker.isShowCalloutBalloonOnTouch = true
+
+                            mapView.addPOIItem(marker)
+                        }
+
+
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+
+
+
 
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
     }
@@ -303,7 +447,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     }
 
-    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+    override fun onPOIItemSelected(MapView: MapView?, mapPOIItem: MapPOIItem?) {
+        selected_item = mapPOIItem!!.userObject as JSONObject
+//        showInfo(selected_item)
+        Log.d("정보",selected_item.toString())
+
 
     }
 

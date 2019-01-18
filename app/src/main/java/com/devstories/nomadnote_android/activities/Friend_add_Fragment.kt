@@ -73,7 +73,7 @@ class Friend_add_Fragment : Fragment()  {
                             adapterData.clear()
                         }
 
-                        val datas = response!!.getJSONArray("family")
+                        val datas = response!!.getJSONArray("friend")
                         if (datas.length() > 0){
                             for (i in 0 until datas.length()){
                                 val friend = datas.get(i) as JSONObject
@@ -162,10 +162,10 @@ class Friend_add_Fragment : Fragment()  {
     }
 
     //친구삭제
-    fun friend_del(updated_at:String) {
+    fun friend_del(pem_id:Int) {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
-        params.put("updated_at", updated_at)
+        params.put("pem_id", pem_id)
 
         MemberAction.friend_del(params, object : JsonHttpResponseHandler() {
 
