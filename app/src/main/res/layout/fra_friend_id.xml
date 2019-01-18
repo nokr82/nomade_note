@@ -25,6 +25,7 @@
         <EditText
             android:id="@+id/emailET"
             android:singleLine="true"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:background="@null"
             android:layout_height="wrap_content" />
@@ -80,8 +81,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_below="@+id/searchLL"
-        android:layout_marginTop="20dp"
+      android:layout_centerInParent="true"
+
         >
 
         <ImageView

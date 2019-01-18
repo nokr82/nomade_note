@@ -63,7 +63,7 @@ class Friend_id_Fragment : Fragment()  {
     //친구찾기
     fun loadInfo() {
         email = Utils.getString(emailET)
-
+        Utils.hideKeyboard(myContext)
         val params = RequestParams()
         params.put("search_type",searchtype)
         params.put("email",email)

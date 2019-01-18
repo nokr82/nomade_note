@@ -16,13 +16,17 @@
         android:gravity="center"
         android:background="@drawable/background_stroke_000000">
         <ImageView
-            android:layout_marginLeft="3dp"
+            android:id="@+id/searchIV"
+            android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"/>
 
         <EditText
+            android:id="@+id/nameET"
             android:singleLine="true"
+            android:gravity="center"
+            android:hint="이름을 입력해주세요."
             android:layout_width="match_parent"
             android:background="@null"
             android:layout_height="wrap_content" />
@@ -31,6 +35,36 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_below="@+id/searchLL"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:background="@drawable/background_stroke_000000">
+
+        <ImageView
+            android:id="@+id/search2IV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@mipmap/icon_search" />
+
+        <EditText
+            android:id="@+id/phoneET"
+            android:singleLine="true"
+            android:gravity="center"
+            android:hint="연락처를 입력해주세요."
+            android:layout_width="match_parent"
+            android:background="@null"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/startLL"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,22 +104,25 @@
 
     </LinearLayout>
 
+
     <LinearLayout
+        android:id="@+id/friendLL"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_below="@+id/searchLL"
-        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true"
         >
 
         <ImageView
+            android:id="@+id/genderIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/man"/>
 
         <TextView
+            android:id="@+id/nameTV"
             android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +130,7 @@
             android:textStyle="bold"
             android:text="레츠니"/>
         <TextView
+            android:id="@+id/statTV"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,6 +139,7 @@
             android:text="무모한자신감 장착"
             />
         <TextView
+            android:id="@+id/addTV"
             android:layout_marginTop="10dp"
             android:layout_width="100dp"
             android:layout_height="35dp"
@@ -110,7 +149,6 @@
             android:background="@drawable/background_border_radius7_000000"/>
 
     </LinearLayout>
-
 
 
 

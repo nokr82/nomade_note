@@ -28,6 +28,7 @@ class MyinfoChangeActivity : RootActivity() {
 
     var name = ""
     var age = 0
+    var phone = 0
     var gender = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +55,7 @@ class MyinfoChangeActivity : RootActivity() {
      editTV.setOnClickListener {
          name = Utils.getString(nameET)
          age = Utils.getInt(ageET)
-
+         phone = Utils.getInt(phoneET)
          edit_profile()
      }
 
@@ -80,6 +81,7 @@ class MyinfoChangeActivity : RootActivity() {
         params.put("name",name)
         params.put("age", age)
         params.put("gender", gender)
+        params.put("phone", phone)
 
         MemberAction.update_info(params, object : JsonHttpResponseHandler() {
 
@@ -183,7 +185,7 @@ class MyinfoChangeActivity : RootActivity() {
                         name =  Utils.getString(member, "name")
                         age =  Utils.getInt(member, "age")
                         gender =  Utils.getString(member, "gender")
-
+                        phone = Utils.getInt(member,"phone")
                         if (gender == "M"){
                             manIV.visibility = View.VISIBLE
                         }else if (gender =="F"){
@@ -191,7 +193,7 @@ class MyinfoChangeActivity : RootActivity() {
                         }
                         nameET.setText(name)
                         ageET.setText(age.toString())
-
+                        phoneET.setText(phone.toString())
 
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
