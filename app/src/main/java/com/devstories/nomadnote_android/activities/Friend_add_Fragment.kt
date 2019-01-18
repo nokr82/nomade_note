@@ -2,11 +2,13 @@ package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.devstories.nomadnote_android.adapter.QuestAdapter
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
@@ -42,7 +44,7 @@ class Friend_add_Fragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        FriendAdapter = FriendAdapter(myContext, R.layout.item_friend, adapterData)
+        FriendAdapter = FriendAdapter(myContext, R.layout.item_friend, adapterData,this)
         friendLV.adapter = FriendAdapter
 
         getFriend()
@@ -50,7 +52,7 @@ class Friend_add_Fragment : Fragment()  {
     }
 
 
-
+    //친구목록불러오기
     fun getFriend(){
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
@@ -159,7 +161,75 @@ class Friend_add_Fragment : Fragment()  {
 
     }
 
+    //친구삭제
+    fun friend_del(updated_at:String) {
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("updated_at", updated_at)
 
+        MemberAction.friend_del(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+                        getFriend()
+                    } else {
+                        Toast.makeText(myContext, "오류발생.", Toast.LENGTH_LONG).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -169,5 +239,8 @@ class Friend_add_Fragment : Fragment()  {
         }
 
     }
+
+
+
 
 }
