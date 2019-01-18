@@ -16,6 +16,10 @@ object TimelineAction {
     fun my_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/timeline/my_timeline", params, handler)
     }
+    //장소타임라인
+    fun place_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/place_timeline", params, handler)
+    }
 
     // 타임라인 상세
     fun detail_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {

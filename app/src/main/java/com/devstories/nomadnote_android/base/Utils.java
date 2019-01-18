@@ -42,6 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devstories.nomadnote_android.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
@@ -998,7 +999,7 @@ public class Utils {
     public static DisplayImageOptions UILoptionsUserProfile = new DisplayImageOptions.Builder()
 //         .displayer(new RoundedBitmapDisplayer(2))
 //         .showImageOnLoading(R.mipmap.myimg)
-//         .showImageForEmptyUri(R.mipmap.myimg)
+         .showImageForEmptyUri(R.mipmap.imgcopy)
 //        .showImageOnFail(R.mipmap.myimg).delayBeforeLoading(100)
         .cacheInMemory(true).cacheOnDisk(true).considerExifParams(true).imageScaleType(ImageScaleType.EXACTLY).bitmapConfig(Bitmap.Config.RGB_565).build();
 
