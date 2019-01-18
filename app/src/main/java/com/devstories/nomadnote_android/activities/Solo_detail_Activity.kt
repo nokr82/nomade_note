@@ -10,11 +10,13 @@ import android.view.View
 import android.view.WindowManager
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
@@ -97,10 +99,18 @@ class Solo_detail_Activity : RootActivity() {
                         costTV.setText(cost + "$")
                         contentTV.setText(contents)
 
-                        val member = response!!.getJSONObject("member")
+                        val member = data.getJSONObject("member")
                         val founder_id = Utils.getString(member,"id")
                         val name = Utils.getString(member,"name")
                         val age = Utils.getString(member,"age")
+
+                        val image = data.getJSONArray("images")
+                        if (image.length() > 0){
+                            val image_item = image.get(image.length()-1) as JSONObject
+                            val image_uri = Utils.getString(image_item,"image_uri")
+                            var uri = Config.url+"/" + image_uri
+                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+                        }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
                             modifyIV.visibility = View.GONE

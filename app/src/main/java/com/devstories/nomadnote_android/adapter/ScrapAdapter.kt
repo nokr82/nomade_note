@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.*
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
+import com.nostra13.universalimageloader.core.ImageLoader
 
 
 open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
@@ -50,7 +52,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         var style = Utils.getString(timeline,"style_id")
 
-        var member = json.getJSONObject("Member")
+        var member = json.getJSONObject("member")
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         item.infoTV.setText(name+"/"+age+"세")
@@ -84,6 +86,14 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             scrap_Fragment.set_scrap(timeline_id)
             removeItem(position)
             notifyDataSetChanged()
+        }
+
+        var image = timeline.getJSONArray("images")
+        if (image.length() > 0){
+            val image_item = image.get(image.length()-1) as JSONObject
+            val image_uri = Utils.getString(image_item,"image_uri")
+            var uri = Config.url+"/" + image_uri
+            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         }
 
         return retView
@@ -128,6 +138,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var trustIV : ImageView
         var trustLL : LinearLayout
         var trustRL : RelativeLayout
+        var backgroundIV : ImageView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
@@ -146,6 +157,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
             trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
             trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
+            backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
 
         }
     }

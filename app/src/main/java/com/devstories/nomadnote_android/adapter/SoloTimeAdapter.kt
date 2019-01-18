@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 
 
@@ -43,6 +44,15 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONObject
         var cost = Utils.getString(json,"cost")
         var contents = Utils.getString(json,"contents")
         var created = Utils.getString(json,"created_at")
+        var image = json.getJSONArray("images")
+
+        if (image.length() > 0){
+            val image_item = image.get(image.length()-1) as JSONObject
+            val image_uri = Utils.getString(image_item,"image_uri")
+            var uri = Config.url+"/" + image_uri
+            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+        }
+
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")

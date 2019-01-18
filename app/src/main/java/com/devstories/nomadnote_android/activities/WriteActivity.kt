@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_write.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.ByteArrayInputStream
 import java.util.ArrayList
 
 class WriteActivity : RootActivity() {
@@ -168,6 +170,19 @@ class WriteActivity : RootActivity() {
         params.put("place_id","1")
         params.put("country_id","1")
         params.put("style_id",menu_position)
+
+        var seq = 0
+        if (addPicturesLL != null){
+            for (i in 0 until addPicturesLL!!.childCount) {
+                val v = addPicturesLL?.getChildAt(i)
+                val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+                if (imageIV is ImageView) {
+                    val bitmap = imageIV.drawable as BitmapDrawable
+                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    seq++
+                }
+            }
+        }
 
         TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
 
