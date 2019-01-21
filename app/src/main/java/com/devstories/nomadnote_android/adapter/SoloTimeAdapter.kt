@@ -46,14 +46,20 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONObject
         var created = Utils.getString(json,"created_at")
 
         //이거슨 그친구에 이미지를 연결해야함
-        /*var image = json.getJSONArray("images")
 
-        if (image.length() > 0){
-            val image_item = image.get(image.length()-1) as JSONObject
-            val image_uri = Utils.getString(image_item,"image_uri")
-            var uri = Config.url+"/" + image_uri
-            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
-        }*/
+
+        if (json.has("images")) {
+            var image = json.getJSONArray("images")
+
+            if (image.length() > 0) {
+                val image_item = image.get(image.length() - 1) as JSONObject
+                val image_uri = Utils.getString(image_item, "image_uri")
+                var uri = Config.url + "/" + image_uri
+                ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+            } else {
+                item.backgroundIV.setImageResource(R.mipmap.time_bg)
+            }
+        }
 
 
         var createdsplit = created.split(" ")
