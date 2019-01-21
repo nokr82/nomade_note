@@ -269,7 +269,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     //장소불러오기
     fun load_place(){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
 
 
         PlaceAction.load_place(params, object : JsonHttpResponseHandler() {
