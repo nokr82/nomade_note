@@ -178,7 +178,7 @@ class MainActivity : FragmentActivity() {
                 }
 
                 try {
-                    val result = response!!.getString("result")
+//                    val result = response!!.getString("result")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -284,10 +284,10 @@ class MainActivity : FragmentActivity() {
                     if ("ok" == result) {
 
                         var member = response.getJSONObject("member")
-                        var disk = Utils.getInt(member,"disk")
+                        var disk = response!!.getString("disk")
                         var payment_sum = member.getJSONArray("payments")
 
-                        var payment_byte = 1073741824
+                        var payment_byte = 2147483648
                         if (payment_sum.length()>0){
                             for (i in 0 until payment_sum.length()){
                                 val payment_item = payment_sum.get(i) as JSONObject
@@ -304,10 +304,11 @@ class MainActivity : FragmentActivity() {
                             }
                         }
 
-                        var diskabs =  Math.abs(disk)
+//                        var diskabs =  Math.abs(disk)
                         var payment_byteabs = Math.abs(payment_byte)
 
-                        PrefUtils.setPreference(context, "disk", diskabs)
+                        println("------disk $disk")
+                        PrefUtils.setPreference(context, "disk", disk.toInt())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
 
                     } else {

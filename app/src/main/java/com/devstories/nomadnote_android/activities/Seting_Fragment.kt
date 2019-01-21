@@ -414,16 +414,18 @@ class Seting_Fragment : Fragment()  {
                 op_memoryLL.visibility = View.VISIBLE
                 memoryIV.rotation = 90f
 
-                if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
-                    var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+                if (PrefUtils.getLongPreference(context,"payment_byte") != null) {
+                    var payment_byte = PrefUtils.getLongPreference(context, "payment_byte")
                     var disk = PrefUtils.getIntPreference(context, "disk")
+
+                    println("------$payment_byte , $disk")
 
                     var pay_sub = payment_byte.toString().substring(0,1)
                     if (pay_sub == "-") {
                         var pay_split = payment_byte.toString().split("-")
                         println("---pay-split${pay_split.get(0)}")
                         if (pay_split.get(0) == "-") {
-                            payment_byte = pay_split.get(1).toInt()
+                            payment_byte = pay_split.get(1).toLong()
                             println("-split payment_byte $payment_byte")
                         }
                     }
@@ -442,13 +444,20 @@ class Seting_Fragment : Fragment()  {
                     var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
 
                     var rament = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+
                     var payment =  Math.round((payment_byte / (1024 * 1024) * 10).toDouble()) as Long / 10
+
+                    var percent = payment_byte - disk
+                    var div = percent / payment_byte
+                    progressPB.setProgress(Math.abs(div).toInt())
 
                     var dif = payment - rament
 
                     var maxabs = Math.abs(max)
                     var ramentabs = Math.abs(rament)
                     var paymentabs = Math.abs(dif)
+
+                    println("-----rament$rament")
 
                     mydataTV.setText("총 " + maxabs.toString() + "GB")
                     remantTV.setText(paymentabs.toString() + "MB")
