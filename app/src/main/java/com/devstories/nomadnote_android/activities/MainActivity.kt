@@ -37,6 +37,9 @@ class MainActivity : FragmentActivity() {
     val Seting_Fragment : Seting_Fragment = Seting_Fragment()
     val Quest_stack_Fragment : Quest_stack_Fragment = Quest_stack_Fragment()
     val Friend_Fragment : Friend_Fragment = Friend_Fragment()
+
+    private val BACK_PRESSED_TERM:Long = 1000 * 2
+    private var backPressedTime: Long = -1
     internal var backReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -376,6 +379,18 @@ class MainActivity : FragmentActivity() {
             }
         })
     }
+
+    override fun onBackPressed() {
+
+        if (System.currentTimeMillis() - backPressedTime < BACK_PRESSED_TERM) {
+            finish()
+        } else {
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            backPressedTime = System.currentTimeMillis()
+        }
+
+    }
+
 
 
 
