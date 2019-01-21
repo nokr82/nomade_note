@@ -55,6 +55,7 @@
             android:id="@+id/phoneET"
             android:singleLine="true"
             android:gravity="center"
+            android:inputType="number"
             android:hint="연락처를 입력해주세요."
             android:layout_width="match_parent"
             android:background="@null"

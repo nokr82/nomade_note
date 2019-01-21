@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
@@ -57,7 +58,22 @@ class Friend_phone_Fragment : Fragment()  {
         addTV.setOnClickListener {
             add_friend()
         }
-
+        nameET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loadInfo()
+                true
+            } else {
+                false
+            }
+        }
+        phoneET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loadInfo()
+                true
+            } else {
+                false
+            }
+        }
 
     }
     //친구찾기
