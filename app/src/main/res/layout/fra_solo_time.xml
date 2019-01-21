@@ -33,6 +33,7 @@
             android:visibility="visible">
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/back_white"/>
@@ -69,19 +70,21 @@
             android:layout_height="wrap_content">
             
             <RelativeLayout
+                android:id="@+id/visitnationRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/op_visitIV"
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="50dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/visit_city"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingRight="50dp"
+                    android:src="@mipmap/visit_city" />
 
                 <TextView
                     android:id="@+id/viTV"
@@ -105,6 +108,7 @@
 
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/visitstyleRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -219,6 +223,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <GridView
+            android:scrollbars="none"
             android:background="#e7eaed"
             android:id="@+id/gridGV"
             android:layout_width="match_parent"

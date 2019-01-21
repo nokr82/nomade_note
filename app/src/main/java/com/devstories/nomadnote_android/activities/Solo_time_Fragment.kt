@@ -19,6 +19,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
+import com.kakao.usermgmt.StringSet.email
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -88,6 +89,13 @@ class Solo_time_Fragment : Fragment()  {
             val intent = Intent(myContext, WriteActivity::class.java)
             startActivityForResult(intent,SOLO_WRITE)
         }
+        visitstyleRL
+        visitnationRL.setOnClickListener {
+            val intent = Intent(context, VisitNationActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         gridGV.setOnItemClickListener { parent, view, position, id ->
             val timeline = timelineDatas.get(position)

@@ -64,18 +64,18 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONObject
 
         var createdsplit = created.split(" ")
         //이거슨 이유모를오류
-//        var timesplit = createdsplit.get(1).split(":")
+        var timesplit = createdsplit.get(1).split(":")
 
 
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
         item.costTV.setText(cost+"$ ")
         item.contentTV.setText(contents)
-//        if (timesplit.get(0).toInt() >= 12){
-//            item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
-//        } else {
-//            item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
-//        }
+        if (timesplit.get(0).toInt() >= 12){
+            item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+        } else {
+            item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+        }
 
         return retView
 
