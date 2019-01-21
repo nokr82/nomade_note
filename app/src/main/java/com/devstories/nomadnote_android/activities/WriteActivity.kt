@@ -221,8 +221,8 @@ class WriteActivity : RootActivity() {
             sum += bytes.get(i)
         }
 
-        if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
-            var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+        if (PrefUtils.getLongPreference(context,"payment_byte") != null) {
+            var payment_byte = PrefUtils.getLongPreference(context, "payment_byte")
             var disk = PrefUtils.getIntPreference(context, "disk")
 
             disk_sum = disk + sum
@@ -233,7 +233,7 @@ class WriteActivity : RootActivity() {
         }
         var disk_sumabs =  Math.abs(disk_sum)
         PrefUtils.setPreference(context, "disk", disk_sumabs)
-        params.put("bytes",bytes)
+        params.put("disk_data",sum)
 
         TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
 
