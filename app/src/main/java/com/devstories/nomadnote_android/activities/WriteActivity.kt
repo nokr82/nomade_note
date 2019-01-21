@@ -780,4 +780,11 @@ class WriteActivity : RootActivity() {
         }
 
     }
+
+    override fun onBackPressed() {
+        Utils.hideKeyboard(context)
+        finish()
+    }
+
+
 }
