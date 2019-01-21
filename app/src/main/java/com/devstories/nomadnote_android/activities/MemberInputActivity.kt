@@ -10,6 +10,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.R.id.backIV
 import com.devstories.nomadnote_android.R.id.startTV
 import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -112,6 +113,9 @@ class MemberInputActivity : RootActivity() {
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
+                        val data = response.getJSONObject("member")
+                        PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         Toast.makeText(context, "가입성공", Toast.LENGTH_LONG).show()

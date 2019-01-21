@@ -194,7 +194,9 @@ class MyinfoChangeActivity : RootActivity() {
                         }else if (gender =="F"){
                             femaleckIV.visibility = View.VISIBLE
                         }
-
+                        nameET.setText(name)
+                        ageET.setText(age.toString())
+                        phoneET.setText(phone.toString())
                         var disk_byte = 1073741824
                         if (disk.length()>0){
                             for (i in 0 until disk.length()){
@@ -216,9 +218,7 @@ class MyinfoChangeActivity : RootActivity() {
                         PrefUtils.setPreference(context, "payment_byte", payment_sum)
 
 
-                        nameET.setText(name)
-                        ageET.setText(age.toString())
-                        phoneET.setText(phone.toString())
+
 
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
