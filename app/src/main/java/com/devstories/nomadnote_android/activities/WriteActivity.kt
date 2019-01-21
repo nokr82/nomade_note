@@ -405,6 +405,8 @@ class WriteActivity : RootActivity() {
                         sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
                         finish()
+
+                        Utils.hideKeyboard(context)
                     }
 
                 } catch (e: JSONException) {
