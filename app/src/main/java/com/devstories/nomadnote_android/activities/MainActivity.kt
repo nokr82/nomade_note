@@ -37,7 +37,19 @@ class MainActivity : FragmentActivity() {
     val Seting_Fragment : Seting_Fragment = Seting_Fragment()
     val Quest_stack_Fragment : Quest_stack_Fragment = Quest_stack_Fragment()
     val Friend_Fragment : Friend_Fragment = Friend_Fragment()
-
+    internal var backReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
     internal var friendReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -78,6 +90,8 @@ class MainActivity : FragmentActivity() {
 
         var filter2 = IntentFilter("UPDATE_TIMELINE")
         registerReceiver(timelineReciver, filter2)
+        var filter3 = IntentFilter("FRIEND_BACK")
+        registerReceiver(backReciver, filter3)
 
         updateToken()
         loadInfo()
