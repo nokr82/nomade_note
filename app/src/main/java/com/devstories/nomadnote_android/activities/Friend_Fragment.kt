@@ -2,6 +2,7 @@ package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -35,6 +36,9 @@ class Friend_Fragment : Fragment()  {
         super.onActivityCreated(savedInstanceState)
         setmenu()
 
+
+
+
         click()
         if (getArguments() != null) {
 
@@ -67,6 +71,14 @@ class Friend_Fragment : Fragment()  {
 
 
     fun click(){
+        titleBackLL.setOnClickListener {
+            var intent = Intent()
+            intent.action = "FRIEND_BACK"
+            myContext.sendBroadcast(intent)
+
+        }
+
+
         phoneLL.setOnClickListener {
             setmenu()
             childFragmentManager.beginTransaction().replace(R.id.friendFL,Friend_phone_Fragment).commit()
