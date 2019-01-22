@@ -44,6 +44,7 @@ class MainActivity : FragmentActivity() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
                 logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
                 setmenu()
                 logoIV.visibility = View.GONE
                 titleLL.visibility = View.VISIBLE
@@ -128,6 +129,7 @@ class MainActivity : FragmentActivity() {
         }
         questLL.setOnClickListener {
 //            logoTV.setText("누적질문보기")
+            logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
             setmenu()
@@ -154,12 +156,13 @@ class MainActivity : FragmentActivity() {
             logoIV.visibility = View.GONE
             setmenu()
             titleLL.visibility = View.GONE
-            scrapIV.setImageResource(R.mipmap.op_file)
+            scrapIV.setImageResource(R.mipmap.scrap_opck)
             scrapTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
         settingLL.setOnClickListener {
             logoTV.setText("설정")
+            logoTV.visibility = View.VISIBLE
             setmenu()
             logoIV.visibility = View.GONE
             titleLL.visibility = View.VISIBLE

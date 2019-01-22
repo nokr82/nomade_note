@@ -75,6 +75,7 @@
 
         <TextView
             android:id="@+id/titleTV"
+            android:textSize="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#0C6E87"
@@ -86,7 +87,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="14dp"
             android:textColor="#878787"
             android:text="추가하고 싶은 친구의 이름과\n휴대전화 번호를 입력해 주세요."
             />

@@ -219,16 +219,11 @@
                     android:layout_marginLeft="15dp">
                     <ImageView
                         android:id="@+id/iconIV"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@mipmap/icon_check"/>
-                    <TextView
+                        android:layout_gravity="center_vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textColor="#ffffff"
-                        android:gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:text="정보를 신뢰합니다"/>
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/scrap_opck"/>
+
                 </LinearLayout>
 
                 <ImageView

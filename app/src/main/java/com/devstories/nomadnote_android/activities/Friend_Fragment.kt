@@ -9,8 +9,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.devstories.nomadnote_android.R
 import kotlinx.android.synthetic.main.fra_friend_add.*
+import kotlinx.android.synthetic.main.fra_friend_add.view.*
 
 class Friend_Fragment : Fragment()  {
     lateinit var myContext: Context
@@ -39,6 +42,8 @@ class Friend_Fragment : Fragment()  {
 
 
 
+
+
         click()
         if (getArguments() != null) {
 
@@ -61,11 +66,11 @@ class Friend_Fragment : Fragment()  {
 
     fun setmenu(){
         phoneTV.setTextColor(Color.parseColor("#878787"))
-        phoneV.setBackgroundColor(Color.parseColor("#878787"))
+        phoneV.visibility =View.GONE
         idTV.setTextColor(Color.parseColor("#878787"))
-        idV.setBackgroundColor(Color.parseColor("#878787"))
+        idV.visibility =View.GONE
         addTV.setTextColor(Color.parseColor("#878787"))
-        addV.setBackgroundColor(Color.parseColor("#878787"))
+        addV.visibility =View.GONE
     }
 
 
@@ -82,6 +87,7 @@ class Friend_Fragment : Fragment()  {
         phoneLL.setOnClickListener {
             setmenu()
             childFragmentManager.beginTransaction().replace(R.id.friendFL,Friend_phone_Fragment).commit()
+            phoneV.visibility =View.VISIBLE
             phoneTV.setTextColor(Color.parseColor("#000000"))
             phoneV.setBackgroundColor(Color.parseColor("#000000"))
 
@@ -89,12 +95,14 @@ class Friend_Fragment : Fragment()  {
         idLL.setOnClickListener {
             setmenu()
             childFragmentManager.beginTransaction().replace(R.id.friendFL, Friend_id_Fragment).commit()
+            idV.visibility =View.VISIBLE
             idTV.setTextColor(Color.parseColor("#000000"))
             idV.setBackgroundColor(Color.parseColor("#000000"))
         }
         addLL.setOnClickListener {
             setmenu()
             childFragmentManager.beginTransaction().replace(R.id.friendFL, Friend_add_Fragment).commit()
+            addV.visibility =View.VISIBLE
             addTV.setTextColor(Color.parseColor("#000000"))
             addV.setBackgroundColor(Color.parseColor("#000000"))
         }

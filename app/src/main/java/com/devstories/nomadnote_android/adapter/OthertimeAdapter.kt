@@ -81,7 +81,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 
         if (isSel){
             item.trustLL.visibility = View.VISIBLE
-            item.trustIV.setImageResource(R.mipmap.op_file)
+            item.trustIV.setImageResource(R.mipmap.scrap_ck)
         } else {
             item.trustLL.visibility = View.GONE
             item.trustIV.setImageResource(R.mipmap.icon_scrap)

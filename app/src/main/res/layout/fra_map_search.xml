@@ -143,10 +143,12 @@
             android:background="@drawable/background_border_radius2_000000">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="9dp"
-                android:src="@mipmap/search_op" />
+                android:id="@+id/searchIV"
+                android:layout_width="18.5dp"
+                android:layout_height="14.3dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/search_op"/>
 
             <EditText
                 android:layout_width="0dp"
