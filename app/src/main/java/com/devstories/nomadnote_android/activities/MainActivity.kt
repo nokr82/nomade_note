@@ -156,7 +156,7 @@ class MainActivity : FragmentActivity() {
             logoIV.visibility = View.GONE
             setmenu()
             titleLL.visibility = View.GONE
-            scrapIV.setImageResource(R.mipmap.scrap_opck)
+            scrapIV.setImageResource(R.mipmap.op_file)
             scrapTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
