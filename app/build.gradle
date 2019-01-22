@@ -13,11 +13,27 @@ android {
         targetSdkVersion 26
         versionCode 11
         versionName "2.0.6"
+        multiDexEnabled true
     }
+    // 요기랑
+    signingConfigs {
+        nomad_note {
+            storeFile file("D:/CloudStation_/android_keystore/nomad_note/nomad_note.jks")
+            // storePassword "123456"
+            keyAlias "nomad_note"
+            keyPassword "123456"
+            storePassword '123456'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            signingConfig signingConfigs.nomad_note
         }
     }
     splits {

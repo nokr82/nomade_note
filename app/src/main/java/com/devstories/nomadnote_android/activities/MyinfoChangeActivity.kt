@@ -40,6 +40,9 @@ class MyinfoChangeActivity : RootActivity() {
 
         loadInfo()
 
+        titleBackLL.setOnClickListener {
+            finish()
+        }
 
 
         manLL.setOnClickListener {
@@ -61,9 +64,6 @@ class MyinfoChangeActivity : RootActivity() {
 
 
 
-        titleBackLL.setOnClickListener {
-            finish()
-        }
 
 
 
@@ -197,6 +197,8 @@ class MyinfoChangeActivity : RootActivity() {
                         nameET.setText(name)
                         ageET.setText(age.toString())
                         phoneET.setText(phone.toString())
+
+
                         var disk_byte = 1073741824
                         if (disk.length()>0){
                             for (i in 0 until disk.length()){
