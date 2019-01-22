@@ -135,6 +135,27 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_border_radius5_000000">
+
+            <EditText
+                android:id="@+id/phoneET"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColorHint="#878787"
+                android:hint="연락처를 입력하세요"
+                android:background="@null"
+                />
+
+
+        </LinearLayout>
      <TextView
          android:id="@+id/startTV"
          android:layout_width="match_parent"

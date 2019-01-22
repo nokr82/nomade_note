@@ -71,8 +71,8 @@ class MyinfoChangeActivity : RootActivity() {
     }
 
     fun setmenu(){
-        manIV.visibility= View.GONE
-        femaleckIV.visibility = View.GONE
+        manIV.visibility= View.INVISIBLE
+        femaleckIV.visibility = View.INVISIBLE
     }
 
     fun edit_profile(){

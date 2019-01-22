@@ -71,7 +71,7 @@ class Scrap_Fragment : Fragment()  {
             startActivity(intent)
         }
 
-        searchLL.setOnClickListener {
+        searchIV.setOnClickListener {
             search_scrap()
         }
 

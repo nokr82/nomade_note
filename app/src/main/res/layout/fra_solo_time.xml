@@ -17,10 +17,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:src="@mipmap/solotime_top"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#803d606e"/>
+            android:background="#803d606e" />
 
         <LinearLayout
             android:id="@+id/titleBackLL"
@@ -64,11 +65,11 @@
         
         <LinearLayout
             android:id="@+id/nomadLL"
-            android:layout_marginTop="29dp"
+            android:layout_marginTop="19dp"
             android:layout_below="@+id/logoIVLL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
+            android:layout_height="60dp">
+
             <RelativeLayout
                 android:id="@+id/visitnationRL"
                 android:layout_width="0dp"
@@ -76,19 +77,17 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/op_visitIV"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/visitnationIV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="0dp"
-                    android:paddingRight="50dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="65dp"
                     android:src="@mipmap/visit_city" />
 
                 <TextView
                     android:id="@+id/viTV"
-                    android:layout_below="@+id/op_visitIV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -114,18 +113,17 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/op_ssIV"
-                    android:paddingRight="56dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/op_styleIV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/op_ss"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp"
+                    android:paddingRight="65dp"
+                    android:src="@mipmap/op_ss" />
 
                 <TextView
-                    android:id="@+id/stTV"
-                    android:layout_below="@+id/op_ssIV"
+                    android:id="@+id/vi2TV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,7 +132,7 @@
                     android:textColor="#ffffff"
                     />
                 <TextView
-                    android:layout_below="@+id/stTV"
+                    android:layout_below="@+id/vi2TV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,16 +149,17 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/op_writeIV"
-                    android:layout_alignParentTop="true"
-                    android:paddingRight="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/writeIV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/paper_air"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp"
+                    android:paddingRight="65dp"
+                    android:src="@mipmap/paper_air" />
 
                 <TextView
-                    android:layout_below="@+id/op_writeIV"
+                    android:id="@+id/writeTV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,6 +167,7 @@
                     android:textSize="12dp"
                     android:textColor="#ffffff"
                     />
+
 
             </RelativeLayout>
             
@@ -186,9 +186,10 @@
 
             <ImageView
                 android:id="@+id/searchIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="9dp"
+                android:layout_width="18.5dp"
+                android:layout_height="14.3dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/search_op"/>
 
             <EditText

@@ -127,8 +127,8 @@ class MainActivity : FragmentActivity() {
 
         }
         questLL.setOnClickListener {
-            logoTV.setText("누적질문보기")
-            logoIV.visibility = View.GONE
+//            logoTV.setText("누적질문보기")
+            logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
             setmenu()
             questIV.setImageResource(R.mipmap.op_quest)
@@ -150,10 +150,10 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Other_time_Fragment).commit()
         }
         scrapLL.setOnClickListener {
-            logoTV.setText("스크랩 리스트")
+//            logoTV.setText("스크랩 리스트")
             logoIV.visibility = View.GONE
             setmenu()
-            titleLL.visibility = View.VISIBLE
+            titleLL.visibility = View.GONE
             scrapIV.setImageResource(R.mipmap.op_file)
             scrapTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()

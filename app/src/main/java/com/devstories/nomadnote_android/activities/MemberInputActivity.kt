@@ -87,8 +87,8 @@ class MemberInputActivity : RootActivity() {
         }
     }
     fun setmenu(){
-        manckIV.visibility = View.GONE
-        femaleckIV.visibility = View.GONE
+        manckIV.visibility = View.INVISIBLE
+        femaleckIV.visibility = View.INVISIBLE
     }
 
 
