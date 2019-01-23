@@ -41,6 +41,26 @@ class MainActivity : FragmentActivity() {
     private val BACK_PRESSED_TERM:Long = 1000 * 2
     private var backPressedTime: Long = -1
 
+
+    internal var datachangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+
+                var args: Bundle = Bundle()
+                args.putInt("type", 2)
+                Seting_Fragment.setArguments(args)
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
+
     internal var stylechangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -119,7 +139,8 @@ class MainActivity : FragmentActivity() {
         registerReceiver(backReciver, filter3)
         var filter4 = IntentFilter("STYLE_CHANGE")
         registerReceiver(stylechangeReciver, filter4)
-
+        var filter5 = IntentFilter("DATA_LIMIT")
+        registerReceiver(datachangeReciver, filter5)
 
         updateToken()
         loadInfo()
@@ -331,7 +352,8 @@ class MainActivity : FragmentActivity() {
                         var disk = response!!.getString("disk")
                         var payment_sum = member.getJSONArray("payments")
 
-                        var payment_byte = 2147483648
+//                        var payment_byte = 2147483648
+                        var payment_byte = 20480
                         if (payment_sum.length()>0){
                             for (i in 0 until payment_sum.length()){
                                 val payment_item = payment_sum.get(i) as JSONObject

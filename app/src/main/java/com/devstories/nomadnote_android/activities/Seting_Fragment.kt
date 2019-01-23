@@ -83,8 +83,19 @@ class Seting_Fragment : Fragment()  {
             if (s_type==1){
                 travelLL.callOnClick()
             }
+            if (s_type==2){
+                memoryLL.callOnClick()
+            }
         }
 
+        Log.d("타입",s_type.toString())
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        arguments = null
+        s_type = -1
     }
 
     fun op_click(){
@@ -419,8 +430,8 @@ class Seting_Fragment : Fragment()  {
                 op_memoryLL.visibility = View.VISIBLE
                 memoryIV.rotation = 90f
 
-                if (PrefUtils.getLongPreference(context,"payment_byte") != null) {
-                    var payment_byte = PrefUtils.getLongPreference(context, "payment_byte")
+                if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
+                    var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
                     var disk = PrefUtils.getIntPreference(context, "disk")
 
                     println("------$payment_byte , $disk")
@@ -430,7 +441,7 @@ class Seting_Fragment : Fragment()  {
                         var pay_split = payment_byte.toString().split("-")
                         println("---pay-split${pay_split.get(0)}")
                         if (pay_split.get(0) == "-") {
-                            payment_byte = pay_split.get(1).toLong()
+                            payment_byte = pay_split.get(1).toInt()
                             println("-split payment_byte $payment_byte")
                         }
                     }

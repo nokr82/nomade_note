@@ -101,6 +101,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             isShowing = false
         }
 
+        writeRL.setOnClickListener {
+            val intent = Intent(myContext, WriteActivity::class.java)
+            startActivity(intent)
+        }
+
+
         /*   mapView.setMapCenterPoint(mapPoint, true)
         mapRL.addView(mapView)
         val marker = MapPOIItem()

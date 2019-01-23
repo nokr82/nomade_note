@@ -11,16 +11,14 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.actions.TimelineAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -221,14 +219,28 @@ class WriteActivity : RootActivity() {
             sum += bytes.get(i)
         }
 
-        if (PrefUtils.getLongPreference(context,"payment_byte") != null) {
-            var payment_byte = PrefUtils.getLongPreference(context, "payment_byte")
+        if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
+            var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
             var disk = PrefUtils.getIntPreference(context, "disk")
 
             disk_sum = disk + sum
+            Log.d("결제타입",payment_byte.toString())
+            Log.d("용량",disk_sum.toString())
             if (disk_sum > payment_byte){
-                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
+               Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
+                   override fun before(): Boolean {
+                       return true
+                   }
+
+                   override fun after() {
+                   /*    var intent = Intent()
+                       intent.action = "DATA_LIMIT"
+                       sendBroadcast(intent)*/
+                   }
+               })
                 return
+
             }
         }
         var disk_sumabs =  Math.abs(disk_sum)
