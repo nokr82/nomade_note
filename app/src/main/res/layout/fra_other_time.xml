@@ -178,6 +178,7 @@
 
 
  <ListView
+     android:paddingTop="7dp"
      android:id="@+id/otherLV"
      android:scrollbars="none"
      android:divider="@null"
