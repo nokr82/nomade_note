@@ -213,6 +213,7 @@
         
         <ListView
             android:paddingTop="7dp"
+            android:divider="@null"
             android:id="@+id/scrapLV"
             android:background="#e7eaed"
             android:layout_width="match_parent"
