@@ -89,7 +89,11 @@ class Solo_time_Fragment : Fragment()  {
             val intent = Intent(myContext, WriteActivity::class.java)
             startActivityForResult(intent,SOLO_WRITE)
         }
-        visitstyleRL
+        visitstyleRL.setOnClickListener {
+            var intent = Intent()
+            intent.action = "STYLE_CHANGE"
+            myContext.sendBroadcast(intent)
+        }
         visitnationRL.setOnClickListener {
             val intent = Intent(context, VisitNationActivity::class.java)
             startActivity(intent)

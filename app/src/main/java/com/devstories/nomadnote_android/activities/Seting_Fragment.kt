@@ -52,7 +52,7 @@ class Seting_Fragment : Fragment()  {
 
     var f_type = -1
 
-
+    var s_type = -1
 
 
 
@@ -78,6 +78,12 @@ class Seting_Fragment : Fragment()  {
 
         click()
         op_click()
+        if (getArguments() != null) {
+            s_type = getArguments()!!.getInt("type")
+            if (s_type==1){
+                travelLL.callOnClick()
+            }
+        }
 
     }
 
@@ -177,64 +183,44 @@ class Seting_Fragment : Fragment()  {
 
         //여행스타일
         healTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+            setstylemenu()
                 healTV.setBackgroundResource(R.drawable.background_border_radius10)
                 healTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                healTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                healTV.setTextColor(Color.parseColor("#878787"))
-            }
+
         }
         hotplaceTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+
+            setstylemenu()
                 hotplaceTV.setBackgroundResource(R.drawable.background_border_radius10)
                 hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                hotplaceTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                hotplaceTV.setTextColor(Color.parseColor("#878787"))
-            }
+
+
         }
         cultureTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+            setstylemenu()
                 cultureTV.setBackgroundResource(R.drawable.background_border_radius10)
                 cultureTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                cultureTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                cultureTV.setTextColor(Color.parseColor("#878787"))
-            }
+
+
+
         }
         sidmierTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+            setstylemenu()
                 sidmierTV.setBackgroundResource(R.drawable.background_border_radius10)
                 sidmierTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                sidmierTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                sidmierTV.setTextColor(Color.parseColor("#878787"))
-            }
+
         }
         artTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+            setstylemenu()
                 artTV.setBackgroundResource(R.drawable.background_border_radius10)
                 artTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                artTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                artTV.setTextColor(Color.parseColor("#878787"))
-            }
+
         }
         museumTV.setOnClickListener {
-            it.isSelected = !it.isSelected
-            if(it.isSelected) {
+            setstylemenu()
                 museumTV.setBackgroundResource(R.drawable.background_border_radius10)
                 museumTV.setTextColor(Color.parseColor("#ffffff"))
-            } else {
-                museumTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
-                museumTV.setTextColor(Color.parseColor("#878787"))
-            }
+
         }
     }
 
@@ -267,6 +253,24 @@ class Seting_Fragment : Fragment()  {
 
 
     }
+
+
+    fun setstylemenu(){
+        museumTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        museumTV.setTextColor(Color.parseColor("#878787"))
+        artTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        artTV.setTextColor(Color.parseColor("#878787"))
+        sidmierTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        sidmierTV.setTextColor(Color.parseColor("#878787"))
+        cultureTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        cultureTV.setTextColor(Color.parseColor("#878787"))
+        hotplaceTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        hotplaceTV.setTextColor(Color.parseColor("#878787"))
+        healTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
+        healTV.setTextColor(Color.parseColor("#878787"))
+    }
+
+
     fun shareFacebook() {
         val content = ShareLinkContent.Builder()
 

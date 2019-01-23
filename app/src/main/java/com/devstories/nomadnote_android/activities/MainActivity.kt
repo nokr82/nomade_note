@@ -40,6 +40,27 @@ class MainActivity : FragmentActivity() {
 
     private val BACK_PRESSED_TERM:Long = 1000 * 2
     private var backPressedTime: Long = -1
+
+    internal var stylechangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+
+                var args: Bundle = Bundle()
+                args.putInt("type", 1)
+                Seting_Fragment.setArguments(args)
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
+
+
     internal var backReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -96,6 +117,9 @@ class MainActivity : FragmentActivity() {
         registerReceiver(timelineReciver, filter2)
         var filter3 = IntentFilter("FRIEND_BACK")
         registerReceiver(backReciver, filter3)
+        var filter4 = IntentFilter("STYLE_CHANGE")
+        registerReceiver(stylechangeReciver, filter4)
+
 
         updateToken()
         loadInfo()
