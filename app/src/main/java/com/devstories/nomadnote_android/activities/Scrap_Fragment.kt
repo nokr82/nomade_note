@@ -61,6 +61,11 @@ class Scrap_Fragment : Fragment()  {
     }
 
     fun click(){
+
+        writeRL.setOnClickListener {
+            val intent = Intent(myContext, WriteActivity::class.java)
+            startActivity(intent)
+        }
         scrapLV.setOnItemClickListener { parent, view, position, id ->
             val item = timelineDatas.get(position)
             val timeline = item.getJSONObject("timeline")

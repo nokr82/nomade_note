@@ -57,6 +57,12 @@ class Other_time_Fragment : Fragment()  {
     }
 
     fun click(){
+        writeRL.setOnClickListener {
+            val intent = Intent(myContext, WriteActivity::class.java)
+            startActivity(intent)
+        }
+
+
         otherLV.setOnItemClickListener { parent, view, position, id ->
             val timeline = timelineDatas.get(position)
             val timeline_id = Utils.getString(timeline, "id")

@@ -253,6 +253,7 @@ class WriteActivity : RootActivity() {
                     }
 
                 } catch (e: JSONException) {
+
                     e.printStackTrace()
                 }
 

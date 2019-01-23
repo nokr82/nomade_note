@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -18,7 +19,6 @@ import kotlinx.android.synthetic.main.activity_info_change.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.ByteArrayInputStream
 
 class MyinfoChangeActivity : RootActivity() {
 
@@ -38,7 +38,7 @@ class MyinfoChangeActivity : RootActivity() {
         progressDialog = ProgressDialog(context)
 
 
-        loadInfo()
+
 
         titleBackLL.setOnClickListener {
             finish()
@@ -55,13 +55,14 @@ class MyinfoChangeActivity : RootActivity() {
             femaleckIV.visibility = View.VISIBLE
             gender = "F"
         }
-     editTV.setOnClickListener {
-         name = Utils.getString(nameET)
-         age = Utils.getInt(ageET)
-         phone = Utils.getInt(phoneET)
-         edit_profile()
-     }
+        editTV.setOnClickListener {
+            name = Utils.getString(nameET)
+            age = Utils.getInt(ageET)
+            phone = Utils.getInt(phoneET)
+            edit_profile()
+        }
 
+        loadInfo()
 
 
 
@@ -176,6 +177,8 @@ class MyinfoChangeActivity : RootActivity() {
                     progressDialog!!.dismiss()
                 }
 
+                Log.d("결과",response.toString())
+
                 try {
                     val result = response!!.getString("result")
 
@@ -186,7 +189,7 @@ class MyinfoChangeActivity : RootActivity() {
                         age =  Utils.getInt(member, "age")
                         gender =  Utils.getString(member, "gender")
                         phone = Utils.getInt(member,"phone")
-                        val disk =member.getJSONArray("disk")
+//                        val disk =member.getJSONArray("disk")
                         val payment_sum = Utils.getInt(member,"payment_sum")
 
                         if (gender == "M"){
@@ -199,8 +202,8 @@ class MyinfoChangeActivity : RootActivity() {
                         phoneET.setText(phone.toString())
 
 
-                        var disk_byte = 1073741824
-                        if (disk.length()>0){
+//                        var disk_byte = 1073741824
+                   /*     if (disk.length()>0){
                             for (i in 0 until disk.length()){
                                 val disk_item = disk.get(i) as JSONObject
                                 val category = Utils.getInt(disk_item,"category")
@@ -214,10 +217,10 @@ class MyinfoChangeActivity : RootActivity() {
                                 }
 
                             }
-                        }
+                        }*/
 
-                        PrefUtils.setPreference(context, "disk", disk_byte)
-                        PrefUtils.setPreference(context, "payment_byte", payment_sum)
+//                        PrefUtils.setPreference(context, "disk", disk_byte)
+//                        PrefUtils.setPreference(context, "payment_byte", payment_sum)
 
 
 
