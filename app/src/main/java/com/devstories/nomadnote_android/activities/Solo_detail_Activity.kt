@@ -143,6 +143,7 @@ class Solo_detail_Activity : RootActivity() {
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
+                            soloLL.visibility = View.GONE
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
                             deleteIV.visibility = View.GONE
