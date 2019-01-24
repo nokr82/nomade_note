@@ -35,6 +35,7 @@ class Solo_detail_Activity : RootActivity() {
     var menu_position = 1
 
     var MODIFY = 100
+    var block = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +55,7 @@ class Solo_detail_Activity : RootActivity() {
         var intent = getIntent()
         timeline_id = intent.getStringExtra("timeline_id")
         detail_timeline()
+
 
 
     }
@@ -88,6 +90,33 @@ class Solo_detail_Activity : RootActivity() {
             alert.show()
         }
 
+        lockIV.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            if (block == "N"){
+                builder.setMessage("게시물을 비공개 하시겠습니까?")
+            } else {
+                builder.setMessage("게시물을 공개 하시겠습니까?")
+            }
+            builder
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                        if (block == "N"){
+                            change_block("Y")
+                        } else {
+                            change_block("N")
+                        }
+                        dialog.cancel()
+
+                    })
+                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                    })
+
+
+            val alert = builder.create()
+            alert.show()
+
+        }
+
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -120,6 +149,7 @@ class Solo_detail_Activity : RootActivity() {
                         var contents = Utils.getString(data,"contents")
                         var created = Utils.getString(data,"created_at")
                         var style = Utils.getString(data,"style_id")
+                        block = Utils.getString(data,"block_yn")
 
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
@@ -133,12 +163,17 @@ class Solo_detail_Activity : RootActivity() {
                         val founder_id = Utils.getString(member,"id")
                         val name = Utils.getString(member,"name")
                         val age = Utils.getString(member,"age")
+                        val profile = Utils.getString(member,"profile")
+                        if (profile != null && profile != ""){
+                            var uri = Config.url + profile
+                            ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
+                        }
 
                         val image = data.getJSONArray("images")
                         if (image.length() > 0){
                             val image_item = image.get(image.length()-1) as JSONObject
                             val image_uri = Utils.getString(image_item,"image_uri")
-                            var uri = Config.url+"/" + image_uri
+                            var uri = Config.url + image_uri
                             ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
                         }
 
@@ -331,6 +366,106 @@ class Solo_detail_Activity : RootActivity() {
         params.put("timeline_id", timeline_id)
 
         TimelineAction.delete_timeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+    fun change_block(block_yn :String){
+        val params = RequestParams()
+        params.put("timeline_id", timeline_id)
+        params.put("block_yn", block_yn)
+
+        TimelineAction.change_block(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {

@@ -83,8 +83,8 @@
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
             <LinearLayout
-                android:id="@+id/op_travelLL"
                 android:visibility="gone"
+                android:id="@+id/op_travelLL"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
                 android:orientation="vertical">

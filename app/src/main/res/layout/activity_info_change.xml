@@ -107,10 +107,12 @@
                         android:visibility="invisible"/>
 
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/man" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/maleIV"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@mipmap/man"
+                        android:scaleType="centerCrop"/>
 
                 </LinearLayout>
 
@@ -132,10 +134,12 @@
                         android:visibility="invisible" />
 
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/famal" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/femaleIV"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@mipmap/famal"
+                        android:scaleType="centerCrop"/>
 
                 </LinearLayout>
 

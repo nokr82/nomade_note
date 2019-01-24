@@ -223,8 +223,6 @@ class MainActivity : FragmentActivity() {
         val member_id = PrefUtils.getIntPreference(context, "member_id")
         val member_token = FirebaseInstanceId.getInstance().token
 
-        println("-------updatetoken0000")
-
         if (member_id == -1 || null == member_token || "" == member_token || member_token.length < 1) {
             return
         }
@@ -373,10 +371,11 @@ class MainActivity : FragmentActivity() {
 //                        var diskabs =  Math.abs(disk)
                         var payment_byteabs = Math.abs(payment_byte)
 
-                        println("------disk $disk")
                         PrefUtils.setPreference(context, "disk", disk.toInt())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
-
+                        val style = Utils.getInt(member, "style_id")
+                        println("-------------------$style")
+                        PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }

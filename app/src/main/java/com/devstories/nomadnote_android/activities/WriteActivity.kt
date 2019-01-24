@@ -545,7 +545,7 @@ class WriteActivity : RootActivity() {
                         if (images.length() > 0){
                             for (i in 0 until images.length()){
                                 val image_item = images.get(i) as JSONObject
-                                var path = Config.url+"/"+  Utils.getString(image_item, "image_uri")
+                                var path = Config.url+  Utils.getString(image_item, "image_uri")
                                 reset(path,i)
                             }
                         }

@@ -20,8 +20,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
+import com.devstories.nomadnote_android.base.Utils
 import com.facebook.FacebookSdk
 import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
@@ -36,7 +38,13 @@ import com.kakao.message.template.LinkObject
 import com.kakao.network.ErrorResult
 import com.kakao.network.callback.ResponseCallback
 import com.kakao.util.helper.log.Logger
+import com.loopj.android.http.JsonHttpResponseHandler
+import com.loopj.android.http.RequestParams
+import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.fra_setting.*
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -53,6 +61,8 @@ class Seting_Fragment : Fragment()  {
     var f_type = -1
 
     var s_type = -1
+
+    var style = ""
 
 
 
@@ -194,44 +204,28 @@ class Seting_Fragment : Fragment()  {
 
         //여행스타일
         healTV.setOnClickListener {
-            setstylemenu()
-                healTV.setBackgroundResource(R.drawable.background_border_radius10)
-                healTV.setTextColor(Color.parseColor("#ffffff"))
-
+            style = "1"
+            setStyleImage(style)
         }
         hotplaceTV.setOnClickListener {
-
-            setstylemenu()
-                hotplaceTV.setBackgroundResource(R.drawable.background_border_radius10)
-                hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
-
-
+            style = "2"
+            setStyleImage(style)
         }
         cultureTV.setOnClickListener {
-            setstylemenu()
-                cultureTV.setBackgroundResource(R.drawable.background_border_radius10)
-                cultureTV.setTextColor(Color.parseColor("#ffffff"))
-
-
-
+            style = "3"
+            setStyleImage(style)
         }
         sidmierTV.setOnClickListener {
-            setstylemenu()
-                sidmierTV.setBackgroundResource(R.drawable.background_border_radius10)
-                sidmierTV.setTextColor(Color.parseColor("#ffffff"))
-
-        }
-        artTV.setOnClickListener {
-            setstylemenu()
-                artTV.setBackgroundResource(R.drawable.background_border_radius10)
-                artTV.setTextColor(Color.parseColor("#ffffff"))
-
+            style = "4"
+            setStyleImage(style)
         }
         museumTV.setOnClickListener {
-            setstylemenu()
-                museumTV.setBackgroundResource(R.drawable.background_border_radius10)
-                museumTV.setTextColor(Color.parseColor("#ffffff"))
-
+            style = "5"
+            setStyleImage(style)
+        }
+        artTV.setOnClickListener {
+            style = "6"
+            setStyleImage(style)
         }
     }
 
@@ -413,9 +407,10 @@ class Seting_Fragment : Fragment()  {
             startActivity(intent)
         }
 
-
+        style = PrefUtils.getIntPreference(context,"style").toString()
         travelLL.setOnClickListener {
             if ( op_travelLL.visibility==View.GONE){
+                setStyleImage(style)
                 op_travelLL.visibility = View.VISIBLE
                 styleIV.rotation = 90f
             }else{
@@ -527,5 +522,122 @@ class Seting_Fragment : Fragment()  {
         }
 
     }
+
+
+    fun setStyleImage(style_id:String){
+        setstylemenu()
+
+        if (style_id == "1"){
+            healTV.setBackgroundResource(R.drawable.background_border_radius10)
+            healTV.setTextColor(Color.parseColor("#ffffff"))
+        } else if (style_id == "2"){
+            hotplaceTV.setBackgroundResource(R.drawable.background_border_radius10)
+            hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
+        } else if (style_id == "3"){
+            cultureTV.setBackgroundResource(R.drawable.background_border_radius10)
+            cultureTV.setTextColor(Color.parseColor("#ffffff"))
+        } else if (style_id == "4"){
+            sidmierTV.setBackgroundResource(R.drawable.background_border_radius10)
+            sidmierTV.setTextColor(Color.parseColor("#ffffff"))
+        } else if (style_id == "5"){
+            museumTV.setBackgroundResource(R.drawable.background_border_radius10)
+            museumTV.setTextColor(Color.parseColor("#ffffff"))
+        } else if (style_id == "6"){
+            artTV.setBackgroundResource(R.drawable.background_border_radius10)
+            artTV.setTextColor(Color.parseColor("#ffffff"))
+        }
+
+        PrefUtils.setPreference(context, "style", style_id.toInt())
+        edit_style()
+    }
+
+    fun edit_style(){
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("style",style)
+
+        MemberAction.update_info(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+
+//                        Toast.makeText(context, "변경되었습니다.", Toast.LENGTH_SHORT).show()
+
+
+                    } else {
+
+//                        Toast.makeText(context, "오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONArray?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
+
 
 }

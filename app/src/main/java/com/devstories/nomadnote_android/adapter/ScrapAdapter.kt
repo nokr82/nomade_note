@@ -10,6 +10,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
@@ -55,6 +56,11 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var member = timeline.getJSONObject("member")
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
+        var profile = Utils.getString(member,"profile")
+        if (profile != "" && profile != null){
+            var uri = Config.url + profile
+            ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+        }
         item.infoTV.setText(name+"/"+age+"세")
 
         setMenuImage(style.toInt())
@@ -122,7 +128,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
     class ViewHolder(v: View) {
 
-        var profileIV : ImageView
+        var profileIV : CircleImageView
         var infoTV: TextView
         var placeTV : TextView
         var durationTV : TextView
@@ -141,7 +147,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var backgroundIV : ImageView
 
         init {
-            profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
+            profileIV = v.findViewById<View>(R.id.profileIV) as CircleImageView
             infoTV = v.findViewById<View>(R.id.infoTV) as TextView
             placeTV = v.findViewById<View>(R.id.placeTV) as TextView
             durationTV = v.findViewById<View>(R.id.durationTV) as TextView

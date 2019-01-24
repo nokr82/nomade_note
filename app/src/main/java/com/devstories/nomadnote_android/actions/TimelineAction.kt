@@ -46,4 +46,9 @@ object TimelineAction {
         HttpClient.post("/api/timeline/delete_timeline", params, handler)
     }
 
+    //잠금,잠금해제
+    fun change_block(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/change_block", params, handler)
+    }
+
 }
