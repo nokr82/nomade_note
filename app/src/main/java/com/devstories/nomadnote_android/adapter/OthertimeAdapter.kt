@@ -46,6 +46,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var contents = Utils.getString(json,"contents")
         var created = Utils.getString(json,"created_at")
         var timeline_id = Utils.getString(json,"id")
+        var certification = Utils.getString(json,"certification")
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
@@ -55,6 +56,11 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var member = json.getJSONObject("member")
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
+        var profile = Utils.getString(member,"profile")
+        if (profile != "" && profile != null){
+            var uri = Config.url + profile
+            ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+        }
         item.infoTV.setText(name+"/"+age+"세")
 
         setMenuImage(style.toInt())
@@ -63,7 +69,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         if (image.length() > 0){
             val image_item = image.get(image.length()-1) as JSONObject
             val image_uri = Utils.getString(image_item,"image_uri")
-            var uri = Config.url+"/" + image_uri
+            var uri = Config.url + image_uri
             ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         }
 
@@ -80,19 +86,32 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var isSel = json.getBoolean("isSelectedOp")
 
         if (isSel){
-            item.trustLL.visibility = View.VISIBLE
+//            item.trustLL.visibility = View.VISIBLE
             item.trustIV.setImageResource(R.mipmap.scrap_ck)
         } else {
-            item.trustLL.visibility = View.GONE
+//            item.trustLL.visibility = View.GONE
             item.trustIV.setImageResource(R.mipmap.icon_scrap)
         }
 
+        if (certification == "2"){
+            item.textTV.setText("이 정보를 인증하였습니다 !")
+            item.iconIV.setImageResource(R.mipmap.visit_city)
+        }
 
-        item.trustRL.setOnClickListener {
+        item.trustIV.setOnClickListener {
             isSel = !isSel
             json.put("isSelectedOp",isSel)
             notifyDataSetChanged()
             other_time_Fragment.set_scrap(timeline_id)
+        }
+
+        item.trustLL.setOnClickListener {
+            if (certification == "1") {
+                isSel = !isSel
+                json.put("certification", "2")
+                notifyDataSetChanged()
+                other_time_Fragment.add_certification(timeline_id)
+            }
         }
 
         return retView
@@ -138,6 +157,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var trustLL : LinearLayout
         var trustRL : RelativeLayout
         var backgroundIV : ImageView
+        var textTV: TextView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
@@ -157,6 +177,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
             trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
             backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
+            textTV = v.findViewById<View>(R.id.textTV) as TextView
 
         }
     }

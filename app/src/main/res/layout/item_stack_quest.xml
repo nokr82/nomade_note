@@ -23,6 +23,7 @@
                     android:background="@drawable/circle_background2">
 
                         <TextView
+                            android:id="@+id/timeTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10sp"
@@ -31,28 +32,32 @@
 
                 </LinearLayout>
 
-               <ScrollView
+               <LinearLayout
                    android:padding="6dp"
                    android:layout_width="0dp"
                    android:layout_weight="1"
                    android:layout_height="match_parent">
                        <TextView
+                           android:id="@+id/contentTV"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:textSize="12sp"
                            android:textColor="#4a4a4a"
+                           android:maxLines="2"
                            android:text="베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?"
                            />
 
 
-               </ScrollView>
+               </LinearLayout>
 
                <LinearLayout
+                   android:id="@+id/answerLL"
                    android:layout_width="72dp"
                    android:layout_height="match_parent"
                    android:gravity="center"
                    >
                        <TextView
+                           android:id="@+id/answerTV"
                            android:textStyle="bold"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"

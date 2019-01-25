@@ -240,6 +240,8 @@ class MainActivity : FragmentActivity() {
                     progressDialog!!.dismiss()
                 }
 
+                PrefUtils.setPreference(context, "token", member_token)
+
                 try {
 //                    val result = response!!.getString("result")
                 } catch (e: JSONException) {
@@ -349,6 +351,7 @@ class MainActivity : FragmentActivity() {
                         var member = response.getJSONObject("member")
                         var disk = response!!.getString("disk")
                         var payment_sum = member.getJSONArray("payments")
+                        var point = Utils.getString(member,"point")
 
 //                        var payment_byte = 2147483648
                         var payment_byte = 20480
@@ -374,8 +377,8 @@ class MainActivity : FragmentActivity() {
                         PrefUtils.setPreference(context, "disk", disk.toInt())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
                         val style = Utils.getInt(member, "style_id")
-                        println("-------------------$style")
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
+                        PrefUtils.setPreference(context, "point", point)
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }

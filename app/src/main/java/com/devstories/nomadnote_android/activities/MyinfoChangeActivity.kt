@@ -53,13 +53,9 @@ class MyinfoChangeActivity : RootActivity() {
         this.context = this
         progressDialog = ProgressDialog(context)
 
-
-
-
         titleBackLL.setOnClickListener {
             finish()
         }
-
 
         manLL.setOnClickListener {
             setmenu()
@@ -74,18 +70,13 @@ class MyinfoChangeActivity : RootActivity() {
 
         manLL.setOnLongClickListener {
             permissionmale()
-
             true
         }
 
         femaleLL.setOnLongClickListener {
             permissionfemale()
-
             true
         }
-
-
-
 
         editTV.setOnClickListener {
             name = Utils.getString(nameET)
@@ -94,12 +85,10 @@ class MyinfoChangeActivity : RootActivity() {
             edit_profile()
         }
 
+        val point = PrefUtils.getStringPreference(context, "point")
+        mypointTV.setText("보유 포인트 : " + point + "P")
+
         loadInfo()
-
-
-
-
-
 
     }
 
@@ -117,9 +106,9 @@ class MyinfoChangeActivity : RootActivity() {
         params.put("phone", phone)
 
         if (myprofile != ""){
-            var uri = Config.url + myprofile
-            val image = Utils.getImage(context.contentResolver,uri)
-            params.put("photo", ByteArrayInputStream(Utils.getByteArray(image)))
+//            var uri = Config.url + myprofile
+//            val image = Utils.getImage(context.contentResolver,uri)
+//            params.put("photo", ByteArrayInputStream(Utils.getByteArray(image)))
         }
         if (maleimage != null){
             params.put("photo", ByteArrayInputStream(Utils.getByteArray(maleimage)))
@@ -245,7 +234,7 @@ class MyinfoChangeActivity : RootActivity() {
                         }
                         nameET.setText(name)
                         ageET.setText(age.toString())
-                        phoneET.setText(phone.toString())
+                        phoneET.setText(Math.abs(phone).toString())
 
                         if (myprofile != ""){
                             if (gender == "M") {
@@ -256,7 +245,6 @@ class MyinfoChangeActivity : RootActivity() {
                                 ImageLoader.getInstance().displayImage(uri, femaleIV, Utils.UILoptionsUserProfile)
                             }
                         }
-
 
 //                        var disk_byte = 1073741824
                    /*     if (disk.length()>0){
@@ -278,9 +266,6 @@ class MyinfoChangeActivity : RootActivity() {
 //                        PrefUtils.setPreference(context, "disk", disk_byte)
 //                        PrefUtils.setPreference(context, "payment_byte", payment_sum)
 
-
-
-
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }
@@ -292,7 +277,6 @@ class MyinfoChangeActivity : RootActivity() {
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
-
                 // System.out.println(responseString);
             }
 
@@ -315,7 +299,6 @@ class MyinfoChangeActivity : RootActivity() {
                 throwable.printStackTrace()
                 error()
             }
-
 
             override fun onStart() {
                 // show dialog

@@ -15,6 +15,7 @@
         android:background="@drawable/background_stroke_000000">
         <ImageView
             android:padding="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"/>

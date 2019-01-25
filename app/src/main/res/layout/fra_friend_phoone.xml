@@ -18,6 +18,7 @@
         <ImageView
             android:id="@+id/searchIV"
             android:padding="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"/>
@@ -47,6 +48,7 @@
 
         <ImageView
             android:id="@+id/search2IV"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"

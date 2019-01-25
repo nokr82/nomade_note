@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
 import com.gun0912.tedpermission.PermissionListener
@@ -29,7 +30,9 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 private val imgSeq = 0
 
@@ -45,6 +48,8 @@ class WriteActivity : RootActivity() {
     var images_path: ArrayList<String> = ArrayList<String>()
 
     var timeline_id = ""
+    var qnas_id = ""
+    var created_at = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +77,31 @@ class WriteActivity : RootActivity() {
         if (intent.getStringExtra("timeline_id") != null){
             timeline_id = intent.getStringExtra("timeline_id")
             detail_timeline()
+        }
+
+        if (intent.getStringExtra("qnas_id") != null){
+            qnas_id = intent.getStringExtra("qnas_id")
+            created_at = intent.getStringExtra("created_at")
+
+
+            val now = System.currentTimeMillis()
+            val date = Date(now)
+            val sdf = SimpleDateFormat("yy-MM-dd HH:mm:ss")
+            val getTime = sdf.format(date)
+
+            var d1 = sdf.parse(created_at);
+            var d2 = sdf.parse(getTime);
+
+            val diff = d2.time - d1.time
+            val days = TimeUnit.MILLISECONDS.toDays(diff);
+            val remainingHoursInMillis = diff - TimeUnit.DAYS.toMillis(days);
+            val hours = TimeUnit.MILLISECONDS.toHours(remainingHoursInMillis);
+            val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours);
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis);
+            timeET.setText(hours.toString())
+            minuteET.setText(minutes.toString())
+            timetakeTV.setText("소요시간")
+            logoIV.setText("답변하기")
         }
 
     }
@@ -129,7 +159,7 @@ class WriteActivity : RootActivity() {
 
                     .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
-                        if (timeline_id == ""){
+                        if (timeline_id == "") {
                             addContent()
                         } else {
                             modify()
@@ -141,6 +171,7 @@ class WriteActivity : RootActivity() {
 
             val alert = builder.create()
             alert.show()
+
         }
 
         //이미지추가
@@ -189,6 +220,7 @@ class WriteActivity : RootActivity() {
         params.put("place_id","1")
         params.put("country_id","1")
         params.put("style_id",menu_position)
+        params.put("token",PrefUtils.getStringPreference(context,"token"))
 
         val content_byte = contents.toByteArray()
         val content_size = content_byte.size
@@ -244,6 +276,7 @@ class WriteActivity : RootActivity() {
         var disk_sumabs =  Math.abs(disk_sum)
         PrefUtils.setPreference(context, "disk", disk_sumabs)
         params.put("disk_data",sum)
+        params.put("qnas_id",qnas_id)
 
         TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
 
@@ -664,6 +697,114 @@ class WriteActivity : RootActivity() {
         })
 
     }
+
+    fun anwer(){
+        val content = contentET.text.toString()
+        if (content == "" && content == null){
+            Toast.makeText(context, "답변은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val params = RequestParams()
+        params.put("qnas_id", qnas_id)
+        params.put("answer", content)
+
+        QnasAction.anwer(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = getIntent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+
 
     fun menuSetImage(){
         healingTV.setBackgroundResource(R.drawable.background_border_radius8_000000)

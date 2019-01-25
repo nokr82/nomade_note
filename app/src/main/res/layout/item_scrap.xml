@@ -223,6 +223,14 @@
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp">
+                    <TextView
+                        android:id="@+id/textTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="이 정보를 인증하시겠습니까?"
+                        android:gravity="center"
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="5dp"/>
                     <ImageView
                         android:id="@+id/iconIV"
                         android:layout_gravity="center_vertical"

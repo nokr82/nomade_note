@@ -154,6 +154,14 @@
                 android:text="길게 누르시면 프로필 사진을 변경할 수 있습니다"
                 android:textColor="#878787"
                 android:textSize="13sp" />
+            <TextView
+                android:id="@+id/mypointTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="보유 포인트 : 500P"
+                android:textSize="13dp"
+                android:textColor="#878787"
+                android:gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

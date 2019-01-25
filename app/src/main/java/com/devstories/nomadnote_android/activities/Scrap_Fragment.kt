@@ -48,6 +48,7 @@ class Scrap_Fragment : Fragment()  {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         click()
 
     }
