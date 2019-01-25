@@ -10,13 +10,11 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
 import com.gun0912.tedpermission.PermissionListener
@@ -31,7 +29,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
-import java.util.ArrayList
+import java.util.*
 
 private val imgSeq = 0
 
@@ -261,6 +259,9 @@ class WriteActivity : RootActivity() {
                         var intent = Intent()
                         intent.putExtra("reset","reset")
                         setResult(RESULT_OK, intent);
+
+                        Utils.hideKeyboard(context)
+
                         finish()
                     }
 
@@ -417,6 +418,7 @@ class WriteActivity : RootActivity() {
                         intent.action = "UPDATE_TIMELINE"
                         sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
+
                         finish()
 
                         Utils.hideKeyboard(context)

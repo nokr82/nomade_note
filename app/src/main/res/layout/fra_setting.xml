@@ -29,8 +29,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="방문국가기록"
@@ -59,8 +59,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="여행스타일"
@@ -72,8 +72,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_arrow"
-                    android:padding="17dp"/>
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
 
             </LinearLayout>
@@ -82,132 +82,124 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
+
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/op_travelLL"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="66dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#878787"
+                    android:layout_marginLeft="66dp"
+                    android:layout_marginTop="15dp"
                     android:text="어떤 여행스타일로 질문을 받으시겠습니까? "
-                    />
+                    android:textColor="#878787"
+                    android:textSize="12sp" />
 
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="60dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="60dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/healTV"
-                        android:layout_marginRight="9dp"
-                        android:padding="9dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
+                        android:padding="9dp"
                         android:text="힐링 스타일"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
 
                     <TextView
                         android:id="@+id/hotplaceTV"
-                        android:layout_marginRight="9dp"
-                        android:padding="9dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
+                        android:padding="9dp"
                         android:text="핫플레이스"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:id="@+id/cultureTV"
-                        android:padding="9dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
+                        android:padding="9dp"
                         android:text="문학 스타일"
-                        />
-
-
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
 
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginRight="60dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="60dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/sidmierTV"
-                        android:layout_marginRight="9dp"
-                        android:padding="9dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
+                        android:padding="9dp"
                         android:text="역사 스타일"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/museumTV"
-                        android:layout_marginRight="9dp"
-                        android:padding="9dp"
                         android:layout_width="0dp"
-                        android:singleLine="true"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
-                        android:text="박물관 스타일"
-                        />
-                    <me.grantland.widget.AutofitTextView
                         android:padding="9dp"
+                        android:singleLine="true"
+                        android:text="박물관 스타일"
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
+
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/artTV"
                         android:layout_width="0dp"
-                        android:singleLine="true"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius9_000000"
-                        android:textColor="#878787"
                         android:gravity="center_horizontal"
+                        android:padding="9dp"
+                        android:singleLine="true"
                         android:text="미술관 스타일"
-                        />
-
-
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
 
 
                 </LinearLayout>
-
 
 
                 <View
@@ -216,8 +208,6 @@
                     android:background="#9b9b9b" />
 
             </LinearLayout>
-
-
 
 
             <LinearLayout
@@ -234,8 +224,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="개인정보수정"
@@ -271,13 +261,14 @@
                     android:text="메모리 사용량"
                     android:textColor="#878787"
                     android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/memoryIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_arrow"
-                    android:padding="17dp"/>
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
 
             </LinearLayout>
@@ -288,71 +279,70 @@
                 android:background="#9b9b9b" />
 
 
-
-
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/op_memoryLL"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-             <LinearLayout
-                 android:layout_marginTop="15dp"
-                 android:layout_marginLeft="22dp"
-                 android:layout_marginRight="22dp"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
-                 <TextView
-                     android:layout_width="0dp"
-                     android:layout_weight="1"
-                     android:layout_height="wrap_content"
-                     android:textSize="12sp"
-                     android:textColor="#878787"
-                     android:text="전체 메모리"
-                     />
-                 <TextView
-                     android:id="@+id/mydataTV"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:textSize="12sp"
-                     android:textColor="#878787"
-                     android:text="총 1.00GB"
-                     />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="22dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="전체 메모리"
+                        android:textColor="#878787"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/mydataTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="총 1.00GB"
+                        android:textColor="#878787"
+                        android:textSize="12sp" />
 
 
-             </LinearLayout>
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/progressPB"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
-                <LinearLayout
                     android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
+                    android:layout_marginRight="22dp" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
                     android:layout_weight="1">
+
                     <TextView
                         android:id="@+id/useTV"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="#9b9b9b"
+                        android:layout_weight="1"
                         android:text="600MB"
-                        />
+                        android:textColor="#9b9b9b"
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/remantTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="#9b9b9b"
                         android:text="400MB"
-                        />
+                        android:textColor="#9b9b9b"
+                        android:textSize="12sp" />
 
 
                 </LinearLayout>
@@ -379,20 +369,21 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="친구 추가 관리"
                     android:textColor="#878787"
                     android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/friendaddIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_arrow"
-                    android:padding="17dp"/>
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
 
             </LinearLayout>
@@ -404,10 +395,10 @@
 
             <LinearLayout
                 android:id="@+id/op_friendaddLL"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -417,73 +408,72 @@
 
                     <LinearLayout
                         android:id="@+id/op_telLL"
-                        android:layout_marginTop="23dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="23dp"
+                        android:paddingLeft="72dp">
 
                         <ImageView
                             android:id="@+id/op_telIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
                             android:id="@+id/phoneLL"
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="연락처로 검색"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/op_idLL"
-                        android:layout_marginTop="15dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:paddingLeft="72dp">
 
                         <ImageView
                             android:id="@+id/op_idIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="ID 검색"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/op_addLL"
-                        android:layout_marginBottom="23dp"
-                        android:layout_marginTop="15dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="23dp"
+                        android:paddingLeft="72dp">
 
                         <ImageView
                             android:id="@+id/op_addIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="추가리스트로 보기"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -519,125 +509,127 @@
                     android:text="결제시스템"
                     android:textColor="#878787"
                     android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/payIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_arrow"
-                    android:padding="17dp"/>
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
 
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
+
             <LinearLayout
                 android:id="@+id/op_payLL"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
-                    
+
                     <LinearLayout
                         android:id="@+id/op_1gbLL"
-                        android:layout_marginTop="23dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="23dp"
+                        android:paddingLeft="72dp">
+
                         <ImageView
                             android:id="@+id/op_1gbIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="1GB (9,000원)"
-                            />
-                        
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
+
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/op_600mbLL"
-                        android:layout_marginTop="15dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:paddingLeft="72dp">
 
                         <ImageView
                             android:id="@+id/op_600mbIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="600MB (5,000원)"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/op_20kbLL"
-                        android:layout_marginTop="15dp"
-                        android:paddingLeft="72dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:paddingLeft="72dp">
 
                         <ImageView
                             android:id="@+id/op_20kbIV"
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:src="@drawable/circle_background3"/>
+                            android:src="@drawable/circle_background3" />
 
                         <TextView
-                            android:layout_marginLeft="13dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:textColor="#878787"
+                            android:layout_marginLeft="13dp"
                             android:text="20KB (무료)"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
-                    
+
                     <TextView
-                        android:layout_marginTop="19dp"
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginRight="60dp"
+                        android:id="@+id/buyTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textSize="13sp"
-                        android:padding="8dp"
-                        android:textColor="#ffffff"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="19dp"
+                        android:layout_marginRight="60dp"
                         android:background="@drawable/background_border_radius1_000000"
-                        android:text="결제하기"/>
-                    
-                    
-                    
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="결제하기"
+                        android:textColor="#ffffff"
+                        android:textSize="13sp" />
+
+
                 </LinearLayout>
-                
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#9b9b9b" />
-                
+
             </LinearLayout>
 
 
@@ -655,20 +647,21 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="SNS 연결정보"
                     android:textColor="#878787"
                     android:textSize="12sp" />
+
                 <ImageView
                     android:id="@+id/snsIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/icon_arrow"
-                    android:padding="17dp"/>
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
 
             </LinearLayout>
@@ -677,103 +670,108 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
+
             <LinearLayout
                 android:id="@+id/op_snsLL"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="111dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
+
                 <TextView
-                    android:layout_marginLeft="62dp"
-                    android:layout_marginRight="62dp"
-                    android:layout_marginTop="11sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="11sp"
+                    android:layout_marginRight="62dp"
+                    android:text="기록된 여행추억을 공유해보세요"
                     android:textColor="#878787"
-                    android:text="기록된 여행추억을 공유해보세요"/>
+                    android:textSize="12sp" />
 
                 <LinearLayout
-                    android:layout_marginLeft="62dp"
-                    android:layout_marginRight="62dp"
-                    android:layout_marginTop="6dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="62dp">
+
                     <ImageView
                         android:id="@+id/instaIV"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/insta_bg"/>
+                        android:layout_weight="1"
+                        android:src="@mipmap/insta_bg" />
+
                     <ImageView
                         android:id="@+id/facebookIV"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/face_bg"/>
+                        android:layout_weight="1"
+                        android:src="@mipmap/face_bg" />
+
                     <ImageView
                         android:id="@+id/naverIV"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/naver_bg"/>
+                        android:layout_weight="1"
+                        android:src="@mipmap/naver_bg" />
+
                     <ImageView
                         android:id="@+id/kakaoIV"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/kakao_bg"/>
-
+                        android:layout_weight="1"
+                        android:src="@mipmap/kakao_bg" />
 
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginLeft="62dp"
-                    android:layout_marginRight="62dp"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginRight="62dp"
                     android:layout_weight="1">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="#878787"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="인스타그램"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="#878787"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="페이스북"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="#878787"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="네이버블로그"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
-                        android:textColor="#878787"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="카카오스토리"
-                        />
-
+                        android:textColor="#878787"
+                        android:textSize="10sp" />
 
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -781,8 +779,8 @@
             </LinearLayout>
 
 
-
             <LinearLayout
+                android:id="@+id/questLL"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center_vertical">
@@ -795,8 +793,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="이용문의"
@@ -810,6 +808,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -823,8 +822,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="서비스 탈퇴"
@@ -838,6 +837,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#9b9b9b" />
+
             <LinearLayout
                 android:id="@+id/logoutLL"
                 android:layout_width="match_parent"
@@ -852,8 +852,8 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="로그아웃"

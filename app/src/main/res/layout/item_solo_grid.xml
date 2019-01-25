@@ -1,108 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:id="@+id/soloRL"
-        android:layout_width="match_parent"
+        android:id="@+id/item1RL"
+        android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_weight="1"
-        >
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_weight="1">
 
-        <com.joooonho.SelectableRoundedImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.joooonho.SelectableRoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/backgroundIV"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             app:sriv_left_bottom_corner_radius="5dip"
             app:sriv_left_top_corner_radius="5dip"
             app:sriv_right_bottom_corner_radius="5dip"
-            app:sriv_right_top_corner_radius="5dip"
-           />
+            app:sriv_right_top_corner_radius="5dip" />
 
         <LinearLayout
-            android:background="@drawable/background_border_radius6_000000"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/background_border_radius6_000000"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/contentTV"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:textSize="12sp"
+                android:padding="10dp"
+                android:text="20년지기 친구들과 파리여행"
                 android:textColor="#ffffff"
-                android:textStyle="bold"
-                android:text="20년지기 친구들과 파리여행"/>
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
             <LinearLayout
-                android:paddingLeft="10dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
                 <TextView
                     android:id="@+id/placeTV"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#ffffff"
+                    android:layout_alignParentBottom="true"
                     android:lineSpacingExtra="1sp"
                     android:text="파리"
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#ffffff"
                     android:lineSpacingExtra="1sp"
                     android:text=","
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
                 <TextView
                     android:id="@+id/durationTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#ffffff"
                     android:lineSpacingExtra="1sp"
                     android:text="01:34"
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#ffffff"
                     android:lineSpacingExtra="1sp"
                     android:text=", "
-                />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
                 <TextView
                     android:id="@+id/costTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="#ffffff"
                     android:lineSpacingExtra="1sp"
                     android:text="200$ "
-                    />
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
 
             </LinearLayout>
+
             <TextView
-                android:textStyle="bold"
-                android:paddingLeft="10dp"
                 android:id="@+id/createdTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
-                android:textColor="#ffffff"
                 android:lineSpacingExtra="1sp"
+                android:paddingLeft="10dp"
                 android:text=" 2018. 07.02 PM10:30"
-                />
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/paddingLeft2V"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/item2RL"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_weight="1"
+        android:visibility="gone">
+
+        <com.joooonho.SelectableRoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/background2IV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:sriv_left_bottom_corner_radius="5dip"
+            app:sriv_left_top_corner_radius="5dip"
+            app:sriv_right_bottom_corner_radius="5dip"
+            app:sriv_right_top_corner_radius="5dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_border_radius6_000000"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content2TV"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:padding="10dp"
+                android:text="20년지기 친구들과 파리여행"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/place2TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:lineSpacingExtra="1sp"
+                    android:text="파리"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text=","
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/duration2TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text="01:34"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text=", "
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/cost2TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text="200$ "
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/created2TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1sp"
+                android:paddingLeft="10dp"
+                android:text=" 2018. 07.02 PM10:30"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/paddingLeft3V"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/item3RL"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_weight="1"
+        android:visibility="gone">
+
+        <com.joooonho.SelectableRoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/background3IV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:sriv_left_bottom_corner_radius="5dip"
+            app:sriv_left_top_corner_radius="5dip"
+            app:sriv_right_bottom_corner_radius="5dip"
+            app:sriv_right_top_corner_radius="5dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_border_radius6_000000"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content3TV"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:padding="10dp"
+                android:text="20년지기 친구들과 파리여행"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/place3TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:lineSpacingExtra="1sp"
+                    android:text="파리"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text=","
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/duration3TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text="01:34"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text=", "
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/cost3TV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="1sp"
+                    android:text="200$ "
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/created3TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1sp"
+                android:paddingLeft="10dp"
+                android:text=" 2018. 07.02 PM10:30"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 
