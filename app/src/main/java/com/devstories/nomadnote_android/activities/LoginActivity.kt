@@ -1,9 +1,11 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.util.Base64
@@ -12,12 +14,10 @@ import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -27,27 +27,31 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.*
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.kakao.auth.AuthType
 import com.kakao.auth.ErrorCode
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.network.ErrorResult
-import com.kakao.usermgmt.StringSet.email
 import com.kakao.usermgmt.UserManagement
 import com.kakao.usermgmt.callback.LogoutResponseCallback
 import com.kakao.usermgmt.callback.MeResponseCallback
 import com.kakao.usermgmt.response.model.UserProfile
 import com.kakao.util.exception.KakaoException
-import com.kakao.util.helper.Utility.getPackageInfo
 import com.kakao.util.helper.log.Logger
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import com.nhn.android.naverlogin.OAuthLogin
+import com.nhn.android.naverlogin.OAuthLoginHandler
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.lang.ref.WeakReference
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -75,9 +79,31 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     private var mGoogleSignInClient: GoogleSignInClient? = null
     var email = ""
 
+    private lateinit var loginActivity:LoginActivity
+
+
+    private lateinit var mOAuthLoginModule: OAuthLogin
+
+    companion object {
+        fun processLoginData(context: Context, data:JSONObject) {
+
+            PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
+            PrefUtils.setPreference(context, "email", Utils.getString(data, "email"))
+            PrefUtils.setPreference(context, "passwd", Utils.getString(data, "passwd"))
+            PrefUtils.setPreference(context, "sns_key", Utils.getString(data, "sns_key"))
+            PrefUtils.setPreference(context, "join_type", Utils.getInt(data, "join_type"))
+            PrefUtils.setPreference(context, "login_check", true)
+            PrefUtils.setPreference(context, "autoLogin", true)
+
+
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        this.loginActivity = this
         this.context = this
         progressDialog = ProgressDialog(context)
 
@@ -87,6 +113,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
         userManagement = UserManagement.getInstance()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -114,6 +141,17 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         }
 
+        // naver
+
+        mOAuthLoginModule = OAuthLogin.getInstance()
+        mOAuthLoginModule.init(
+                context
+                , getString(R.string.OAUTH_CLIENT_ID)
+                , getString(R.string.OAUTH_CLIENT_SECRET)
+                , getString(R.string.OAUTH_CLIENT_NAME)
+                //,OAUTH_CALLBACK_INTENT
+                // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
+        )
 
         loginTV.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)
@@ -128,10 +166,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, this)
         }
         naverLL.setOnClickListener {
-            val intent = Intent(context, Login2Activity::class.java)
-            jointype = 2
-            intent.putExtra("jointype", jointype)
-            startActivity(intent)
+            naverLogin()
         }
         googleLL.setOnClickListener {
             /* val intent = Intent(context, Login2Activity::class.java)
@@ -139,7 +174,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
              intent.putExtra("jointype",jointype)
              startActivity(intent)*/
 //            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-            val signInIntent =mGoogleSignInClient!!.getSignInIntent()
+            val signInIntent = mGoogleSignInClient!!.getSignInIntent()
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
@@ -169,6 +204,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     firebaseAuthWithGoogle(account)
                 }
             } catch (e: ApiException) {
+                e.printStackTrace()
                 Log.d("에러",e.toString())
             }
 
@@ -208,7 +244,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                             // System.out.println("user : "  + user);
 
                             if (user != null) {
-                                sns_join(user.getUid(), user.getDisplayName()!!, user.getEmail(), "google")
+                                sns_join(user.getEmail(), "3", user.getUid(), user.getDisplayName()!!)
                             }
                             //                            isMember(user.getEmail(), "4", user.getUid(), user.getDisplayName());
                         } else {
@@ -217,6 +253,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
                             var errorMag = "로그인에 실패하였습니다."
                             val errorCode = (task.exception as FirebaseAuthException).getErrorCode()
+
+                            println("errorCode : $errorCode")
+
                             when (errorCode) {
 
                                 "ERROR_OPERATION_NOT_ALLOWED", "ERROR_REQUIRES_RECENT_LOGIN", "ERROR_USER_MISMATCH", "ERROR_INVALID_CUSTOM_TOKEN", "ERROR_CUSTOM_TOKEN_MISMATCH" -> errorMag = "구글 로그인 중 장애가 발생하였습니다."
@@ -304,7 +343,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         })
     }
 
-    fun sns_join(email: String, join_type: String, sns_key: String?, name: String?) {
+    fun sns_join(email: String?, join_type: String, sns_key: String?, name: String?) {
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
@@ -320,12 +359,16 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     progressDialog!!.dismiss()
                 }
 
+                println("response : $response")
+
                 try {
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
                         val data = response.getJSONObject("member")
-                        PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
+
+                        LoginActivity.processLoginData(context, data)
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
@@ -492,6 +535,107 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         request.parameters = parameters
         request.executeAsync()
     }
+
+    fun naverLogin() {
+        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
+    }
+
+    /**
+     * OAuthLoginHandler를 startOAuthLoginActivity() 메서드 호출 시 파라미터로 전달하거나 OAuthLoginButton
+     * 객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다.
+    */
+    private var mOAuthLoginHandler = object: OAuthLoginHandler() {
+        override fun run(success: Boolean) {
+            print("success : $success")
+
+            if (success) {
+                val accessToken = mOAuthLoginModule.getAccessToken(context);
+                val refreshToken = mOAuthLoginModule.getRefreshToken(context);
+                val expiresAt = mOAuthLoginModule.getExpiresAt(context);
+                val tokenType = mOAuthLoginModule.getTokenType(context);
+
+                RequestApiTask(loginActivity, mOAuthLoginModule).execute()
+
+            } else {
+                val errorCode = mOAuthLoginModule.getLastErrorCode(context).getCode();
+                val errorDesc = mOAuthLoginModule.getLastErrorDesc(context);
+                Toast.makeText(context, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private class RequestApiTask(loginActivity: LoginActivity, mOAuthLoginModule: OAuthLogin) : AsyncTask<Void, Void, String?>() {
+
+        private var activityRef: WeakReference<LoginActivity> = WeakReference(loginActivity);
+        private var mOAuthLoginModuleRef: WeakReference<OAuthLogin> = WeakReference(mOAuthLoginModule);
+
+        override fun onPreExecute() {
+
+        }
+
+        override fun doInBackground(vararg params: Void): String? {
+
+            val url = "https://openapi.naver.com/v1/nid/me"
+            val at = mOAuthLoginModuleRef.get()?.getAccessToken(activityRef.get())
+
+            val result = mOAuthLoginModuleRef.get()?.requestApi(activityRef.get(), at, url)
+
+            return result
+        }
+
+        override fun onPostExecute(content: String?) {
+
+            println("content : $content")
+
+            val me = JSONObject(content)
+
+
+            val resultcode = Utils.getString(me, "resultcode")
+
+            if (resultcode == "00") {
+                val response = me.getJSONObject("response")
+                val sns_key = Utils.getString(response, "id")
+                val nickname = Utils.getString(response, "nickname")
+                val profile_image = Utils.getString(response, "profile_image")
+                val gender = Utils.getString(response, "gender")
+                val email = Utils.getString(response, "email")
+                val name = Utils.getString(response, "name")
+
+                activityRef.get()?.sns_join(email, "2", sns_key, name)
+
+
+            } else {
+                val message = Utils.getString(me, "message")
+
+                Toast.makeText(activityRef.get(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     override fun onDestroy() {

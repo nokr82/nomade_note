@@ -11,13 +11,11 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.titleLL
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.firebase.iid.FirebaseInstanceId
-import com.kakao.s2.StringSet.count
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -327,6 +325,46 @@ class MainActivity : FragmentActivity() {
             progressDialog!!.dismiss()
         }
 
+
+        try {
+            if(friendReciver != null) {
+                unregisterReceiver(friendReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(timelineReciver != null) {
+                unregisterReceiver(timelineReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(backReciver != null) {
+                unregisterReceiver(backReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(stylechangeReciver != null) {
+                unregisterReceiver(stylechangeReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(datachangeReciver != null) {
+                unregisterReceiver(datachangeReciver)
+            }
+        } catch (e:Exception) {
+
+        }
 
     }
 

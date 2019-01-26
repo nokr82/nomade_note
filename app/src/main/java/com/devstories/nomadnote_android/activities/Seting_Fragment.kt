@@ -120,9 +120,9 @@ class Seting_Fragment : Fragment() {
 
                 // System.out.println(sku + " bought!!!");
 
-                if ("1GB" == sku) {
+                if ("1gb" == sku) {
                     setCharge(1024*1024*1024, purchaseToken)
-                } else if ("600M" == sku) {
+                } else if ("600mb" == sku) {
                     setCharge(1024*1024*600, purchaseToken)
                 }
             }
@@ -137,9 +137,9 @@ class Seting_Fragment : Fragment() {
         buyTV.setOnClickListener {
 
             if(op_1gbLL.isSelected) {
-                iapHelper.buy("1GB")
+                iapHelper.buy("1gb")
             } else if(op_600mbLL.isSelected) {
-                iapHelper.buy("600M")
+                iapHelper.buy("600mb")
             }
         }
     }

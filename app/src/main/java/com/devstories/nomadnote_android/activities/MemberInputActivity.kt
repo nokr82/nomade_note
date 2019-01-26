@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.backIV
-import com.devstories.nomadnote_android.R.id.startTV
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
@@ -100,6 +98,7 @@ class MemberInputActivity : RootActivity() {
         params.put("gender", gender)
         params.put("age",age )
         params.put("passwd",pw)
+        params.put("join_type", 5)
 
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {

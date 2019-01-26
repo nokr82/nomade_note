@@ -478,6 +478,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             // System.out.println("type : " + type);
 
+            val place_id = Utils.getInt(item,"id")
+            val intent = Intent(myContext, MapSearchActivity::class.java)
+            intent.putExtra("place_id", place_id)
+            startActivity(intent)
+
             true
         })
 

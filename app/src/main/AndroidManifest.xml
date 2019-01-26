@@ -36,6 +36,7 @@
         <activity
             android:name=".activities.IntroActivity"
             android:theme="@style/NoTitleDialog"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

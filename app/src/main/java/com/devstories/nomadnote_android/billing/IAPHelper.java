@@ -50,12 +50,8 @@ public class IAPHelper implements ServiceConnection {
     private void detail() {
 
         ArrayList<String> skuList = new ArrayList<String> ();
-        skuList.add("step10");
-        skuList.add("step50");
-        skuList.add("step100");
-        skuList.add("step200");
-        skuList.add("step500");
-        skuList.add("step1000");
+        skuList.add("1gb");
+        skuList.add("600mb");
 
         Bundle querySkus = new Bundle();
         querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
