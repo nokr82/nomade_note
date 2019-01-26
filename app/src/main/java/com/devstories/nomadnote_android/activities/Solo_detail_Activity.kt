@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
@@ -32,6 +33,7 @@ class Solo_detail_Activity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
 
     var timeline_id = ""
+    var qnas_id = ""
     var menu_position = 1
 
     var MODIFY = 100
@@ -53,10 +55,17 @@ class Solo_detail_Activity : RootActivity() {
         click()
 
         var intent = getIntent()
-        timeline_id = intent.getStringExtra("timeline_id")
-        detail_timeline()
+        if (intent.getStringExtra("timeline_id") != null){
+            timeline_id = intent.getStringExtra("timeline_id")
+            detail_timeline()
+        }
 
 
+        if (intent.getStringExtra("qnas_id") != null){
+            timeline_id = intent.getStringExtra("qnas_id")
+            detail_timeline()
+//            detail_qnas()
+        }
 
     }
 
@@ -174,6 +183,7 @@ class Solo_detail_Activity : RootActivity() {
                             val image_item = image.get(image.length()-1) as JSONObject
                             val image_uri = Utils.getString(image_item,"image_uri")
                             var uri = Config.url + image_uri
+                            println("-------uri ---------")
                             ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
                         }
 
@@ -480,6 +490,141 @@ class Solo_detail_Activity : RootActivity() {
                         intent.putExtra("reset","reset")
                         setResult(RESULT_OK, intent);
                         finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+    fun detail_qnas(){
+        val params = RequestParams()
+//        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("qnas_id", qnas_id)
+
+        QnasAction.detail_qnas(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        val data = response!!.getJSONObject("qnas")
+                        val member = data.getJSONObject("member")
+                        val name = Utils.getString(member,"name")
+                        val style_id = Utils.getInt(member,"style_id")
+                        val answer = Utils.getString(data,"answer")
+                        contentTV.setText(answer)
+
+                        setMenuImage(style_id)
+
+                        val founder_id = Utils.getString(member,"id")
+                        val age = Utils.getString(member,"age")
+                        val profile = Utils.getString(member,"profile")
+                        if (profile != null && profile != ""){
+                            var uri = Config.url + profile
+                            ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
+                        }
+
+                        soloLL.visibility = View.GONE
+                        modifyIV.visibility = View.GONE
+                        lockIV.visibility = View.GONE
+                        deleteIV.visibility = View.GONE
+
+                        val created = Utils.getString(data,"answer_dt")
+                        locationLL.visibility = View.GONE
+
+                        infoTV.setText(name+"/"+age+"세")
+
+                        var createdsplit = created.split(" ")
+                        var timesplit = createdsplit.get(1).split(":")
+
+                        if (timesplit.get(0).toInt() >= 12){
+                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        } else {
+                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        }
+
+
+
+
                     }
 
                 } catch (e: JSONException) {

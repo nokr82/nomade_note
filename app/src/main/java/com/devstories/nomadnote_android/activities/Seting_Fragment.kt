@@ -43,6 +43,7 @@ import com.kakao.util.helper.log.Logger
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_setting.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -59,7 +60,7 @@ class Seting_Fragment : Fragment() {
     var REQUEST_EXTERNAL_STORAGE_CODE = 1
     var permissionCheck = false
     private lateinit var activity: MainActivity
-
+    val Solo_time_Fragment : Solo_time_Fragment = Solo_time_Fragment()
     var f_type = -1
 
     var s_type = -1
@@ -96,15 +97,27 @@ class Seting_Fragment : Fragment() {
             s_type = getArguments()!!.getInt("type")
             if (s_type == 1) {
                 travelLL.callOnClick()
+                stylebackIV.visibility = View.VISIBLE
             }
             if (s_type == 2) {
                 memoryLL.callOnClick()
             }
         }
 
+        stylebackIV.setOnClickListener {
+            activity.supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
+            stylebackIV.visibility = View.GONE
+            op_travelLL.visibility = View.GONE
+            activity.soloIV.setImageResource(R.mipmap.op_solo)
+            activity.soloTV.setTextColor(Color.parseColor("#0c6e87"))
+
+            activity.settingIV.setImageResource(R.mipmap.setting)
+            activity.settingTV.setTextColor(Color.parseColor("#878787"))
+        }
+
         Log.d("타입", s_type.toString())
 
-        questLL.setOnClickListener {
+        settingquestLL.setOnClickListener {
             val emailIntent = Intent(Intent.ACTION_SENDTO);
             emailIntent.data = Uri.parse("mailto:info@nomadnote.com");
             try {

@@ -78,15 +78,18 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var isSel = json.getBoolean("isSelectedOp")
 
         if (isSel){
-            item.trustLL.visibility = View.VISIBLE
+//            item.trustLL.visibility = View.VISIBLE
             item.trustIV.setImageResource(R.mipmap.scrap_ck)
         } else {
-            item.trustLL.visibility = View.GONE
+//            item.trustLL.visibility = View.GONE
             item.trustIV.setImageResource(R.mipmap.icon_scrap)
         }
 
+        item.trustLL.setOnClickListener {
 
-        item.trustRL.setOnClickListener {
+        }
+
+        item.trustIV.setOnClickListener {
             isSel = !isSel
             json.put("isSelectedOp",isSel)
             scrap_Fragment.set_scrap(timeline_id)
@@ -98,7 +101,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         if (image.length() > 0){
             val image_item = image.get(image.length()-1) as JSONObject
             val image_uri = Utils.getString(image_item,"image_uri")
-            var uri = Config.url+"/" + image_uri
+            var uri = Config.url + image_uri
             ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         }
 

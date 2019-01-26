@@ -13,7 +13,6 @@
             android:scaleType="centerCrop"
             android:layout_margin="5dp"/>
         <ImageView
-            android:visibility="gone"
             android:id="@+id/delIV"
             android:onClick="clickMethod"
             android:layout_width="20dp"

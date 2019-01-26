@@ -20,7 +20,7 @@
                 android:id="@+id/titleLL"
                 android:background="@drawable/background_gradient"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="65dp">
 
                 <LinearLayout
                     android:id="@+id/titleBackLL"
@@ -55,10 +55,8 @@
 
                 <LinearLayout
                     android:id="@+id/addcontentLL"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="10dp"
                     android:gravity="center"
                     android:visibility="visible">
 
@@ -113,6 +111,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/blockIV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/shield"/>
@@ -120,6 +119,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/positionLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                   <LinearLayout
@@ -156,6 +156,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <TextView
+                            android:id="@+id/timetakeTV"
                             android:layout_marginBottom="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -254,6 +255,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/styleLL"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="25dp">
@@ -348,6 +350,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/pictureLL"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="105dp">
