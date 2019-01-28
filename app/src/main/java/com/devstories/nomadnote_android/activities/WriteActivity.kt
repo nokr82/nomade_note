@@ -82,6 +82,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     private val timelineData = ArrayList<JSONObject>()
 
+    var block_yn = "N"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
@@ -141,6 +143,34 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
     fun click(){
+        blockIV.setOnClickListener {
+            if (block_yn == "N"){
+
+                val builder = AlertDialog.Builder(context)
+                builder
+
+                        .setMessage("글을 숨기시겠습니까 ?")
+
+                        .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                            blockIV.setImageResource(R.mipmap.lock_icon)
+                            block_yn = "Y"
+                            dialog.cancel()
+
+                        })
+                        .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                            dialog.cancel()
+                        })
+
+                val alert = builder.create()
+                alert.show()
+
+            } else {
+                blockIV.setImageResource(R.mipmap.shield)
+                block_yn = "Y"
+            }
+//            blockIV.setImageResource(R.mipmap.lock_icon)
+        }
+
         titleBackLL.setOnClickListener {
             finish()
         }
@@ -270,6 +300,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("country_id","1")
         params.put("style_id",menu_position)
         params.put("token",PrefUtils.getStringPreference(context,"token"))
+        params.put(" block_yn",block_yn)
 
         val content_byte = contents.toByteArray()
         val content_size = content_byte.size

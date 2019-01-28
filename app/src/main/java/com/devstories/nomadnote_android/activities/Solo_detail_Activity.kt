@@ -112,8 +112,10 @@ class Solo_detail_Activity : RootActivity() {
                     .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
                         if (block == "N"){
                             change_block("Y")
+                            lockIV.setImageResource(R.mipmap.lock)
                         } else {
                             change_block("N")
+                            lockIV.setImageResource(R.mipmap.shiels_r)
                         }
                         dialog.cancel()
 
@@ -161,6 +163,12 @@ class Solo_detail_Activity : RootActivity() {
                         var created = Utils.getString(data,"created_at")
                         var style = Utils.getString(data,"style_id")
                         block = Utils.getString(data,"block_yn")
+
+                        if (block == "N"){
+                            lockIV.setImageResource(R.mipmap.shiels_r)
+                        } else {
+                            lockIV.setImageResource(R.mipmap.lock)
+                        }
 
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
