@@ -1,29 +1,48 @@
 package com.devstories.nomadnote_android.activities
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
+import io.nlopez.smartlocation.OnLocationUpdatedListener
+import io.nlopez.smartlocation.SmartLocation
+import io.nlopez.smartlocation.location.config.LocationAccuracy
+import io.nlopez.smartlocation.location.config.LocationParams
+import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_write.*
 import kotlinx.android.synthetic.main.item_addgoods.view.*
 import org.json.JSONArray
@@ -36,7 +55,7 @@ import java.util.concurrent.TimeUnit
 
 private val imgSeq = 0
 
-class WriteActivity : RootActivity() {
+class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
@@ -50,6 +69,18 @@ class WriteActivity : RootActivity() {
     var timeline_id = ""
     var qnas_id = ""
     var created_at = ""
+
+    val REQUEST_ACCESS_COARSE_LOCATION = 101
+    val REQUEST_FINE_LOCATION = 100
+
+    var latitude = 37.5203175
+    var longitude = 126.9107831
+
+    private var myLocation = true
+
+    private var main_index = -1
+
+    private val timelineData = ArrayList<JSONObject>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +134,8 @@ class WriteActivity : RootActivity() {
             timetakeTV.setText("소요시간")
             logoIV.setText("답변하기")
         }
+
+        initGPS()
 
     }
     fun click(){
@@ -184,6 +217,8 @@ class WriteActivity : RootActivity() {
 
     fun addContent(){
         val bytes:ArrayList<Int> = ArrayList<Int>()
+
+        timelineData.clear()
 
         val location = locationET.text.toString()
         if (location == "" || location == null){
@@ -277,6 +312,224 @@ class WriteActivity : RootActivity() {
         PrefUtils.setPreference(context, "disk", disk_sumabs)
         params.put("disk_data",sum)
         params.put("qnas_id",qnas_id)
+
+        TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+
+                        Utils.hideKeyboard(context)
+
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+
+
+
+
+
+    }
+
+    fun addTimeline(){
+        val bytes:ArrayList<Int> = ArrayList<Int>()
+
+        timelineData.clear()
+
+        val location = locationET.text.toString()
+        if (location == "" || location == null){
+            Toast.makeText(context, "지역은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val time = timeET.text.toString()
+        val minute = minuteET.text.toString()
+        if (time == "" || time == null || minute == "" || minute == null){
+            Toast.makeText(context, "시간은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val contents = contentET.text.toString()
+        if (contents == "" || contents == null){
+            Toast.makeText(context, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val fulltime = time +":"+ minute
+        val money = moneyET.text.toString()
+        if (money.length == 0){
+            Toast.makeText(context, "금액을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+
+        val params = RequestParams()
+//        params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
+//        params.put("place_name",location)
+//        params.put("duration",fulltime)
+//        params.put("cost",money)
+//        params.put("contents",contents)
+//        params.put("place_id","1")
+//        params.put("country_id","1")
+//        params.put("style_id",menu_position)
+//        params.put("token",PrefUtils.getStringPreference(context,"token"))
+
+        val content_byte = contents.toByteArray()
+        val content_size = content_byte.size
+        bytes.add(content_size)
+
+        var seq = 0
+        if (addPicturesLL != null){
+            for (i in 0 until addPicturesLL!!.childCount) {
+                val v = addPicturesLL?.getChildAt(i)
+                val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+                val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
+                if (imageIV is ImageView) {
+                    val bitmap = imageIV.drawable as BitmapDrawable
+                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    var image = Utils.getByteArray(bitmap.bitmap)
+                    var image_size = image.size
+                    bytes.add(image_size)
+                    seq++
+                }
+
+                if (firstLL!!.visibility == View.VISIBLE){
+                    params.put("main_yn", "Y")
+                } else {
+                    params.put("main_yn", "N")
+                }
+            }
+        }
+
+        var sum = 0
+        var disk_sum = 0
+
+        for (i in 0 until bytes.size){
+            sum += bytes.get(i)
+        }
+
+        if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
+            var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+            var disk = PrefUtils.getIntPreference(context, "disk")
+
+            disk_sum = disk + sum
+            Log.d("결제타입",payment_byte.toString())
+            Log.d("용량",disk_sum.toString())
+            if (disk_sum > payment_byte){
+//                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
+                Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
+                    override fun before(): Boolean {
+                        return true
+                    }
+
+                    override fun after() {
+                        /*    var intent = Intent()
+                            intent.action = "DATA_LIMIT"
+                            sendBroadcast(intent)*/
+                    }
+                })
+                return
+
+            }
+        }
+        var disk_sumabs =  Math.abs(disk_sum)
+        PrefUtils.setPreference(context, "disk", disk_sumabs)
+        params.put("disk_data",sum)
+        params.put("qnas_id",qnas_id)
+
+        
+
+
+
+
+
 
         TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
 
@@ -858,19 +1111,21 @@ class WriteActivity : RootActivity() {
 
                         images_path!!.add(str)
 
-                        var add_file = Utils.getImage(context.contentResolver, str)
+//                        var add_file = Utils.getImage(context.contentResolver, str)
+//
+//                        var imageView = View.inflate(context, R.layout.item_addgoods, null)
+//                        val imageIV: ImageView = imageView.findViewById(R.id.addedImgIV)
+//                        val delIV: ImageView = imageView.findViewById(R.id.delIV)
+//                        imageIV.setImageBitmap(add_file)
+//                        addPicturesLL?.addView(imageView)
+//
+//                        delIV.setOnClickListener {
+//                            if (addPicturesLL != null) {
+//                                addPicturesLL!!.removeView(imageView)
+//                            }
+//                        }
 
-                        var imageView = View.inflate(context, R.layout.item_addgoods, null)
-                        val imageIV: ImageView = imageView.findViewById(R.id.addedImgIV)
-                        val delIV: ImageView = imageView.findViewById(R.id.delIV)
-                        imageIV.setImageBitmap(add_file)
-                        addPicturesLL?.addView(imageView)
-
-                        delIV.setOnClickListener {
-                            if (addPicturesLL != null) {
-                                addPicturesLL!!.removeView(imageView)
-                            }
-                        }
+                        reset(str,i)
 
                     }
                 }
@@ -920,14 +1175,35 @@ class WriteActivity : RootActivity() {
     }
 
     fun reset(str: String,i :Int) {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(str, options)
+        options.inJustDecodeBounds = false
+        options.inSampleSize = 1
+        if (options.outWidth > 96) {
+            val ws = options.outWidth / 96 + 1
+            if (ws > options.inSampleSize) {
+                options.inSampleSize = ws
+            }
+        }
+        if (options.outHeight > 96) {
+            val hs = options.outHeight / 96 + 1
+            if (hs > options.inSampleSize) {
+                options.inSampleSize = hs
+            }
+        }
+
         images_path.add(str)
         var add_file = Utils.getImage(context.contentResolver, str)
         val bitmap = BitmapFactory.decodeFile(str)
         var v = View.inflate(context, R.layout.item_addgoods, null)
-//        val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
+        val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
         val delIV = v.findViewById<View>(R.id.delIV) as ImageView
-        ImageLoader.getInstance().displayImage(str,v.addedImgIV, Utils.UILoptionsUserProfile)
+        val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
+//        ImageLoader.getInstance().displayImage(str,v.addedImgIV, Utils.UILoptionsUserProfile)
+        imageIV.setImageBitmap(add_file)
         delIV.tag = i
+        fullImageLL.setTag(i)
         delIV.setOnClickListener {
             addPicturesLL!!.removeView(v)
         }
@@ -937,9 +1213,161 @@ class WriteActivity : RootActivity() {
 
     }
 
+    fun clickMethodMain(v: View) {
+        val tag = v.tag as Int
+//        if (images_path.size != 0) {
+//            main_index = tag + images_path.size
+//        } else {
+//            main_index = tag
+//        }
+
+        println("----clickmethod")
+
+//        var v = View.inflate(context, R.layout.item_addgoods, null)
+
+        for (i in 0 until addPicturesLL.childCount) {
+            val v = addPicturesLL?.getChildAt(i)
+            val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+            val firstLL = v?.findViewById<View>(R.id.firstLL) as LinearLayout
+            val childView = addPicturesLL.getChildAt(i)
+            firstLL.visibility = View.GONE
+            println("-----gone")
+        }
+        val firstLL = v.findViewById<View>(R.id.firstLL) as LinearLayout
+        firstLL.visibility = View.VISIBLE
+    }
+
+
     override fun onBackPressed() {
         Utils.hideKeyboard(context)
         finish()
+    }
+
+    private fun initGPS() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            loadPermissions(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION)
+        } else {
+            checkGPs()
+        }
+    }
+
+    private fun checkGPs() {
+        if (Utils.availableLocationService(context)) {
+            startLocation()
+        } else {
+            gpsCheckAlert.sendEmptyMessage(0)
+        }
+    }
+
+    internal var gpsCheckAlert: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            val mainGpsSearchCount = 0
+
+            if (mainGpsSearchCount == 0) {
+                latitude = -1.0
+                longitude = -1.0
+
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("확인")
+                builder.setMessage("위치 서비스 이용이 제한되어 있습니다.\n설정에서 위치 서비스 이용을 허용해주세요.")
+                builder.setCancelable(true)
+                builder.setNegativeButton("취소") { dialog, id ->
+                    dialog.cancel()
+
+                    latitude = 37.5203175
+                    longitude = 126.9107831
+
+                }
+                builder.setPositiveButton("설정") { dialog, id ->
+                    dialog.cancel()
+                    startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                }
+                val alert = builder.create()
+                alert.show()
+            }
+        }
+    }
+
+    private fun startLocation() {
+
+        if (progressDialog != null) {
+            // show dialog
+            //progressDialog.setMessage("현재 위치 확인 중...");
+            progressDialog!!.show()
+        }
+
+        val smartLocation = SmartLocation.Builder(context).logging(true).build()
+        val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
+
+        if (SmartLocation.with(context).location(LocationManagerProvider()).state().isGpsAvailable) {
+            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.MEDIUM).build()
+            locationControl.config(locationParams)
+        } else if (SmartLocation.with(context).location(LocationManagerProvider()).state().isNetworkAvailable) {
+            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.LOW).build()
+            locationControl.config(locationParams)
+        }
+
+        smartLocation.location().oneFix().start(this)
+
+    }
+
+    private fun stopLocation() {
+        SmartLocation.with(context).location().stop()
+    }
+
+    private fun permissionCheck(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            !(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED)
+        } else {
+            false
+        }
+    }
+
+    private fun loadPermissions(perm: String, requestCode: Int) {
+        if (ContextCompat.checkSelfPermission(context, perm) !== PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(perm), requestCode)
+        } else {
+            if (Manifest.permission.ACCESS_FINE_LOCATION == perm) {
+                loadPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_ACCESS_COARSE_LOCATION)
+            } else if (Manifest.permission.ACCESS_COARSE_LOCATION == perm) {
+                checkGPs()
+            }
+        }
+    }
+
+    override fun onLocationUpdated(location: Location?) {
+        stopLocation()
+        if (location != null) {
+            if (myLocation) {
+                latitude = location.getLatitude()
+                longitude = location.getLongitude()
+
+            }
+
+//            val latlng = LatLng(latitude, longitude)
+
+//            println("-----latitue ---- $latitude , $longitude")
+
+            var systemLocale = getApplicationContext().getResources().getConfiguration().locale
+            val strLanguage = systemLocale.language
+//            println("----strlanguage --- $strLanguage , $systemLocale")
+            var geocoder: Geocoder = Geocoder(context, Locale.getDefault());
+
+            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+//            var list:List<Address> = geocoder.getFromLocation(39.916039,  116.409184, 1);
+            if(list.size > 0){
+                println("list ---- ${list}")
+                println("list.admin ${list.get(0).adminArea}")
+
+//                invRegionET.setText(list.get(0).getAddressLine(0));
+                locationET.setText(list.get(0).adminArea)
+            }
+
+            if (progressDialog != null) {
+                progressDialog!!.dismiss()
+            }
+        }
+
     }
 
 

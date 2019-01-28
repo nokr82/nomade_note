@@ -47,6 +47,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var contents = Utils.getString(timeline,"contents")
         var created = Utils.getString(timeline,"created_at")
         var timeline_id = Utils.getString(timeline,"id")
+        var certification = Utils.getString(timeline,"certification")
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
@@ -105,6 +106,21 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         }
 
+
+        if (certification == "2"){
+            item.textTV.setText("이 정보를 인증하였습니다 !")
+            item.iconIV.setImageResource(R.mipmap.visit_city)
+        }
+
+        item.trustLL.setOnClickListener {
+            if (certification == "1") {
+                isSel = !isSel
+                json.put("certification", "2")
+                notifyDataSetChanged()
+                scrap_Fragment.add_certification(timeline_id)
+            }
+        }
+
         return retView
 
     }
@@ -148,6 +164,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var trustLL : LinearLayout
         var trustRL : RelativeLayout
         var backgroundIV : ImageView
+        var textTV: TextView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as CircleImageView
@@ -167,6 +184,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
             trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
             backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
+            textTV = v.findViewById<View>(R.id.textTV) as TextView
 
         }
     }

@@ -93,10 +93,12 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             item.trustIV.setImageResource(R.mipmap.icon_scrap)
         }
 
-        if (certification == "2"){
-            item.textTV.setText("이 정보를 인증하였습니다 !")
-            item.iconIV.setImageResource(R.mipmap.visit_city)
-        }
+        item.trustLL.visibility = View.GONE
+
+//        if (certification == "2"){
+//            item.textTV.setText("이 정보를 인증하였습니다 !")
+//            item.iconIV.setImageResource(R.mipmap.visit_city)
+//        }
 
         item.trustIV.setOnClickListener {
             isSel = !isSel
@@ -105,14 +107,14 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             other_time_Fragment.set_scrap(timeline_id)
         }
 
-        item.trustLL.setOnClickListener {
-            if (certification == "1") {
-                isSel = !isSel
-                json.put("certification", "2")
-                notifyDataSetChanged()
-                other_time_Fragment.add_certification(timeline_id)
-            }
-        }
+//        item.trustLL.setOnClickListener {
+//            if (certification == "1") {
+//                isSel = !isSel
+//                json.put("certification", "2")
+//                notifyDataSetChanged()
+//                other_time_Fragment.add_certification(timeline_id)
+//            }
+//        }
 
         return retView
 

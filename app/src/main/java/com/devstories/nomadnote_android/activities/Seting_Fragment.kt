@@ -97,22 +97,30 @@ class Seting_Fragment : Fragment() {
             s_type = getArguments()!!.getInt("type")
             if (s_type == 1) {
                 travelLL.callOnClick()
-                stylebackIV.visibility = View.VISIBLE
+//                stylebackIV.visibility = View.VISIBLE
+                activity.titleBackLL.visibility = View.VISIBLE
             }
             if (s_type == 2) {
                 memoryLL.callOnClick()
             }
         }
 
-        stylebackIV.setOnClickListener {
-            activity.supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
-            stylebackIV.visibility = View.GONE
-            op_travelLL.visibility = View.GONE
-            activity.soloIV.setImageResource(R.mipmap.op_solo)
-            activity.soloTV.setTextColor(Color.parseColor("#0c6e87"))
+        activity.titleBackLL.setOnClickListener {
+            if (s_type == 1) {
+                activity.supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
+//            stylebackIV.visibility = View.GONE
+                op_travelLL.visibility = View.GONE
+                activity.soloIV.setImageResource(R.mipmap.op_solo)
+                activity.soloTV.setTextColor(Color.parseColor("#0c6e87"))
 
-            activity.settingIV.setImageResource(R.mipmap.setting)
-            activity.settingTV.setTextColor(Color.parseColor("#878787"))
+                activity.settingIV.setImageResource(R.mipmap.setting)
+                activity.settingTV.setTextColor(Color.parseColor("#878787"))
+
+                activity.logoIV.visibility = View.VISIBLE
+                activity.titleLL.visibility = View.GONE
+                activity.titleBackLL.visibility = View.GONE
+                s_type = -1
+            }
         }
 
         Log.d("타입", s_type.toString())

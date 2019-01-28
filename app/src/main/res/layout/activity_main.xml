@@ -224,7 +224,7 @@
                         android:id="@+id/scrapTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="스크립타임라인"
+                        android:text="스크랩타임라인"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
