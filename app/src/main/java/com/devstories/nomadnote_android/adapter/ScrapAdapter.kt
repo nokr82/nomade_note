@@ -47,7 +47,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var contents = Utils.getString(timeline,"contents")
         var created = Utils.getString(timeline,"created_at")
         var timeline_id = Utils.getString(timeline,"id")
-        var certification = Utils.getString(timeline,"certification")
+        var certification = json.getString("certification")
 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
@@ -86,10 +86,6 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             item.trustIV.setImageResource(R.mipmap.icon_scrap)
         }
 
-        item.trustLL.setOnClickListener {
-
-        }
-
         item.trustIV.setOnClickListener {
             isSel = !isSel
             json.put("isSelectedOp",isSel)
@@ -100,10 +96,19 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         var image = timeline.getJSONArray("images")
         if (image.length() > 0){
-            val image_item = image.get(image.length()-1) as JSONObject
-            val image_uri = Utils.getString(image_item,"image_uri")
-            var uri = Config.url + image_uri
-            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+            for (i in 0 until image.length()){
+                val image_item = image.get(i) as JSONObject
+                val main_yn = Utils.getString(image_item,"main_yn")
+                val image_uri = Utils.getString(image_item,"image_uri")
+                if (main_yn == "Y"){
+                    var uri = Config.url + image_uri
+                    ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+                }
+            }
+//            val image_item = image.get(image.length()-1) as JSONObject
+//            val image_uri = Utils.getString(image_item,"image_uri")
+//            var uri = Config.url + image_uri
+//            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         }
 
 

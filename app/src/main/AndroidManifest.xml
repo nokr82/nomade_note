@@ -11,13 +11,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
-
     <application
         android:name=".base.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".fcm.MyFirebaseMessagingService">
@@ -31,12 +30,14 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBvJBo84qIpv_0QDYkLNFsHCq4SFawyeZI"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBvJBo84qIpv_0QDYkLNFsHCq4SFawyeZI" />
 
         <activity
             android:name=".activities.IntroActivity"
-            android:theme="@style/NoTitleDialog"
             android:noHistory="true"
+            android:theme="@style/NoTitleDialog"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +45,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="30c846cc5fc8a6f301a8fc0cc2e9e7f3" />
@@ -134,6 +138,9 @@
         <activity
             android:name=".activities.FindPictureGridActivity"
             android:theme="@style/NoTitleDialog" />
+        <activity android:name=".activities.QuestionActivity"
+            android:theme="@style/NoTitleDialog"
+            android:windowSoftInputMode="adjustResize|stateHidden" ></activity>
     </application>
 
 </manifest>

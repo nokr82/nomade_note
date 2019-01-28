@@ -36,7 +36,9 @@ class Friend_phone_Fragment : Fragment()  {
     var pem_id = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+//        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
         return inflater.inflate(R.layout.fra_friend_phoone, container, false)
 
     }

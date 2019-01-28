@@ -1,8 +1,10 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -71,7 +73,9 @@ class Seting_Fragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+//        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
         return inflater.inflate(R.layout.fra_setting, container, false)
 
     }
@@ -126,13 +130,16 @@ class Seting_Fragment : Fragment() {
         Log.d("타입", s_type.toString())
 
         settingquestLL.setOnClickListener {
-            val emailIntent = Intent(Intent.ACTION_SENDTO);
-            emailIntent.data = Uri.parse("mailto:info@nomadnote.com");
-            try {
-              startActivity(emailIntent);
-            } catch (e:ActivityNotFoundException) {
-                e.printStackTrace()
-            }
+//            val emailIntent = Intent(Intent.ACTION_SENDTO);
+//            emailIntent.data = Uri.parse("mailto:info@nomadnote.com");
+//            try {
+//              startActivity(emailIntent);
+//            } catch (e:ActivityNotFoundException) {
+//                e.printStackTrace()
+//            }
+
+            val intent = Intent(context, QuestionActivity::class.java)
+            startActivity(intent)
         }
 
         iapHelper = IAPHelper(activity, object : IAPHelper.BuyListener {
@@ -574,6 +581,23 @@ class Seting_Fragment : Fragment() {
             }
         }
 
+        deleteLL.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder
+                    .setMessage("정말로 탈퇴 하시겠습니까 ?")
+
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                        delete_member()
+                        Utils.hideKeyboard(context)
+                    })
+                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                        Utils.hideKeyboard(context)
+                    })
+            val alert = builder.create()
+            alert.show()
+        }
+
     }
 
     override fun onDestroy() {
@@ -790,6 +814,96 @@ class Seting_Fragment : Fragment() {
             }
         })
     }
+
+    fun delete_member() {
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("del_yn", "Y")
+
+        MemberAction.update_info(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+
+//                        Toast.makeText(context, "변경되었습니다.", Toast.LENGTH_SHORT).show()
+
+
+                    } else {
+
+//                        Toast.makeText(context, "오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONArray?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
+
+
 
 
 }

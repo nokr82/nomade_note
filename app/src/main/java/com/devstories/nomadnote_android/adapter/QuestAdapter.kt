@@ -60,7 +60,16 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours);
         val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis);
 
-        item.timeTV.setText(hours.toString() + "H")
+
+        if (days > 0){
+            item.timeTV.setText(days.toString() + "D")
+        } else {
+            if (hours.toInt() == 0 ){
+                item.timeTV.setText(minutes.toString() + "M")
+            } else {
+                item.timeTV.setText(hours.toString() + "H")
+            }
+        }
 
 
         if (answer != null && answer != ""){

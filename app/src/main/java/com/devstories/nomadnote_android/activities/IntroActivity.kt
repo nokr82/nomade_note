@@ -35,6 +35,9 @@ class IntroActivity : RootActivity() {
 
     private var is_push:Boolean = false
 
+    var last_id = ""
+    var created = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +63,22 @@ class IntroActivity : RootActivity() {
             }
         }
         (splashThread as Thread).start()
+
+        val buldle = intent.extras
+        if (buldle != null) {
+            try {
+                last_id = buldle.getString("last_id")
+                is_push = buldle.getBoolean("FROM_PUSH")
+                created = buldle.getString("created")
+
+                println("-----last_id $last_id")
+                println("-----is_push $is_push")
+                println("-----created $created")
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
 
 
     }
@@ -117,6 +136,9 @@ class IntroActivity : RootActivity() {
                         LoginActivity.processLoginData(context, data)
 
                         val intent = Intent(context, MainActivity::class.java)
+                        intent.putExtra("is_push",is_push)
+                        intent.putExtra("last_id",last_id)
+                        intent.putExtra("created",created)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         startActivity(intent)
 

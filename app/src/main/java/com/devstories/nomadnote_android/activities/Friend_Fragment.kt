@@ -27,7 +27,9 @@ class Friend_Fragment : Fragment()  {
     var type = -1
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+//        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
         return inflater.inflate(R.layout.fra_friend_add, container, false)
 
     }

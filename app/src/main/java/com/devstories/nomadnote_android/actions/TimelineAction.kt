@@ -12,6 +12,10 @@ object TimelineAction {
         HttpClient.post("/api/timeline/addtimeline", params, handler)
     }
 
+    fun testaddtimeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/testaddtimeline", params, handler)
+    }
+
     // 타임라인 가져오기
     fun my_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/timeline/my_timeline", params, handler)

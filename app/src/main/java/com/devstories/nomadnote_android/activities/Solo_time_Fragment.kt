@@ -53,7 +53,9 @@ class Solo_time_Fragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(myContext)
 
         return inflater.inflate(R.layout.fra_solo_time, container, false)
 

@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.adapter.VisitNationAdapter
 import com.devstories.nomadnote_android.base.RootActivity
+import com.devstories.nomadnote_android.base.Utils
 import kotlinx.android.synthetic.main.activity_visit_nation.*
 
 class VisitNationActivity : RootActivity() {
@@ -21,7 +22,9 @@ class VisitNationActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visit_nation)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
 
         titleBackLL.setOnClickListener {
@@ -41,4 +44,8 @@ class VisitNationActivity : RootActivity() {
 
     }
 
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
+    }
 }

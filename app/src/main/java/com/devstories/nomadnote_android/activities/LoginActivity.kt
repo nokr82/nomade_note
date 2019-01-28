@@ -105,7 +105,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         this.loginActivity = this
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
         callback = SessionCallback()
         Session.getCurrentSession().addCallback(callback)
@@ -396,7 +398,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+//                Utils.alert(context, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(

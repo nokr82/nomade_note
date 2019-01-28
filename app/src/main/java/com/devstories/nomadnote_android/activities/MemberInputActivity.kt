@@ -34,7 +34,9 @@ class MemberInputActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member_infoinput)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
         setmenu()
 
 
@@ -211,6 +213,11 @@ class MemberInputActivity : RootActivity() {
             progressDialog!!.dismiss()
         }
 
+    }
+
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
     }
 
 }

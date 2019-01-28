@@ -1,81 +1,109 @@
 package com.devstories.nomadnote_android.activities
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.*
-import com.devstories.nomadnote_android.actions.JoinAction
-import com.devstories.nomadnote_android.actions.MemberAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
+import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.QuestionAction
+import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
-import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
-import kotlinx.android.synthetic.main.activity_email_join.*
+import kotlinx.android.synthetic.main.activity_question.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class EmailJoinActivity : RootActivity() {
-
+class QuestionActivity : RootActivity() {
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
 
-    var pw = ""
-    var pw2 = ""
-    var email = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_email_join)
+        setContentView(R.layout.activity_question)
+
         this.context = this
-//        progressDialog = ProgressDialog(context)
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
-        backIV.setOnClickListener {
-            finish()
+
+        var intent = getIntent()
+
+        titleBackLL.setOnClickListener {
             Utils.hideKeyboard(this)
+            finish()
         }
 
+        val time = Utils.timeStr()
+        var timesplit = time.split(":")
+        var edittime = ""
+        if (timesplit.get(0).toInt() >= 12){
+            edittime += " PM " + (timesplit.get(0).toInt() - 12).toString() + ":" + timesplit.get(1)
+        } else {
+            edittime += " AM " + timesplit.get(0)+ ":" + timesplit.get(1)
+        }
+        pulldateTV.setText(Utils.todayStr() + "" + edittime)
+
+        addcontentLL.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder
+                    .setMessage("문의하시겠습니까 ?")
+
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+
+
+                        addQuestion()
+
+                    })
+                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
 
 
 
-        joinTV.setOnClickListener {
-            email = Utils.getString(emailET)
-            pw = Utils.getString(pwET)
-            pw2 = Utils.getString(pw2ET)
-            if (email.equals("")){
-                Toast.makeText(context,"이메일을 입력해주세요.",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if (pw.equals("")){
-                Toast.makeText(context,"비밀번호를 입력해주세요.",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if (pw !=pw2){
-                Toast.makeText(context,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            email(email)
+                        Utils.hideKeyboard(this)
 
+                    })
+            val alert = builder.create()
+            alert.show()
         }
 
 
 
     }
-    //email중복체크
-    fun email(email: String) {
-        val params = RequestParams()
-        params.put("email", email)
 
-        JoinAction.check_email(params, object : JsonHttpResponseHandler() {
+    override fun onBackPressed() {
+        Utils.hideKeyboard(context)
+        finish()
+    }
+
+    fun addQuestion(){
+        val title = titleET.text.toString()
+        if (title == "" || title == null){
+            Toast.makeText(context, "제목은 필수 입력입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val content = contentET.text.toString()
+        if (content == "" || content == null){
+            Toast.makeText(context, "내용은 필수 입력입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val params = RequestParams()
+
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("title",title)
+        params.put("content",content)
+
+        QuestionAction.question(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {
@@ -85,21 +113,18 @@ class EmailJoinActivity : RootActivity() {
                 try {
 
                     val result =   Utils.getString(response,"result")
-
-
-
                     if ("ok" == result) {
-                        val intent = Intent(context, MemberInputActivity::class.java)
-                        intent.putExtra("email",email)
-                        intent.putExtra("pw",pw)
-                        startActivity(intent)
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
 
+                        Utils.hideKeyboard(context)
 
-                    } else {
-                      Toast.makeText(context,"이미 사용중인 이메일입니다.",Toast.LENGTH_SHORT).show()
+                        finish()
                     }
 
                 } catch (e: JSONException) {
+
                     e.printStackTrace()
                 }
 
@@ -174,19 +199,6 @@ class EmailJoinActivity : RootActivity() {
                 }
             }
         })
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-
-        if (progressDialog != null) {
-            progressDialog!!.dismiss()
-        }
 
     }
-
-    override fun onBackPressed() {
-        finish()
-        Utils.hideKeyboard(context)
-    }
-
 }

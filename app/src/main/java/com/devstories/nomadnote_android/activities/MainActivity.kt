@@ -39,6 +39,10 @@ class MainActivity : FragmentActivity() {
     private val BACK_PRESSED_TERM:Long = 1000 * 2
     private var backPressedTime: Long = -1
 
+    var is_push = false
+    var last_id = ""
+    var created = ""
+
 
     internal var datachangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
@@ -128,6 +132,9 @@ class MainActivity : FragmentActivity() {
         click()
         context = this
 
+        progressDialog = ProgressDialog(this, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
         var filter1 = IntentFilter("FRIEND")
         registerReceiver(friendReciver, filter1)
 
@@ -142,6 +149,21 @@ class MainActivity : FragmentActivity() {
 
         updateToken()
         loadInfo()
+
+        var intent = getIntent()
+
+        if (intent.getBooleanExtra("is_push", false) != null){
+            is_push = intent.getBooleanExtra("is_push", false)
+            if (intent.getStringExtra("last_id") != null) {
+                last_id = intent.getStringExtra("last_id")
+                created = intent.getStringExtra("created")
+
+                val intent = Intent(context, WriteActivity::class.java)
+                intent.putExtra("qnas_id", last_id)
+                intent.putExtra("created_at", created)
+                startActivity(intent)
+            }
+        }
 
     }
 
@@ -171,7 +193,7 @@ class MainActivity : FragmentActivity() {
 
         }
         questLL.setOnClickListener {
-//            logoTV.setText("누적질문보기")
+            logoTV.setText("누적질문보기")
             logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
@@ -181,7 +203,7 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Quest_stack_Fragment).commit()
         }
         mapsearchLL.setOnClickListener {
-            titleLL.visibility = View.GONE
+//            titleLL.visibility = View.GONE
             setmenu()
             mapsearchIV.setImageResource(R.mipmap.op_mapsearch)
             mapsearchTV.setTextColor(Color.parseColor("#0c6e87"))
@@ -476,6 +498,7 @@ class MainActivity : FragmentActivity() {
         } else {
             Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
             backPressedTime = System.currentTimeMillis()
+            Utils.hideKeyboard(context)
         }
 
     }

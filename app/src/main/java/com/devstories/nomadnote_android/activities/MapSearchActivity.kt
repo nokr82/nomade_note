@@ -34,7 +34,9 @@ class MapSearchActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mapsearch)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
         titleBackLL.setOnClickListener {
             finish()
         }
@@ -293,5 +295,8 @@ class MapSearchActivity : RootActivity() {
 
     }
 
-
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
+    }
 }

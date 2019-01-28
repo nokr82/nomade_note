@@ -86,7 +86,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
         click()
 
@@ -183,6 +185,13 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             menu_position = 5
         }
 
+        artTV.setOnClickListener {
+            menuSetImage()
+            artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+            artTV.setTextColor(Color.parseColor("#ffffff"))
+            menu_position = 5
+        }
+
         addcontentLL.setOnClickListener {
 
             val builder = AlertDialog.Builder(context)
@@ -194,6 +203,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         dialog.cancel()
                         if (timeline_id == "") {
                             addContent()
+//                            testaddtimeline()
                         } else {
                             modify()
                         }
@@ -214,6 +224,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
 
     }
+
+
 
     fun addContent(){
         val bytes:ArrayList<Int> = ArrayList<Int>()
@@ -246,6 +258,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             return
         }
 
+
+
         val params = RequestParams()
         params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_name",location)
@@ -264,216 +278,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         var seq = 0
         if (addPicturesLL != null){
             for (i in 0 until addPicturesLL!!.childCount) {
-                val v = addPicturesLL?.getChildAt(i)
-                val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
-                if (imageIV is ImageView) {
-                    val bitmap = imageIV.drawable as BitmapDrawable
-                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
-                    var image = Utils.getByteArray(bitmap.bitmap)
-                    var image_size = image.size
-                    bytes.add(image_size)
-                    seq++
-                }
-            }
-        }
-
-        var sum = 0
-        var disk_sum = 0
-
-        for (i in 0 until bytes.size){
-            sum += bytes.get(i)
-        }
-
-        if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
-            var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
-            var disk = PrefUtils.getIntPreference(context, "disk")
-
-            disk_sum = disk + sum
-            Log.d("결제타입",payment_byte.toString())
-            Log.d("용량",disk_sum.toString())
-            if (disk_sum > payment_byte){
-//                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
-               Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
-                   override fun before(): Boolean {
-                       return true
-                   }
-
-                   override fun after() {
-                   /*    var intent = Intent()
-                       intent.action = "DATA_LIMIT"
-                       sendBroadcast(intent)*/
-                   }
-               })
-                return
-
-            }
-        }
-        var disk_sumabs =  Math.abs(disk_sum)
-        PrefUtils.setPreference(context, "disk", disk_sumabs)
-        params.put("disk_data",sum)
-        params.put("qnas_id",qnas_id)
-
-        TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                try {
-
-                    val result =   Utils.getString(response,"result")
-                    if ("ok" == result) {
-                        var intent = Intent()
-                        intent.putExtra("reset","reset")
-                        setResult(RESULT_OK, intent);
-
-                        Utils.hideKeyboard(context)
-
-                        finish()
-                    }
-
-                } catch (e: JSONException) {
-
-                    e.printStackTrace()
-                }
-
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
-
-                // System.out.println(responseString);
-            }
-
-            private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    responseString: String?,
-                    throwable: Throwable
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                // System.out.println(responseString);
-
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONObject?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONArray?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onStart() {
-                // show dialog
-                if (progressDialog != null) {
-
-                    progressDialog!!.show()
-                }
-            }
-
-            override fun onFinish() {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-            }
-        })
-
-
-
-
-
-
-    }
-
-    fun addTimeline(){
-        val bytes:ArrayList<Int> = ArrayList<Int>()
-
-        timelineData.clear()
-
-        val location = locationET.text.toString()
-        if (location == "" || location == null){
-            Toast.makeText(context, "지역은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val time = timeET.text.toString()
-        val minute = minuteET.text.toString()
-        if (time == "" || time == null || minute == "" || minute == null){
-            Toast.makeText(context, "시간은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val contents = contentET.text.toString()
-        if (contents == "" || contents == null){
-            Toast.makeText(context, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val fulltime = time +":"+ minute
-        val money = moneyET.text.toString()
-        if (money.length == 0){
-            Toast.makeText(context, "금액을 입력해주세요.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-
-
-        val params = RequestParams()
-//        params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
-//        params.put("place_name",location)
-//        params.put("duration",fulltime)
-//        params.put("cost",money)
-//        params.put("contents",contents)
-//        params.put("place_id","1")
-//        params.put("country_id","1")
-//        params.put("style_id",menu_position)
-//        params.put("token",PrefUtils.getStringPreference(context,"token"))
-
-        val content_byte = contents.toByteArray()
-        val content_size = content_byte.size
-        bytes.add(content_size)
-
-        var seq = 0
-        if (addPicturesLL != null){
-            for (i in 0 until addPicturesLL!!.childCount) {
+                val o = JSONObject()
                 val v = addPicturesLL?.getChildAt(i)
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
                 val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
                 if (imageIV is ImageView) {
                     val bitmap = imageIV.drawable as BitmapDrawable
                     params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
                     bytes.add(image_size)
@@ -481,13 +293,21 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
-                    params.put("main_yn", "Y")
-                } else {
-                    params.put("main_yn", "N")
+//                    params.put("main_yn", "Y")
+//                    o.put("position",i)
+                    params.put("position",i+1)
                 }
+//                else {
+//                    o.put("main_yn","N")
+//                    params.put("main_yn", "N")
+//                }
+//                timelineData.add(o)
             }
         }
 
+
+
+        params.put("timelineData", timelineData)
         var sum = 0
         var disk_sum = 0
 
@@ -524,7 +344,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("disk_data",sum)
         params.put("qnas_id",qnas_id)
 
-        
+
 
 
 
@@ -677,13 +497,30 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         var seq = 0
         if (addPicturesLL != null){
             for (i in 0 until addPicturesLL!!.childCount) {
+                val o = JSONObject()
                 val v = addPicturesLL?.getChildAt(i)
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+                val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
                 if (imageIV is ImageView) {
                     val bitmap = imageIV.drawable as BitmapDrawable
                     params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    var image = Utils.getByteArray(bitmap.bitmap)
+                    var image_size = image.size
+//                    bytes.add(image_size)
                     seq++
                 }
+
+                if (firstLL!!.visibility == View.VISIBLE){
+//                    params.put("main_yn", "Y")
+//                    o.put("position",i)
+                    params.put("position",i+1)
+                }
+//                else {
+//                    o.put("main_yn","N")
+//                    params.put("main_yn", "N")
+//                }
+//                timelineData.add(o)
             }
         }
 
@@ -951,113 +788,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
 
-    fun anwer(){
-        val content = contentET.text.toString()
-        if (content == "" && content == null){
-            Toast.makeText(context, "답변은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val params = RequestParams()
-        params.put("qnas_id", qnas_id)
-        params.put("answer", content)
-
-        QnasAction.anwer(params, object : JsonHttpResponseHandler() {
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                try {
-
-                    val result =   Utils.getString(response,"result")
-                    if ("ok" == result) {
-                        var intent = getIntent()
-                        intent.putExtra("reset","reset")
-                        setResult(RESULT_OK, intent);
-                        finish()
-                    }
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
-
-                // System.out.println(responseString);
-            }
-
-            private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    responseString: String?,
-                    throwable: Throwable
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                // System.out.println(responseString);
-
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONObject?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONArray?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onStart() {
-                // show dialog
-                if (progressDialog != null) {
-
-                    progressDialog!!.show()
-                }
-            }
-
-            override fun onFinish() {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-            }
-        })
-
-    }
-
-
 
     fun menuSetImage(){
         healingTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
@@ -1210,6 +940,17 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         if (imgSeq == 0) {
             addPicturesLL!!.addView(v)
         }
+
+        for (i in 0 until addPicturesLL.childCount) {
+            val v = addPicturesLL?.getChildAt(i)
+            val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+            val firstLL = v?.findViewById<View>(R.id.firstLL) as LinearLayout
+            val childView = addPicturesLL.getChildAt(i)
+            firstLL.visibility = View.GONE
+            println("-----gone")
+        }
+        val firstLL = v.findViewById<View>(R.id.firstLL) as LinearLayout
+        firstLL.visibility = View.VISIBLE
 
     }
 
@@ -1369,6 +1110,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
 
     }
+
+
 
 
 }

@@ -50,7 +50,9 @@ class Solo_detail_Activity : RootActivity() {
         }
         setContentView(R.layout.activity_timeline)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
         click()
 
@@ -180,11 +182,21 @@ class Solo_detail_Activity : RootActivity() {
 
                         val image = data.getJSONArray("images")
                         if (image.length() > 0){
-                            val image_item = image.get(image.length()-1) as JSONObject
-                            val image_uri = Utils.getString(image_item,"image_uri")
-                            var uri = Config.url + image_uri
-                            println("-------uri ---------")
-                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+//                            val image_item = image.get(image.length()-1) as JSONObject
+//                            val image_uri = Utils.getString(image_item,"image_uri")
+//                            var uri = Config.url + image_uri
+//                            println("-------uri ---------")
+//                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+
+                            for (i in 0 until image.length()){
+                                val image_item = image.get(i) as JSONObject
+                                val image_uri = Utils.getString(image_item,"image_uri")
+                                val main_yn = Utils.getString(image_item,"main_yn")
+                                if (main_yn == "Y"){
+                                    var uri = Config.url + image_uri
+                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+                                }
+                            }
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
@@ -703,5 +715,10 @@ class Solo_detail_Activity : RootActivity() {
             }
         })
 
+    }
+
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
     }
 }

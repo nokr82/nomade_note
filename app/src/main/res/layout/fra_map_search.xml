@@ -6,7 +6,7 @@
 
     <!-- 타이틀 -->
     <RelativeLayout
-        android:id="@+id/titleLL"
+        android:id="@+id/titleRL"
         android:layout_width="match_parent"
         android:layout_height="155dp">
 
