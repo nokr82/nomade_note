@@ -134,14 +134,6 @@ class Seting_Fragment : Fragment() {
         Log.d("타입", s_type.toString())
 
         settingquestLL.setOnClickListener {
-//            val emailIntent = Intent(Intent.ACTION_SENDTO);
-//            emailIntent.data = Uri.parse("mailto:info@nomadnote.com");
-//            try {
-//              startActivity(emailIntent);
-//            } catch (e:ActivityNotFoundException) {
-//                e.printStackTrace()
-//            }
-
             val intent = Intent(context, QuestionActivity::class.java)
             startActivity(intent)
         }
@@ -971,7 +963,7 @@ class Seting_Fragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        iapHelper.onActivityResult(requestCode, resultCode, data)
+        iapHelper?.onActivityResult(requestCode, resultCode, data)
     }
 
 

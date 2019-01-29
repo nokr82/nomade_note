@@ -2,15 +2,16 @@ package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.support.v4.app.FragmentActivity
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.NationAction
-import com.devstories.nomadnote_android.actions.TimelineAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -19,19 +20,23 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class VisitNationActivity : RootActivity() {
+
+class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
-    lateinit var VisitNationAdapter: VisitNationAdapter
+    lateinit var visitNationAdapter: VisitNationAdapter
     var adapterData: ArrayList<JSONObject> = ArrayList<JSONObject>()
+
+    private lateinit var googleMap: GoogleMap
+    private val markers = java.util.ArrayList<Marker>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_visit_nation)
+        setContentView(com.devstories.nomadnote_android.R.layout.activity_visit_nation)
         this.context = this
-        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog = ProgressDialog(context, com.devstories.nomadnote_android.R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
@@ -40,10 +45,11 @@ class VisitNationActivity : RootActivity() {
             finish()
         }
 
-        VisitNationAdapter = VisitNationAdapter(context, R.layout.item_nation, adapterData)
-        visitLV.adapter = VisitNationAdapter
+        visitNationAdapter = VisitNationAdapter(context, com.devstories.nomadnote_android.R.layout.item_nation, adapterData)
+        visitLV.adapter = visitNationAdapter
 
-        getcountry()
+        val mapFragment =  supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
 
     }
@@ -61,7 +67,7 @@ class VisitNationActivity : RootActivity() {
         Utils.hideKeyboard(context)
     }
 
-    fun getcountry() {
+    private fun loadData() {
 
         val params = RequestParams()
 
@@ -74,6 +80,8 @@ class VisitNationActivity : RootActivity() {
 
                 try {
 
+                    adapterData.clear()
+
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
                         var countrysDatas = response!!.getJSONArray("countrys")
@@ -85,7 +93,9 @@ class VisitNationActivity : RootActivity() {
                         }
                     }
 
-                    VisitNationAdapter.notifyDataSetChanged()
+                    visitNationAdapter.notifyDataSetChanged()
+
+                    addMarkers()
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -165,4 +175,73 @@ class VisitNationActivity : RootActivity() {
 
 
     }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+
+        googleMap.setMaxZoomPreference(2f)
+        googleMap.setMinZoomPreference(2f)
+        googleMap.getUiSettings().setRotateGesturesEnabled(false)
+
+        googleMap.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
+            System.out.println(marker);
+
+            true
+        })
+
+        googleMap.setOnMapClickListener(GoogleMap.OnMapClickListener {
+
+        })
+
+        googleMap.setOnCameraMoveStartedListener(GoogleMap.OnCameraMoveStartedListener {
+
+        })
+
+        googleMap.setOnCameraIdleListener {
+            println("g : ${googleMap.cameraPosition.zoom}")
+        }
+
+        loadData()
+    }
+
+
+    private fun addMarkers() {
+
+
+        for (i in 0 until adapterData.size) {
+            val place = adapterData.get(i)
+
+            val placename = Utils.getString(place, "country")
+
+            val lat = Utils.getDouble(place, "lat")
+            val lng = Utils.getDouble(place, "lng")
+
+            val latlng = LatLng(lat, lng)
+
+            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(com.devstories.nomadnote_android.R.mipmap.visit_city)))
+            marker.tag = place
+
+            markers.add(marker)
+        }
+
+        fitBounds()
+
+    }
+
+
+    private fun fitBounds() {
+
+        val builder = LatLngBounds.Builder()
+
+        for (marker in markers) {
+            builder.include(marker.position)
+        }
+
+        val bounds = builder.build()
+
+        val padding = 200 // offset from edges of the map in pixels
+        val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+        googleMap.moveCamera(cu)
+    }
+
 }

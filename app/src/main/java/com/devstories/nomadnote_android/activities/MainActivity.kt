@@ -532,7 +532,7 @@ class MainActivity : FragmentActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (Seting_Fragment != null) {
+        if (requestCode == 1001 && Seting_Fragment != null) {
             Seting_Fragment!!.onActivityResult(requestCode, resultCode, data)
         }
     }
