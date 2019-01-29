@@ -741,6 +741,7 @@ class Seting_Fragment : Fragment() {
 
         val params = RequestParams()
         params.put("quota", quota)
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
 
         ChargeAction.setCharge(params, object : JsonHttpResponseHandler() {
 
