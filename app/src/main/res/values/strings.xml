@@ -7,4 +7,10 @@
     <string name="OAUTH_CLIENT_ID">LQpdkxmlxSIEru59aHTw</string>
     <string name="OAUTH_CLIENT_SECRET">99o13Fawjf</string>
     <string name="OAUTH_CLIENT_NAME">노마드노트</string>
+
+    <string name="join_by_email">이메일로 회원가입</string>
+    <string name="emailET_hint">이메일 주소 입력</string>
+    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="joinTV_text">회원가입</string>
+
 </resources>
