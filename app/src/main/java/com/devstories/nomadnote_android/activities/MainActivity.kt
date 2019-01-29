@@ -24,6 +24,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
+
 class MainActivity : FragmentActivity() {
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
@@ -52,7 +53,7 @@ class MainActivity : FragmentActivity() {
                 setmenu()
                 logoIV.visibility = View.GONE
                 titleLL.visibility = View.VISIBLE
-                settingIV.setImageResource(R.mipmap.op_setting)
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
                 settingTV.setTextColor(Color.parseColor("#0c6e87"))
 
                 var args: Bundle = Bundle()
@@ -71,7 +72,7 @@ class MainActivity : FragmentActivity() {
                 setmenu()
                 logoIV.visibility = View.GONE
                 titleLL.visibility = View.VISIBLE
-                settingIV.setImageResource(R.mipmap.op_setting)
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
                 settingTV.setTextColor(Color.parseColor("#0c6e87"))
 
                 var args: Bundle = Bundle()
@@ -91,7 +92,7 @@ class MainActivity : FragmentActivity() {
                 setmenu()
                 logoIV.visibility = View.GONE
                 titleLL.visibility = View.VISIBLE
-                settingIV.setImageResource(R.mipmap.op_setting)
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
                 settingTV.setTextColor(Color.parseColor("#0c6e87"))
                 supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
             }
@@ -120,19 +121,27 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    internal var myQuotaUpdatedReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                loadInfo()
+            }
+        }
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.devstories.nomadnote_android.R.layout.activity_main)
         supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
-        soloIV.setImageResource(R.mipmap.op_solo)
+        soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_solo)
         soloTV.setTextColor(Color.parseColor("#0c6e87"))
         titleLL.visibility = View.GONE
         click()
         context = this
 
-        progressDialog = ProgressDialog(this, R.style.CustomProgressBar)
+        progressDialog = ProgressDialog(this, com.devstories.nomadnote_android.R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 
         var filter1 = IntentFilter("FRIEND")
@@ -146,6 +155,9 @@ class MainActivity : FragmentActivity() {
         registerReceiver(stylechangeReciver, filter4)
         var filter5 = IntentFilter("DATA_LIMIT")
         registerReceiver(datachangeReciver, filter5)
+
+        val filter6 = IntentFilter("MY_STEP_UPDATED")
+        registerReceiver(myQuotaUpdatedReceiver, filter1)
 
         updateToken()
         loadInfo()
@@ -168,12 +180,12 @@ class MainActivity : FragmentActivity() {
     }
 
     fun setmenu(){
-        soloIV.setImageResource(R.mipmap.solotimeline)
-        questIV.setImageResource(R.mipmap.quest_noclk)
-        mapsearchIV.setImageResource(R.mipmap.map)
-        otherIV.setImageResource(R.mipmap.other_timeline)
-        scrapIV.setImageResource(R.mipmap.scrap_time)
-        settingIV.setImageResource(R.mipmap.setting)
+        soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.solotimeline)
+        questIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.quest_noclk)
+        mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.map)
+        otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.other_timeline)
+        scrapIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.scrap_time)
+        settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.setting)
 
         soloTV.setTextColor(Color.parseColor("#878787"))
         questTV.setTextColor(Color.parseColor("#878787"))
@@ -188,7 +200,7 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
             titleLL.visibility = View.GONE
             setmenu()
-            soloIV.setImageResource(R.mipmap.op_solo)
+            soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_solo)
             soloTV.setTextColor(Color.parseColor("#0c6e87"))
 
         }
@@ -198,21 +210,21 @@ class MainActivity : FragmentActivity() {
             logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
             setmenu()
-            questIV.setImageResource(R.mipmap.op_quest)
+            questIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_quest)
             questTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Quest_stack_Fragment).commit()
         }
         mapsearchLL.setOnClickListener {
 //            titleLL.visibility = View.GONE
             setmenu()
-            mapsearchIV.setImageResource(R.mipmap.op_mapsearch)
+            mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_mapsearch)
             mapsearchTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Map_search_Fragment).commit()
         }
         otherLL.setOnClickListener {
             titleLL.visibility = View.GONE
             setmenu()
-            otherIV.setImageResource(R.mipmap.op_other)
+            otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_other)
             otherTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Other_time_Fragment).commit()
         }
@@ -221,7 +233,7 @@ class MainActivity : FragmentActivity() {
             logoIV.visibility = View.GONE
             setmenu()
             titleLL.visibility = View.GONE
-            scrapIV.setImageResource(R.mipmap.op_file)
+            scrapIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_file)
             scrapTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
@@ -231,7 +243,7 @@ class MainActivity : FragmentActivity() {
             setmenu()
             logoIV.visibility = View.GONE
             titleLL.visibility = View.VISIBLE
-            settingIV.setImageResource(R.mipmap.op_setting)
+            settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
             settingTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
         }
@@ -390,6 +402,14 @@ class MainActivity : FragmentActivity() {
 
         }
 
+        try {
+            if(myQuotaUpdatedReceiver != null) {
+                unregisterReceiver(myQuotaUpdatedReceiver)
+            }
+        } catch (e:Exception) {
+
+        }
+
     }
 
     fun loadInfo() {
@@ -434,7 +454,7 @@ class MainActivity : FragmentActivity() {
 //                        var diskabs =  Math.abs(disk)
                         var payment_byteabs = Math.abs(payment_byte)
 
-                        PrefUtils.setPreference(context, "disk", disk.toInt())
+                        PrefUtils.setPreference(context, "disk", disk.toDouble())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
                         val style = Utils.getInt(member, "style_id")
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
@@ -503,6 +523,12 @@ class MainActivity : FragmentActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (Seting_Fragment != null) {
+            Seting_Fragment!!.onActivityResult(requestCode, resultCode, data)
+        }
+    }
 
 
 

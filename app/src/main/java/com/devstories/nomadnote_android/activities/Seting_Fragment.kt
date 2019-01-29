@@ -146,7 +146,7 @@ class Seting_Fragment : Fragment() {
 
             override fun bought(sku: String, purchaseToken: String) {
 
-                // System.out.println(sku + " bought!!!");
+                println("$sku bought!!!");
 
                 if ("1gb" == sku) {
                     setCharge(1024*1024*1024, purchaseToken)
@@ -241,6 +241,10 @@ class Seting_Fragment : Fragment() {
         //결제시스템
         op_1gbLL.setOnClickListener {
             it.isSelected = !it.isSelected
+
+            op_600mbLL.isSelected = false
+            op_20kbLL.isSelected = false
+
             if (it.isSelected) {
                 setmenu2()
                 op_1gbIV.setImageResource(R.mipmap.icon_check)
@@ -250,6 +254,10 @@ class Seting_Fragment : Fragment() {
         }
         op_600mbLL.setOnClickListener {
             it.isSelected = !it.isSelected
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+
             if (it.isSelected) {
                 setmenu2()
                 op_600mbIV.setImageResource(R.mipmap.icon_check)
@@ -259,6 +267,10 @@ class Seting_Fragment : Fragment() {
         }
         op_20kbLL.setOnClickListener {
             it.isSelected = !it.isSelected
+
+            op_1gbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
             if (it.isSelected) {
                 setmenu2()
                 op_20kbIV.setImageResource(R.mipmap.icon_check)
@@ -495,7 +507,7 @@ class Seting_Fragment : Fragment() {
 
                 if (PrefUtils.getIntPreference(context, "payment_byte") != null) {
                     var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
-                    var disk = PrefUtils.getIntPreference(context, "disk")
+                    var disk = PrefUtils.getDoublePreference(context, "disk")
 
                     println("------$payment_byte , $disk")
 
@@ -515,7 +527,7 @@ class Seting_Fragment : Fragment() {
                         println("---pay-split${disk_sub.get(0)}")
                         var disk_split = disk.toString().split("-")
                         if (disk_split.get(0) == "-") {
-                            disk = disk_split.get(1).toInt()
+                            disk = disk_split.get(1).toDouble()
                             println("-split disk $disk")
                         }
                     }
@@ -728,6 +740,7 @@ class Seting_Fragment : Fragment() {
     private fun setCharge(quota: Int, purchaseToken: String) {
 
         val params = RequestParams()
+        params.put("quota", quota)
 
         ChargeAction.setCharge(params, object : JsonHttpResponseHandler() {
 
@@ -746,6 +759,10 @@ class Seting_Fragment : Fragment() {
                         // ok
 
                         iapHelper.consume(purchaseToken)
+
+                        val intent = Intent()
+                        intent.action = "MY_QUOTA_UPDATED"
+                        context?.sendBroadcast(intent)
 
                     } else if (result == 0) {
                         // error
@@ -902,8 +919,10 @@ class Seting_Fragment : Fragment() {
         })
     }
 
-
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        iapHelper.onActivityResult(requestCode, resultCode, data)
+    }
 
 
 }

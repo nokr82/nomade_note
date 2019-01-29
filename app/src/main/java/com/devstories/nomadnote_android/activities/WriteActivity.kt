@@ -27,16 +27,12 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
-import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
@@ -44,7 +40,6 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_write.*
-import kotlinx.android.synthetic.main.item_addgoods.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -123,6 +118,10 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val date = Date(now)
             val sdf = SimpleDateFormat("yy-MM-dd HH:mm:ss")
             val getTime = sdf.format(date)
+
+            if(created_at == null || created_at.isEmpty()) {
+                created_at = getTime
+            }
 
             var d1 = sdf.parse(created_at);
             var d2 = sdf.parse(getTime);
@@ -340,7 +339,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         params.put("timelineData", timelineData)
         var sum = 0
-        var disk_sum = 0
+        var disk_sum:Double = 0.0
 
         for (i in 0 until bytes.size){
             sum += bytes.get(i)
@@ -348,7 +347,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
             var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
-            var disk = PrefUtils.getIntPreference(context, "disk")
+            var disk = PrefUtils.getDoublePreference(context, "disk")
 
             disk_sum = disk + sum
             Log.d("결제타입",payment_byte.toString())

@@ -12,15 +12,15 @@ android {
         applicationId "com.devstories.nomadnote_android"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 3
+        versionCode 4
         versionName "1.0.0"
         multiDexEnabled true
     }
     // 요기랑
     signingConfigs {
         nomad_note {
-            storeFile file("D:/CloudStation/android_keystore/nomad_note/nomad_note.jks")
-//            storeFile file("/Users/theclub/CloudStation/android_keystore/nomad_note/nomad_note.jks")
+//            storeFile file("D:/CloudStation/android_keystore/nomad_note/nomad_note.jks")
+            storeFile file("/Users/theclub/CloudStation/android_keystore/nomad_note/nomad_note.jks")
             // storePassword "123456"
             keyAlias "nomad_note"
             keyPassword "123456"
