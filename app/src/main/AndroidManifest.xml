@@ -118,7 +118,7 @@
         <activity
             android:name=".activities.WriteActivity"
             android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.MyinfoChangeActivity"
             android:theme="@style/NoTitleDialog"

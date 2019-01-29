@@ -5,10 +5,66 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/titleLL"
+        android:background="@drawable/background_gradient"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp">
 
+        <LinearLayout
+            android:id="@+id/titleBackLL"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back_white"/>
+
+        </LinearLayout>
+
+
+
+        <TextView
+            android:id="@+id/logoIV"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:letterSpacing="-0.01"
+            android:text="글쓰기"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/addcontentLL"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/paper_air"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true">
         <LinearLayout
             android:id="@+id/mainViewLL"
             android:layout_width="match_parent"
@@ -16,59 +72,6 @@
             android:orientation="vertical">
 
             <!-- 타이틀 -->
-            <LinearLayout
-                android:id="@+id/titleLL"
-                android:background="@drawable/background_gradient"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-                <LinearLayout
-                    android:id="@+id/titleBackLL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/back_white"/>
-
-                </LinearLayout>
-
-
-
-                    <TextView
-                        android:id="@+id/logoIV"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textSize="15sp"
-                        android:textColor="#ffffff"
-                        android:letterSpacing="-0.01"
-                        android:text="글쓰기"
-                        />
-
-
-                <LinearLayout
-                    android:id="@+id/addcontentLL"
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/paper_air"/>
-
-                </LinearLayout>
-
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -350,64 +353,62 @@
 
 
 
-            <ScrollView
-                android:padding="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
                 <EditText
                     android:id="@+id/contentET"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:textSize="12sp"
                     android:background="@null"
                     android:maxLines="12"
+                    android:gravity="left"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
                     android:hint="내용을 입력해주세요."/>
 
-
-            </ScrollView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/pictureLL"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="125dp">
-
             <LinearLayout
-                android:id="@+id/addpictureLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="110dp"
-                        android:layout_height="120dp"
-                        android:layout_margin="5dp"
-                        android:background="@mipmap/imgcopy" />
-                </RelativeLayout>
-            </LinearLayout>
-
-            <HorizontalScrollView
+                android:id="@+id/pictureLL"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:scrollbars="none">
+                android:layout_height="125dp">
 
                 <LinearLayout
-                    android:id="@+id/addPicturesLL"
+                    android:id="@+id/addpictureLL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"></LinearLayout>
-            </HorizontalScrollView>
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="110dp"
+                            android:layout_height="120dp"
+                            android:layout_margin="5dp"
+                            android:background="@mipmap/imgcopy" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/addPicturesLL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"></LinearLayout>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
+    </ScrollView>
 
-    </RelativeLayout>
+
+
 
 </LinearLayout>
