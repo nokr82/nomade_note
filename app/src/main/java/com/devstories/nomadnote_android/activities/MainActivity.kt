@@ -434,7 +434,7 @@ class MainActivity : FragmentActivity() {
                         var disk = response!!.getString("disk")
                         var payment_sum = member.getJSONArray("payments")
                         var point = Utils.getInt(member,"point")
-                        var byte = Utils.getInt(member,"byte")
+                        var byte = Utils.getInt(member,"bytes")
 
 //                        var payment_byte = 2147483648
                         var payment_byte = 20480
@@ -458,6 +458,7 @@ class MainActivity : FragmentActivity() {
                         var payment_byteabs = Math.abs(payment_byte)
 
                         println("------disk$disk")
+                        println("-------byte$byte")
 
                         PrefUtils.setPreference(context, "disk", disk.toDouble())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)

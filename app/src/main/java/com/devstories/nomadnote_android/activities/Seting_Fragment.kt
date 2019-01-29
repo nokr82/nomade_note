@@ -539,34 +539,68 @@ class Seting_Fragment : Fragment() {
 
 //                    var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
                     var max = Math.round((disk / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
+                    var maxgb = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+                    var maxkb = Math.round((disk / (1024) * 10).toDouble()) as Long / 10
 
 
 //                    var rament = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
                     var rament = Math.round((byte / (1024 * 1024) * 10).toDouble()) as Long / 10
+                    var ramentkb = Math.round((byte / (1024) * 10).toDouble()) as Long / 10
 
 //                    var payment = Math.round((payment_byte / (1024 * 1024) * 10).toDouble()) as Long /
                     var payment = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+                    var paymentkb =  Math.round((disk / (1024) * 10).toDouble()) as Long / 10
 
 //                    var percent = payment_byte - disk
                     var percent = disk - byte
 
 //                    var div = percent / payment_byte
-                    var div = percent / byte
+                    var div = percent / (byte*100)
 
-                    println("-----div $div")
-                    progressPB.setProgress(Math.abs(div).toInt())
+                    progressPB.setMax(disk.toInt())
+//                    progressPB.setProgress(Math.abs(div).toInt())
+                    progressPB.setProgress(byte)
 
                     var dif = payment - rament
+                    var difkb = paymentkb - ramentkb
 
                     var maxabs = Math.abs(max)
                     var ramentabs = Math.abs(rament)
+                    var ramentabskb = Math.abs(ramentkb)
                     var paymentabs = Math.abs(dif)
+                    var paymentabskb = Math.abs(difkb)
 
                     println("-----rament$rament")
 
-                    mydataTV.setText("총 " + maxabs.toString() + "GB")
-                    remantTV.setText(paymentabs.toString() + "MB")
-                    useTV.setText(ramentabs.toString() + "MB")
+                    if (maxabs.toInt() == 0){
+                        if (maxgb.toInt() == 0){
+                            mydataTV.setText("총 " + Math.abs(maxkb).toString() + "KB")
+                            progressPB.setMax(maxkb.toInt())
+                            progressPB.setProgress(ramentabskb.toInt())
+                        } else {
+                            mydataTV.setText("총 " + Math.abs(maxgb).toString() + "MB")
+                        }
+                    } else {
+                        mydataTV.setText("총 " + maxabs.toString() + "GB")
+                    }
+
+                    println("--------------paymentsabs $paymentabs")
+                    println("--------------ramentabs $ramentabs")
+
+                    if (paymentabs == 0.toLong()){
+                        remantTV.setText(paymentabskb.toString()  + "KB")
+                    } else {
+                        remantTV.setText(paymentabs.toString() + "MB")
+                    }
+
+                    if (ramentabs == 0.toLong()){
+                        useTV.setText(ramentabskb.toString() + "KB")
+                    } else {
+                        useTV.setText(ramentabs.toString() + "MB")
+                    }
+//                    mydataTV.setText("총 " + maxabs.toString() + "GB")
+//                    remantTV.setText(paymentabs.toString() + "MB")
+//                    useTV.setText(ramentabs.toString() + "MB")
                 }
 
             } else {

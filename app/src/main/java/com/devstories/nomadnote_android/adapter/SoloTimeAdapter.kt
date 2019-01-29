@@ -225,7 +225,7 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             if (image.length() > 0) {
                 val image_item = image.get(image.length() - 1) as JSONObject
                 val image_uri = Utils.getString(image_item, "image_uri")
-                var uri = Config.url + "/" + image_uri
+                var uri = Config.url + image_uri
                 ImageLoader.getInstance().displayImage(uri, item.background3IV, Utils.UILoptionsUserProfile)
             } else {
                 item.background3IV.setImageResource(R.mipmap.time_bg)
