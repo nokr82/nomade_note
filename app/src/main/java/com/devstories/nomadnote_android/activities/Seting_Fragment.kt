@@ -7,12 +7,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -33,15 +30,6 @@ import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
-import com.kakao.kakaolink.v2.KakaoLinkResponse
-import com.kakao.kakaolink.v2.KakaoLinkService
-import com.kakao.message.template.ButtonObject
-import com.kakao.message.template.ContentObject
-import com.kakao.message.template.FeedTemplate
-import com.kakao.message.template.LinkObject
-import com.kakao.network.ErrorResult
-import com.kakao.network.callback.ResponseCallback
-import com.kakao.util.helper.log.Logger
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -50,10 +38,6 @@ import kotlinx.android.synthetic.main.fra_setting.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
 
 class Seting_Fragment : Fragment() {
     lateinit var myContext: Context
@@ -183,10 +167,10 @@ class Seting_Fragment : Fragment() {
             shareFacebook()
         }
         naverIV.setOnClickListener {
-
+            shareNaverBlog()
         }
         kakaoIV.setOnClickListener {
-            shareKakao()
+            shareKakaoStory()
         }
 
 
@@ -303,37 +287,6 @@ class Seting_Fragment : Fragment() {
         }
     }
 
-    fun shareKakao() {
-        val url = "market://details?id=donggolf.android"
-        val imgBuilder = ContentObject.newBuilder("노마드 노트",
-                Config.url + "/data/member/5c3cb2dc-c8a8-4351-9b29-16b9ac1f19c8",
-                LinkObject.newBuilder().setWebUrl(url).setMobileWebUrl(url).build())
-                .setDescrption("노마드 노트")
-                .build()
-
-
-        val builder = FeedTemplate.newBuilder(imgBuilder)
-        builder.addButton(ButtonObject("노마드 노트", LinkObject.newBuilder()
-                .setWebUrl(url)
-                .setMobileWebUrl(url)
-                .build()))
-
-        val params = builder.build()
-
-        KakaoLinkService.getInstance().sendDefault(myContext, params, object : ResponseCallback<KakaoLinkResponse>() {
-            override fun onFailure(errorResult: ErrorResult) {
-                Logger.e(errorResult.toString())
-            }
-
-            override fun onSuccess(result: KakaoLinkResponse) {
-
-            }
-        })
-
-
-    }
-
-
     fun setstylemenu() {
         museumTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
         museumTV.setTextColor(Color.parseColor("#878787"))
@@ -347,77 +300,6 @@ class Seting_Fragment : Fragment() {
         hotplaceTV.setTextColor(Color.parseColor("#878787"))
         healTV.setBackgroundResource(R.drawable.background_border_radius9_000000)
         healTV.setTextColor(Color.parseColor("#878787"))
-    }
-
-
-    fun shareFacebook() {
-        val content = ShareLinkContent.Builder()
-
-                //링크의 콘텐츠 제목
-                .setContentTitle("페이스북 공유 링크입니다.")
-
-                //게시물에 표시될 썸네일 이미지의 URL
-                .setImageUrl(Uri.parse("https://lh3.googleusercontent.com/hmVeH1KmKDy1ozUlrjtYMHpzSDrBv9NSbZ0DPLzR8HdBip9kx3wn_sXmHr3wepCHXA=rw"))
-
-                //공유될 링크
-                .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=com.devstories.nomadnote_android"))
-
-                //게일반적으로 2~4개의 문장으로 구성된 콘텐츠 설명
-                .setContentDescription("문장1, 문장2, 문장3, 문장4")
-                .build()
-
-        val shareDialog = ShareDialog(this)
-        shareDialog.show(content, ShareDialog.Mode.FEED)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
-    }
-
-    fun shareInstagram() {
-        //외부저장 권한 요청(안드로이드 6.0 이후 필수)
-        onRequestPermission()
-
-        if (permissionCheck) {
-            val bm = BitmapFactory.decodeResource(resources, R.drawable.kakao_default_profile_image)
-            val storage = Environment.getExternalStorageDirectory().absolutePath
-            val fileName = ".png"
-
-            val folderName = "/nomadnote/"
-            val fullPath = storage + folderName
-            val filePath: File
-
-            try {
-                filePath = File(fullPath)
-                if (!filePath.isDirectory) {
-                    filePath.mkdirs()
-                }
-                val fos = FileOutputStream(fullPath + fileName)
-                bm.compress(Bitmap.CompressFormat.PNG, 100, fos)
-                fos.flush()
-                fos.close()
-
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-
-            val share = Intent(Intent.ACTION_SEND)
-            share.type = "image/*"
-            val uri = Uri.fromFile(File(fullPath, fileName))
-            try {
-//                share.putExtra(Intent.EXTRA_STREAM, uri)
-                share.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
-                share.setPackage("com.instagram.android")
-                startActivity(share)
-            } catch (e: ActivityNotFoundException) {
-                Log.d("에러", e.toString())
-                Toast.makeText(myContext, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
-
-            } catch (e: Exception) {
-                Log.d("에러", e.toString())
-                e.printStackTrace()
-            }
-
-        }
     }
 
     fun onRequestPermission() {
@@ -965,6 +847,86 @@ class Seting_Fragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         iapHelper?.onActivityResult(requestCode, resultCode, data)
     }
+
+
+
+    private fun shareInstagram() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "image/*"
+        try {
+            val uri = Uri.parse("android.resource://" + myContext.packageName + "/mipmap/ic_launcher");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
+            shareIntent.setPackage("com.instagram.android")
+            startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.d("에러", e.toString())
+            Toast.makeText(myContext, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            Log.d("에러", e.toString())
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareFacebook() {
+
+        // val image = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        // val photo = SharePhoto.Builder().setBitmap(image).setCaption("노마드노트").build();
+        // val content = SharePhotoContent.Builder().addPhoto(photo).build();
+
+        val content = ShareLinkContent.Builder().setContentUrl(Uri.parse(Config.url + "/share")).build()
+
+        val shareDialog = ShareDialog(this)
+        shareDialog.show(content, ShareDialog.Mode.FEED)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
+    }
+
+    private fun shareNaverBlog() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "image/*"
+        try {
+
+            val title = "노마드노트"
+            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
+            val appId = myContext.packageName
+            val appName = "노마드노트"
+            val url = String.format("naverblog://write?title=%s&content=%s", title, post);
+
+            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            shareIntent.setPackage("com.nhn.android.blog")
+            startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.d("에러", e.toString())
+            Toast.makeText(myContext, "네이버 블로그앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            Log.d("에러", e.toString())
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareKakaoStory() {
+        try {
+
+            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
+            val appId = myContext.packageName
+            val appName = "노마드노트"
+            val url = String.format("storylink://posting?post=%s&appid=%s&appver=1.0.0&apiver=1.0&appname=%s", post, appId, appName);
+
+            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            shareIntent.setPackage("com.kakao.story")
+            startActivity(shareIntent)
+
+        } catch (e: ActivityNotFoundException) {
+            Log.d("에러", e.toString())
+            Toast.makeText(myContext, "카카오스토리앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            Log.d("에러", e.toString())
+            e.printStackTrace()
+        }
+    }
+
 
 
 }
