@@ -147,7 +147,7 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
             finish()
         }
 
-        addpostBT.setOnClickListener {
+        addpostLL.setOnClickListener {
 
             if (selected != null) {
 

@@ -33,17 +33,17 @@
                 </LinearLayout>
 
                <LinearLayout
-                   android:padding="6dp"
                    android:layout_width="0dp"
                    android:layout_weight="1"
                    android:layout_height="match_parent">
                        <TextView
                            android:id="@+id/contentTV"
                            android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
+                           android:layout_height="match_parent"
                            android:textSize="12sp"
                            android:textColor="#4a4a4a"
                            android:maxLines="2"
+                           android:gravity="center"
                            android:text="베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?"
                            />
 

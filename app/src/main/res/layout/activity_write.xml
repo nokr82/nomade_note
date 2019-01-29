@@ -112,9 +112,8 @@
 
                     <ImageView
                         android:id="@+id/blockIV"
-                        android:padding="5dp"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:src="@mipmap/shield"/>
 
 

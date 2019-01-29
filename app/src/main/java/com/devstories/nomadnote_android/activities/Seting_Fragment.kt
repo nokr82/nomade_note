@@ -71,6 +71,8 @@ class Seting_Fragment : Fragment() {
 
     private lateinit var iapHelper: IAPHelper
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
 //        progressDialog = ProgressDialog(myContext)
@@ -84,6 +86,7 @@ class Seting_Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -94,6 +97,7 @@ class Seting_Fragment : Fragment() {
         activity = getActivity() as MainActivity
         FacebookSdk.sdkInitialize(getApplicationContext())
         AppEventsLogger.activateApp(myContext)
+
 
         click()
         op_click()
@@ -508,18 +512,19 @@ class Seting_Fragment : Fragment() {
                 if (PrefUtils.getIntPreference(context, "payment_byte") != null) {
                     var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
                     var disk = PrefUtils.getDoublePreference(context, "disk")
+                    var byte = PrefUtils.getIntPreference(context, "byte")
 
                     println("------$payment_byte , $disk")
 
-                    var pay_sub = payment_byte.toString().substring(0, 1)
-                    if (pay_sub == "-") {
-                        var pay_split = payment_byte.toString().split("-")
-                        println("---pay-split${pay_split.get(0)}")
-                        if (pay_split.get(0) == "-") {
-                            payment_byte = pay_split.get(1).toInt()
-                            println("-split payment_byte $payment_byte")
-                        }
-                    }
+//                    var pay_sub = payment_byte.toString().substring(0, 1)
+//                    if (pay_sub == "-") {
+//                        var pay_split = payment_byte.toString().split("-")
+//                        println("---pay-split${pay_split.get(0)}")
+//                        if (pay_split.get(0) == "-") {
+//                            payment_byte = pay_split.get(1).toInt()
+//                            println("-split payment_byte $payment_byte")
+//                        }
+//                    }
 
 
                     var disk_sub = payment_byte.toString().substring(0, 1)
@@ -532,14 +537,23 @@ class Seting_Fragment : Fragment() {
                         }
                     }
 
-                    var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
+//                    var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
+                    var max = Math.round((disk / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
 
-                    var rament = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
 
-                    var payment = Math.round((payment_byte / (1024 * 1024) * 10).toDouble()) as Long / 10
+//                    var rament = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+                    var rament = Math.round((byte / (1024 * 1024) * 10).toDouble()) as Long / 10
 
-                    var percent = payment_byte - disk
-                    var div = percent / payment_byte
+//                    var payment = Math.round((payment_byte / (1024 * 1024) * 10).toDouble()) as Long /
+                    var payment = Math.round((disk / (1024 * 1024) * 10).toDouble()) as Long / 10
+
+//                    var percent = payment_byte - disk
+                    var percent = disk - byte
+
+//                    var div = percent / payment_byte
+                    var div = percent / byte
+
+                    println("-----div $div")
                     progressPB.setProgress(Math.abs(div).toInt())
 
                     var dif = payment - rament
@@ -570,6 +584,7 @@ class Seting_Fragment : Fragment() {
                 op_friendaddLL.visibility = View.GONE
                 friendaddIV.rotation = 0f
             }
+
 
         }
 

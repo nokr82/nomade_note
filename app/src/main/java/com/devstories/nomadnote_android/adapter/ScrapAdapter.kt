@@ -159,10 +159,10 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var costTV : TextView
         var createdTV:TextView
         var contentTV:TextView
-        var healingTV:TextView
-        var hotplaceTV:TextView
-        var literatureTV:TextView
-        var historyTV:TextView
+        var healingTV:me.grantland.widget.AutofitTextView
+        var hotplaceTV:me.grantland.widget.AutofitTextView
+        var literatureTV:me.grantland.widget.AutofitTextView
+        var historyTV:me.grantland.widget.AutofitTextView
         var museumTV:me.grantland.widget.AutofitTextView
         var iconIV : ImageView
         var trustIV : ImageView
@@ -170,6 +170,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var trustRL : RelativeLayout
         var backgroundIV : ImageView
         var textTV: TextView
+        var artTV: me.grantland.widget.AutofitTextView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as CircleImageView
@@ -179,10 +180,10 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             costTV = v.findViewById<View>(R.id.costTV) as TextView
             createdTV = v.findViewById<View>(R.id.createdTV) as TextView
             contentTV = v.findViewById<View>(R.id.contentTV) as TextView
-            healingTV = v.findViewById<View>(R.id.healingTV) as TextView
-            hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as TextView
-            literatureTV = v.findViewById<View>(R.id.literatureTV) as TextView
-            historyTV = v.findViewById<View>(R.id.historyTV) as TextView
+            healingTV = v.findViewById<View>(R.id.healingTV) as me.grantland.widget.AutofitTextView
+            hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
+            literatureTV = v.findViewById<View>(R.id.literatureTV) as me.grantland.widget.AutofitTextView
+            historyTV = v.findViewById<View>(R.id.historyTV) as me.grantland.widget.AutofitTextView
             museumTV = v.findViewById<View>(R.id.museumTV) as me.grantland.widget.AutofitTextView
             iconIV = v.findViewById<View>(R.id.iconIV) as ImageView
             trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
@@ -190,6 +191,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
             backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
             textTV = v.findViewById<View>(R.id.textTV) as TextView
+            artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
 
         }
     }
@@ -205,6 +207,8 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         item. historyTV.setTextColor(Color.parseColor("#878787"))
         item.museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         item.museumTV.setTextColor(Color.parseColor("#878787"))
+        item.artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.artTV.setTextColor(Color.parseColor("#878787"))
     }
 
     fun setMenuImage(style: Int){
@@ -233,6 +237,11 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             5 ->{
                 item.museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 item.museumTV.setTextColor(Color.parseColor("#ffffff"))
+            }
+
+            6->{
+                item.artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.artTV.setTextColor(Color.parseColor("#ffffff"))
             }
         }
     }
