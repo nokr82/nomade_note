@@ -34,7 +34,6 @@ class MyinfoChangeActivity : RootActivity() {
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
-
     var name = ""
     var age = 0
     var phone = 0
@@ -87,7 +86,7 @@ class MyinfoChangeActivity : RootActivity() {
             edit_profile()
         }
 
-        val point = PrefUtils.getStringPreference(context, "point")
+        val point = PrefUtils.getIntPreference(context, "point")
         mypointTV.setText("보유 포인트 : " + point + "P")
 
         loadInfo()
@@ -235,8 +234,15 @@ class MyinfoChangeActivity : RootActivity() {
                             femaleckIV.visibility = View.VISIBLE
                         }
                         nameET.setText(name)
-                        ageET.setText(age.toString())
-                        phoneET.setText(Math.abs(phone).toString())
+
+                        println("-----age----$age , $phone")
+                        if (Utils.getInt(member,"age") != -1 && Utils.getInt(member,"age") != 1) {
+                            ageET.setText(age.toString())
+                        }
+
+                        if (Utils.getInt(member,"phone") != -1 && Utils.getInt(member,"phone") != 1){
+                            phoneET.setText(Math.abs(phone).toString())
+                        }
 
                         if (myprofile != ""){
                             if (gender == "M") {

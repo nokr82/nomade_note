@@ -79,6 +79,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     var block_yn = "N"
 
+    var country = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
@@ -145,24 +147,25 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         blockIV.setOnClickListener {
             if (block_yn == "N"){
 
-                val builder = AlertDialog.Builder(context)
-                builder
-
-                        .setMessage("글을 숨기시겠습니까 ?")
-
-                        .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
-                            blockIV.setImageResource(R.mipmap.lock_icon)
-                            block_yn = "Y"
-                            dialog.cancel()
-
-                        })
-                        .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
-                            dialog.cancel()
-                        })
-
-                val alert = builder.create()
-                alert.show()
-
+//                val builder = AlertDialog.Builder(context)
+//                builder
+//
+//                        .setMessage("글을 숨기시겠습니까 ?")
+//
+//                        .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+//                            blockIV.setImageResource(R.mipmap.lock_icon)
+//                            block_yn = "Y"
+//                            dialog.cancel()
+//
+//                        })
+//                        .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+//                            dialog.cancel()
+//                        })
+//
+//                val alert = builder.create()
+//                alert.show()
+                block_yn = "Y"
+                blockIV.setImageResource(R.mipmap.lock_icon)
             } else {
                 blockIV.setImageResource(R.mipmap.shield)
                 block_yn = "Y"
@@ -299,7 +302,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("country_id","1")
         params.put("style_id",menu_position)
         params.put("token",PrefUtils.getStringPreference(context,"token"))
-        params.put(" block_yn",block_yn)
+        params.put("block_yn",block_yn)
+        params.put("country",country)
 
         val content_byte = contents.toByteArray()
         val content_size = content_byte.size
@@ -345,14 +349,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             sum += bytes.get(i)
         }
 
-        if (PrefUtils.getIntPreference(context,"payment_byte") != null) {
-            var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+        if (PrefUtils.getIntPreference(context,"byte") != null) {
+            var byte = PrefUtils.getIntPreference(context, "byte")
             var disk = PrefUtils.getDoublePreference(context, "disk")
 
-            disk_sum = disk + sum
-            Log.d("결제타입",payment_byte.toString())
+            disk_sum = byte.toDouble() + sum
+            Log.d("현재 사용량",byte.toString())
             Log.d("용량",disk_sum.toString())
-            if (disk_sum > payment_byte){
+            if (disk_sum > disk){
 //                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
                 Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
                     override fun before(): Boolean {
@@ -1129,6 +1133,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             if(list.size > 0){
                 println("list ---- ${list}")
                 println("list.admin ${list.get(0).adminArea}")
+
+                country = list.get(0).countryName
 
 //                invRegionET.setText(list.get(0).getAddressLine(0));
                 locationET.setText(list.get(0).adminArea)

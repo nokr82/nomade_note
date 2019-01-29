@@ -18,6 +18,7 @@ import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_scrap.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -30,6 +31,7 @@ class Scrap_Fragment : Fragment()  {
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
     lateinit var timelineAdapter: ScrapAdapter
     lateinit var scrapLV: ListView
+    private lateinit var activity: MainActivity
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,7 +53,8 @@ class Scrap_Fragment : Fragment()  {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        activity = getActivity() as MainActivity
+        activity.titleLL.visibility = View.GONE
         click()
 
     }
@@ -445,7 +448,9 @@ class Scrap_Fragment : Fragment()  {
 
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
-
+                        var point = PrefUtils.getIntPreference(context, "point")
+                        var sum = point.toInt()+500
+                        PrefUtils.setPreference(context, "point", sum)
                     }
 
                 } catch (e: JSONException) {

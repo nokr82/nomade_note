@@ -20,6 +20,7 @@ import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_other_time.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -31,6 +32,7 @@ class Other_time_Fragment : Fragment()  {
     lateinit var OthertimeAdapter: OthertimeAdapter
     var data = arrayListOf<Int>()
     lateinit var otherLV:ListView
+    private lateinit var activity: MainActivity
 
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
 
@@ -57,6 +59,9 @@ class Other_time_Fragment : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         click()
         super.onActivityCreated(savedInstanceState)
+
+        activity = getActivity() as MainActivity
+        activity.titleLL.visibility = View.GONE
     }
 
     fun click(){
