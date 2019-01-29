@@ -12,5 +12,37 @@
     <string name="emailET_hint">이메일 주소 입력</string>
     <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
     <string name="joinTV_text">Sign Up</string>
+    <string name="activity_login_kakao">Sign Up with Kakao</string>
+    <!--카카오로 시작-->
+    <string name="activity_login_naver">Sign Up with Naver</string>
+    <!--네이버로 시작-->
+    <string name="activity_login_google">Login with Google</string>
+    <!--구글 로그인-->
+    <string name="activity_login_facebook">Login with Facebook</string>
+    <!--페이스북 로그인-->
+    <string name="activity_login_login">Login</string>
+    <!--로그인-->
+    <string name="activity_visit_visited">All Countries Visited</string>
+    <!--방문국가 기록-->
+    <string name="activity_login_signup">Sign Up</string>
+    <!--회원가입-->
+    <string name="fragment_solo_style">Choose A Travel Style</string>
+    <!--여행스타일 선택하기-->
+    <string name="fragment_solo_addnote">Create New Note</string>
+    <!--새글쓰기-->
+    <string name="activity_write_note">Create New Note</string>
+    <!--작성시간-->
+    <string name="fragment_scrap_keyword">Search by Keyword</string>
+    <!--키워드 검색-->
+    <string name="activity_write_location">Location</string>
+    <!--위치-->
+    <string name="activity_write_time">Time Purchased</string>
+    <!--소비시간-->
+    <string name="activity_write_spent">Amount of Money Spent</string>
+    <!--소비금액-->
+    <string name="activity_write_rome">Rome</string>
+    <!--로마-->
+    <string name="activity_write_healing">Healing Style</string>
+    <!--힐링 스타일-->
 
 </resources>

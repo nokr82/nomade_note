@@ -94,7 +94,16 @@
                             android:textSize="11sp"
                             android:textColor="#4a4a4a"
                             android:textStyle="bold"
-                            android:text="작성시간 : "
+                            android:text="@string/activity_write_note"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11sp"
+                            android:textColor="#4a4a4a"
+                            android:textStyle="bold"
+                            android:text=" : "
                             />
 
                         <TextView

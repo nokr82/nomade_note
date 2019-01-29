@@ -89,19 +89,11 @@
                 <TextView
                     android:id="@+id/viTV"
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="방문국가"
+                    android:text="@string/activity_visit_visited"
                     android:textSize="12dp"
-                    android:textColor="#ffffff"
-                    />
-                <TextView
-                    android:layout_below="@+id/viTV"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="기록"
-                    android:textSize="12dp"
+                    android:gravity="center"
                     android:textColor="#ffffff"
                     />
 
@@ -119,19 +111,22 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:paddingTop="10dp"
-                    android:paddingRight="65dp"
+                    android:paddingRight="70dp"
                     android:src="@mipmap/op_ss" />
 
                 <TextView
                     android:id="@+id/vi2TV"
+                    android:layout_marginBottom="10dp"
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="여행스타일"
+                    android:text="@string/fragment_solo_style"
                     android:textSize="12dp"
+                    android:gravity="center"
                     android:textColor="#ffffff"
                     />
                 <TextView
+                    android:visibility="gone"
                     android:layout_below="@+id/vi2TV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
@@ -163,7 +158,7 @@
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="새글쓰기"
+                    android:text="@string/fragment_solo_addnote"
                     android:textSize="12dp"
                     android:textColor="#ffffff"
                     />
@@ -204,7 +199,7 @@
                 android:imeOptions="actionSearch"
                 android:textColorHint="#ffffff"
                 android:layout_height="match_parent"
-                android:hint="키워드 검색"/>
+                android:hint="@string/fragment_scrap_keyword"/>
 
             <ImageView
                 android:visibility="invisible"

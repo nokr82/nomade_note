@@ -11,6 +11,39 @@
     <string name="join_by_email">이메일로 회원가입</string>
     <string name="emailET_hint">이메일 주소 입력</string>
     <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
-    <string name="joinTV_text">회원가입</string>
+    <string name="joinTV_text">会員登録</string>
+
+    <string name="activity_login_kakao">カカオトークで始める</string>
+    <!--카카오로 시작-->
+    <string name="activity_login_naver">ネイバーで始める</string>
+    <!--네이버로 시작-->
+    <string name="activity_login_google">グーグルログイン</string>
+    <!--구글 로그인-->
+    <string name="activity_login_facebook">フェイスブックログイン</string>
+    <!--페이스북 로그인-->
+    <string name="activity_login_login">ログイン</string>
+    <!--로그인-->
+    <string name="activity_visit_visited">訪問国家記録</string>
+    <!--방문국가 기록-->
+    <string name="activity_login_signup">会員登録</string>
+    <!--회원가입-->
+    <string name="fragment_solo_style">旅行スタイルを選択する</string>
+    <!--여행스타일 선택하기-->
+    <string name="fragment_solo_addnote">新しく書き込む</string>
+    <!--새글쓰기-->
+    <string name="activity_write_note">作成時間</string>
+    <!--작성시간-->
+    <string name="fragment_scrap_keyword">キーワード検索</string>
+    <!--키워드 검색-->
+    <string name="activity_write_location">位置</string>
+    <!--위치-->
+    <string name="activity_write_time">消費時間</string>
+    <!--소비시간-->
+    <string name="activity_write_spent">消費金額</string>
+    <!--소비금액-->
+    <string name="activity_write_rome">ローマ</string>
+    <!--로마-->
+    <string name="activity_write_healing">ヒーリングスタイル</string>
+    <!--힐링 스타일-->
 
 </resources>

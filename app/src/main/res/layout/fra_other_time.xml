@@ -165,7 +165,7 @@
                 android:imeOptions="actionSearch"
                 android:textColorHint="#ffffff"
                 android:layout_height="match_parent"
-                android:hint="키워드 검색"/>
+                android:hint="@string/fragment_scrap_keyword"/>
 
             <ImageView
                 android:visibility="invisible"

@@ -40,7 +40,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="카카오로 시작"
+            android:text="@string/activity_login_kakao"
             android:textColor="#3c1d21"
             android:textSize="12dp"
             android:layout_height="wrap_content" />
@@ -63,7 +63,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="네이버로 시작"
+                android:text="@string/activity_login_naver"
                 android:textColor="#ffffff"
                 android:textSize="12dp"
                 android:layout_height="wrap_content" />
@@ -86,7 +86,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="구글 로그인"
+                android:text="@string/activity_login_google"
                 android:textColor="#ffffff"
                 android:textSize="12dp"
                 android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="페이스북 로그인"
+                android:text="@string/activity_login_facebook"
                 android:textSize="12dp"
                 android:textColor="#ffffff"
                 android:layout_height="wrap_content" />
@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#779ba4"
-            android:text="로그인"/>
+            android:text="@string/activity_login_login"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#779ba4"
-            android:text="회원가입"/>
+            android:text="@string/activity_login_signup"/>
         
     </LinearLayout>
 

@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15sp"
                         android:textColor="#ffffff"
-                        android:text="방문국가 기록"/>
+                        android:text="@string/activity_visit_visited"/>
 
 
 
