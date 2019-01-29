@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.NationAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -70,6 +71,7 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
     private fun loadData() {
 
         val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
 
         NationAction.getcountry(params, object : JsonHttpResponseHandler() {
 
