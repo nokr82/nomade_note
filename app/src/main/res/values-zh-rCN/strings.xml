@@ -72,6 +72,17 @@
     <string name="totalmemory">전체 메모리</string>
     <string name="searchphone">연락처로 검색</string>
     <string name="searchid">ID 검색</string>
+    <string name="test">세종문화회관</string>
+    <string name="fra_setting_buy">결제하기</string>
+    <string name="fra_setting_experien">기록된 여행추억을 공유해보세요</string>
+    <string name="fra_setting_insta">인스타그램</string>
+    <string name="fra_setting_facebook">페이스북</string>
+    <string name="fra_setting_naverblog">네이버블로그</string>
+    <string name="fra_setting_kakaostory">카카오스토리</string>
+    <string name="activity_choosegender">성별을 선택하세요</string>
+    <string name="activity_write_title">제목</string>
+    <string name="acrivity_quest_logo">문의하기</string>
+    <string name="item_mainimage">대표사진</string>
     <string name="inquire">문의하기</string>
     <string name="enteryourname">이름을 입력하세요.</string>
     <string name="enteryouraddress">연락처를 입력하세요.</string>
