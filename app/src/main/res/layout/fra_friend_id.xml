@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:textColor="#0C6E87"
             android:textStyle="bold"
-            android:text="ID로 친구를 추가할 수 있습니다."/>
+            android:text="@string/newfriendid"/>
 
         <TextView
             android:id="@+id/contentTV"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:textColor="#878787"
-            android:text="추가하고 싶은 친구의 ID를 입력해 주세요."
+            android:text="@string/addenterid"
             />
 
         <TextView

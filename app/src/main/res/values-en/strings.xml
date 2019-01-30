@@ -85,7 +85,9 @@
     <string name="activity_write_title">Title</string>
     <string name="acrivity_quest_logo">Inquire</string>
     <string name="item_mainimage">Main Image</string>
-    <string name="artmuseumstyle">미술관 스타일</string>
+    <string name="artmuseumstyle">Art Museum Style</string>
+    <string name="newfriendid">Add new friends through their ID</string>
+    <string name="addenterid">Enter the ID of the friend of the user you wish to add.</string>
 
 
 </resources>
