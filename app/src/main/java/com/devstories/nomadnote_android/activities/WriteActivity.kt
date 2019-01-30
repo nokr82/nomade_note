@@ -224,7 +224,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             menuSetImage()
             artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
             artTV.setTextColor(Color.parseColor("#ffffff"))
-            menu_position = 5
+            menu_position = 6
         }
 
         addcontentLL.setOnClickListener {
@@ -377,7 +377,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             }
         }
         var disk_sumabs =  Math.abs(disk_sum)
-        PrefUtils.setPreference(context, "disk", disk_sumabs)
+        PrefUtils.setPreference(context, "byte", disk_sumabs.toInt())
         params.put("disk_data",sum)
         params.put("qnas_id",qnas_id)
 
