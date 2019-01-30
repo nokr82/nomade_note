@@ -199,7 +199,7 @@ class MainActivity : FragmentActivity() {
 
     fun click(){
         soloLL.setOnClickListener {
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
             titleLL.visibility = View.GONE
             setmenu()
@@ -208,7 +208,7 @@ class MainActivity : FragmentActivity() {
 
         }
         questLL.setOnClickListener {
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             logoTV.setText(getString(R.string.seeallquestions))
             logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
@@ -220,7 +220,7 @@ class MainActivity : FragmentActivity() {
         }
         mapsearchLL.setOnClickListener {
 //            titleLL.visibility = View.GONE
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             setmenu()
             mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_mapsearch)
             mapsearchTV.setTextColor(Color.parseColor("#0c6e87"))
@@ -228,7 +228,7 @@ class MainActivity : FragmentActivity() {
         }
         otherLL.setOnClickListener {
 //            titleLL.visibility = View.GONE
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             setmenu()
             otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_other)
             otherTV.setTextColor(Color.parseColor("#0c6e87"))
@@ -236,7 +236,7 @@ class MainActivity : FragmentActivity() {
         }
         scrapLL.setOnClickListener {
 //            logoTV.setText("스크랩 리스트")
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             logoIV.visibility = View.GONE
             setmenu()
 //            titleLL.visibility = View.GONE
@@ -245,7 +245,7 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
         settingLL.setOnClickListener {
-            titleBackLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             logoTV.setText("설정")
             logoTV.visibility = View.VISIBLE
             setmenu()

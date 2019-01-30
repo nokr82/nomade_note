@@ -110,7 +110,7 @@ class Seting_Fragment : Fragment() {
 
                 activity.logoIV.visibility = View.VISIBLE
                 activity.titleLL.visibility = View.GONE
-                activity.titleBackLL.visibility = View.GONE
+                activity.titleBackLL.visibility = View.INVISIBLE
                 s_type = -1
             }
         }
