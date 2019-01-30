@@ -40,6 +40,7 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy
 import io.nlopez.smartlocation.location.config.LocationParams
 import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_write.*
+import kotlinx.android.synthetic.main.item_addgoods.view.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -47,6 +48,7 @@ import java.io.ByteArrayInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import com.nostra13.universalimageloader.core.ImageLoader
 
 private val imgSeq = 0
 
@@ -168,13 +170,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 blockIV.setImageResource(R.mipmap.lock_icon)
             } else {
                 blockIV.setImageResource(R.mipmap.shield)
-                block_yn = "Y"
+                block_yn = "N"
             }
 //            blockIV.setImageResource(R.mipmap.lock_icon)
         }
 
         titleBackLL.setOnClickListener {
             finish()
+            Utils.hideKeyboard(context)
         }
 
         //힐링
@@ -229,9 +232,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val builder = AlertDialog.Builder(context)
             builder
 
-                    .setMessage("등록하시겠습니까 ?")
+                    .setMessage(getString(R.string.builderwanttopost))
 
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                         if (timeline_id == "") {
                             addContent()
@@ -240,7 +243,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                             modify()
                         }
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 
@@ -377,13 +380,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         PrefUtils.setPreference(context, "disk", disk_sumabs)
         params.put("disk_data",sum)
         params.put("qnas_id",qnas_id)
-
-
-
-
-
-
-
 
         TimelineAction.addtimeline(params, object : JsonHttpResponseHandler() {
 
@@ -963,12 +959,22 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         var v = View.inflate(context, R.layout.item_addgoods, null)
         val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
         val delIV = v.findViewById<View>(R.id.delIV) as ImageView
+        val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
         val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
-//        ImageLoader.getInstance().displayImage(str,v.addedImgIV, Utils.UILoptionsUserProfile)
+        if (timeline_id.length > 0) {
+            ImageLoader.getInstance().displayImage(str, v.addedImgIV, Utils.UILoptionsUserProfile)
+        }
         imageIV.setImageBitmap(add_file)
         delIV.tag = i
         fullImageLL.setTag(i)
         delIV.setOnClickListener {
+            if (first.visibility == View.VISIBLE){
+                if (addPicturesLL?.getChildAt(0) != null) {
+                    val v0 = addPicturesLL?.getChildAt(0)
+                    val firstLL = v0?.findViewById<View>(R.id.firstLL) as LinearLayout
+                    firstLL.visibility = View.VISIBLE
+                }
+            }
             addPicturesLL!!.removeView(v)
         }
         if (imgSeq == 0) {
@@ -981,9 +987,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val firstLL = v?.findViewById<View>(R.id.firstLL) as LinearLayout
             val childView = addPicturesLL.getChildAt(i)
             firstLL.visibility = View.GONE
-            println("-----gone")
         }
-        val firstLL = v.findViewById<View>(R.id.firstLL) as LinearLayout
+        val v0 = addPicturesLL?.getChildAt(0)
+        val firstLL = v0?.findViewById<View>(R.id.firstLL) as LinearLayout
         firstLL.visibility = View.VISIBLE
 
     }
@@ -995,8 +1001,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //        } else {
 //            main_index = tag
 //        }
-
-        println("----clickmethod")
 
 //        var v = View.inflate(context, R.layout.item_addgoods, null)
 
@@ -1111,32 +1115,24 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
     }
 
     override fun onLocationUpdated(location: Location?) {
-        stopLocation()
         if (location != null) {
             if (myLocation) {
                 latitude = location.getLatitude()
                 longitude = location.getLongitude()
-
             }
 
-//            val latlng = LatLng(latitude, longitude)
-
-//            println("-----latitue ---- $latitude , $longitude")
 
             var systemLocale = getApplicationContext().getResources().getConfiguration().locale
             val strLanguage = systemLocale.language
-//            println("----strlanguage --- $strLanguage , $systemLocale")
             var geocoder: Geocoder = Geocoder(context, Locale.getDefault());
 
             var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
-//            var list:List<Address> = geocoder.getFromLocation(39.916039,  116.409184, 1);
             if(list.size > 0){
                 println("list ---- ${list}")
                 println("list.admin ${list.get(0).adminArea}")
 
                 country = list.get(0).countryName
 
-//                invRegionET.setText(list.get(0).getAddressLine(0));
                 locationET.setText(list.get(0).adminArea)
             }
 
@@ -1145,7 +1141,24 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             }
         }
 
+        stopLocation()
     }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            REQUEST_FINE_LOCATION -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_ACCESS_COARSE_LOCATION)
+            }
+            REQUEST_ACCESS_COARSE_LOCATION -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                checkGPs()
+            }
+        }
+
+    }
+
 
 
 

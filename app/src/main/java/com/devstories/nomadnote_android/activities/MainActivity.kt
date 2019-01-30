@@ -199,6 +199,7 @@ class MainActivity : FragmentActivity() {
 
     fun click(){
         soloLL.setOnClickListener {
+            titleBackLL.visibility = View.GONE
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
             titleLL.visibility = View.GONE
             setmenu()
@@ -207,6 +208,7 @@ class MainActivity : FragmentActivity() {
 
         }
         questLL.setOnClickListener {
+            titleBackLL.visibility = View.GONE
             logoTV.setText("누적질문보기")
             logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
@@ -218,6 +220,7 @@ class MainActivity : FragmentActivity() {
         }
         mapsearchLL.setOnClickListener {
 //            titleLL.visibility = View.GONE
+            titleBackLL.visibility = View.GONE
             setmenu()
             mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_mapsearch)
             mapsearchTV.setTextColor(Color.parseColor("#0c6e87"))
@@ -225,6 +228,7 @@ class MainActivity : FragmentActivity() {
         }
         otherLL.setOnClickListener {
 //            titleLL.visibility = View.GONE
+            titleBackLL.visibility = View.GONE
             setmenu()
             otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_other)
             otherTV.setTextColor(Color.parseColor("#0c6e87"))
@@ -232,6 +236,7 @@ class MainActivity : FragmentActivity() {
         }
         scrapLL.setOnClickListener {
 //            logoTV.setText("스크랩 리스트")
+            titleBackLL.visibility = View.GONE
             logoIV.visibility = View.GONE
             setmenu()
 //            titleLL.visibility = View.GONE
@@ -240,6 +245,7 @@ class MainActivity : FragmentActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
         settingLL.setOnClickListener {
+            titleBackLL.visibility = View.GONE
             logoTV.setText("설정")
             logoTV.visibility = View.VISIBLE
             setmenu()
@@ -432,33 +438,32 @@ class MainActivity : FragmentActivity() {
 
                         var member = response.getJSONObject("member")
                         var disk = response!!.getString("disk")
-                        var payment_sum = member.getJSONArray("payments")
+//                        var payment_sum = member.getJSONArray("payments")
                         var point = Utils.getInt(member,"point")
+                        var pointdouble = Utils.getDouble(member,"point")
+                        var bytedouble = Utils.getDouble(member,"point")
                         var byte = Utils.getInt(member,"bytes")
 
 //                        var payment_byte = 2147483648
                         var payment_byte = 20480
-                        if (payment_sum.length()>0){
-                            for (i in 0 until payment_sum.length()){
-                                val payment_item = payment_sum.get(i) as JSONObject
-                                val category = Utils.getInt(payment_item,"category")
-
-                                if (category == 1){
-                                    payment_byte = payment_byte + 1073741824
-                                } else if (category == 2){
-                                    payment_byte = payment_byte + 644245094
-                                } else {
-                                    payment_byte = payment_byte + 21474836
-                                }
-
-                            }
-                        }
+//                        if (payment_sum.length()>0){
+//                            for (i in 0 until payment_sum.length()){
+//                                val payment_item = payment_sum.get(i) as JSONObject
+//                                val category = Utils.getInt(payment_item,"category")
+//
+//                                if (category == 1){
+//                                    payment_byte = payment_byte + 1073741824
+//                                } else if (category == 2){
+//                                    payment_byte = payment_byte + 644245094
+//                                } else {
+//                                    payment_byte = payment_byte + 21474836
+//                                }
+//
+//                            }
+//                        }
 
 //                        var diskabs =  Math.abs(disk)
                         var payment_byteabs = Math.abs(payment_byte)
-
-                        println("------disk$disk")
-                        println("-------byte$byte")
 
                         PrefUtils.setPreference(context, "disk", disk.toDouble())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)

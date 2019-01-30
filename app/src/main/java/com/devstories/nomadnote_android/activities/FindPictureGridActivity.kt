@@ -155,9 +155,9 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
 
                 val builder = AlertDialog.Builder(context)
                 builder
-                        .setMessage("사진을 등록하시겠습니까 ?")
+                        .setMessage(getString(R.string.builderwanttopost))
 
-                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                        .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                             dialog.cancel()
 
                             val result = arrayOfNulls<String>(selected.size)
@@ -185,7 +185,7 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                             }
                             finish()
                         })
-                        .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
+                        .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                             dialog.cancel()
                         })
                 val alert = builder.create()

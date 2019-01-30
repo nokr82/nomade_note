@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:background="@drawable/background_border_radius7_000000"
-                android:text="힐링 스타일"
+                android:text="@string/activity_write_healing"
                 android:textSize="10dp"
                 android:textColor="#ffffff"/>
             <me.grantland.widget.AutofitTextView
