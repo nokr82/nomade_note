@@ -109,7 +109,7 @@ class Solo_detail_Activity : RootActivity() {
                 builder.setMessage("게시물을 공개 하시겠습니까?")
             }
             builder
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         if (block == "N"){
                             change_block("Y")
                             lockIV.setImageResource(R.mipmap.lock)
@@ -120,7 +120,7 @@ class Solo_detail_Activity : RootActivity() {
                         dialog.cancel()
 
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 

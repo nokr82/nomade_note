@@ -71,7 +71,7 @@ class MemberInputActivity : RootActivity() {
             age = Utils.getString(ageET)
 
             if (name.equals("")){
-                Toast.makeText(context, "이름을 입력해주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.enteryourname), Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             if (age.equals("")){
@@ -79,7 +79,7 @@ class MemberInputActivity : RootActivity() {
                 return@setOnClickListener
             }
             if (gender.equals("")){
-                Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.chooseyourgender), Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 

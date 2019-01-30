@@ -492,8 +492,6 @@ class Seting_Fragment : Fragment() {
                 op_friendaddLL.visibility = View.GONE
                 friendaddIV.rotation = 0f
             }
-
-
         }
 
         payLL.setOnClickListener {
@@ -519,13 +517,13 @@ class Seting_Fragment : Fragment() {
         deleteLL.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder
-                    .setMessage("정말로 탈퇴 하시겠습니까 ?")
+                    .setMessage(getString(R.string.builderdelete))
 
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         delete_member()
                         Utils.hideKeyboard(context)
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                         Utils.hideKeyboard(context)
                     })

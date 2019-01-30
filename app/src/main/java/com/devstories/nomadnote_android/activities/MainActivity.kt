@@ -209,7 +209,7 @@ class MainActivity : FragmentActivity() {
         }
         questLL.setOnClickListener {
             titleBackLL.visibility = View.GONE
-            logoTV.setText("누적질문보기")
+            logoTV.setText(getString(R.string.seeallquestions))
             logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE

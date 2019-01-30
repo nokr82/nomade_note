@@ -56,14 +56,14 @@ class QuestionActivity : RootActivity() {
             builder
                     .setMessage("문의하시겠습니까 ?")
 
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
 
 
                         addQuestion()
 
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
 
 
