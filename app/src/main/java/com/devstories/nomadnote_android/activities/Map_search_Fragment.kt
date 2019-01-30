@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.*
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -45,6 +46,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapViewEventListener, MapView.POIItemEventListener, OnMapReadyCallback {
@@ -514,7 +516,84 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             val latlng = LatLng(lat, lng)
 
-            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.pin)))
+            var bitmap = BitmapFactory.decodeResource(myContext.getResources(), R.mipmap.pin2);
+
+            // draw
+
+            val scale = resources.displayMetrics.density
+
+            var bitmapConfig = bitmap.config;
+            // set default bitmap config if none
+            if (bitmapConfig == null) {
+                bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888
+            }
+            // resource bitmaps are imutable,
+            // so we need to convert it to mutable one
+            bitmap = bitmap.copy(bitmapConfig, true)
+
+            val canvas = Canvas(bitmap)
+            // new antialised Paint
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            paint.color = Color.WHITE
+            // text size in pixels
+            paint.textSize = (14 * scale).roundToInt().toFloat()
+
+            val place_name = Utils.getString(place, "place")
+
+            // draw text to the Canvas center
+            val total_durations = Utils.getInt(place, "total_durations")
+            val hour = total_durations / 60
+            val min = total_durations % 60
+            val duration = "$hour:$min"
+
+            val total_costs = Utils.getInt(place, "total_costs")
+            val costs = "$total_costs$"
+
+            println("duration : $duration, costs : $costs")
+
+            //draw the first text
+            val bounds1 = Rect()
+            val paint1 = Paint()
+            paint1.color = Color.WHITE
+            // text size in pixels
+            paint1.textSize = (14 * scale).roundToInt().toFloat()
+            paint1.getTextBounds(place_name, 0, place_name.length, bounds1)
+
+            var x = (bitmap.width - bounds1.width()) / 2f - duration.length
+            var y = 28f * scale
+            canvas.drawText(place_name, x, y, paint1)
+
+            //draw the first text
+            val bounds2 = Rect()
+            val paint2 = Paint()
+            paint2.color = Color.WHITE
+            // text size in pixels
+            paint2.textSize = (14 * scale).roundToInt().toFloat()
+            paint2.getTextBounds(duration, 0, duration.length, bounds2)
+
+            x = (bitmap.width - bounds2.width()) / 2f - duration.length
+            y = 48f * scale
+            canvas.drawText(duration, x, y, paint2)
+
+            //draw the second text
+            val bounds3 = Rect()
+            val paint3 = Paint(Paint.ANTI_ALIAS_FLAG)
+            paint3.color = Color.WHITE
+            // text size in pixels
+            paint3.textSize = (14 * scale).roundToInt().toFloat()
+            paint3.getTextBounds(costs, 0, costs.length, bounds3)
+
+            x = (bitmap.width - bounds3.width()) / 2f - costs.length
+            y = 74f * scale
+            canvas.drawText(costs, x, y, paint3)
+
+
+
+
+            // draw
+
+
+            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
             marker.tag = place
 
             markers.add(marker)
@@ -537,7 +616,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
         val padding = 200 // offset from edges of the map in pixels
         val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
-        googleMap.animateCamera(cu)
+        googleMap.moveCamera(cu)
     }
 
 }
