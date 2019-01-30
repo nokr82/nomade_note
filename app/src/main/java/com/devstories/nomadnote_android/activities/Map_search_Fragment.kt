@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.PlaceAction
-import com.devstories.nomadnote_android.actions.TimelineAction.search_keword
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -522,6 +521,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     private fun addMarkers() {
 
+        googleMap.clear()
 
         for (i in 0 until places.length()) {
             val place = places.getJSONObject(i)
