@@ -109,15 +109,15 @@
     <!--연락처로 검색-->
     <string name="searchid">ID検索</string>
     <string name="test">세종문화회관</string>
-    <string name="fra_setting_buy">결제하기</string>
-    <string name="fra_setting_experien">기록된 여행추억을 공유해보세요</string>
-    <string name="fra_setting_insta">인스타그램</string>
-    <string name="fra_setting_facebook">페이스북</string>
-    <string name="fra_setting_naverblog">네이버블로그</string>
-    <string name="fra_setting_kakaostory">카카오스토리</string>
-    <string name="activity_choosegender">성별을 선택하세요</string>
-    <string name="activity_write_title">제목</string>
-    <string name="acrivity_quest_logo">문의하기</string>
+    <string name="fra_setting_buy">決済する</string>
+    <string name="fra_setting_experien">記録された旅行の思い出を共有しましょう </string>
+    <string name="fra_setting_insta">インスタグラム</string>
+    <string name="fra_setting_facebook">フェイスブック</string>
+    <string name="fra_setting_naverblog">ネイバーブログ</string>
+    <string name="fra_setting_kakaostory">カカオストーリー</string>
+    <string name="activity_choosegender">性別を選んで下さい。</string>
+    <string name="activity_write_title">タイトル</string>
+    <string name="acrivity_quest_logo">お問い合わせの内容</string>
     <string name="item_mainimage">대표사진</string>
     <!--id 검색-->
     <string name="inquire">お問い合わせの内容</string>
