@@ -126,8 +126,8 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             } else {
                 item.backgroundIV.setImageResource(R.mipmap.time_bg)
             }
-
-
+        } else {
+            item.backgroundIV.setImageResource(R.mipmap.time_bg)
         }
 
 
@@ -179,6 +179,8 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             } else {
                 item.background2IV.setImageResource(R.mipmap.time_bg)
             }
+        } else {
+            item.background2IV.setImageResource(R.mipmap.time_bg)
         }
 
 
@@ -230,6 +232,8 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             } else {
                 item.background3IV.setImageResource(R.mipmap.time_bg)
             }
+        } else {
+            item.background3IV.setImageResource(R.mipmap.time_bg)
         }
 
 
