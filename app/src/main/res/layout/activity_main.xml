@@ -120,7 +120,7 @@
                         android:id="@+id/soloTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="개인타임라인"
+                        android:text="@string/mytimeline"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -146,7 +146,7 @@
                         android:id="@+id/questTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="누적질문보기"
+                        android:text="@string/seeallquestions"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -172,7 +172,7 @@
                         android:id="@+id/mapsearchTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지도검색"
+                        android:text="@string/searchbymap"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -198,7 +198,7 @@
                         android:id="@+id/otherTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="타인타임라인"
+                        android:text="@string/timelineofothers"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -224,7 +224,7 @@
                         android:id="@+id/scrapTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="스크랩타임라인"
+                        android:text="@string/savedpoststimeline"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -250,7 +250,7 @@
                         android:id="@+id/settingTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="설정"
+                        android:text="@string/settings"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 

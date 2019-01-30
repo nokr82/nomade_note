@@ -87,6 +87,7 @@
 
         </LinearLayout>
         <TextView
+            android:id="@+id/choosegender"
             android:layout_marginTop="18dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

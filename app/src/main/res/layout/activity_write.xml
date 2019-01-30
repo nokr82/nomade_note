@@ -120,11 +120,16 @@
 
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/blockIV"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:src="@mipmap/shield"/>
+                    <LinearLayout
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:id="@+id/blockIV"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@mipmap/shield"/>
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -154,8 +159,7 @@
                           android:textSize="12sp"
                           android:textColor="#4a4a4a"
                           android:padding="7dp"
-                          android:background="@drawable/background_border_radius8_000000"
-                          android:text="@string/activity_write_rome"/>
+                          android:background="@drawable/background_border_radius8_000000"/>
 
 
                   </LinearLayout>
@@ -291,7 +295,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="핫플레이스"
+                        android:text="@string/activity_write_hotplace"
                         android:textSize="10dp"
                         android:gravity="center"
                         android:textColor="#878787"/>
@@ -305,7 +309,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:layout_height="match_parent"
-                        android:text="문학 스타일"
+                        android:text="@string/culturalstyle"
                         android:textSize="10dp"
                         android:textColor="#878787"/>
                     <me.grantland.widget.AutofitTextView
@@ -320,7 +324,7 @@
                         android:layout_height="match_parent"
                         android:textSize="10dp"
                         android:textColor="#878787"
-                        android:text="역사 스타일"
+                        android:text="@string/historicalstyle"
                         />
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/museumTV"
@@ -332,7 +336,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:layout_height="match_parent"
-                        android:text="박물관 스타일"
+                        android:text="@string/museumstyle"
                         android:textSize="10dp"
                         android:textColor="#878787"/>
 
@@ -371,7 +375,7 @@
                     android:gravity="left"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
-                    android:hint="내용을 입력해주세요."/>
+                    android:hint="@string/entertext"/>
 
             <LinearLayout
                 android:id="@+id/pictureLL"

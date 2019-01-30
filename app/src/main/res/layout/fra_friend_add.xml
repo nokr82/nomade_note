@@ -122,7 +122,7 @@
                 android:textSize="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID 검색"
+                android:text="@string/searchid"
                 android:textColor="#878787"
                 android:textStyle="bold"/>
 

@@ -45,5 +45,77 @@
     <!--로마-->
     <string name="activity_write_healing">ヒーリングスタイル</string>
     <!--힐링 스타일-->
+    <string name="activity_write_hotplace">ホットプレイス</string>
+    <!--핫플레이스-->
+    <string name="culturalstyle">文学スタイル</string>
+    <!--문학스타일-->
+    <string name="historicalstyle">歴史スタイル</string>
+    <!--역사스타일-->
+    <string name="museumstyle">博物館スタイル</string>
+    <!--박물관스타일-->
+    <string name="entertext">内容を入力して下さい。</string>
+    <!--내용을 입력해주세요.-->
+    <string name="builderwanttopost">登録しますか？</string>
+    <!--등록하시겠습니까?-->
+    <string name="builderyes">はい</string>
+    <!--네-->
+    <string name="builderno">はい</string>
+    <!--아니오-->
+    <string name="builderdelete">削除しますか?</string>
+    <!--삭제하시겠습니까?-->
+    <string name="muineanswer">ベトナム・ムイネーの赤い砂丘で楽しい時間を過ごしていますか？</string>
+    <!--베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?-->
+    <string name="reply">返信する</string>
+    <!--답변하기-->
+    <string name="mytimeline">個人のタイムライン</string>
+    <!--개인타임라인-->
+    <string name="seeallquestions">累積質問を見る</string>
+    <!--누적질문보기-->
+    <string name="searchbymap">地図検索</string>
+    <!--지도검색-->
+    <string name="timelineofothers">他人のタイムライン</string>
+    <!--타인타임라인-->
+    <string name="savedpoststimeline">スクリプトタイムライン</string>
+    <!--스크랩타임라인-->
+    <string name="settings">設定</string>
+    <!--설정-->
+    <string name="welcome">旅のお供</string>
+    <!--여행의 동반자-->
+    <string name="nomadnote">ノマドノート</string>
+    <!--노마드노트-->
+    <string name="welcome2">へようこそ</string>
+    <!--환영합니다-->
+    <string name="travelstyle">旅行スタイル</string>
+    <!--여행스타일-->
+    <string name="editInformation">個人情報修正</string>
+    <!--개인정보수정-->
+    <string name="memoryused">メモリー使用量</string>
+    <!--메모리 사용량-->
+    <string name="addusersettings">友達追加管理</string>
+    <!--친구 추가 관리-->
+    <string name="paymentoptions">決済システム</string>
+    <!--결제시스템-->
+    <string name="socialaccounts">SNS連携情報</string>
+    <!--sns연결정보-->
+    <string name="contactus">お問い合わせ</string>
+    <!--이용문의-->
+    <string name="deleteaccount">サービス退会</string>
+    <!--서비스 탈퇴-->
+    <string name="logout">ログアウト</string>
+    <!--로그아웃-->
+    <string name="travelquestion">どの旅行スタイルで質問を受けますか？</string>
+    <!--어떤 여행스타일로 질문을 받으시겠습니까?-->
+    <string name="setprofile">長押しでプロフィール写真を変更できます</string>
+    <!--길게 누르시면 프로필 사진을 변경할 수 있습니다-->
+    <string name="setmyinfo">個人情報を修正する</string>
+    <!--개인정보 수정하기-->
+    <string name="setmyinfo2">個人情報を修正</string>
+    <!--개인정보수정-->
+    <string name="totalmemory">メモリー総</string>
+    <!--전체 메모리-->
+    <string name="searchphone">連絡先で検索</string>
+    <!--연락처로 검색-->
+    <string name="searchid">ID検索</string>
+    <!--id 검색-->
 
 </resources>

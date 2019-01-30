@@ -44,5 +44,42 @@
     <!--로마-->
     <string name="activity_write_healing">Healing Style</string>
     <!--힐링 스타일-->
+    <string name="activity_write_hotplace">핫플레이스</string>
+    <string name="culturalstyle">문학 스타일</string>
+    <string name="historicalstyle">역사 스타일</string>
+    <string name="museumstyle">박물관 스타일</string>
+    <string name="entertext">내용을 입력해주세요.</string>
+    <string name="builderwanttopost">등록하시겠습니까?</string>
+    <string name="builderyes">예</string>
+    <string name="builderno">아니오</string>
+    <string name="builderdelete">삭제하시겠습니까?</string>
+    <string name="muineanswer">베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?</string>
+    <string name="reply">답변하기</string>
+    <string name="mytimeline">개인타임라인</string>
+    <string name="seeallquestions">누적질문보기</string>
+    <string name="searchbymap">지도검색</string>
+    <string name="timelineofothers">타인타임라인</string>
+    <string name="savedpoststimeline">스크랩타임라인</string>
+    <string name="settings">설정</string>
+    <string name="welcome">여행의 동반자</string>
+    <string name="nomadnote">노마드노트</string>
+    <string name="welcome2">환영합니다</string>
+    <string name="travelstyle">여행스타일</string>
+    <string name="editInformation">개인정보수정</string>
+    <string name="memoryused">메모리 사용량</string>
+    <string name="addusersettings">친구 추가 관리</string>
+    <string name="paymentoptions">결제시스템</string>
+    <string name="socialaccounts">SNS 연결정보</string>
+    <string name="contactus">이용문의</string>
+    <string name="deleteaccount">서비스 탈퇴</string>
+    <string name="logout">로그아웃</string>
+    <string name="travelquestion">어떤 여행스타일로 질문을 받으시겠습니까?</string>
+    <string name="setprofile">길게 누르시면 프로필 사진을 변경할 수 있습니다</string>
+    <string name="setmyinfo">개인정보 수정하기</string>
+    <string name="setmyinfo2">개인정보수정</string>
+    <string name="totalmemory">전체 메모리</string>
+    <string name="searchphone">연락처로 검색</string>
+    <string name="searchid">ID 검색</string>
+
 
 </resources>

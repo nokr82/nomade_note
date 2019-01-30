@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="#ffffff"
-                android:text="개인정보수정"/>
+                android:text="@string/setmyinfo2"/>
 
 
 
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:gravity="center"
-                android:text="길게 누르시면 프로필 사진을 변경할 수 있습니다"
+                android:text="@string/setprofile"
                 android:textColor="#878787"
                 android:textSize="13sp" />
             <TextView
@@ -230,7 +230,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/background_border_radius1_000000"
                 android:gravity="center"
-                android:text="개인정보 수정하기"
+                android:text="@string/setmyinfo"
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
 

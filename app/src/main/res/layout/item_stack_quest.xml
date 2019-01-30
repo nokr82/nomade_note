@@ -63,7 +63,7 @@
                            android:layout_height="wrap_content"
                            android:textSize="11sp"
                            android:textColor="#f5cd04"
-                           android:text="답변하기"
+                           android:text="@string/reply"
                            />
 
 
