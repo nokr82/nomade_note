@@ -38,7 +38,7 @@
             android:textSize="15sp"
             android:textColor="#ffffff"
             android:letterSpacing="-0.01"
-            android:text="글쓰기"
+            android:text="@string/createnote"
             />
 
 

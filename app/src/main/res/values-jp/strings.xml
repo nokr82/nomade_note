@@ -111,5 +111,21 @@
     <!--id 검색-->
     <string name="inquire">お問い合わせの内容</string>
     <!--문의하기-->
+    <string name="enteryourname">名前を入力して下さい。</string>
+    <!--이름을 입력하세요.-->
+    <string name="enteryouraddress">連絡先を入力して下さい。</string>
+    <!--연락처를 입력하세요.-->
+    <string name="chooseyourgender">性別を選んで下さい。</string>
+    <!--성별을 선택하세요.-->
+    <string name="title">タイトル</string>
+    <!--제목-->
+    <string name="createnote">書き込む</string>
+    <!--글쓰기-->
+    <string name="addphonefriend">連絡先で友達を追加</string>
+    <!--연락처로 친구 추가-->
+    <string name="searchphonenumber">連絡先で友達を追加できます。</string>
+    <!--연락처로 친구를 추가할 수 있습니다.-->
+    <string name="addphonenumber">追加したい友達の名前と携帯番号を入力して下さい。</string>
+    <!--추가하고 싶은 친구의 이름과 휴대전화 번호를 입력해 주세요.-->
 
 </resources>

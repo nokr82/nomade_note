@@ -94,7 +94,7 @@
             android:textSize="13sp"
             android:textColor="#878787"
             android:gravity="center"
-            android:text="성별을 선택하세요"/>
+            android:text="@string/chooseyourgender"/>
         <LinearLayout
             android:layout_marginBottom="5dp"
             android:layout_marginTop="19dp"
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textColorHint="#878787"
-                android:hint="이름을 입력하세요"
+                android:hint="@string/enteryourname"
                 android:background="@null"
                 />
 
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textColorHint="#878787"
-                android:hint="연락처를 입력하세요"
+                android:hint="@string/enteryouraddress"
                 android:background="@null"
                 />
 
