@@ -199,7 +199,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text="핫플레이스"
+                        android:text="@string/activity_write_hotplace"
                         android:textColor="#878787"
                         android:textSize="10dp" />
 
@@ -210,7 +210,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text="문학 스타일"
+                        android:text="@string/culturalstyle"
                         android:textColor="#878787"
                         android:textSize="10dp" />
 
@@ -221,7 +221,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text="역사 스타일"
+                        android:text="@string/historicalstyle"
                         android:textColor="#878787"
                         android:textSize="10dp" />
 
@@ -232,7 +232,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text="박물관 스타일"
+                        android:text="@string/artmuseumstyle"
                         android:textColor="#878787"
                         android:textSize="10dp" />
 

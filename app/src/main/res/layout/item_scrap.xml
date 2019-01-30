@@ -167,7 +167,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="핫플레이스"
+                android:text="@string/activity_write_hotplace"
                 android:textSize="10dp"
                 android:gravity="center"
                 android:textColor="#878787"/>
@@ -179,7 +179,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="문학 스타일"
+                android:text="@string/culturalstyle"
                 android:textSize="10dp"
                 android:textColor="#878787"/>
             <me.grantland.widget.AutofitTextView
@@ -192,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:textColor="#878787"
-                android:text="역사 스타일"
+                android:text="@string/historicalstyle"
                 />
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/museumTV"
@@ -202,7 +202,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="박물관 스타일"
+                android:text="@string/museumstyle"
                 android:textSize="10dp"
                 android:textColor="#878787"/>
 
@@ -214,7 +214,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="미술관 스타일"
+                android:text="@string/artmuseumstyle"
                 android:textSize="10dp"
                 android:textColor="#878787"/>
 
