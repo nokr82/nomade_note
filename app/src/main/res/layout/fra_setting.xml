@@ -632,7 +632,7 @@
                         android:background="@drawable/background_border_radius1_000000"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="결제하기"
+                        android:text="@string/fra_setting_buy"
                         android:textColor="#ffffff"
                         android:textSize="13sp" />
 
@@ -699,7 +699,7 @@
                     android:layout_marginLeft="62dp"
                     android:layout_marginTop="11sp"
                     android:layout_marginRight="62dp"
-                    android:text="기록된 여행추억을 공유해보세요"
+                    android:text="@string/fra_setting_experien"
                     android:textColor="#878787"
                     android:textSize="12sp" />
 
@@ -754,7 +754,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="인스타그램"
+                        android:text="@string/fra_setting_insta"
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
@@ -764,7 +764,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="페이스북"
+                        android:text="@string/fra_setting_facebook"
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
@@ -774,7 +774,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="네이버블로그"
+                        android:text="@string/fra_setting_naverblog"
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
@@ -784,7 +784,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="카카오스토리"
+                        android:text="@string/fra_setting_kakaostory"
                         android:textColor="#878787"
                         android:textSize="10sp" />
 

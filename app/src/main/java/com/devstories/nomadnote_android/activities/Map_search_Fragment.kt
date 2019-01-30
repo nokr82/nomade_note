@@ -178,6 +178,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
                 latitude = -1.0
                 longitude = -1.0
 
+
+
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("확인")
                 builder.setMessage("위치 서비스 이용이 제한되어 있습니다.\n설정에서 위치 서비스 이용을 허용해주세요.")
