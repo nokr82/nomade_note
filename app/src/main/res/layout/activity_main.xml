@@ -97,7 +97,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -116,7 +117,8 @@
                         android:src="@mipmap/solotimeline" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/soloTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -142,7 +144,8 @@
                         android:src="@mipmap/quest_noclk" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/questTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -168,7 +171,8 @@
                         android:src="@mipmap/map" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/mapsearchTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,8 +197,8 @@
                         android:layout_marginBottom="3dp"
                         android:src="@mipmap/other_timeline" />
 
-
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/otherTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -219,8 +223,8 @@
                         android:layout_marginBottom="3dp"
                         android:src="@mipmap/scrap_time" />
 
-
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/scrapTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -246,7 +250,8 @@
                         android:src="@mipmap/setting" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/settingTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
