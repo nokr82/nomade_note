@@ -754,7 +754,8 @@
                     android:layout_marginRight="62dp"
                     android:layout_weight="1">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/instagram"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -764,7 +765,8 @@
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/facebook"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -774,7 +776,8 @@
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/naverblog"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -784,7 +787,8 @@
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/kaokaostory"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
