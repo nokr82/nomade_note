@@ -152,6 +152,7 @@
                 android:src="@mipmap/search_op"/>
 
             <EditText
+                android:id="@+id/keywordET"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -160,7 +161,10 @@
                 android:hint="@string/fragment_scrap_keyword"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"

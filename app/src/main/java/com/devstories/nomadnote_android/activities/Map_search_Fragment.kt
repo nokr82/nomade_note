@@ -20,8 +20,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.PlaceAction
+import com.devstories.nomadnote_android.actions.TimelineAction.search_keword
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -151,6 +153,17 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         marker2.selectedMarkerType = MapPOIItem.MarkerType.RedPin
         mapView.addPOIItem(marker2)*/
+
+        keywordET.setOnEditorActionListener() { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                load_place()
+
+                Utils.hideKeyboard(context)
+            } else {
+            }
+            false
+        }
 
     }
 
@@ -299,7 +312,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     //장소불러오기
     fun load_place() {
+
+        val keyword = Utils.getString(keywordET)
+
         val params = RequestParams()
+        params.put("keyword", keyword)
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
 
