@@ -115,8 +115,6 @@ class Seting_Fragment : Fragment() {
             }
         }
 
-        Log.d("타입", s_type.toString())
-
         settingquestLL.setOnClickListener {
             val intent = Intent(context, QuestionActivity::class.java)
             startActivity(intent)
@@ -179,12 +177,13 @@ class Seting_Fragment : Fragment() {
             it.isSelected = !it.isSelected
             if (it.isSelected) {
                 setmenu()
-                op_idIV.setImageResource(R.mipmap.icon_check)
+//                op_idIV.setImageResource(R.mipmap.icon_check)
                 f_type = 2
-                var intent = Intent()
+                var intent = Intent(context, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
-                intent.action = "FRIEND"
-                myContext!!.sendBroadcast(intent)
+                startActivity(intent)
+//                intent.action = "FRIEND"
+//                myContext!!.sendBroadcast(intent)
             } else {
                 op_idIV.setImageResource(R.drawable.circle_background3)
             }
@@ -193,12 +192,13 @@ class Seting_Fragment : Fragment() {
             it.isSelected = !it.isSelected
             if (it.isSelected) {
                 setmenu()
-                op_addIV.setImageResource(R.mipmap.icon_check)
+//                op_addIV.setImageResource(R.mipmap.icon_check)
                 f_type = 3
-                var intent = Intent()
+                var intent = Intent(context, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
-                intent.action = "FRIEND"
-                myContext!!.sendBroadcast(intent)
+                startActivity(intent)
+//                intent.action = "FRIEND"
+//                myContext!!.sendBroadcast(intent)
             } else {
                 op_addIV.setImageResource(R.drawable.circle_background3)
             }
@@ -207,12 +207,13 @@ class Seting_Fragment : Fragment() {
             it.isSelected = !it.isSelected
             if (it.isSelected) {
                 setmenu()
-                op_telIV.setImageResource(R.mipmap.icon_check)
+//                op_telIV.setImageResource(R.mipmap.icon_check)
                 f_type = 1
-                var intent = Intent()
+                var intent = Intent(context, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
-                intent.action = "FRIEND"
-                myContext!!.sendBroadcast(intent)
+                startActivity(intent)
+//                intent.action = "FRIEND"
+//                myContext!!.sendBroadcast(intent)
             } else {
                 op_telIV.setImageResource(R.drawable.circle_background3)
             }
