@@ -232,9 +232,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val builder = AlertDialog.Builder(context)
             builder
 
-                    .setMessage("등록하시겠습니까 ?")
+                    .setMessage(getString(R.string.builderwanttopost))
 
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                         if (timeline_id == "") {
                             addContent()
@@ -243,7 +243,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                             modify()
                         }
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 

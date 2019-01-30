@@ -109,5 +109,7 @@
     <!--연락처로 검색-->
     <string name="searchid">ID検索</string>
     <!--id 검색-->
+    <string name="inquire">お問い合わせの内容</string>
+    <!--문의하기-->
 
 </resources>

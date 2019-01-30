@@ -72,5 +72,6 @@
     <string name="totalmemory">전체 메모리</string>
     <string name="searchphone">연락처로 검색</string>
     <string name="searchid">ID 검색</string>
+    <string name="inquire">문의하기</string>
 
 </resources>

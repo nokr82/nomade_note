@@ -41,7 +41,7 @@
     <string name="historicalstyle">역사 스타일</string>
     <string name="museumstyle">박물관 스타일</string>
     <string name="entertext">내용을 입력해주세요.</string>
-    <string name="builderwanttopost">등록하시겠습니까?</string>
+    <string name="builderwanttopost">Do you want to post?</string>
     <string name="builderyes">예</string>
     <string name="builderno">아니오</string>
     <string name="builderdelete">삭제하시겠습니까?</string>
@@ -72,6 +72,7 @@
     <string name="totalmemory">전체 메모리</string>
     <string name="searchphone">연락처로 검색</string>
     <string name="searchid">ID 검색</string>
+    <string name="inquire">문의하기</string>
 
 
 </resources>

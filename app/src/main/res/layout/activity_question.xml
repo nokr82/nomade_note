@@ -49,7 +49,7 @@
                     android:textSize="15sp"
                     android:textColor="#ffffff"
                     android:letterSpacing="-0.01"
-                    android:text="문의하기"
+                    android:text="@string/inquire"
                     />
 
 
