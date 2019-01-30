@@ -114,7 +114,8 @@
                     android:paddingRight="70dp"
                     android:src="@mipmap/op_ss" />
 
-                <TextView
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="2"
                     android:id="@+id/vi2TV"
                     android:layout_marginBottom="10dp"
                     android:layout_centerInParent="true"

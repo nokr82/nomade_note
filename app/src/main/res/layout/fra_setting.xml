@@ -93,7 +93,7 @@
                 android:background="#9b9b9b" />
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/op_travelLL"
                 android:layout_width="match_parent"
                 android:layout_height="128dp"
@@ -122,7 +122,8 @@
                     android:layout_marginRight="60dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/healTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -135,7 +136,8 @@
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/hotplaceTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -148,7 +150,8 @@
                         android:textColor="#878787"
                         android:textSize="10sp" />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/cultureTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -172,7 +175,8 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/sidmierTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -186,6 +190,7 @@
                         android:textSize="10sp" />
 
                     <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/museumTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -200,6 +205,7 @@
                         android:textSize="10sp" />
 
                     <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/artTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
