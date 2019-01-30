@@ -81,30 +81,25 @@ class Solo_detail_Activity : RootActivity() {
             intent.putExtra("timeline_id",timeline_id)
             startActivityForResult(intent,MODIFY)
         }
-        var del = R.string.builderdelete
-        var yes = R.string.builderyes
-        var no = R.string.builderno
+
         deleteIV.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder
 
-                    .setMessage(del)
+                    .setMessage(getString(R.string.builderdelete))
 
-                    .setPositiveButton(yes, DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         delete_timeline()
                         dialog.cancel()
 
                     })
-                    .setNegativeButton(no, DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 
             val alert = builder.create()
             alert.show()
         }
-
-
-
 
         lockIV.setOnClickListener {
             val builder = AlertDialog.Builder(context)
@@ -114,7 +109,7 @@ class Solo_detail_Activity : RootActivity() {
                 builder.setMessage("게시물을 공개 하시겠습니까?")
             }
             builder
-                    .setPositiveButton(yes, DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         if (block == "N"){
                             change_block("Y")
                             lockIV.setImageResource(R.mipmap.lock)
@@ -125,7 +120,7 @@ class Solo_detail_Activity : RootActivity() {
                         dialog.cancel()
 
                     })
-                    .setNegativeButton(no, DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 

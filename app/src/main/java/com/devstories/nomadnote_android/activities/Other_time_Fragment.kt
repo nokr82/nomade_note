@@ -80,7 +80,6 @@ class Other_time_Fragment : Fragment()  {
             var trustRL: RelativeLayout = view.findViewById(R.id.trustRL) as RelativeLayout
 
             trustRL.setOnClickListener {
-                println("----------click")
                 if (chk){
                     timelineDatas[position].put("isSelectedOp", false)
                 } else {

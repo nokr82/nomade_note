@@ -44,8 +44,6 @@ class MapSearchActivity : RootActivity() {
         var intent = getIntent()
         place_id = intent.getIntExtra("place_id",-1)
 
-            Log.d("아이디",place_id.toString())
-
         PlaceAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
         scrapLV.adapter = PlaceAdapter
         place_timeline()

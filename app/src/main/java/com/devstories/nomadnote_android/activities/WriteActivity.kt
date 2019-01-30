@@ -139,7 +139,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             timeET.setText(hours.toString())
             minuteET.setText(minutes.toString())
             timetakeTV.setText("소요시간")
-            logoIV.setText("답변하기")
+            logoIV.setText(getString(R.string.reply))
         }
 
         initGPS()

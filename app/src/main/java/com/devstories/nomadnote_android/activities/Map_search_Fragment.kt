@@ -112,12 +112,10 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         initGPS()
 
         if (permissionCheck()) {
-            Log.d("성공", "tktktktk")
             // mapView.setShowCurrentLocationMarker(true)
             // mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
             isShowing = true
         } else {
-            Log.d("실패", "tktktktk")
             // mapView.setShowCurrentLocationMarker(false)
             // val mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
             // mapView.setMapCenterPoint(mapPoint, true)
