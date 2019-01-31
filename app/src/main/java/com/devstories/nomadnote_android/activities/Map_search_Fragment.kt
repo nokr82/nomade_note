@@ -591,7 +591,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val paint1 = Paint()
             paint1.color = Color.WHITE
             // text size in pixels
-            paint1.textSize = (14 * scale).roundToInt().toFloat()
+            paint1.textSize = (12 * scale).roundToInt().toFloat()
             paint1.getTextBounds(place_name, 0, place_name.length, bounds1)
 
             var x = (bitmap.width - bounds1.width()) / 2f - duration.length
@@ -603,7 +603,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val paint2 = Paint()
             paint2.color = Color.WHITE
             // text size in pixels
-            paint2.textSize = (14 * scale).roundToInt().toFloat()
+            paint2.textSize = (12 * scale).roundToInt().toFloat()
             paint2.getTextBounds(duration, 0, duration.length, bounds2)
 
             x = (bitmap.width - bounds2.width()) / 2f - duration.length
@@ -615,7 +615,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val paint3 = Paint(Paint.ANTI_ALIAS_FLAG)
             paint3.color = Color.WHITE
             // text size in pixels
-            paint3.textSize = (14 * scale).roundToInt().toFloat()
+            paint3.textSize = (12 * scale).roundToInt().toFloat()
             paint3.getTextBounds(costs, 0, costs.length, bounds3)
 
             x = (bitmap.width - bounds3.width()) / 2f - costs.length

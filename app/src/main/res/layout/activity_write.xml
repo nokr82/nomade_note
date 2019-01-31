@@ -121,6 +121,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/blockLL"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:gravity="center">
