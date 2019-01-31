@@ -58,10 +58,10 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         var profile = Utils.getString(member,"profile")
-        if (profile != "" && profile != null){
-            var uri = Config.url + profile
-            ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
-        }
+
+        var uri = Config.url + profile
+        ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+
         item.infoTV.setText(name+"/"+age+"세")
 
         setMenuImage(style.toInt())
@@ -109,6 +109,8 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 //            val image_uri = Utils.getString(image_item,"image_uri")
 //            var uri = Config.url + image_uri
 //            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+        } else {
+            item.backgroundIV.setImageResource(R.mipmap.time_bg)
         }
 
 

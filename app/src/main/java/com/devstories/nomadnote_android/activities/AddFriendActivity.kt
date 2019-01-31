@@ -52,7 +52,6 @@ class AddFriendActivity : FragmentActivity() {
 
     }
 
-
     fun setmenu(){
         phoneTV.setTextColor(Color.parseColor("#878787"))
         phoneV.visibility = View.GONE
