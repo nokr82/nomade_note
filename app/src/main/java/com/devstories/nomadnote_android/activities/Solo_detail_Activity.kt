@@ -3,14 +3,17 @@ package com.devstories.nomadnote_android.activities
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -18,6 +21,8 @@ import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
+import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.widget.ShareDialog
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -39,6 +44,8 @@ class Solo_detail_Activity : RootActivity() {
     var MODIFY = 100
     var block = ""
 
+    var share_image_uri = ""
+    var share_contents = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +137,21 @@ class Solo_detail_Activity : RootActivity() {
 
         }
 
+        instaIV.setOnClickListener {
+            shareInstagram()
+        }
+        facebookIV.setOnClickListener {
+            shareFacebook()
+        }
+        naverIV.setOnClickListener {
+            shareNaverBlog()
+        }
+        kakaoIV.setOnClickListener {
+            shareKakaoStory()
+        }
+
     }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -139,6 +160,7 @@ class Solo_detail_Activity : RootActivity() {
         }
 
     }
+
     fun detail_timeline(){
         val params = RequestParams()
 //        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
@@ -178,6 +200,8 @@ class Solo_detail_Activity : RootActivity() {
                         costTV.setText(cost + "$")
                         contentTV.setText(contents)
 
+                        share_contents = contents
+
                         val member = data.getJSONObject("member")
                         val founder_id = Utils.getString(member,"id")
                         val name = Utils.getString(member,"name")
@@ -204,6 +228,9 @@ class Solo_detail_Activity : RootActivity() {
                                     var uri = Config.url + image_uri
                                     ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
                                 }
+
+                                share_image_uri = image_uri
+
                             }
                         }
 
@@ -396,7 +423,6 @@ class Solo_detail_Activity : RootActivity() {
 
 
     }
-
 
     fun delete_timeline(){
         val params = RequestParams()
@@ -730,6 +756,87 @@ class Solo_detail_Activity : RootActivity() {
             }
         })
 
+    }
+
+
+    private fun shareInstagram() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "image/*"
+        try {
+
+            var uri:Uri
+
+            if(share_image_uri == "") {
+                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
+            } else {
+                uri = Uri.parse(Config.url + share_image_uri);
+            }
+
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, share_contents)
+            shareIntent.setPackage("com.instagram.android")
+            startActivity(shareIntent)
+
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareFacebook() {
+
+        // val image = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        // val photo = SharePhoto.Builder().setBitmap(image).setCaption("노마드노트").build();
+        // val content = SharePhotoContent.Builder().addPhoto(photo).build();
+
+        val content = ShareLinkContent.Builder().setContentUrl(Uri.parse(Config.url + "/share")).build()
+
+        val shareDialog = ShareDialog(this)
+        shareDialog.show(content, ShareDialog.Mode.FEED)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
+    }
+
+    private fun shareNaverBlog() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "image/*"
+        try {
+
+            val title = "노마드노트"
+            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
+            val appId = context.packageName
+            val appName = "노마드노트"
+            val url = String.format("naverblog://write?title=%s&content=%s", title, post);
+
+            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            shareIntent.setPackage("com.nhn.android.blog")
+            startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "네이버 블로그앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun shareKakaoStory() {
+        try {
+
+            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
+            val appId = context.packageName
+            val appName = "노마드노트"
+            val url = String.format("storylink://posting?post=%s&appid=%s&appver=1.0.0&apiver=1.0&appname=%s", post, appId, appName);
+
+            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            shareIntent.setPackage("com.kakao.story")
+            startActivity(shareIntent)
+
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "카카오스토리앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onBackPressed() {
