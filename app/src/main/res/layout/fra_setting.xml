@@ -551,7 +551,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -680,12 +680,12 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/snsLL"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="31dp"
@@ -717,7 +717,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#9b9b9b" />
+                android:background="#9b9b9b"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/op_snsLL"
