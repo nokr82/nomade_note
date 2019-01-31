@@ -60,8 +60,17 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var age = Utils.getString(member,"age")
         var profile = Utils.getString(member,"profile")
 
-        var uri = Config.url + profile
-        ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+        if (profile != "") {
+            var uri = Config.url + profile
+            ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+        } else {
+            if (Utils.getString(member, "gender") == "F") {
+                item.profileIV.setImageResource(R.mipmap.famal)
+            } else {
+                item.profileIV.setImageResource(R.mipmap.man)
+            }
+        }
+
 
         item.infoTV.setText(name+"/"+age+"세")
 
@@ -97,15 +106,20 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         var image = timeline.getJSONArray("images")
         if (image.length() > 0){
+
+            var uri = ""
+
             for (i in 0 until image.length()){
                 val image_item = image.get(i) as JSONObject
                 val main_yn = Utils.getString(image_item,"main_yn")
                 val image_uri = Utils.getString(image_item,"image_uri")
                 if (main_yn == "Y"){
-                    var uri = Config.url + image_uri
-                    ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+                    uri = Config.url + image_uri
+
                 }
             }
+
+            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
 //            val image_item = image.get(image.length()-1) as JSONObject
 //            val image_uri = Utils.getString(image_item,"image_uri")
 //            var uri = Config.url + image_uri

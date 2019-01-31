@@ -87,7 +87,7 @@ class MyinfoChangeActivity : RootActivity() {
         }
 
         val point = PrefUtils.getIntPreference(context, "point")
-        mypointTV.setText("보유 포인트 : " + point + "P")
+        mypointTV.setText(getString(R.string.my_points) + " : " + point + "P")
 
         loadInfo()
 
