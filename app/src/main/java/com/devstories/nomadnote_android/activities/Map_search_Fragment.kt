@@ -443,7 +443,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             if(googleMap != null) {
                 val cu = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 14.1f)
-                googleMap!!.moveCamera(cu)
+                googleMap!!.animateCamera(cu)
             }
 
 
@@ -542,7 +542,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
         if(myLocationSetted) {
             val cu = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 14.1f)
-            googleMap?.moveCamera(cu)
+            googleMap?.animateCamera(cu)
         }
 
         load_place()
