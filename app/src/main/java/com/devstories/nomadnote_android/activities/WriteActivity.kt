@@ -1132,7 +1132,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             var systemLocale = getApplicationContext().getResources().getConfiguration().locale
             val strLanguage = systemLocale.language
-            var geocoder: Geocoder = Geocoder(context, Locale.getDefault());
+            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
 
             var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
             if(list.size > 0){
@@ -1141,7 +1141,17 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
                 country = list.get(0).countryName
 
+            }
+
+            geocoder = Geocoder(context);
+
+            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+            if(list.size > 0){
+                println("list ---- ${list}")
+                println("list.admin ${list.get(0).adminArea}")
+
                 locationET.setText(list.get(0).adminArea)
+
             }
 
             if (progressDialog != null) {

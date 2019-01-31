@@ -116,5 +116,6 @@
     <string name="choose_pic_title">Select photo</string>
     <string name="choose_pic_done">Attachment</string>
     <string name="do_login">Sign in</string>
+    <string name="post_count">Posts</string>
 
 </resources>

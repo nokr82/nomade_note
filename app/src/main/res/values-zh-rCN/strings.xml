@@ -123,5 +123,6 @@
     <string name="choose_pic_title">選擇照片</string>
     <string name="choose_pic_done">追加</string>
     <string name="do_login">登錄</string>
+    <string name="post_count">個</string>
 
 </resources>

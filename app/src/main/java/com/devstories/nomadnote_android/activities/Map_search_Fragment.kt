@@ -573,7 +573,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             // text size in pixels
             paint.textSize = (14 * scale).roundToInt().toFloat()
 
-            val place_name = Utils.getString(place, "place")
+            var place_name = Utils.getString(place, "place")
+
+            val language = Locale.getDefault().getLanguage()
+            if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+                place_name = Utils.getString(place, language)
+            }
+
 
             // draw text to the Canvas center
             val total_durations = Utils.getInt(place, "total_durations")

@@ -167,5 +167,6 @@
     <string name="choose_pic_title">写真を選択</string>
     <string name="choose_pic_done">添付</string>
     <string name="do_login">ログインする</string>
+    <string name="post_count">個</string>
 
 </resources>

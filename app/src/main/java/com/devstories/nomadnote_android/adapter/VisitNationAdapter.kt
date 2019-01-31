@@ -1,16 +1,17 @@
 package com.devstories.nomadnote_android.activities
 
 import android.content.Context
-import android.graphics.Color
-import android.media.Image
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import org.json.JSONObject
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
-import com.nostra13.universalimageloader.core.ImageLoader
 import com.devstories.nomadnote_android.base.Utils
+import com.nostra13.universalimageloader.core.ImageLoader
+import org.json.JSONObject
+import java.util.*
 
 
 open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONObject>) : ArrayAdapter<JSONObject>(context,view, data){
@@ -19,6 +20,7 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
     var view:Int = view
     var data:ArrayList<JSONObject> = data
     var menu_position = 1
+    var myContext: Context = context
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -39,7 +41,14 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         }
 
         var json = data.get(position)
-        val countryName = Utils.getString(json,"country")
+        var countryName = Utils.getString(json,"country")
+
+        val language = Locale.getDefault().getLanguage()
+        if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+            countryName = Utils.getString(json, language)
+        }
+
+
 //        val timeline = json.getJSONObject("timeline")
         val created_at = Utils.getString(json,"created_at")
         val count = Utils.getInt(json,"count")
@@ -51,7 +60,7 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         item.countryTV.setText(countryName)
         var created_split = created_at.split(" ")
         item.createdTV.setText(created_split.get(0))
-        item.countTV.setText(count.toString() + " 개")
+        item.countTV.setText(count.toString() + " " + myContext.getString(R.string.post_count))
 
 
         return retView
