@@ -27,7 +27,6 @@ class EmailJoinActivity : RootActivity() {
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
-
     var pw = ""
     var pw2 = ""
     var email = ""
