@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_visit_nation.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
@@ -55,7 +56,12 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
         visitLV.setOnItemClickListener { parent, view, position, id ->
             val item = adapterData.get(position)
             val id = Utils.getInt(item,"id")
-            val country = Utils.getString(item,"country")
+            var country = Utils.getString(item,"country")
+
+            val language = Locale.getDefault().getLanguage()
+            if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+                country = Utils.getString(item, language)
+            }
 
             val intent = Intent(context, CountryTimelineActivity::class.java)
             intent.putExtra("country_id",id)
