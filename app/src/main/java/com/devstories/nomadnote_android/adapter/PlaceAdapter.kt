@@ -50,6 +50,7 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var name =  Utils.getString(member,"name")
         var age =  Utils.getString(member,"age")
         var gender =  Utils.getString(member,"gender")
+        var profile =  Utils.getString(member,"profile")
 
         if (image.length() > 0){
             val image_item = image.get(image.length()-1) as JSONObject
@@ -63,10 +64,17 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
 
-        if (gender =="M"){
-            item.profileIV.setImageResource(R.mipmap.man)
-        }else{
-            item.profileIV.setImageResource(R.mipmap.famal)
+        if (profile.length < 1) {
+            if (gender =="M"){
+                item.profileIV.setImageResource(R.mipmap.man)
+            }else{
+                item.profileIV.setImageResource(R.mipmap.famal)
+            }
+        } else {
+
+            var uri = Config.url + profile
+
+            ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
         }
 
 
