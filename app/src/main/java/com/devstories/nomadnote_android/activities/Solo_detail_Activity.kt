@@ -21,8 +21,21 @@ import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.FacebookSdk
+import com.facebook.share.Sharer
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
+import com.kakao.kakaolink.v2.KakaoLinkResponse
+import com.kakao.kakaolink.v2.KakaoLinkService
+import com.kakao.message.template.ButtonObject
+import com.kakao.message.template.ContentObject
+import com.kakao.message.template.FeedTemplate
+import com.kakao.message.template.LinkObject
+import com.kakao.network.ErrorResult
+import com.kakao.network.callback.ResponseCallback
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -31,6 +44,7 @@ import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.logging.Logger
 
 class Solo_detail_Activity : RootActivity() {
 
@@ -56,10 +70,14 @@ class Solo_detail_Activity : RootActivity() {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         setContentView(R.layout.activity_timeline)
+
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
+
+
+        FacebookSdk.sdkInitialize(applicationContext)
 
         click()
 
@@ -773,7 +791,7 @@ class Solo_detail_Activity : RootActivity() {
             }
 
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, share_contents)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
             shareIntent.setPackage("com.instagram.android")
             startActivity(shareIntent)
 
@@ -786,15 +804,15 @@ class Solo_detail_Activity : RootActivity() {
     }
 
     private fun shareFacebook() {
+        if (ShareDialog.canShow(ShareLinkContent::class.java)) {
 
-        // val image = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        // val photo = SharePhoto.Builder().setBitmap(image).setCaption("노마드노트").build();
-        // val content = SharePhotoContent.Builder().addPhoto(photo).build();
+            val url = Config.url + "/share/open?id=" + timeline_id + "&image_uri=" + share_image_uri + "&contents=" + share_contents
+            val content = ShareLinkContent.Builder().setContentUrl(Uri.parse(url)).build()
 
-        val content = ShareLinkContent.Builder().setContentUrl(Uri.parse(Config.url + "/share")).build()
+            val shareDialog = ShareDialog(this)
+            shareDialog.show(content)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
+        }
 
-        val shareDialog = ShareDialog(this)
-        shareDialog.show(content, ShareDialog.Mode.FEED)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
     }
 
     private fun shareNaverBlog() {
@@ -803,7 +821,7 @@ class Solo_detail_Activity : RootActivity() {
         try {
 
             val title = "노마드노트"
-            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
+            val post = share_image_uri + "<br/>" + share_contents
             val appId = context.packageName
             val appName = "노마드노트"
             val url = String.format("naverblog://write?title=%s&content=%s", title, post);
@@ -813,30 +831,50 @@ class Solo_detail_Activity : RootActivity() {
             startActivity(shareIntent)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(context, "네이버 블로그앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
-
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     private fun shareKakaoStory() {
+
         try {
 
-            val post = "내용은 나만의 여행추억을 실시간으로 간편하게 기록하는 여행기록서비스"
-            val appId = context.packageName
-            val appName = "노마드노트"
-            val url = String.format("storylink://posting?post=%s&appid=%s&appver=1.0.0&apiver=1.0&appname=%s", post, appId, appName);
+            val url = Config.url + "/share/open_app"
 
-            val shareIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            shareIntent.setPackage("com.kakao.story")
-            startActivity(shareIntent)
+            val imgBuilder = ContentObject.newBuilder("노마드노트",
+                    Config.url + share_image_uri,
+                    LinkObject.newBuilder().setWebUrl(url).setMobileWebUrl(url).build())
+                    .setDescrption(share_contents)
+                    .build()
+
+            val builder = FeedTemplate.newBuilder(imgBuilder)
+            builder.addButton(ButtonObject("노마드노트 바로가기", LinkObject.newBuilder()
+                    .setAndroidExecutionParams("timeline_id=$timeline_id")
+                    .setIosExecutionParams("timeline_id=$timeline_id")
+                    .setWebUrl(url)
+                    .setMobileWebUrl(url)
+                    .build()))
+
+            val params = builder.build()
+
+            KakaoLinkService.getInstance().sendDefault(this, params, object : ResponseCallback<KakaoLinkResponse>() {
+                override fun onFailure(errorResult: ErrorResult) {
+
+                }
+
+                override fun onSuccess(result: KakaoLinkResponse) {
+
+                }
+            })
 
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "카카오스토리앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "카카오톡이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 
     override fun onBackPressed() {

@@ -129,6 +129,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    var timeline_id = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -163,6 +164,7 @@ class MainActivity : FragmentActivity() {
         loadInfo()
 
         var intent = getIntent()
+        timeline_id = intent.getIntExtra("timeline_id", -1)
 
         if (intent.getBooleanExtra("is_push", false) != null){
             is_push = intent.getBooleanExtra("is_push", false)
@@ -177,6 +179,12 @@ class MainActivity : FragmentActivity() {
                     startActivity(intent)
                 }
             }
+        }
+
+        if (timeline_id > 0) {
+            val intent = Intent(context, Solo_detail_Activity::class.java)
+            intent.putExtra("timeline_id", timeline_id.toString())
+            startActivity(intent)
         }
 
     }
