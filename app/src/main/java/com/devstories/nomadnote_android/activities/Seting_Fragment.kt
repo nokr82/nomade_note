@@ -225,6 +225,7 @@ class Seting_Fragment : Fragment() {
 
             op_600mbLL.isSelected = false
             op_20kbLL.isSelected = false
+            opInputLL.isSelected = false
 
             if (it.isSelected) {
                 setmenu2()
@@ -238,6 +239,7 @@ class Seting_Fragment : Fragment() {
 
             op_1gbLL.isSelected = false
             op_20kbLL.isSelected = false
+            opInputLL.isSelected = false
 
             if (it.isSelected) {
                 setmenu2()
@@ -251,6 +253,7 @@ class Seting_Fragment : Fragment() {
 
             op_1gbLL.isSelected = false
             op_600mbLL.isSelected = false
+            opInputLL.isSelected = false
 
             if (it.isSelected) {
                 setmenu2()
@@ -258,6 +261,34 @@ class Seting_Fragment : Fragment() {
             } else {
                 op_20kbIV.setImageResource(R.drawable.circle_background3)
             }
+        }
+
+        opInputLL.setOnClickListener {
+            it.isSelected = !it.isSelected
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
+            if (it.isSelected) {
+                setmenu2()
+                opInputIV.setImageResource(R.mipmap.icon_check)
+            } else {
+                opInputIV.setImageResource(R.drawable.circle_background3)
+            }
+
+        }
+
+        opInputET.setOnClickListener {
+            opInputLL.isSelected = true
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
+            setmenu2()
+            opInputIV.setImageResource(R.mipmap.icon_check)
+
         }
 
 
@@ -339,6 +370,7 @@ class Seting_Fragment : Fragment() {
         op_1gbIV.setImageResource(R.drawable.circle_background3)
         op_600mbIV.setImageResource(R.drawable.circle_background3)
         op_20kbIV.setImageResource(R.drawable.circle_background3)
+        opInputIV.setImageResource(R.drawable.circle_background3)
     }
 
     fun setmenu() {
