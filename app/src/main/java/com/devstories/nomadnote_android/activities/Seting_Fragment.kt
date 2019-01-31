@@ -53,8 +53,7 @@ class Seting_Fragment : Fragment() {
 
     var style = ""
 
-    private lateinit var iapHelper: IAPHelper
-
+    private var iapHelper: IAPHelper? = null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -143,9 +142,9 @@ class Seting_Fragment : Fragment() {
         buyTV.setOnClickListener {
 
             if(op_1gbLL.isSelected) {
-                iapHelper.buy("1gb")
+                iapHelper?.buy("1gb")
             } else if(op_600mbLL.isSelected) {
-                iapHelper.buy("600mb")
+                iapHelper?.buy("600mb")
             }
         }
     }
@@ -729,11 +728,11 @@ class Seting_Fragment : Fragment() {
                     if (result == 1) {
                         // ok
 
-                        iapHelper.consume(purchaseToken)
+                        iapHelper?.consume(purchaseToken)
 
                         val intent = Intent()
                         intent.action = "MY_QUOTA_UPDATED"
-                        context?.sendBroadcast(intent)
+                        myContext.sendBroadcast(intent)
 
                     } else if (result == 0) {
                         // error

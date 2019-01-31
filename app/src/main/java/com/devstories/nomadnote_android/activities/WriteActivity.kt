@@ -310,6 +310,10 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
+        if(created_at != null && !created_at.isEmpty()) {
+            params.put("created_at", created_at)
+        }
+
         val content_byte = contents.toByteArray()
         val content_size = content_byte.size
         bytes.add(content_size)
