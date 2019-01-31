@@ -89,5 +89,9 @@
     <string name="newfriendid">Add new friends through their ID</string>
     <string name="addenterid">Enter the ID of the friend of the user you wish to add.</string>
 
+    <!-- 추가 -->
+    <string name="member_delete">Delete account?</string>
+    <string name="member_delete_confrim">Are you sure you＇d like to leave?</string>
+
 
 </resources>

@@ -93,6 +93,8 @@
     <string name="searchid">이메일 검색</string>
     <string name="activity_login_kakao">카카오 로그인</string>
     <string name="activity_login_naver">네이버 로그인</string>
+    <string name="member_delete">탈퇴하시겠습니까?</string>
+    <string name="member_delete_confrim">정말 떠나시겠습니까?</string>
 
     <!-- 추가-->
     <string name="auto_login">자동로그인</string>

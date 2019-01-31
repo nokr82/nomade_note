@@ -518,11 +518,10 @@ class Seting_Fragment : Fragment() {
         deleteLL.setOnClickListener {
             val builder = AlertDialog.Builder(context)
             builder
-                    .setMessage(getString(R.string.builderdelete))
+                    .setMessage(getString(R.string.member_delete))
 
                     .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
-                        delete_member()
-                        Utils.hideKeyboard(context)
+                        deleteConfrim()
                     })
                     .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
@@ -532,6 +531,23 @@ class Seting_Fragment : Fragment() {
             alert.show()
         }
 
+    }
+
+    fun deleteConfrim() {
+        val builder = AlertDialog.Builder(context)
+        builder
+                .setMessage(getString(R.string.member_delete_confrim))
+
+                .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
+                    delete_member()
+                    Utils.hideKeyboard(context)
+                })
+                .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                    Utils.hideKeyboard(context)
+                })
+        val alert = builder.create()
+        alert.show()
     }
 
     override fun onDestroy() {
@@ -772,8 +788,13 @@ class Seting_Fragment : Fragment() {
 
                     if ("ok" == result) {
 
-//                        Toast.makeText(context, "변경되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
+                        PrefUtils.clear(context)
+
+                        val intent = Intent(context, LoginActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        startActivity(intent)
 
                     } else {
 
