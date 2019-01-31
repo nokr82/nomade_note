@@ -79,14 +79,14 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     private var mGoogleSignInClient: GoogleSignInClient? = null
     var email = ""
 
-    private lateinit var loginActivity:LoginActivity
+    private lateinit var loginActivity: LoginActivity
 
     private lateinit var mOAuthLoginModule: OAuthLogin
 
     private var autoLogin = false
 
     companion object {
-        fun processLoginData(context: Context, data:JSONObject) {
+        fun processLoginData(context: Context, data: JSONObject) {
 
             PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
             PrefUtils.setPreference(context, "email", Utils.getString(data, "email"))
@@ -120,10 +120,10 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
-       /* mGoogleApiClient = GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build()*/
+        /* mGoogleApiClient = GoogleApiClient.Builder(this)
+                 .enableAutoManage(this, this)
+                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                 .build()*/
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         mAuth = FirebaseAuth.getInstance()
@@ -188,6 +188,18 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             disconnectFromFacebook()
         }
 
+        autoLoginLL.setOnClickListener {
+
+            autoLogin = !autoLogin
+
+            if (autoLogin) {
+                autoCheckIV.setImageResource(R.mipmap.icon_check)
+            } else {
+                autoCheckIV.setImageResource(0)
+            }
+
+        }
+
     }
 
 
@@ -197,17 +209,17 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         }
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            Log.d("구글띠",task.toString())
+            Log.d("구글띠", task.toString())
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 val account = task.getResult(ApiException::class.java)
-                Log.d("구글띠",account.toString())
+                Log.d("구글띠", account.toString())
                 if (account != null) {
                     firebaseAuthWithGoogle(account)
                 }
             } catch (e: ApiException) {
                 e.printStackTrace()
-                Log.d("에러",e.toString())
+                Log.d("에러", e.toString())
             }
 
         }
@@ -238,7 +250,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, object : OnCompleteListener<AuthResult>{
+                .addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
                     override fun onComplete(task: Task<AuthResult>) {
                         if (task.isSuccessful) {
                             val user = mAuth.currentUser
@@ -546,8 +558,8 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     /**
      * OAuthLoginHandler를 startOAuthLoginActivity() 메서드 호출 시 파라미터로 전달하거나 OAuthLoginButton
      * 객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다.
-    */
-    private var mOAuthLoginHandler = object: OAuthLoginHandler() {
+     */
+    private var mOAuthLoginHandler = object : OAuthLoginHandler() {
         override fun run(success: Boolean) {
             print("success : $success")
 
@@ -615,30 +627,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     override fun onDestroy() {

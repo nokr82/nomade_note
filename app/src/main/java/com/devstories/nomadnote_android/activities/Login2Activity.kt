@@ -40,8 +40,6 @@ class Login2Activity : RootActivity() {
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 
-
-
         loginTV.setOnClickListener {
             passwd = Utils.getString(passwdET)
             email = Utils.getString(emailET)
@@ -56,7 +54,7 @@ class Login2Activity : RootActivity() {
                 return@setOnClickListener
             }
 
-            login(email,passwd)
+            login(email, passwd)
         }
         backIV.setOnClickListener {
             finish()
@@ -76,7 +74,7 @@ class Login2Activity : RootActivity() {
 
     }
 
-    fun login(email:String, passwd:String){
+    fun login(email: String, passwd: String) {
         val params = RequestParams()
         params.put("email", email)
         params.put("passwd", passwd)
@@ -174,6 +172,7 @@ class Login2Activity : RootActivity() {
             }
         })
     }
+
     override fun onDestroy() {
         super.onDestroy()
 
