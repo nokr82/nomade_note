@@ -117,6 +117,8 @@ class MemberInputActivity : RootActivity() {
                         val data = response.getJSONObject("member")
                         PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
 
+                        Utils.hideKeyboard(context)
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         Toast.makeText(context, "가입성공", Toast.LENGTH_LONG).show()
