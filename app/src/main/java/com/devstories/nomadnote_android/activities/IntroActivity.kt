@@ -89,26 +89,29 @@ class IntroActivity : RootActivity() {
 
     internal var handler: Handler = object : Handler() {
         override fun handleMessage(msg: Message) {
-            login()
+            toLogin()
         }
+    }
+
+    private fun toLogin() {
+        val autoLogin = PrefUtils.getBooleanPreference(context, "autoLogin")
+
+        if (!autoLogin) {
+            login()
+        } else {
+            var intent = Intent(context, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            startActivity(intent)
+        }
+
     }
 
     // 로그인
     private fun login() {
-
         val email = PrefUtils.getStringPreference(context, "email")
         val passwd = PrefUtils.getStringPreference(context, "passwd")
         val sns_key = PrefUtils.getStringPreference(context, "sns_key")
-        val join_type = PrefUtils.getIntPreference(context, "join_type", -1)
-
-        println("join_type : $join_type")
-
-        if (join_type == -1) {
-            val intent = Intent(context, LoginActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-            startActivity(intent)
-            return
-        }
+        val join_type = PrefUtils.getIntPreference(context, "join_type")
 
         val params = RequestParams()
         params.put("email", email)

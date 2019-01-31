@@ -30,6 +30,8 @@ class Login2Activity : RootActivity() {
     var passwd = ""
     var email = ""
 
+    var autoLogin = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
@@ -43,12 +45,34 @@ class Login2Activity : RootActivity() {
         loginTV.setOnClickListener {
             passwd = Utils.getString(passwdET)
             email = Utils.getString(emailET)
+
+            if (email == "") {
+                Toast.makeText(context, "이메일을 입력해주세요.", Toast.LENGTH_LONG).show();
+                return@setOnClickListener
+            }
+
+            if (email == "") {
+                Toast.makeText(context, "비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+                return@setOnClickListener
+            }
+
             login(email,passwd)
         }
         backIV.setOnClickListener {
             finish()
         }
 
+        autoLoginLL.setOnClickListener {
+
+            autoLogin = !autoLogin
+
+            if (autoLogin) {
+                autoCheckIV.setImageResource(R.mipmap.icon_check)
+            } else {
+                autoCheckIV.setImageResource(0)
+            }
+
+        }
 
     }
 
@@ -77,9 +101,10 @@ class Login2Activity : RootActivity() {
                         PrefUtils.setPreference(context, "passwd", Utils.getString(data, "passwd"))
                         PrefUtils.setPreference(context, "gender", Utils.getString(data, "gender"))
                         PrefUtils.setPreference(context, "age", Utils.getInt(data, "age"))
-//                        PrefUtils.setPreference(context, "sns_key", Utils.getString(data, "sns_key"))
+                        PrefUtils.setPreference(context, "autoLogin", autoLogin)
 
                         Utils.hideKeyboard(context)
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
