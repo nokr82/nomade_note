@@ -824,14 +824,13 @@ class Solo_detail_Activity : RootActivity() {
         try {
 
             var uri:Uri
+            var image_uri = Config.url + "/storage/images/2019/02/01/Q2kXN56SHwcO8ZTxB7SM8CRlItFNwLHEMmSGxTYd.jpeg"
 
-            if(share_image_uri == "") {
-                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
-            } else {
+            if(share_image_uri != "") {
                 uri = Uri.parse(Config.url + share_image_uri);
             }
 
-            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Config.url + share_image_uri);
             shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
             shareIntent.setPackage("com.instagram.android")
             startActivity(shareIntent)
