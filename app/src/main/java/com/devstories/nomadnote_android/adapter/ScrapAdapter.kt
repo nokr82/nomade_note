@@ -5,12 +5,12 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import org.json.JSONObject
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
+import org.json.JSONObject
 
 
 open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
@@ -20,6 +20,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
     var data:ArrayList<JSONObject> = data
     var menu_position = 1
     var scrap_Fragment = scrap_Fragment
+    var myContext: Context = context
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -115,7 +116,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
 
         if (certification == "2"){
-            item.textTV.setText("이 정보를 인증하였습니다 !")
+            item.textTV.setText(myContext.getString(R.string.item_scrap_cirti_done))
             item.iconIV.setImageResource(R.mipmap.visit_city)
         }
 

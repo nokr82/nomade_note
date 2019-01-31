@@ -491,7 +491,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="13dp"
-                            android:text="추가리스트로 보기"
+                            android:text="@string/view_my_friends"
                             android:textColor="#878787"
                             android:textSize="12sp" />
 
@@ -577,7 +577,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="13dp"
-                            android:text="1GB (9,000원)"
+                            android:text="@string/prd_1gb"
                             android:textColor="#878787"
                             android:textSize="12sp" />
 
@@ -600,7 +600,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="13dp"
-                            android:text="600MB (5,000원)"
+                            android:text="@string/prd_600mb"
                             android:textColor="#878787"
                             android:textSize="12sp" />
 
@@ -623,7 +623,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="13dp"
-                            android:text="20KB (무료)"
+                            android:text="@string/prd_20kb"
                             android:textColor="#878787"
                             android:textSize="12sp" />
 
