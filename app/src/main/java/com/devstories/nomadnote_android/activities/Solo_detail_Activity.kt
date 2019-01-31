@@ -8,8 +8,10 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -45,6 +47,9 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.URL
 
 class Solo_detail_Activity : RootActivity() {
 
@@ -59,8 +64,8 @@ class Solo_detail_Activity : RootActivity() {
     var block = ""
 
     var share_image_uri = ""
-    lateinit var share_image_bm: Bitmap
     var share_contents = ""
+    var share_image_path = ""
 
     var adPosition = 0
     private lateinit var fullScreenAdapter: FullScreenImageAdapter
@@ -823,10 +828,15 @@ class Solo_detail_Activity : RootActivity() {
 
             var image_uri = Config.url + "/storage/images/2019/02/01/Q2kXN56SHwcO8ZTxB7SM8CRlItFNwLHEMmSGxTYd.jpeg"
 
-//            if (share_image_uri != "") {
-//            } else {
-//                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
-//            }
+            var uri:Uri
+
+            if (share_image_uri != "") {
+
+                uri = Uri.parse("file://" + share_image_path)
+
+            } else {
+                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
+            }
 
             shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher"));
             shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
@@ -839,6 +849,45 @@ class Solo_detail_Activity : RootActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+
+    // 이미지 다운로드(포트폴리오)
+    private inner class DownloadFilesTask() : AsyncTask<String, Int, Bitmap>() {
+
+        lateinit var bitmap: Bitmap
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg url: String): Bitmap? {
+            var bitmap: Bitmap? = null
+
+            try {
+                bitmap = downloadUrl(url[0])
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            return bitmap
+        }
+
+        override fun onPostExecute(result: Bitmap?) {
+            super.onPostExecute(result)
+
+            share_image_path = Utils.saveBitmap(context, bitmap)
+
+        }
+
+        // Image downloading method.
+        @Throws(IOException::class)
+        private fun downloadUrl(imageUrl: String): Bitmap {
+            val `is` = URL(imageUrl).content as InputStream
+
+            return BitmapFactory.decodeStream(`is`)
+        }
+
     }
 
     private fun getImageUri(context: Context, inImage: Bitmap) :Uri {
