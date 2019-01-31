@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="노마드 / 35세"
+                android:text=""
                 android:textColor="#878787"
                 android:textSize="12sp" />
 
@@ -283,7 +283,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center_horizontal"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="150dp"

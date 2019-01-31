@@ -1,236 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
 
+    <!-- 타이틀 -->
+    <LinearLayout
+        android:id="@+id/titleLL"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background_gradient">
 
-
-        <!-- 타이틀 -->
         <LinearLayout
-            android:id="@+id/titleLL"
-            android:background="@drawable/background_gradient"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:id="@+id/titleBackLL"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp"
+            android:visibility="visible">
 
-                <LinearLayout
-                    android:id="@+id/titleBackLL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center"
-                    android:visibility="visible">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/back_white"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/logoIVLL"
-                    android:layout_width="0dp"
-                    android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                        <TextView
-                            android:id="@+id/logoTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textColor="#ffffff"
-                            android:text="@string/searchbymap"/>
-
-
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="25dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center"
-                    android:visibility="invisible">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/back_white"/>
-
-                </LinearLayout>
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back_white" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:background="@drawable/background_gradient"
-            android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:layout_height="50dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@drawable/background_border_radius2_000000">
+            android:id="@+id/logoIVLL"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="9dp"
-                            android:src="@mipmap/search_op" />
-
-                        <EditText
-                            android:id="@+id/keywordET"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:gravity="center"
-                            android:hint="@string/fragment_scrap_keyword"
-                            android:textColor="#ffffff"
-                            android:imeOptions="actionSearch"
-                            android:singleLine="true"
-                            android:textColorHint="#ffffff"
-                            android:textSize="12sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="9dp"
-                            android:src="@mipmap/search_op"
-                            android:visibility="invisible" />
-                </LinearLayout>
+            <TextView
+                android:id="@+id/logoTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/searchbymap"
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
 
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/back_white" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/background_gradient"
+        android:gravity="center_vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:layout_height="200dp">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" 
-                    android:src="@mipmap/time_bg"
-                    android:scaleType="centerCrop"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#90000000"/>
-                
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/background_border_radius2_000000">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="9dp"
+                android:src="@mipmap/search_op" />
+
+            <EditText
+                android:id="@+id/keywordET"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="@string/fragment_scrap_keyword"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="9dp"
+                android:src="@mipmap/search_op"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/time_bg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#90000000" />
+
+        <TextView
+            android:id="@+id/titleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
+            android:gravity="center_horizontal"
+            android:textColor="#ffffff"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/titleTV"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="35dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/titleTV"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="55dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="19sp"
-                    android:textColor="#ffffff"
                     android:gravity="center_horizontal"
-                    />
+                    android:text="평균 체류시간"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_marginTop="35dp"
-                    android:layout_marginBottom="35dp"
-                    android:layout_below="@+id/titleTV"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                        
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/totalDurationsTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="00:00"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="12sp"
-                                    android:textColor="#ffffff"
-                                    android:textStyle="bold"
-                                    android:gravity="center_horizontal"
-                                    android:text="평균 체류시간"
-                                    />
-                                <TextView
-                                    android:id="@+id/totalDurationsTV"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#ffffff"
-                                    android:gravity="center_horizontal"
-                                    android:text="00:00"
-                                    />
-                                
-                        </LinearLayout>
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                                android:background="#ffffff"/>
+            </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#ffffff" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textSize="12sp"
-                                    android:textColor="#ffffff"
-                                    android:textStyle="bold"
-                                    android:gravity="center_horizontal"
-                                    android:text="평균 소비금액"
-                                    />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/totalCostsTV"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_horizontal"
-                                    android:text="0$"
-                                    android:textColor="#ffffff"
-                                    android:textSize="18sp"
-                                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="평균 소비금액"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-                        </LinearLayout>
-                        
-                        
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/totalCostsTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="0$"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-        </RelativeLayout>
+            </LinearLayout>
 
 
-        
-        <ListView
-            android:paddingTop="7dp"
-            android:divider="@null"
-            android:id="@+id/scrapLV"
-            android:background="#e7eaed"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+        </LinearLayout>
 
-        </ListView>
+    </RelativeLayout>
 
 
+    <ListView
+        android:id="@+id/scrapLV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#e7eaed"
+        android:divider="@null"
+        android:paddingTop="7dp">
 
-
-
-
+    </ListView>
 
 
 </LinearLayout>

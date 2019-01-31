@@ -45,6 +45,8 @@ class MapSearchActivity : RootActivity() {
         place_id = intent.getIntExtra("place_id",-1)
         keyword = intent.getStringExtra("keyword")
 
+        keywordET.setText(keyword)
+
         PlaceAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
         scrapLV.adapter = PlaceAdapter
         place_timeline()
@@ -71,9 +73,9 @@ class MapSearchActivity : RootActivity() {
 
                 Utils.hideKeyboard(context)
 
+                load_place()
                 place_timeline()
 
-                Utils.hideKeyboard(context)
             } else {
             }
             false
@@ -102,6 +104,16 @@ class MapSearchActivity : RootActivity() {
                         val place_name =   Utils.getString(place,"place")
                         titleTV.text = place_name
 
+                        val total_durations =   Utils.getInt(place,"total_durations")
+
+                        val hour = total_durations / 60
+                        val min = total_durations % 60
+                        val duration = "$hour:$min"
+
+                        totalDurationsTV.setText(duration)
+
+                        val total_costs =   Utils.getInt(place,"total_costs")
+                        totalCostsTV.setText("$total_costs$")
 
                     }
 
