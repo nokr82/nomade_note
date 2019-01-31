@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="join_by_email">이메일로 회원가입</string>
-    <string name="emailET_hint">이메일 주소 입력</string>
-    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="join_by_email">メールでの会員登録</string>
+    <string name="emailET_hint">メールアドレスを入力</string>
+    <string name="pwdET_hint">パスワード（英語、数字、特殊文字）</string>
     <string name="joinTV_text">会員登録</string>
 
     <string name="activity_login_kakao">カカオトークで始める</string>
@@ -118,7 +118,7 @@
     <string name="activity_choosegender">性別を選んで下さい。</string>
     <string name="activity_write_title">タイトル</string>
     <string name="acrivity_quest_logo">お問い合わせの内容</string>
-    <string name="item_mainimage">대표사진</string>
+    <string name="item_mainimage">代表写真</string>
     <!--id 검색-->
     <string name="inquire">お問い合わせの内容</string>
     <!--문의하기-->
@@ -150,9 +150,22 @@
 
 
     <!-- 추가-->
-    <string name="auto_login">자동로그인</string>
-    <string name="fra_setting_kakaotalk">카카오톡</string>
-    <string name="member_delete">탈퇴하시겠습니까?</string>
-    <string name="member_delete_confrim">정말 떠나시겠습니까?</string>
+    <string name="auto_login">自動ログイン</string>
+    <string name="fra_setting_kakaotalk">カカオトーク</string>
+    <string name="member_delete">退会しますか？</string>
+    <string name="member_delete_confrim">本当に退会しますか？</string>
+    <string name="item_scrap_cirti">この情報を認証しますか？</string>
+    <string name="item_scrap_cirti_done">現地情報を認証します。</string>
+    <string name="enteryourage">年齢を入力してください.</string>
+    <string name="total">総</string>
+    <string name="view_my_friends">追加リストで表示</string>
+    <string name="prd_1gb">1GB (9,000ウォン)</string>
+    <string name="prd_600mb">600MB (5,000ウォン)</string>
+    <string name="prd_20kb">20KB (無料)</string>
+    <string name="enter_question_title">タイトルを入力してください。</string>
+    <string name="enter_question_contents">内容を入力して下さい。</string>
+    <string name="choose_pic_title">写真を選択</string>
+    <string name="choose_pic_done">添付</string>
+    <string name="do_login">ログインする</string>
 
 </resources>

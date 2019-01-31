@@ -194,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:gravity="center"
-                    android:hint="나이를 입력해주세요."
+                    android:hint="@string/enteryourage"
                     android:inputType="number"
                     android:textColorHint="#878787"
                     android:textSize="14dp" />

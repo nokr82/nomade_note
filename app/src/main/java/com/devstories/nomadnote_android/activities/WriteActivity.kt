@@ -1065,7 +1065,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     longitude = 126.9107831
 
                 }
-                builder.setPositiveButton("설정") { dialog, id ->
+                builder.setPositiveButton(getString(R.string.settings)) { dialog, id ->
                     dialog.cancel()
                     startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                 }

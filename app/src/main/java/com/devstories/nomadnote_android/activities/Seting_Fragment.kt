@@ -480,14 +480,14 @@ class Seting_Fragment : Fragment() {
 
                     if (maxabs.toInt() == 0){
                         if (maxgb.toInt() == 0){
-                            mydataTV.setText("총 " + Math.abs(maxkb).toString() + "KB")
+                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxkb).toString() + "KB")
                             progressPB.setMax(maxkb.toInt())
                             progressPB.setProgress(ramentabskb.toInt())
                         } else {
-                            mydataTV.setText("총 " + Math.abs(maxgb).toString() + "MB")
+                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxgb).toString() + "MB")
                         }
                     } else {
-                        mydataTV.setText("총 " + maxabs.toString() + "GB")
+                        mydataTV.setText(getString(R.string.total) + " " + maxabs.toString() + "GB")
                     }
 
                     println("--------------paymentsabs $paymentabs")
@@ -504,7 +504,7 @@ class Seting_Fragment : Fragment() {
                     } else {
                         useTV.setText(ramentabs.toString() + "MB")
                     }
-//                    mydataTV.setText("총 " + maxabs.toString() + "GB")
+//                    mydataTV.setText(getString(R.string.total) + " " + maxabs.toString() + "GB")
 //                    remantTV.setText(paymentabs.toString() + "MB")
 //                    useTV.setText(ramentabs.toString() + "MB")
                 // }
