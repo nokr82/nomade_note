@@ -36,7 +36,7 @@ class MyinfoChangeActivity : RootActivity() {
 
     var name = ""
     var age = 0
-    var phone = 0
+    var phone = ""
     var gender = ""
 
     var MALE = 100
@@ -82,7 +82,7 @@ class MyinfoChangeActivity : RootActivity() {
         editTV.setOnClickListener {
             name = Utils.getString(nameET)
             age = Utils.getInt(ageET)
-            phone = Utils.getInt(phoneET)
+            phone = Utils.getString(phoneET)
             edit_profile()
         }
 
@@ -223,7 +223,7 @@ class MyinfoChangeActivity : RootActivity() {
                         name =  Utils.getString(member, "name")
                         age =  Utils.getInt(member, "age")
                         gender =  Utils.getString(member, "gender")
-                        phone = Utils.getInt(member,"phone")
+                        phone = Utils.getString(member,"phone")
                         myprofile = Utils.getString(member,"profile")
 //                        val disk =member.getJSONArray("disk")
                         val payment_sum = Utils.getInt(member,"payment_sum")
@@ -241,7 +241,7 @@ class MyinfoChangeActivity : RootActivity() {
                         }
 
                         if (Utils.getInt(member,"phone") != -1 && Utils.getInt(member,"phone") != 1){
-                            phoneET.setText(Math.abs(phone).toString())
+                            phoneET.setText(phone)
                         }
 
                         if (myprofile != ""){

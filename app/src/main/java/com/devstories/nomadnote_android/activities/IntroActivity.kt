@@ -21,6 +21,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import com.devstories.nomadnote_android.R
 
 
 class IntroActivity : RootActivity() {
@@ -41,7 +42,9 @@ class IntroActivity : RootActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.devstories.nomadnote_android.R.layout.activity_intro)
+        setContentView(R.layout.activity_intro)
+
+
         this.context = this
         progressDialog = ProgressDialog(context)
 
