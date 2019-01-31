@@ -494,6 +494,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         googleMap.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
             // System.out.println(marker);
 
+            val keyword = Utils.getString(keywordET)
+
             val item = marker.tag as JSONObject?
             val type = Utils.getString(item, "type")
 
@@ -502,6 +504,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val place_id = Utils.getInt(item,"id")
             val intent = Intent(myContext, MapSearchActivity::class.java)
             intent.putExtra("place_id", place_id)
+            intent.putExtra("keyword", keyword)
             startActivity(intent)
 
             true
@@ -514,6 +517,21 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         googleMap.setOnCameraMoveStartedListener(GoogleMap.OnCameraMoveStartedListener {
 
         })
+
+        googleMap.setOnCameraIdleListener {
+            println("zoom : ${googleMap.cameraPosition.zoom}")
+
+            val zoom = googleMap.cameraPosition.zoom
+            if(zoom > 14.5) {
+                for (marker in markers) {
+                    marker.isVisible = true
+                }
+            } else {
+                for (marker in markers) {
+                    marker.isVisible = false
+                }
+            }
+        }
 
         load_place()
     }

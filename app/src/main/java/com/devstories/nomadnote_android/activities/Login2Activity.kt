@@ -53,6 +53,7 @@ class Login2Activity : RootActivity() {
 
             login(email, passwd)
         }
+
         backIV.setOnClickListener {
             finish()
         }
