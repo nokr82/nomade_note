@@ -33,6 +33,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
@@ -48,7 +49,6 @@ import java.io.ByteArrayInputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import com.nostra13.universalimageloader.core.ImageLoader
 
 private val imgSeq = 0
 
@@ -146,7 +146,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
     fun click(){
-        blockIV.setOnClickListener {
+        blockLL.setOnClickListener {
             if (block_yn == "N"){
 
 //                val builder = AlertDialog.Builder(context)
@@ -307,6 +307,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("token",PrefUtils.getStringPreference(context,"token"))
         params.put("block_yn",block_yn)
         params.put("country",country)
+        params.put("latitude", latitude)
+        params.put("longitude", longitude)
 
         val content_byte = contents.toByteArray()
         val content_size = content_byte.size
@@ -523,6 +525,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("place_id","1")
         params.put("country_id","1")
         params.put("style_id",menu_position)
+        params.put("latitude", latitude)
+        params.put("longitude", longitude)
 
         var seq = 0
         if (addPicturesLL != null){
