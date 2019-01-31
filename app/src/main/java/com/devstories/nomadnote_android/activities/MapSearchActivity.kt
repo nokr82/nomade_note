@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.PlaceAction
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -16,8 +15,6 @@ import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
 import donggolf.android.adapters.PlaceAdapter
 import kotlinx.android.synthetic.main.activity_mapsearch.*
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapPoint
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -28,6 +25,7 @@ class MapSearchActivity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
     lateinit var PlaceAdapter: PlaceAdapter
     var place_id = -1
+    var keyword = ""
 
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +41,7 @@ class MapSearchActivity : RootActivity() {
 //        ScrapAdapter = ScrapAdapter(context, R.layout.item_scrap, 10)
         var intent = getIntent()
         place_id = intent.getIntExtra("place_id",-1)
+        keyword = intent.getStringExtra("keyword")
 
         PlaceAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
         scrapLV.adapter = PlaceAdapter
@@ -70,7 +69,7 @@ class MapSearchActivity : RootActivity() {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_id",place_id)
-
+        params.put("keyword", keyword)
 
         PlaceAction.load_place(params, object : JsonHttpResponseHandler() {
 
