@@ -60,6 +60,12 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         if (profile != "" && profile != null){
             var uri = Config.url + profile
             ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
+        } else {
+            if (Utils.getString(member, "gender") == "F"){
+                item.profileIV.setImageResource(R.mipmap.famal)
+            }else{
+                item.profileIV.setImageResource(R.mipmap.man)
+            }
         }
         item.infoTV.setText(name+"/"+age+"세")
 
@@ -80,6 +86,8 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 //            val image_uri = Utils.getString(image_item,"image_uri")
 //            var uri = Config.url + image_uri
 //            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
+        } else {
+            item.backgroundIV.setImageResource(R.mipmap.time_bg)
         }
 
         item.placeTV.setText(place_name)

@@ -44,6 +44,7 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         val created_at = Utils.getString(json,"created_at")
         val count = Utils.getInt(json,"count")
         val image_uri = Utils.getString(json,"image_uri")
+
         var uri = Config.url + image_uri
         ImageLoader.getInstance().displayImage(uri, item.flagIV, Utils.UILoptionsUserProfile)
 
