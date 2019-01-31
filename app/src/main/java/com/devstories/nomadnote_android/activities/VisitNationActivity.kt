@@ -2,6 +2,7 @@ package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.devstories.nomadnote_android.R
@@ -50,6 +51,18 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
         val mapFragment =  supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        visitLV.setOnItemClickListener { parent, view, position, id ->
+            val item = adapterData.get(position)
+            val id = Utils.getInt(item,"id")
+            val country = Utils.getString(item,"country")
+
+            val intent = Intent(context, CountryTimelineActivity::class.java)
+            intent.putExtra("country_id",id)
+            intent.putExtra("country",country)
+            startActivity(intent)
+
+        }
 
 
     }

@@ -1,11 +1,13 @@
 package donggolf.android.adapters
 
 import android.content.Context
+import android.graphics.Color
 import android.media.Image
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
@@ -46,6 +48,8 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var created = Utils.getString(json,"created_at")
         var image = json.getJSONArray("images")
         var member = json.getJSONObject("member")
+        var style_id = json.getInt("style_id")
+        setMenuImage(style_id)
 
         var name =  Utils.getString(member,"name")
         var age =  Utils.getString(member,"age")
@@ -69,7 +73,8 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
             item.profileIV.setImageResource(R.mipmap.famal)
         }
 
-
+        item.trustLL.visibility = View.GONE
+        item.trustIV.visibility = View.GONE
         item.infoTV.setText(name+"/"+age+"세")
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
@@ -115,6 +120,14 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var costTV: TextView
         var createdTV:TextView
         var profileIV : ImageView
+        var trustLL: LinearLayout
+        var trustIV: ImageView
+        var healingTV:me.grantland.widget.AutofitTextView
+        var hotplaceTV:me.grantland.widget.AutofitTextView
+        var literatureTV:me.grantland.widget.AutofitTextView
+        var historyTV:me.grantland.widget.AutofitTextView
+        var museumTV:me.grantland.widget.AutofitTextView
+        var artTV: me.grantland.widget.AutofitTextView
         init {
             profileIV= v.findViewById<View>(R.id.profileIV) as ImageView
             infoTV = v.findViewById<View>(R.id.infoTV) as TextView
@@ -124,11 +137,63 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
             durationTV = v.findViewById<View>(R.id.durationTV) as TextView
             costTV = v.findViewById<View>(R.id.costTV) as TextView
             createdTV = v.findViewById<View>(R.id.createdTV) as TextView
+            trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
+            trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
+            healingTV = v.findViewById<View>(R.id.healingTV) as me.grantland.widget.AutofitTextView
+            hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
+            literatureTV = v.findViewById<View>(R.id.literatureTV) as me.grantland.widget.AutofitTextView
+            historyTV = v.findViewById<View>(R.id.historyTV) as  me.grantland.widget.AutofitTextView
+            museumTV = v.findViewById<View>(R.id.museumTV) as me.grantland.widget.AutofitTextView
+            artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
 
+        }
+    }
+    fun menuSetImage(){
+        item.healingTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.healingTV.setTextColor(Color.parseColor("#878787"))
+        item.hotplaceTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.hotplaceTV.setTextColor(Color.parseColor("#878787"))
+        item.literatureTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.literatureTV.setTextColor(Color.parseColor("#878787"))
+        item.historyTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item. historyTV.setTextColor(Color.parseColor("#878787"))
+        item.museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.museumTV.setTextColor(Color.parseColor("#878787"))
+        item.artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.artTV.setTextColor(Color.parseColor("#878787"))
+    }
 
+    fun setMenuImage(style: Int){
+        menuSetImage()
+        when(style){
+            1 ->{
+                item.healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.healingTV.setTextColor(Color.parseColor("#ffffff"))
+            }
 
+            2 ->{
+                item.hotplaceTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
+            }
 
+            3 ->{
+                item.literatureTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.literatureTV.setTextColor(Color.parseColor("#ffffff"))
+            }
 
+            4 ->{
+                item.historyTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.historyTV.setTextColor(Color.parseColor("#ffffff"))
+            }
+
+            5 ->{
+                item.museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.museumTV.setTextColor(Color.parseColor("#ffffff"))
+            }
+            6-> {
+                item.artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.artTV.setTextColor(Color.parseColor("#ffffff"))
+            }
         }
     }
 }
