@@ -124,5 +124,6 @@
     <string name="choose_pic_done">追加</string>
     <string name="do_login">登錄</string>
     <string name="post_count">個</string>
+    <string name="my_points">保持點</string>
 
 </resources>

@@ -145,7 +145,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:hint="나이를 입력하세요"
+                    android:hint="@string/enteryourage"
                     android:inputType="number"
                     android:textColorHint="#878787"
                     android:textSize="14dp" />

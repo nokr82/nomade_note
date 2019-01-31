@@ -119,5 +119,6 @@
     <string name="choose_pic_done">追加</string>
     <string name="do_login">登录</string>
     <string name="post_count">个</string>
+    <string name="my_points">保持点</string>
 
 </resources>

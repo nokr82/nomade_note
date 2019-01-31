@@ -117,5 +117,6 @@
     <string name="choose_pic_done">Attachment</string>
     <string name="do_login">Sign in</string>
     <string name="post_count">Posts</string>
+    <string name="my_points">Hold point</string>
 
 </resources>

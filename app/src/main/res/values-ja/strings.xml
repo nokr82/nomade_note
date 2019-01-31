@@ -168,5 +168,6 @@
     <string name="choose_pic_done">添付</string>
     <string name="do_login">ログインする</string>
     <string name="post_count">個</string>
+    <string name="my_points">保有ポイント</string>
 
 </resources>

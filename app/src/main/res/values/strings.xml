@@ -113,5 +113,6 @@
     <string name="choose_pic_done">첨부</string>
     <string name="do_login">로그인 하기</string>
     <string name="post_count">개</string>
+    <string name="my_points">보유 포인트</string>
 
 </resources>
