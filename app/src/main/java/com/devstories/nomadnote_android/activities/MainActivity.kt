@@ -48,7 +48,7 @@ class MainActivity : FragmentActivity() {
     internal var datachangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
-                logoTV.setText("설정")
+                logoTV.text = getString(R.string.settings)
                 logoTV.visibility  = View.VISIBLE
                 setmenu()
                 logoIV.visibility = View.GONE
@@ -58,7 +58,7 @@ class MainActivity : FragmentActivity() {
 
                 var args: Bundle = Bundle()
                 args.putInt("type", 2)
-                Seting_Fragment.setArguments(args)
+                Seting_Fragment.arguments = args
                 supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
             }
         }
@@ -67,7 +67,7 @@ class MainActivity : FragmentActivity() {
     internal var stylechangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
-                logoTV.setText("설정")
+                logoTV.text = getString(R.string.settings)
                 logoTV.visibility  = View.VISIBLE
                 setmenu()
                 logoIV.visibility = View.GONE
@@ -77,7 +77,7 @@ class MainActivity : FragmentActivity() {
 
                 var args: Bundle = Bundle()
                 args.putInt("type", 1)
-                Seting_Fragment.setArguments(args)
+                Seting_Fragment.arguments = args
                 supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
             }
         }
@@ -87,7 +87,7 @@ class MainActivity : FragmentActivity() {
     internal var backReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
-                logoTV.setText("설정")
+                logoTV.text = getString(R.string.settings)
                 logoTV.visibility  = View.VISIBLE
                 setmenu()
                 logoIV.visibility = View.GONE
@@ -107,7 +107,7 @@ class MainActivity : FragmentActivity() {
                 titleLL.visibility = View.GONE
                 var args: Bundle = Bundle()
                 args.putInt("type", f_type)
-                Friend_Fragment.setArguments(args)
+                Friend_Fragment.arguments = args
                 supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Friend_Fragment).commit()
             }
         }
@@ -217,7 +217,7 @@ class MainActivity : FragmentActivity() {
         }
         questLL.setOnClickListener {
             titleBackLL.visibility = View.INVISIBLE
-            logoTV.setText(getString(R.string.seeallquestions))
+            logoTV.text = getString(R.string.seeallquestions)
             logoTV.visibility = View.GONE
             logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
@@ -254,7 +254,7 @@ class MainActivity : FragmentActivity() {
         }
         settingLL.setOnClickListener {
             titleBackLL.visibility = View.INVISIBLE
-            logoTV.setText("설정")
+            logoTV.text = getString(R.string.settings)
             logoTV.visibility = View.VISIBLE
             setmenu()
             logoIV.visibility = View.GONE
@@ -445,7 +445,7 @@ class MainActivity : FragmentActivity() {
                     if ("ok" == result) {
 
                         var member = response.getJSONObject("member")
-                        var disk = response!!.getString("disk")
+                        var disk = response.getString("disk")
 //                        var payment_sum = member.getJSONArray("payments")
                         var point = Utils.getInt(member,"point")
                         var pointdouble = Utils.getDouble(member,"point")
@@ -546,7 +546,7 @@ class MainActivity : FragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1001 && Seting_Fragment != null) {
-            Seting_Fragment!!.onActivityResult(requestCode, resultCode, data)
+            Seting_Fragment.onActivityResult(requestCode, resultCode, data)
         }
     }
 

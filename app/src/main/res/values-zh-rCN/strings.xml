@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="join_by_email">이메일로 회원가입</string>
-    <string name="emailET_hint">이메일 주소 입력</string>
-    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="join_by_email">註冊電子郵件</string>
+    <string name="emailET_hint">輸入郵箱地址</string>
+    <string name="pwdET_hint">密碼（英文，數字，特殊字符）</string>
     <string name="joinTV_text">会员加入</string>
     <string name="activity_login_kakao">kakao开始</string>
     <!--카카오로 시작-->
@@ -86,7 +86,7 @@
     <string name="activity_choosegender">请选择性别</string>
     <string name="activity_write_title">题目</string>
     <string name="acrivity_quest_logo">咨询</string>
-    <string name="item_mainimage">대표사진</string>
+    <string name="item_mainimage">代表照片</string>
     <string name="inquire">咨询</string>
     <string name="enteryourname">请输入姓名</string>
     <string name="enteryouraddress">请输入联系方式</string>
@@ -106,9 +106,22 @@
 
 
     <!-- 추가-->
-    <string name="auto_login">자동로그인</string>
-    <string name="fra_setting_kakaotalk">카카오톡</string>
-    <string name="member_delete">탈퇴하시겠습니까?</string>
-    <string name="member_delete_confrim">정말 떠나시겠습니까?</string>
+    <string name="auto_login">自動登錄</string>
+    <string name="fra_setting_kakaotalk">KakaoTalk</string>
+    <string name="member_delete">確定要退出嗎?</string>
+    <string name="member_delete_confrim">真的要離開嗎?</string>
+    <string name="item_scrap_cirti">您想驗證這些信息嗎？</string>
+    <string name="item_scrap_cirti_done">認證當地信息</string>
+    <string name="enteryourage">請輸入您的年齡。</string>
+    <string name="total">槍</string>
+    <string name="view_my_friends">添加到列表</string>
+    <string name="prd_1gb">1GB (9,000元韓幣)</string>
+    <string name="prd_600mb">600MB (5,000元韓幣)</string>
+    <string name="prd_20kb">20KB (免費)</string>
+    <string name="enter_question_title">請輸入標題。</string>
+    <string name="enter_question_contents">請輸入內容</string>
+    <string name="choose_pic_title">選擇照片</string>
+    <string name="choose_pic_done">追加</string>
+    <string name="do_login">登錄</string>
 
 </resources>

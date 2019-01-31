@@ -99,5 +99,18 @@
     <string name="fra_setting_kakaotalk">카카오톡</string>
     <string name="member_delete">탈퇴하시겠습니까?</string>
     <string name="member_delete_confrim">정말 떠나시겠습니까?</string>
+    <string name="item_scrap_cirti">이 정보를 인증하시겠습니까?</string>
+    <string name="item_scrap_cirti_done">현지 정보를 인증합니다</string>
+    <string name="enteryourage">나이를 입력해주세요.</string>
+    <string name="total">총</string>
+    <string name="view_my_friends">추가리스트로 보기</string>
+    <string name="prd_1gb">1GB (9,000원)</string>
+    <string name="prd_600mb">600MB (5,000원)</string>
+    <string name="prd_20kb">20KB (무료)</string>
+    <string name="enter_question_title">제목을 입력해주세요.</string>
+    <string name="enter_question_contents">내용을 입력해주세요.</string>
+    <string name="choose_pic_title">사진선택</string>
+    <string name="choose_pic_done">첨부</string>
+    <string name="do_login">로그인 하기</string>
 
 </resources>

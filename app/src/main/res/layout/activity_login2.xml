@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -26,9 +25,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="100dp"
         android:layout_weight="1"
-        android:fillViewport="true"
-        android:layout_marginTop="100dp">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +44,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="로그인 하기"
+                    android:text="@string/do_login"
                     android:textColor="#779ba4"
                     android:textSize="25sp" />
 
@@ -63,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="이메일 주소 입력"
+                        android:hint="@string/emailET_hint"
                         android:inputType="textEmailAddress"
                         android:textColorHint="#878787"
                         android:textSize="14dp" />
@@ -83,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@null"
-                        android:hint="비밀번호 (영문,숫자,특수문자)"
+                        android:hint="@string/pwdET_hint"
                         android:inputType="textPassword"
                         android:singleLine="true"
                         android:textColorHint="#878787"
@@ -103,16 +102,16 @@
                         android:id="@+id/autoCheckIV"
                         android:layout_width="13dp"
                         android:layout_height="13dp"
-                        android:background="@drawable/circle_background3"
                         android:layout_marginRight="5dp"
-                        android:visibility="visible"/>
+                        android:background="@drawable/circle_background3"
+                        android:visibility="visible" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/auto_login"
                         android:textColorHint="#878787"
-                        android:textSize="12dp"
-                        android:text="@string/auto_login"/>
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 

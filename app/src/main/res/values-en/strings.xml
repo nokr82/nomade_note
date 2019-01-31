@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="join_by_email">이메일로 회원가입</string>
-    <string name="emailET_hint">이메일 주소 입력</string>
-    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="join_by_email">Sign up for email</string>
+    <string name="emailET_hint">Input email address</string>
+    <string name="pwdET_hint">Password (English, numbers, special characters)</string>
     <string name="joinTV_text">Sign Up</string>
     <string name="activity_login_kakao">Sign Up with Kakao</string>
     <!--카카오로 시작-->
@@ -71,6 +71,15 @@
     <string name="setmyinfo2">Edit Profile</string>
     <string name="totalmemory">Total Memory</string>
     <string name="searchphone">Search By Contact Info</string>
+    <string name="inquire">Inquire</string>
+    <string name="enteryourname">Enter Your Name.</string>
+    <string name="enteryouraddress">Enter Your Address.</string>
+    <string name="chooseyourgender">Choose Your Gender</string>
+    <string name="title">Title</string>
+    <string name="createnote">Create Note</string>
+    <string name="addphonefriend">Add A User With Their Phone Number</string>
+    <string name="searchphonenumber">You can add new users by entering their phone number</string>
+    <string name="addphonenumber">Please enter the name and phone number of the user you wish to add.</string>
     <string name="searchid">Search By ID</string>
     <string name="test">세종문화회관</string>
 
@@ -90,9 +99,22 @@
     <string name="addenterid">Enter the ID of the friend of the user you wish to add.</string>
 
     <!-- 추가 -->
-    <string name="auto_login">자동로그인</string>
-    <string name="fra_setting_kakaotalk">카카오톡</string>
+    <string name="auto_login">Auto-Login</string>
+    <string name="fra_setting_kakaotalk">KakaoTalk</string>
     <string name="member_delete">Delete account?</string>
     <string name="member_delete_confrim">Are you sure you＇d like to leave?</string>
+    <string name="item_scrap_cirti">Would you like to verify this information?</string>
+    <string name="item_scrap_cirti_done">Local information verified</string>
+    <string name="enteryourage">Enter Your Age.</string>
+    <string name="total">총</string>
+    <string name="view_my_friends">추가리스트로 보기</string>
+    <string name="prd_1gb">1GB (9,000KRW)</string>
+    <string name="prd_600mb">600MB (5,000KRW)</string>
+    <string name="prd_20kb">20KB (Free)</string>
+    <string name="enter_question_title">Enter title</string>
+    <string name="enter_question_contents">Enter text</string>
+    <string name="choose_pic_title">Select photo</string>
+    <string name="choose_pic_done">Attachment</string>
+    <string name="do_login">Sign in</string>
 
 </resources>

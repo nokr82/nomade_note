@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -7,39 +6,37 @@
 
     <LinearLayout
         android:id="@+id/titleLL"
-        android:background="@drawable/background_gradient"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@drawable/background_gradient">
 
         <LinearLayout
             android:id="@+id/titleBackLL"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:paddingLeft="25dp"
             android:paddingRight="10dp"
-            android:gravity="center"
             android:visibility="visible">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/back_white"/>
+                android:src="@mipmap/back_white" />
 
         </LinearLayout>
-
 
 
         <TextView
             android:id="@+id/logoIV"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_height="match_parent"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
             android:letterSpacing="-0.01"
             android:text="@string/createnote"
-            />
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
 
 
         <LinearLayout
@@ -52,7 +49,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/paper_air"/>
+                android:src="@mipmap/paper_air" />
 
         </LinearLayout>
 
@@ -65,6 +62,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:fillViewport="true">
+
         <LinearLayout
             android:id="@+id/mainViewLL"
             android:layout_width="match_parent"
@@ -77,46 +75,47 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
-                android:paddingTop="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:background="#d8d8d8"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="20dp"
+                android:paddingRight="10dp">
 
                 <LinearLayout
-                    android:paddingBottom="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp">
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#4a4a4a"
-                            android:textStyle="bold"
                             android:text="@string/activity_write_note"
-                            />
+                            android:textColor="#4a4a4a"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
+                            android:text=" : "
                             android:textColor="#4a4a4a"
-                            android:textStyle="bold"
-                            android:text=" : "/>
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/pulldateTV"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="11sp"
-                            android:textColor="#4a4a4a"
-                            android:textStyle="bold"
+                            android:layout_weight="1"
                             android:text="2017. 10.22   PM10:30"
-                            />
+                            android:textColor="#4a4a4a"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -125,142 +124,152 @@
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
                         android:gravity="center">
+
                         <ImageView
                             android:id="@+id/blockIV"
                             android:layout_width="15dp"
                             android:layout_height="15dp"
-                            android:src="@mipmap/shield"/>
+                            android:src="@mipmap/shield" />
                     </LinearLayout>
 
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/positionLL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                  <LinearLayout
-                      android:layout_marginRight="4dp"
-                      android:layout_width="0dp"
-                      android:layout_weight="1"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical">
-                      <TextView
-                          android:layout_marginBottom="2dp"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:textSize="10sp"
-                          android:textColor="#878787"
-                          android:text="@string/activity_write_location"
-                          />
 
-                      <EditText
-                          android:id="@+id/locationET"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:textSize="12sp"
-                          android:textColor="#4a4a4a"
-                          android:padding="7dp"
-                          android:background="@drawable/background_border_radius8_000000"/>
-
-
-                  </LinearLayout>
                     <LinearLayout
-                        android:layout_marginRight="4dp"
                         android:layout_width="0dp"
-                        android:layout_weight="0.5"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
+
                         <TextView
-                            android:id="@+id/timetakeTV"
-                            android:layout_marginBottom="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
+                            android:layout_marginBottom="2dp"
+                            android:text="@string/activity_write_location"
                             android:textColor="#878787"
+                            android:textSize="10sp" />
+
+                        <EditText
+                            android:id="@+id/locationET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_border_radius8_000000"
+                            android:padding="7dp"
+                            android:textColor="#4a4a4a"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/timetakeTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
                             android:text="@string/activity_write_time"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="10sp" />
 
                         <LinearLayout
-                            android:background="@drawable/background_border_radius8_000000"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:background="@drawable/background_border_radius8_000000">
+
                             <EditText
                                 android:id="@+id/timeET"
-                                android:inputType="number"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:gravity="center"
-                                android:textSize="12sp"
-                                android:textColor="#4a4a4a"
-                                android:padding="7dp"
                                 android:background="@null"
-                                android:maxLength="2"
-                                android:singleLine="true"/>
-                            <TextView
+                                android:gravity="center"
                                 android:inputType="number"
+                                android:maxLength="2"
+                                android:padding="7dp"
+                                android:singleLine="true"
+                                android:textColor="#4a4a4a"
+                                android:textSize="12sp" />
+
+                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="12sp"
-                                android:textColor="#4a4a4a"
                                 android:background="@null"
-                                android:text=":"/>
+                                android:inputType="number"
+                                android:text=":"
+                                android:textColor="#4a4a4a"
+                                android:textSize="12sp" />
+
                             <EditText
                                 android:id="@+id/minuteET"
-                                android:inputType="number"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:gravity="center"
-                                android:textSize="12sp"
-                                android:textColor="#4a4a4a"
-                                android:padding="7dp"
                                 android:background="@null"
+                                android:gravity="center"
+                                android:inputType="number"
                                 android:maxLength="2"
-                                android:singleLine="true"/>
+                                android:padding="7dp"
+                                android:singleLine="true"
+                                android:textColor="#4a4a4a"
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="0.8"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.8"
                         android:orientation="vertical">
+
                         <TextView
-                            android:layout_marginBottom="2dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="#878787"
+                            android:layout_marginBottom="2dp"
                             android:text="@string/activity_write_spent"
-                            />
+                            android:textColor="#878787"
+                            android:textSize="10sp" />
 
                         <LinearLayout
-                            android:background="@drawable/background_border_radius8_000000"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@drawable/background_border_radius8_000000"
                             android:orientation="horizontal">
+
                             <EditText
                                 android:id="@+id/moneyET"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:textSize="12sp"
-                                android:textColor="#4a4a4a"
-                                android:padding="7dp"
                                 android:background="@null"
-                                android:singleLine="true"
                                 android:inputType="number"
-                                android:text="0"/>
+                                android:padding="7dp"
+                                android:singleLine="true"
+                                android:text="0"
+                                android:textColor="#4a4a4a"
+                                android:textSize="12sp" />
+
                             <TextView
-                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:textSize="12sp"
-                                android:textColor="#4a4a4a"
+                                android:layout_gravity="center"
                                 android:padding="7dp"
-                                android:text="$"/>
+                                android:text="$"
+                                android:textColor="#4a4a4a"
+                                android:textSize="12sp" />
                         </LinearLayout>
 
 
@@ -271,112 +280,112 @@
 
                 <LinearLayout
                     android:id="@+id/styleLL"
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp">
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp">
+
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/healingTV"
-                        android:layout_marginRight="5dp"
-                        android:padding="4dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
                         android:layout_height="match_parent"
-                        android:gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius7_000000"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:singleLine="true"
                         android:text="@string/activity_write_healing"
-                        android:textSize="10dp"
-                        android:textColor="#ffffff"/>
+                        android:textColor="#ffffff"
+                        android:textSize="10dp" />
+
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/hotplaceTV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius8_000000"
+                        android:gravity="center"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
                         android:text="@string/activity_write_hotplace"
-                        android:textSize="10dp"
-                        android:gravity="center"
-                        android:textColor="#878787"/>
+                        android:textColor="#878787"
+                        android:textSize="10dp" />
+
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/literatureTV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius8_000000"
+                        android:gravity="center"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
                         android:text="@string/culturalstyle"
-                        android:textSize="10dp"
-                        android:textColor="#878787"/>
+                        android:textColor="#878787"
+                        android:textSize="10dp" />
+
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/historyTV"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginRight="5dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_border_radius8_000000"
+                        android:gravity="center"
                         android:padding="4dp"
                         android:singleLine="true"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_height="match_parent"
-                        android:textSize="10dp"
-                        android:textColor="#878787"
                         android:text="@string/historicalstyle"
-                        />
+                        android:textColor="#878787"
+                        android:textSize="10dp" />
+
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/museumTV"
-                        android:singleLine="true"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/background_border_radius8_000000"
-                        android:padding="4dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_border_radius8_000000"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:singleLine="true"
                         android:text="@string/museumstyle"
-                        android:textSize="10dp"
-                        android:textColor="#878787"/>
+                        android:textColor="#878787"
+                        android:textSize="10dp" />
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/artTV"
-                        android:background="@drawable/background_border_radius8_000000"
-                        android:padding="4dp"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:gravity="center"
                         android:layout_height="match_parent"
-                        android:textSize="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_border_radius8_000000"
+                        android:gravity="center"
+                        android:padding="4dp"
+                        android:singleLine="true"
+                        android:text="@string/artmuseumstyle"
                         android:textColor="#878787"
-                        android:text="미술관 스타일"
-                        />
+                        android:textSize="10dp" />
 
 
                 </LinearLayout>
 
 
-
-
             </LinearLayout>
 
 
-
-                <EditText
-                    android:id="@+id/contentET"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textSize="12sp"
-                    android:background="@null"
-                    android:maxLines="12"
-                    android:gravity="left"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:hint="@string/entertext"/>
+            <EditText
+                android:id="@+id/contentET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="left"
+                android:hint="@string/entertext"
+                android:maxLines="12"
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:id="@+id/pictureLL"
@@ -392,6 +401,7 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
+
                         <ImageView
                             android:layout_width="110dp"
                             android:layout_height="120dp"
@@ -419,8 +429,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
 
 </LinearLayout>
