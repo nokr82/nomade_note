@@ -12,8 +12,8 @@
     <string name="emailET_hint">이메일 주소 입력</string>
     <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
     <string name="joinTV_text">회원가입</string>
-    <string name="activity_login_kakao">카카오로 시작</string>
-    <string name="activity_login_naver">네이버로 시작</string>
+    <string name="activity_login_kakao">카카오 로그인</string>
+    <string name="activity_login_naver">네이버 로그인</string>
     <string name="activity_login_google">구글 로그인</string>
     <string name="activity_login_facebook">페이스북 로그인</string>
     <string name="activity_login_login">로그인</string>
