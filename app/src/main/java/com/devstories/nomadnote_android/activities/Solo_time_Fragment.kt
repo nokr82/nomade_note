@@ -294,6 +294,13 @@ class Solo_time_Fragment : Fragment() {
             progressDialog!!.dismiss()
         }
 
+        try {
+            if (ResetReceiver != null) {
+                context!!.unregisterReceiver(ResetReceiver)
+            }
+        } catch (e: IllegalArgumentException) {
+        }
+
     }
 }
 
