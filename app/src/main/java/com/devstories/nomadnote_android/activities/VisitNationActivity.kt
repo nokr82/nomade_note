@@ -21,7 +21,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-
 class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
     lateinit var context: Context
@@ -35,9 +34,9 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.devstories.nomadnote_android.R.layout.activity_visit_nation)
+        setContentView(R.layout.activity_visit_nation)
         this.context = this
-        progressDialog = ProgressDialog(context, com.devstories.nomadnote_android.R.style.CustomProgressBar)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
@@ -46,7 +45,7 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
             finish()
         }
 
-        visitNationAdapter = VisitNationAdapter(context, com.devstories.nomadnote_android.R.layout.item_nation, adapterData)
+        visitNationAdapter = VisitNationAdapter(context, R.layout.item_nation, adapterData)
         visitLV.adapter = visitNationAdapter
 
         val mapFragment =  supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -220,7 +219,7 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
             val latlng = LatLng(lat, lng)
 
-            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(com.devstories.nomadnote_android.R.mipmap.visit_city)))
+            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.visit_city)))
             marker.tag = place
 
             markers.add(marker)

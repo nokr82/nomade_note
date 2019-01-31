@@ -98,6 +98,7 @@ class Friend_phone_Fragment : Fragment()  {
         params.put("search_type",searchtype)
         params.put("phone",phone)
         params.put("name",name)
+        params.put("member_id",PrefUtils.getIntPreference(context, "member_id"))
 
         MemberAction.search_member(params, object : JsonHttpResponseHandler() {
 
@@ -109,8 +110,18 @@ class Friend_phone_Fragment : Fragment()  {
                 try {
                     val result = response!!.getString("result")
 
+                    println("response:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::$response")
+
+
                     if ("ok" == result) {
-                        addTV.visibility = View.VISIBLE
+
+                        if (Utils.getString(response, "friend_yn") == "Y") {
+                            addTV.visibility = View.GONE
+                        } else {
+                            addTV.visibility = View.VISIBLE
+                        }
+
+//                        addTV.visibility = View.VISIBLE
                         startLL.visibility = View.GONE
                         friendLL.visibility = View.VISIBLE
                         var member = response.getJSONObject("member")

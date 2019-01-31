@@ -74,6 +74,7 @@ class Friend_id_Fragment : Fragment()  {
         val params = RequestParams()
         params.put("search_type",searchtype)
         params.put("email",email)
+        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
 
         MemberAction.search_member(params, object : JsonHttpResponseHandler() {
 
@@ -86,7 +87,14 @@ class Friend_id_Fragment : Fragment()  {
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
-                        addTV.visibility = View.VISIBLE
+
+                        if (Utils.getString(response, "friend_yn") == "Y") {
+                            addTV.visibility = View.GONE
+                        } else {
+                            addTV.visibility = View.VISIBLE
+                        }
+
+//                        addTV.visibility = View.VISIBLE
                         startLL.visibility = View.GONE
                         friendLL.visibility = View.VISIBLE
                         var member = response.getJSONObject("member")
@@ -102,7 +110,6 @@ class Friend_id_Fragment : Fragment()  {
                         }
                         nameTV.setText(name)
                         statTV.setText(age.toString()+"세")
-
 
                     } else {
                         Toast.makeText(myContext, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()

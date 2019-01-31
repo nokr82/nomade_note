@@ -10,13 +10,14 @@
         android:background="#e7eaed"
         android:gravity="center_vertical"
         android:layout_height="35dp">
+
         <ImageView
             android:id="@+id/flagIV"
-            android:padding="3dp"
             android:layout_marginLeft="25dp"
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/arhen"/>
+            android:layout_width="45dp"
+            android:layout_height="28dp"
+            android:src="@mipmap/arhen"
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/countryTV"
@@ -26,8 +27,8 @@
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:textColor="#4a4a4a"
-            android:text="아르헨티나"
-            />
+            android:text="아르헨티나" />
+
         <TextView
             android:id="@+id/createdTV"
             android:layout_width="0dp"
@@ -35,8 +36,8 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#4a4a4a"
-            android:text="2018. 07. 13"
-            />
+            android:text="2018. 07. 13" />
+
         <TextView
             android:id="@+id/countTV"
             android:layout_width="0dp"
@@ -44,9 +45,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#4a4a4a"
-            android:text="100 개"
-            />
-
+            android:text="100 개" />
 
     </LinearLayout>
 
