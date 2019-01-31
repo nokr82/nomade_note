@@ -215,11 +215,13 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         item. historyTV.setTextColor(Color.parseColor("#878787"))
         item.museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         item.museumTV.setTextColor(Color.parseColor("#878787"))
+        item.artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.artTV.setTextColor(Color.parseColor("#878787"))
     }
 
     fun setMenuImage(style: Int){
         menuSetImage()
-        when(menu_position){
+        when(style){
             1 ->{
                 item.healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 item.healingTV.setTextColor(Color.parseColor("#ffffff"))
@@ -243,6 +245,10 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             5 ->{
                 item.museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 item.museumTV.setTextColor(Color.parseColor("#ffffff"))
+            }
+            6-> {
+                item.artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.artTV.setTextColor(Color.parseColor("#ffffff"))
             }
         }
     }
