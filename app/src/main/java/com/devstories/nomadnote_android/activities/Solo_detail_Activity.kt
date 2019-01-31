@@ -11,12 +11,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
@@ -47,6 +49,10 @@ class Solo_detail_Activity : RootActivity() {
     var share_image_uri = ""
     var share_contents = ""
 
+    var adPosition = 0
+    private lateinit var fullScreenAdapter: FullScreenImageAdapter
+    var imagePaths:ArrayList<String> = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -62,6 +68,29 @@ class Solo_detail_Activity : RootActivity() {
 //        progressDialog = ProgressDialog(context)
 
         click()
+
+        fullScreenAdapter = FullScreenImageAdapter(this, imagePaths)
+        pagerVP.adapter = fullScreenAdapter
+        pagerVP.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                adPosition = position
+            }
+
+            override fun onPageSelected(position: Int) {
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+                for (i in imagePaths.indices) {
+                    if (i == adPosition) {
+//                        addDot(circleLL, true)
+                    } else {
+//                        addDot(circleLL, false)
+                    }
+                }
+            }
+        })
+
 
         var intent = getIntent()
         if (intent.getStringExtra("timeline_id") != null){
@@ -214,6 +243,13 @@ class Solo_detail_Activity : RootActivity() {
 
                         val image = data.getJSONArray("images")
                         if (image.length() > 0){
+                            if (imagePaths != null){
+                                imagePaths.clear()
+                            }
+
+                            pagerVP.visibility = View.VISIBLE
+                            logoIV.visibility = View.GONE
+
 //                            val image_item = image.get(image.length()-1) as JSONObject
 //                            val image_uri = Utils.getString(image_item,"image_uri")
 //                            var uri = Config.url + image_uri
@@ -224,14 +260,19 @@ class Solo_detail_Activity : RootActivity() {
                                 val image_item = image.get(i) as JSONObject
                                 val image_uri = Utils.getString(image_item,"image_uri")
                                 val main_yn = Utils.getString(image_item,"main_yn")
+                                var uri = Config.url + image_uri
                                 if (main_yn == "Y"){
                                     var uri = Config.url + image_uri
-                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+//                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+//                                    imagePaths.add(uri)
                                 }
-
+                                imagePaths.add(uri)
                                 share_image_uri = image_uri
 
                             }
+                            fullScreenAdapter.notifyDataSetChanged()
+                        } else {
+
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
