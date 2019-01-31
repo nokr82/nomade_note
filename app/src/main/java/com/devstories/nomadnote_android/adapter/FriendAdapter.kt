@@ -13,6 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONObject
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.R.id.*
+import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 
 
@@ -47,16 +48,19 @@ open class FriendAdapter(context: Context, view:Int, data:ArrayList<JSONObject>,
         var name = Utils.getString(member,"name")
         var age = Utils.getString(member,"age")
         var gender = Utils.getString(member,"gender")
+        var profile = Utils.getString(member,"profile")
         var pem_id = Utils.getInt(member,"id")
         var updated_at = Utils.getString(json,"updated_at")
 
-
-        if (gender=="F"){
-            item.profileIV.setImageResource(R.mipmap.famal)
-        }else{
-            item.profileIV.setImageResource(R.mipmap.man)
+        if (profile.length < 1) {
+            if (gender=="F"){
+                item.profileIV.setImageResource(R.mipmap.famal)
+            }else{
+                item.profileIV.setImageResource(R.mipmap.man)
+            }
+        } else {
+            ImageLoader.getInstance().displayImage(Config.url + profile, item.profileIV, Utils.UILoptionsUserProfile)
         }
-
 
 
         item.nameTV.setText(name)
