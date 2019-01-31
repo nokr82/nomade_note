@@ -232,6 +232,10 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
     private fun fitBounds() {
 
+        if(markers.size == 0) {
+            return
+        }
+
         val builder = LatLngBounds.Builder()
 
         for (marker in markers) {
