@@ -4,11 +4,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.backIV
-import com.devstories.nomadnote_android.R.id.loginTV
 import com.devstories.nomadnote_android.actions.LoginAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
@@ -79,6 +76,9 @@ class Login2Activity : RootActivity() {
         params.put("email", email)
         params.put("passwd", passwd)
 
+
+        println("login::::::::::autoLogin::::::::::::::::::::::::::::::$autoLogin")
+
         LoginAction.login(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
@@ -98,6 +98,7 @@ class Login2Activity : RootActivity() {
                         PrefUtils.setPreference(context, "email", Utils.getString(data, "email"))
                         PrefUtils.setPreference(context, "passwd", Utils.getString(data, "passwd"))
                         PrefUtils.setPreference(context, "gender", Utils.getString(data, "gender"))
+                        PrefUtils.setPreference(context, "join_type", Utils.getInt(data, "join_type"))
                         PrefUtils.setPreference(context, "age", Utils.getInt(data, "age"))
                         PrefUtils.setPreference(context, "autoLogin", autoLogin)
 

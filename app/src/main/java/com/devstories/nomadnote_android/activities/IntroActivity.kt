@@ -99,9 +99,14 @@ class IntroActivity : RootActivity() {
     private fun toLogin() {
         val autoLogin = PrefUtils.getBooleanPreference(context, "autoLogin")
 
-        if (!autoLogin) {
+        println("autoLogin:::::::::::::::::::::::::::::::::::::::::::::::::::::::$autoLogin")
+
+        if (autoLogin) {
             login()
         } else {
+
+            PrefUtils.clear(context)
+
             var intent = Intent(context, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
             startActivity(intent)
@@ -138,6 +143,7 @@ class IntroActivity : RootActivity() {
 
                     if ("ok" == result) {
                         val data = response.getJSONObject("member")
+                        data.put("autoLogin", true)
 
                         LoginActivity.processLoginData(context, data)
 

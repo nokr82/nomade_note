@@ -341,6 +341,8 @@ class Solo_detail_Activity : RootActivity() {
         historyTV.setTextColor(Color.parseColor("#878787"))
         museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         museumTV.setTextColor(Color.parseColor("#878787"))
+        artmuseumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        artmuseumTV.setTextColor(Color.parseColor("#878787"))
     }
 
     fun setMenuImage(menu_position: Int){
@@ -369,6 +371,11 @@ class Solo_detail_Activity : RootActivity() {
             5 ->{
                 museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 museumTV.setTextColor(Color.parseColor("#ffffff"))
+            }
+
+            6 ->{
+                artmuseumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                artmuseumTV.setTextColor(Color.parseColor("#ffffff"))
             }
         }
     }

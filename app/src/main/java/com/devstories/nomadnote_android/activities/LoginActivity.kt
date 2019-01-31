@@ -96,6 +96,8 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             PrefUtils.setPreference(context, "login_check", true)
             PrefUtils.setPreference(context, "autoLogin", Utils.getBoolen(data, "autoLogin"))
 
+            println("autoLogin:::::::::::::::::::::::::::::__________________________$" + Utils.getBoolen(data, "autoLogin"))
+
         }
     }
 

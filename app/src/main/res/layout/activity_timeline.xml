@@ -7,6 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <!-- 타이틀 -->
         <RelativeLayout
             android:id="@+id/titleLL"
@@ -50,12 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="6dp"
                     android:paddingTop="10dp"
-                    android:src="@mipmap/nomad_small"
-
-                    />
+                    android:src="@mipmap/nomad_small"/>
 
             </LinearLayout>
-
 
         </RelativeLayout>
 
@@ -67,7 +65,6 @@
             android:layout_marginTop="130dp"
             android:layout_marginRight="20dp"
             android:orientation="vertical">
-
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profileIV"
@@ -87,228 +84,250 @@
                 android:textColor="#878787"
                 android:textSize="12sp" />
 
-
         </LinearLayout>
+
         <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@id/r_LL"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:fillViewport="true">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/l_LL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/r_LL"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="20dp">
-
-                    <LinearLayout
-                        android:id="@+id/locationLL"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/placeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="파리"
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=","
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/durationTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="01:34"
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" , "
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/costTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="200$"
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/createdTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2018. 07.02 PM10:30"
-                        android:textColor="#878787"
-                        android:textSize="11sp" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/contentTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="7sp"
-                    android:paddingTop="10dp"
-                    android:text="오랫동안 계획과 결의만 무성하던 해외여행, 이제 그 첫관문을 열고 나갑니다. 김작가가 빠져 아쉽지만 다음을 기약하고 또 빠른 쾌유를 빌며, 출발합니다."
-                    android:textColor="#878787"
-                    android:textSize="12sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/healingTV"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/background_border_radius7_000000"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/activity_write_healing"
-                        android:textColor="#ffffff"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/hotplaceTV"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/activity_write_hotplace"
-                        android:textColor="#878787"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/literatureTV"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/culturalstyle"
-                        android:textColor="#878787"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/historyTV"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/historicalstyle"
-                        android:textColor="#878787"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/museumTV"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:padding="4dp"
-                        android:text="@string/artmuseumstyle"
-                        android:textColor="#878787"
-                        android:textSize="10dp" />
-
-
-                </LinearLayout>
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/l_LL"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="26dp"
-                    android:background="#d8d8d8" />
-
                 <LinearLayout
-                    android:id="@+id/soloLL"
+                    android:id="@+id/l_LL"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_horizontal"
-                    android:padding="10dp">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/r_LL"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="150dp"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/modifyIV"
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:padding="9dp"
-                            android:src="@mipmap/pen" />
-
-                        <ImageView
-                            android:id="@+id/lockIV"
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:padding="9dp"
-                            android:src="@mipmap/shiels_r" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="20dp">
 
                         <LinearLayout
-                            android:id="@+id/deleteIV"
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center">
+                            android:id="@+id/locationLL"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:padding="7dp"
-                                android:src="@mipmap/delete" />
+                            <TextView
+                                android:id="@+id/placeTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="파리"
+                                android:textColor="#878787"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=","
+                                android:textColor="#878787"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/durationTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="01:34"
+                                android:textColor="#878787"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" , "
+                                android:textColor="#878787"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/costTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="200$"
+                                android:textColor="#878787"
+                                android:textSize="11sp" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/createdTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2018. 07.02 PM10:30"
+                            android:textColor="#878787"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/contentTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="7sp"
+                        android:paddingTop="10dp"
+                        android:text="오랫동안 계획과 결의만 무성하던 해외여행, 이제 그 첫관문을 열고 나갑니다. 김작가가 빠져 아쉽지만 다음을 기약하고 또 빠른 쾌유를 빌며, 출발합니다."
+                        android:textColor="#878787"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/healingTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_border_radius7_000000"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/activity_write_healing"
+                            android:textColor="#ffffff"
+                            android:textSize="10dp" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/hotplaceTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/activity_write_hotplace"
+                            android:textColor="#878787"
+                            android:textSize="10dp" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/literatureTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/culturalstyle"
+                            android:textColor="#878787"
+                            android:textSize="10dp" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/historyTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/historicalstyle"
+                            android:textColor="#878787"
+                            android:textSize="10dp" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/museumTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/museumstyle"
+                            android:textColor="#878787"
+                            android:textSize="10dp" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/artmuseumTV"
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/artmuseumstyle"
+                            android:textColor="#878787"
+                            android:textSize="10dp" />
+
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <View
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="#d8d8d8" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/l_LL"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="26dp"
+                        android:background="#d8d8d8" />
+
+                    <LinearLayout
+                        android:id="@+id/soloLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="150dp"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/modifyIV"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:padding="9dp"
+                                android:src="@mipmap/pen" />
+
+                            <ImageView
+                                android:id="@+id/lockIV"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:padding="9dp"
+                                android:src="@mipmap/shiels_r" />
+
+                            <LinearLayout
+                                android:id="@+id/deleteIV"
+                                android:layout_width="30dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="15dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:padding="7dp"
+                                    android:src="@mipmap/delete" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="#d8d8d8" />
+
+                </LinearLayout>
 
             </LinearLayout>
-        </LinearLayout>
+
         </ScrollView>
 
     </RelativeLayout>
-
 
 </LinearLayout>
 
