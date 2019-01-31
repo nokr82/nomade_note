@@ -7,14 +7,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
@@ -41,15 +42,15 @@ import com.kakao.network.callback.ResponseCallback
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.nostra13.universalimageloader.core.assist.FailReason
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.URL
+import java.io.File
 
 class Solo_detail_Activity : RootActivity() {
 
@@ -64,8 +65,8 @@ class Solo_detail_Activity : RootActivity() {
     var block = ""
 
     var share_image_uri = ""
+    lateinit var share_image_bm: Bitmap
     var share_contents = ""
-    var share_image_path = ""
 
     var adPosition = 0
     private lateinit var fullScreenAdapter: FullScreenImageAdapter
@@ -822,71 +823,74 @@ class Solo_detail_Activity : RootActivity() {
 
     private fun shareInstagram() {
 
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "image/*"
-        try {
-
-            var image_uri = Config.url + "/storage/images/2019/02/01/Q2kXN56SHwcO8ZTxB7SM8CRlItFNwLHEMmSGxTYd.jpeg"
-
-            var uri:Uri
-
-            if (share_image_uri != "") {
-
-                uri = Uri.parse("file://" + share_image_path)
-
-            } else {
-                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
-            }
-
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher"));
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
-            shareIntent.setPackage("com.instagram.android")
-            startActivity(shareIntent)
-
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+        if (imagePaths.size == 0) {
+            Utils.alert(context, "No Image")
+            return
         }
+
+        //외부저장 권한 요청(안드로이드 6.0 이후 필수)
+        onRequestPermission()
+
     }
 
+    private fun doShareInstagram() {
 
-    // 이미지 다운로드(포트폴리오)
-    private inner class DownloadFilesTask() : AsyncTask<String, Int, Bitmap>() {
-
-        lateinit var bitmap: Bitmap
-
-        override fun onPreExecute() {
-            super.onPreExecute()
+        if (imagePaths.size == 0) {
+            Utils.alert(context, "No Image")
+            return
         }
 
-        override fun doInBackground(vararg url: String): Bitmap? {
-            var bitmap: Bitmap? = null
+        println("f : " + imagePaths.first())
 
-            try {
-                bitmap = downloadUrl(url[0])
-            } catch (e: Exception) {
-                e.printStackTrace()
+        ImageLoader.getInstance().loadImage(imagePaths.first(), object: ImageLoadingListener {
+
+            override fun onLoadingCancelled(imageUri: String?, view: View?) {
+
             }
 
-            return bitmap
-        }
+            override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
 
-        override fun onPostExecute(result: Bitmap?) {
-            super.onPostExecute(result)
+            }
 
-            share_image_path = Utils.saveBitmap(context, bitmap)
+            override fun onLoadingStarted(imageUri: String?, view: View?) {
 
-        }
+            }
 
-        // Image downloading method.
-        @Throws(IOException::class)
-        private fun downloadUrl(imageUrl: String): Bitmap {
-            val `is` = URL(imageUrl).content as InputStream
+            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
+                val path = Utils.saveBitmap2(context, loadedImage)
 
-            return BitmapFactory.decodeStream(`is`)
-        }
+                println("path : $path")
+
+                val imageFileToShare = File(path)
+
+                val uri = Uri.fromFile(imageFileToShare)
+
+                println("uri : $uri")
+
+                runOnUiThread(Runnable {
+                    val shareIntent = Intent(Intent.ACTION_SEND)
+                    shareIntent.type = "image/*"
+                    try {
+
+                        // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
+                        shareIntent.setPackage("com.instagram.android")
+                        startActivity(shareIntent)
+
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+
+                        Toast.makeText(context, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                })
+
+            }
+        })
+
 
     }
 
@@ -975,4 +979,44 @@ class Solo_detail_Activity : RootActivity() {
         finish()
         Utils.hideKeyboard(context)
     }
+
+
+    private var permissionCheck = false
+    var REQUEST_EXTERNAL_STORAGE_CODE = 1
+
+    fun onRequestPermission() {
+        val permissionReadStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        val permissionWriteStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        println("permissionReadStorage : $permissionReadStorage, permissionWriteStorage : $permissionWriteStorage")
+
+        if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_CODE)
+        } else {
+            permissionCheck = true //이미 허용되어 있으므로 PASS
+            doShareInstagram();
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            REQUEST_EXTERNAL_STORAGE_CODE -> for (i in permissions.indices) {
+                val permission = permissions[i]
+                val grantResult = grantResults[i]
+                if (permission == android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this.context, "허용했으니 가능함", Toast.LENGTH_LONG).show()
+                        permissionCheck = true
+
+                        doShareInstagram();
+
+                    } else {
+                        Toast.makeText(this.context, "허용하지 않으면 공유 못함 ㅋ", Toast.LENGTH_LONG).show()
+                        permissionCheck = false
+                    }
+                }
+            }
+        }
+    }
+
 }

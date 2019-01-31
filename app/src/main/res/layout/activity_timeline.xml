@@ -129,14 +129,14 @@
                                 android:id="@+id/placeTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="파리"
+                                android:text=""
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=","
+                                android:text=""
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
 
@@ -144,14 +144,14 @@
                                 android:id="@+id/durationTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="01:34"
+                                android:text=""
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=" , "
+                                android:text=""
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
 
@@ -159,7 +159,7 @@
                                 android:id="@+id/costTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="200$"
+                                android:text=""
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
                         </LinearLayout>
@@ -168,7 +168,7 @@
                             android:id="@+id/createdTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2018. 07.02 PM10:30"
+                            android:text=""
                             android:textColor="#878787"
                             android:textSize="11sp" />
 
@@ -180,7 +180,8 @@
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="7sp"
                         android:paddingTop="10dp"
-                        android:text="오랫동안 계획과 결의만 무성하던 해외여행, 이제 그 첫관문을 열고 나갑니다. 김작가가 빠져 아쉽지만 다음을 기약하고 또 빠른 쾌유를 빌며, 출발합니다."
+                        android:paddingBottom="10dp"
+                        android:text=""
                         android:textColor="#878787"
                         android:textSize="12sp" />
 

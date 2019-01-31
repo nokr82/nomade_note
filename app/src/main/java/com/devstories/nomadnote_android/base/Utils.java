@@ -586,6 +586,38 @@ public class Utils {
         return null;
     }
 
+    public static String saveBitmap2(Context context, Bitmap bitmap) {
+        try {
+            String imageLocalPath = Environment.getExternalStorageDirectory()+ File.separator + context.getPackageName();
+
+            // String dataDir = context.getApplicationInfo().dataDir;
+            // dataDir = dataDir + File.separator + "download";
+            File dir = new File(imageLocalPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // list
+            File f = new File(imageLocalPath, String.valueOf(System.currentTimeMillis() + ".png"));
+            f.createNewFile();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(CompressFormat.PNG, 100, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.close();
+
+            return f.getAbsolutePath();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static String saveBytes(Context context, byte[] imgByte) {
 
         try {
