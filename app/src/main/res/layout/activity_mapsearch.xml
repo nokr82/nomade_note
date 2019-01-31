@@ -90,6 +90,7 @@
                             android:src="@mipmap/search_op" />
 
                         <EditText
+                            android:id="@+id/keywordET"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -98,6 +99,7 @@
                             android:hint="@string/fragment_scrap_keyword"
                             android:textColor="#ffffff"
                             android:imeOptions="actionSearch"
+                            android:singleLine="true"
                             android:textColorHint="#ffffff"
                             android:textSize="12sp" />
 

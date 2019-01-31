@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.PlaceAction
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -62,6 +63,20 @@ class MapSearchActivity : RootActivity() {
             val intent = Intent(context, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
             startActivity(intent)
+        }
+
+        keywordET.setOnEditorActionListener() { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                keyword = keywordET.text.toString()
+
+                Utils.hideKeyboard(context)
+
+                place_timeline()
+
+                Utils.hideKeyboard(context)
+            } else {
+            }
+            false
         }
     }
 
@@ -171,6 +186,7 @@ class MapSearchActivity : RootActivity() {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_id",place_id)
+        params.put("keyword",keyword)
 
         TimelineAction.place_timeline(params, object : JsonHttpResponseHandler() {
 
