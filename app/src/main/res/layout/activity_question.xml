@@ -175,19 +175,18 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:padding="7dp"
-                    android:background="@drawable/background_border_radius8_000000">
+                    android:layout_height="match_parent">
 
                     <EditText
                         android:id="@+id/contentET"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:padding="7dp"
                         android:textSize="12sp"
-                        android:background="@null"
+                        android:background="@drawable/background_border_radius8_000000"
                         android:gravity="left"
                         android:maxLines="15"
                         android:hint="@string/enter_question_contents"/>
