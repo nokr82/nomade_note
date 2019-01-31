@@ -81,8 +81,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
     private lateinit var loginActivity:LoginActivity
 
-
     private lateinit var mOAuthLoginModule: OAuthLogin
+
+    private var autoLogin = false
 
     companion object {
         fun processLoginData(context: Context, data:JSONObject) {
@@ -93,8 +94,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             PrefUtils.setPreference(context, "sns_key", Utils.getString(data, "sns_key"))
             PrefUtils.setPreference(context, "join_type", Utils.getInt(data, "join_type"))
             PrefUtils.setPreference(context, "login_check", true)
-            PrefUtils.setPreference(context, "autoLogin", true)
-
+            PrefUtils.setPreference(context, "autoLogin", Utils.getBoolen(data, "autoLogin"))
 
         }
     }
@@ -352,8 +352,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         params.put("email", email)
         params.put("sns_key", sns_key)
 
-
-
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
@@ -367,7 +365,10 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
+
                         val data = response.getJSONObject("member")
+
+                        data.put("autoLogin", autoLogin)
 
                         LoginActivity.processLoginData(context, data)
 
