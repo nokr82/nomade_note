@@ -1,3 +1,4 @@
+
 package com.devstories.nomadnote_android.activities
 
 import android.app.ProgressDialog
@@ -5,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.actions.PlaceAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
@@ -14,46 +14,44 @@ import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
 import donggolf.android.adapters.PlaceAdapter
-import kotlinx.android.synthetic.main.activity_mapsearch.*
+import kotlinx.android.synthetic.main.activity_country_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class MapSearchActivity : RootActivity() {
+class CountryTimelineActivity : RootActivity() {
 
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
-    lateinit var PlaceAdapter: PlaceAdapter
-    var place_id = -1
+    lateinit var countryAdapter: PlaceAdapter
+    var country_id = -1
     var keyword = ""
-
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
+    var country = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mapsearch)
+        setContentView(R.layout.activity_country_timeline)
+
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
-//        progressDialog = ProgressDialog(context)
+
         titleBackLL.setOnClickListener {
             finish()
             Utils.hideKeyboard(this)
         }
-//        ScrapAdapter = ScrapAdapter(context, R.layout.item_scrap, 10)
-        var intent = getIntent()
-        place_id = intent.getIntExtra("place_id",-1)
-        keyword = intent.getStringExtra("keyword")
 
-        PlaceAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
-        scrapLV.adapter = PlaceAdapter
-        place_timeline()
-        load_place()
+        var intent = getIntent()
+        country_id = intent.getIntExtra("country_id",-1)
+        country = intent.getStringExtra("country")
+        logoTV.setText(country)
+
+        countryAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
+        scrapLV.adapter = countryAdapter
+        country_timeline()
         click()
     }
-
-
-
-
 
     fun click(){
         scrapLV.setOnItemClickListener { parent, view, position, id ->
@@ -65,116 +63,14 @@ class MapSearchActivity : RootActivity() {
         }
     }
 
-    //장소불러오기
-    fun load_place(){
+    fun country_timeline(){
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
-        params.put("place_id",place_id)
-        params.put("keyword", keyword)
-
-        PlaceAction.load_place(params, object : JsonHttpResponseHandler() {
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                try {
-
-                    val result =   Utils.getString(response,"result")
-                    if ("ok" == result) {
-                        val place =  response!!.getJSONObject ("place")
-                        val place_name =   Utils.getString(place,"place")
-                        titleTV.text = place_name
-
-
-                    }
-
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
-
-                // System.out.println(responseString);
-            }
-
-            private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    responseString: String?,
-                    throwable: Throwable
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-
-                // System.out.println(responseString);
-
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONObject?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onFailure(
-                    statusCode: Int,
-                    headers: Array<Header>?,
-                    throwable: Throwable,
-                    errorResponse: JSONArray?
-            ) {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-                throwable.printStackTrace()
-                error()
-            }
-
-            override fun onStart() {
-                // show dialog
-                if (progressDialog != null) {
-
-                    progressDialog!!.show()
-                }
-            }
-
-            override fun onFinish() {
-                if (progressDialog != null) {
-                    progressDialog!!.dismiss()
-                }
-            }
-        })
-
-    }
-    fun place_timeline(){
-        val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
-        params.put("place_id",place_id)
+        params.put("country_id",country_id)
 
 
 
-        TimelineAction.place_timeline(params, object : JsonHttpResponseHandler() {
+        TimelineAction.country_timeline(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {
@@ -202,7 +98,7 @@ class MapSearchActivity : RootActivity() {
                                 }
                             }
                         }
-                        PlaceAdapter.notifyDataSetChanged()
+                        countryAdapter.notifyDataSetChanged()
                     }
 
                 } catch (e: JSONException) {

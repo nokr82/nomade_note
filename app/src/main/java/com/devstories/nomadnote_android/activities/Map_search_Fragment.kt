@@ -505,6 +505,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val intent = Intent(myContext, MapSearchActivity::class.java)
             intent.putExtra("place_id", place_id)
             intent.putExtra("keyword", keyword)
+            intent.putExtra("type","place")
+
             startActivity(intent)
 
             true

@@ -46,14 +46,15 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="@string/kakaolink_host"
                     android:scheme="@string/kakao_scheme" />
 
-
-                <!--<data android:scheme="@string/fb_login_protocol_scheme" />-->
+                <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
             </intent-filter>
         </activity>
 
@@ -154,9 +155,13 @@
             android:name=".activities.QuestionActivity"
             android:theme="@style/NoTitleDialog"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".activities.AddFriendActivity"
+        <activity
+            android:name=".activities.AddFriendActivity"
             android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".activities.CountryTimelineActivity"
+            android:theme="@style/NoTitleDialog"
+            android:windowSoftInputMode="adjustResize|stateHidden" ></activity>
     </application>
 
 </manifest>
