@@ -416,12 +416,10 @@ class Seting_Fragment : Fragment() {
                 op_memoryLL.visibility = View.VISIBLE
                 memoryIV.rotation = 90f
 
-                if (PrefUtils.getIntPreference(context, "payment_byte") != null) {
-                    var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
+                // if (PrefUtils.getIntPreference(context, "payment_byte") != null) {
+                    // var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
                     var disk = PrefUtils.getDoublePreference(context, "disk")
                     var byte = PrefUtils.getIntPreference(context, "byte")
-
-                    println("------$payment_byte , $disk")
 
 //                    var pay_sub = payment_byte.toString().substring(0, 1)
 //                    if (pay_sub == "-") {
@@ -434,7 +432,8 @@ class Seting_Fragment : Fragment() {
 //                    }
 
 
-                    var disk_sub = payment_byte.toString().substring(0, 1)
+                    // var disk_sub = payment_byte.toString().substring(0, 1)
+                    /*
                     if (disk_sub == "-") {
                         println("---pay-split${disk_sub.get(0)}")
                         var disk_split = disk.toString().split("-")
@@ -443,6 +442,7 @@ class Seting_Fragment : Fragment() {
                             println("-split disk $disk")
                         }
                     }
+                    */
 
 //                    var max = Math.round((payment_byte / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
                     var max = Math.round((disk / (1024 * 1024 * 1024) * 10).toDouble()) as Long / 10
@@ -508,7 +508,7 @@ class Seting_Fragment : Fragment() {
 //                    mydataTV.setText("총 " + maxabs.toString() + "GB")
 //                    remantTV.setText(paymentabs.toString() + "MB")
 //                    useTV.setText(ramentabs.toString() + "MB")
-                }
+                // }
 
             } else {
                 op_memoryLL.visibility = View.GONE

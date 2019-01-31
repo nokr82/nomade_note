@@ -445,7 +445,7 @@ class MainActivity : FragmentActivity() {
                         var byte = Utils.getInt(member,"bytes")
 
 //                        var payment_byte = 2147483648
-                        var payment_byte = 20480
+                        // var payment_byte = 20480
 //                        if (payment_sum.length()>0){
 //                            for (i in 0 until payment_sum.length()){
 //                                val payment_item = payment_sum.get(i) as JSONObject
@@ -463,10 +463,10 @@ class MainActivity : FragmentActivity() {
 //                        }
 
 //                        var diskabs =  Math.abs(disk)
-                        var payment_byteabs = Math.abs(payment_byte)
+                        // var payment_byteabs = Math.abs(payment_byte)
 
                         PrefUtils.setPreference(context, "disk", disk.toDouble())
-                        PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
+                        // PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
                         val style = Utils.getInt(member, "style_id")
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
                         PrefUtils.setPreference(context, "point", point)
