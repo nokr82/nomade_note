@@ -38,7 +38,7 @@ class IntroActivity : RootActivity() {
 
     var last_id = ""
     var created = ""
-
+    var timeline_id = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +47,38 @@ class IntroActivity : RootActivity() {
 
         this.context = this
         progressDialog = ProgressDialog(context)
+
+
+        val share_str = intent.dataString
+
+        if (null != share_str && "" != share_str && share_str.length > 0) {
+            var idx = share_str.indexOf("?")
+
+            var sub_data = share_str.substring(idx + 1)
+
+            var data = sub_data.split("&")
+
+            if (data.count() > 0) {
+                for (i in 0 until data.count()) {
+
+                    var data_str = data[i]
+                    var d = data_str.split("=")
+
+                    if (d.count() == 2) {
+                        var key = d[0]
+                        var value = d[1]
+
+                        if ("timeline_id" == key) {
+                            timeline_id = value.toInt()
+                        }
+
+                    }
+
+                }
+            }
+
+        }
+
 
         // printHashKey()
 
@@ -99,8 +131,6 @@ class IntroActivity : RootActivity() {
     private fun toLogin() {
         val autoLogin = PrefUtils.getBooleanPreference(context, "autoLogin")
 
-        println("autoLogin:::::::::::::::::::::::::::::::::::::::::::::::::::::::$autoLogin")
-
         if (autoLogin) {
             login()
         } else {
@@ -151,6 +181,7 @@ class IntroActivity : RootActivity() {
                         intent.putExtra("is_push",is_push)
                         intent.putExtra("last_id",last_id)
                         intent.putExtra("created",created)
+                        intent.putExtra("timeline_id",timeline_id)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         startActivity(intent)
 
