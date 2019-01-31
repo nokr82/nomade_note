@@ -6,7 +6,7 @@
 
     <!-- 타이틀 -->
     <RelativeLayout
-        android:id="@+id/titleLL"
+        android:id="@+id/titleRL"
         android:layout_width="match_parent"
         android:layout_height="155dp">
 
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="여행의 동반자 "
+                        android:text="@string/welcome"
                         android:textColor="#ffffff"
                         android:textSize="10sp" />
 
@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="노마드노트"
+                        android:text="@string/nomadnote"
                         android:textColor="#ffffff"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -99,13 +99,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="환영합니다 "
+                    android:text="@string/welcome2"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/writeRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -123,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="새글쓰기"
+                    android:text="@string/fragment_solo_addnote"
                     android:textColor="#ffffff"
                     android:textSize="12dp" />
 
@@ -143,21 +144,27 @@
             android:background="@drawable/background_border_radius2_000000">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="9dp"
-                android:src="@mipmap/search_op" />
+                android:id="@+id/searchIV"
+                android:layout_width="18.5dp"
+                android:layout_height="14.3dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/search_op"/>
 
             <EditText
+                android:id="@+id/keywordET"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="키워드 검색"
+                android:hint="@string/fragment_scrap_keyword"
                 android:textColor="#ffffff"
                 android:textColorHint="#ffffff"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -174,9 +181,17 @@
         android:id="@+id/mapRL"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="gone">
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/gmap"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"/>
 
 
 </LinearLayout>

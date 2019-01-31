@@ -17,10 +17,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:src="@mipmap/solotime_top"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#803d606e"/>
+            android:background="#803d606e" />
 
         <LinearLayout
             android:id="@+id/titleBackLL"
@@ -33,6 +34,7 @@
             android:visibility="visible">
 
             <ImageView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/back_white"/>
@@ -63,74 +65,70 @@
         
         <LinearLayout
             android:id="@+id/nomadLL"
-            android:layout_marginTop="29dp"
+            android:layout_marginTop="19dp"
             android:layout_below="@+id/logoIVLL"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
+            android:layout_height="60dp">
+
             <RelativeLayout
+                android:id="@+id/visitnationRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/op_visitIV"
-                    android:layout_marginLeft="20dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:paddingRight="50dp"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/visitnationIV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/visit_city"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp"
+                    android:paddingRight="65dp"
+                    android:src="@mipmap/visit_city" />
 
                 <TextView
                     android:id="@+id/viTV"
-                    android:layout_below="@+id/op_visitIV"
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="방문국가"
+                    android:text="@string/activity_visit_visited"
                     android:textSize="12dp"
-                    android:textColor="#ffffff"
-                    />
-                <TextView
-                    android:layout_below="@+id/viTV"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="기록"
-                    android:textSize="12dp"
+                    android:gravity="center"
                     android:textColor="#ffffff"
                     />
 
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/visitstyleRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_marginLeft="20dp"
-                    android:id="@+id/op_ssIV"
-                    android:paddingRight="56dp"
+                    android:id="@+id/op_styleIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/op_ss"/>
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp"
+                    android:paddingRight="70dp"
+                    android:src="@mipmap/op_ss" />
 
-                <TextView
-                    android:id="@+id/stTV"
-                    android:layout_below="@+id/op_ssIV"
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="2"
+                    android:id="@+id/vi2TV"
+                    android:layout_marginBottom="10dp"
                     android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="여행스타일"
+                    android:text="@string/fragment_solo_style"
                     android:textSize="12dp"
+                    android:gravity="center"
                     android:textColor="#ffffff"
                     />
                 <TextView
-                    android:layout_below="@+id/stTV"
+                    android:visibility="gone"
+                    android:layout_below="@+id/vi2TV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -147,23 +145,25 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/op_writeIV"
-                    android:layout_alignParentTop="true"
-                    android:paddingRight="50dp"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/writeIV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/paper_air"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:paddingTop="10dp"
+                    android:paddingRight="65dp"
+                    android:src="@mipmap/paper_air" />
 
                 <TextView
-                    android:layout_below="@+id/op_writeIV"
+                    android:id="@+id/writeTV"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="새글쓰기"
+                    android:text="@string/fragment_solo_addnote"
                     android:textSize="12dp"
                     android:textColor="#ffffff"
                     />
+
 
             </RelativeLayout>
             
@@ -182,9 +182,10 @@
 
             <ImageView
                 android:id="@+id/searchIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="9dp"
+                android:layout_width="18.5dp"
+                android:layout_height="14.3dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/search_op"/>
 
             <EditText
@@ -199,7 +200,7 @@
                 android:imeOptions="actionSearch"
                 android:textColorHint="#ffffff"
                 android:layout_height="match_parent"
-                android:hint="키워드 검색"/>
+                android:hint="@string/fragment_scrap_keyword"/>
 
             <ImageView
                 android:visibility="invisible"
@@ -219,6 +220,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <GridView
+            android:scrollbars="none"
             android:background="#e7eaed"
             android:id="@+id/gridGV"
             android:layout_width="match_parent"

@@ -34,15 +34,15 @@ class MapSearchActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mapsearch)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
         titleBackLL.setOnClickListener {
             finish()
         }
 //        ScrapAdapter = ScrapAdapter(context, R.layout.item_scrap, 10)
         var intent = getIntent()
         place_id = intent.getIntExtra("place_id",-1)
-
-            Log.d("아이디",place_id.toString())
 
         PlaceAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
         scrapLV.adapter = PlaceAdapter
@@ -293,5 +293,8 @@ class MapSearchActivity : RootActivity() {
 
     }
 
-
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
+    }
 }

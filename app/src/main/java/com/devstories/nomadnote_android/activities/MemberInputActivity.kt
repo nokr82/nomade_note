@@ -7,9 +7,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.backIV
-import com.devstories.nomadnote_android.R.id.startTV
 import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -35,7 +34,9 @@ class MemberInputActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member_infoinput)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
         setmenu()
 
 
@@ -70,7 +71,7 @@ class MemberInputActivity : RootActivity() {
             age = Utils.getString(ageET)
 
             if (name.equals("")){
-                Toast.makeText(context, "이름을 입력해주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.enteryourname), Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             if (age.equals("")){
@@ -78,7 +79,7 @@ class MemberInputActivity : RootActivity() {
                 return@setOnClickListener
             }
             if (gender.equals("")){
-                Toast.makeText(context, "성별을 선택해주세요", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.chooseyourgender), Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
 
@@ -86,8 +87,8 @@ class MemberInputActivity : RootActivity() {
         }
     }
     fun setmenu(){
-        manckIV.visibility = View.GONE
-        femaleckIV.visibility = View.GONE
+        manckIV.visibility = View.INVISIBLE
+        femaleckIV.visibility = View.INVISIBLE
     }
 
 
@@ -99,6 +100,7 @@ class MemberInputActivity : RootActivity() {
         params.put("gender", gender)
         params.put("age",age )
         params.put("passwd",pw)
+        params.put("join_type", 5)
 
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
@@ -112,6 +114,9 @@ class MemberInputActivity : RootActivity() {
                     val result = response!!.getString("result")
 
                     if ("ok" == result) {
+                        val data = response.getJSONObject("member")
+                        PrefUtils.setPreference(context, "member_id", Utils.getInt(data, "id"))
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         Toast.makeText(context, "가입성공", Toast.LENGTH_LONG).show()
@@ -208,6 +213,11 @@ class MemberInputActivity : RootActivity() {
             progressDialog!!.dismiss()
         }
 
+    }
+
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
     }
 
 }

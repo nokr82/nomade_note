@@ -35,9 +35,12 @@ class EmailJoinActivity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_join)
         this.context = this
-        progressDialog = ProgressDialog(context)
+//        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
         backIV.setOnClickListener {
             finish()
+            Utils.hideKeyboard(this)
         }
 
 
@@ -179,4 +182,10 @@ class EmailJoinActivity : RootActivity() {
         }
 
     }
+
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
+    }
+
 }

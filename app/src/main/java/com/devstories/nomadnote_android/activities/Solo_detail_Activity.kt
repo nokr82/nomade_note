@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
@@ -32,9 +33,11 @@ class Solo_detail_Activity : RootActivity() {
     private var progressDialog: ProgressDialog? = null
 
     var timeline_id = ""
+    var qnas_id = ""
     var menu_position = 1
 
     var MODIFY = 100
+    var block = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,14 +50,24 @@ class Solo_detail_Activity : RootActivity() {
         }
         setContentView(R.layout.activity_timeline)
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
         click()
 
         var intent = getIntent()
-        timeline_id = intent.getStringExtra("timeline_id")
-        detail_timeline()
+        if (intent.getStringExtra("timeline_id") != null){
+            timeline_id = intent.getStringExtra("timeline_id")
+            detail_timeline()
+        }
 
+
+        if (intent.getStringExtra("qnas_id") != null){
+            timeline_id = intent.getStringExtra("qnas_id")
+            detail_timeline()
+//            detail_qnas()
+        }
 
     }
 
@@ -73,19 +86,48 @@ class Solo_detail_Activity : RootActivity() {
             val builder = AlertDialog.Builder(context)
             builder
 
-                    .setMessage("삭제하시겠습니까 ?")
+                    .setMessage(getString(R.string.builderdelete))
 
-                    .setPositiveButton("예", DialogInterface.OnClickListener { dialog, id ->
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         delete_timeline()
                         dialog.cancel()
 
                     })
-                    .setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, id ->
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                     })
 
             val alert = builder.create()
             alert.show()
+        }
+
+        lockIV.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            if (block == "N"){
+                builder.setMessage("게시물을 비공개 하시겠습니까?")
+            } else {
+                builder.setMessage("게시물을 공개 하시겠습니까?")
+            }
+            builder
+                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
+                        if (block == "N"){
+                            change_block("Y")
+                            lockIV.setImageResource(R.mipmap.lock)
+                        } else {
+                            change_block("N")
+                            lockIV.setImageResource(R.mipmap.shiels_r)
+                        }
+                        dialog.cancel()
+
+                    })
+                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
+                        dialog.cancel()
+                    })
+
+
+            val alert = builder.create()
+            alert.show()
+
         }
 
     }
@@ -120,6 +162,13 @@ class Solo_detail_Activity : RootActivity() {
                         var contents = Utils.getString(data,"contents")
                         var created = Utils.getString(data,"created_at")
                         var style = Utils.getString(data,"style_id")
+                        block = Utils.getString(data,"block_yn")
+
+                        if (block == "N"){
+                            lockIV.setImageResource(R.mipmap.shiels_r)
+                        } else {
+                            lockIV.setImageResource(R.mipmap.lock)
+                        }
 
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
@@ -133,16 +182,33 @@ class Solo_detail_Activity : RootActivity() {
                         val founder_id = Utils.getString(member,"id")
                         val name = Utils.getString(member,"name")
                         val age = Utils.getString(member,"age")
+                        val profile = Utils.getString(member,"profile")
+                        if (profile != null && profile != ""){
+                            var uri = Config.url + profile
+                            ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
+                        }
 
                         val image = data.getJSONArray("images")
                         if (image.length() > 0){
-                            val image_item = image.get(image.length()-1) as JSONObject
-                            val image_uri = Utils.getString(image_item,"image_uri")
-                            var uri = Config.url+"/" + image_uri
-                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+//                            val image_item = image.get(image.length()-1) as JSONObject
+//                            val image_uri = Utils.getString(image_item,"image_uri")
+//                            var uri = Config.url + image_uri
+//                            println("-------uri ---------")
+//                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+
+                            for (i in 0 until image.length()){
+                                val image_item = image.get(i) as JSONObject
+                                val image_uri = Utils.getString(image_item,"image_uri")
+                                val main_yn = Utils.getString(image_item,"main_yn")
+                                if (main_yn == "Y"){
+                                    var uri = Config.url + image_uri
+                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
+                                }
+                            }
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
+                            soloLL.visibility = View.GONE
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
                             deleteIV.visibility = View.GONE
@@ -422,5 +488,245 @@ class Solo_detail_Activity : RootActivity() {
             }
         })
 
+    }
+
+    fun change_block(block_yn :String){
+        val params = RequestParams()
+        params.put("timeline_id", timeline_id)
+        params.put("block_yn", block_yn)
+
+        TimelineAction.change_block(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var intent = Intent()
+                        intent.putExtra("reset","reset")
+                        setResult(RESULT_OK, intent);
+                        finish()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+    fun detail_qnas(){
+        val params = RequestParams()
+//        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("qnas_id", qnas_id)
+
+        QnasAction.detail_qnas(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        val data = response!!.getJSONObject("qnas")
+                        val member = data.getJSONObject("member")
+                        val name = Utils.getString(member,"name")
+                        val style_id = Utils.getInt(member,"style_id")
+                        val answer = Utils.getString(data,"answer")
+                        contentTV.setText(answer)
+
+                        setMenuImage(style_id)
+
+                        val founder_id = Utils.getString(member,"id")
+                        val age = Utils.getString(member,"age")
+                        val profile = Utils.getString(member,"profile")
+                        if (profile != null && profile != ""){
+                            var uri = Config.url + profile
+                            ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
+                        }
+
+                        soloLL.visibility = View.GONE
+                        modifyIV.visibility = View.GONE
+                        lockIV.visibility = View.GONE
+                        deleteIV.visibility = View.GONE
+
+                        val created = Utils.getString(data,"answer_dt")
+                        locationLL.visibility = View.GONE
+
+                        infoTV.setText(name+"/"+age+"세")
+
+                        var createdsplit = created.split(" ")
+                        var timesplit = createdsplit.get(1).split(":")
+
+                        if (timesplit.get(0).toInt() >= 12){
+                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        } else {
+                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        }
+
+
+
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+    override fun onBackPressed() {
+        finish()
+        Utils.hideKeyboard(context)
     }
 }

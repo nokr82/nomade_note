@@ -8,7 +8,7 @@
 
     <!-- 타이틀 -->
     <RelativeLayout
-        android:id="@+id/titleLL"
+        android:id="@+id/titlesLL"
         android:layout_width="match_parent"
         android:layout_height="155dp">
 
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="여행의 동반자 "
+                        android:text="@string/fragment_scrap_keyword"
                         android:textColor="#ffffff"
                         android:textSize="10sp" />
 
@@ -91,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="노마드노트"
+                        android:text="@string/nomadnote"
                         android:textColor="#ffffff"
                         android:textSize="15dp"
                         android:textStyle="bold" />
@@ -101,13 +101,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="환영합니다 "
+                    android:text="@string/welcome2"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/writeRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -125,7 +126,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="새글쓰기"
+                    android:text="@string/fragment_solo_addnote"
                     android:textColor="#ffffff"
                     android:textSize="12dp" />
 
@@ -146,9 +147,10 @@
 
             <ImageView
                 android:id="@+id/searchIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="9dp"
+                android:layout_width="18.5dp"
+                android:layout_height="14.3dp"
+                android:layout_marginLeft="9dp"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/search_op"/>
 
             <EditText
@@ -163,7 +165,7 @@
                 android:imeOptions="actionSearch"
                 android:textColorHint="#ffffff"
                 android:layout_height="match_parent"
-                android:hint="키워드 검색"/>
+                android:hint="@string/fragment_scrap_keyword"/>
 
             <ImageView
                 android:visibility="invisible"
@@ -177,8 +179,10 @@
 
 
  <ListView
+     android:paddingTop="7dp"
      android:id="@+id/otherLV"
      android:scrollbars="none"
+     android:divider="@null"
      android:background="#e7eaed"
      android:layout_width="match_parent"
      android:layout_height="0dp"

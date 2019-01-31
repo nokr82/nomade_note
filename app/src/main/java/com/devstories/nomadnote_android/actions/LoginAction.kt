@@ -12,5 +12,9 @@ object LoginAction {
         HttpClient.post("/api/login/login", params, handler)
     }
 
+    fun validUser(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/login/valid_user", params, handler)
+    }
+
 
 }

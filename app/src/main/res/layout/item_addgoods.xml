@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
-    android:layout_height="100dp">
+    android:layout_height="120dp">
 
     <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:id="@+id/fullImageLL"
+        android:layout_width="120dp"
+        android:onClick="clickMethodMain"
+        android:layout_height="120dp">
+
         <ImageView
             android:id="@+id/addedImgIV"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:layout_margin="5dp"/>
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/firstLL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#638d96">
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/scrap_opck"/>
+            <TextView
+                android:id="@+id/mainimage"
+                android:padding="2dp"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_mainimage"
+                android:textSize="10dp"/>
+        </LinearLayout>
         <ImageView
-            android:visibility="gone"
             android:id="@+id/delIV"
             android:onClick="clickMethod"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@mipmap/btn_del_picture"
             android:layout_alignParentRight="true"/>
         <ImageView

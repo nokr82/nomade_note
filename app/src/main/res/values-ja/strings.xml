@@ -1,0 +1,146 @@
+<resources>
+
+    <string name="join_by_email">이메일로 회원가입</string>
+    <string name="emailET_hint">이메일 주소 입력</string>
+    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="joinTV_text">会員登録</string>
+
+    <string name="activity_login_kakao">カカオトークで始める</string>
+    <!--카카오로 시작-->
+    <string name="activity_login_naver">ネイバーで始める</string>
+    <!--네이버로 시작-->
+    <string name="activity_login_google">グーグルログイン</string>
+    <!--구글 로그인-->
+    <string name="activity_login_facebook">フェイスブックログイン</string>
+    <!--페이스북 로그인-->
+    <string name="activity_login_login">ログイン</string>
+    <!--로그인-->
+    <string name="activity_visit_visited">訪問国家記録</string>
+    <!--방문국가 기록-->
+    <string name="activity_login_signup">会員登録</string>
+    <!--회원가입-->
+    <string name="fragment_solo_style">旅行スタイルを選択する</string>
+    <!--여행스타일 선택하기-->
+    <string name="fragment_solo_addnote">新しく書き込む</string>
+    <!--새글쓰기-->
+    <string name="activity_write_note">作成時間</string>
+    <!--작성시간-->
+    <string name="fragment_scrap_keyword">キーワード検索</string>
+    <!--키워드 검색-->
+    <string name="activity_write_location">位置</string>
+    <!--위치-->
+    <string name="activity_write_time">消費時間</string>
+    <!--소비시간-->
+    <string name="activity_write_spent">消費金額</string>
+    <!--소비금액-->
+    <string name="activity_write_rome">ローマ</string>
+    <!--로마-->
+    <string name="activity_write_healing">ヒーリングスタイル</string>
+    <!--힐링 스타일-->
+    <string name="activity_write_hotplace">ホットプレイス</string>
+    <!--핫플레이스-->
+    <string name="culturalstyle">文学スタイル</string>
+    <!--문학스타일-->
+    <string name="historicalstyle">歴史スタイル</string>
+    <!--역사스타일-->
+    <string name="museumstyle">博物館スタイル</string>
+    <!--박물관스타일-->
+    <string name="entertext">内容を入力して下さい。</string>
+    <!--내용을 입력해주세요.-->
+    <string name="builderwanttopost">登録しますか？</string>
+    <!--등록하시겠습니까?-->
+    <string name="builderyes">はい</string>
+    <!--네-->
+    <string name="builderno">はい</string>
+    <!--아니오-->
+    <string name="builderdelete">削除しますか?</string>
+    <!--삭제하시겠습니까?-->
+    <string name="muineanswer">ベトナム・ムイネーの赤い砂丘で楽しい時間を過ごしていますか？</string>
+    <!--베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?-->
+    <string name="reply">返信する</string>
+    <!--답변하기-->
+    <string name="mytimeline">個人のタイムライン</string>
+    <!--개인타임라인-->
+    <string name="seeallquestions">累積質問を見る</string>
+    <!--누적질문보기-->
+    <string name="searchbymap">地図検索</string>
+    <!--지도검색-->
+    <string name="timelineofothers">他人のタイムライン</string>
+    <!--타인타임라인-->
+    <string name="savedpoststimeline">スクリプトタイムライン</string>
+    <!--스크랩타임라인-->
+    <string name="settings">設定</string>
+    <!--설정-->
+    <string name="welcome">旅のお供</string>
+    <!--여행의 동반자-->
+    <string name="nomadnote">ノマドノート</string>
+    <!--노마드노트-->
+    <string name="welcome2">へようこそ</string>
+    <!--환영합니다-->
+    <string name="travelstyle">旅行スタイル</string>
+    <!--여행스타일-->
+    <string name="editInformation">個人情報修正</string>
+    <!--개인정보수정-->
+    <string name="memoryused">メモリー使用量</string>
+    <!--메모리 사용량-->
+    <string name="addusersettings">友達追加管理</string>
+    <!--친구 추가 관리-->
+    <string name="paymentoptions">決済システム</string>
+    <!--결제시스템-->
+    <string name="socialaccounts">SNS連携情報</string>
+    <!--sns연결정보-->
+    <string name="contactus">お問い合わせ</string>
+    <!--이용문의-->
+    <string name="deleteaccount">サービス退会</string>
+    <!--서비스 탈퇴-->
+    <string name="logout">ログアウト</string>
+    <!--로그아웃-->
+    <string name="travelquestion">どの旅行スタイルで質問を受けますか？</string>
+    <!--어떤 여행스타일로 질문을 받으시겠습니까?-->
+    <string name="setprofile">長押しでプロフィール写真を変更できます</string>
+    <!--길게 누르시면 프로필 사진을 변경할 수 있습니다-->
+    <string name="setmyinfo">個人情報を修正する</string>
+    <!--개인정보 수정하기-->
+    <string name="setmyinfo2">個人情報を修正</string>
+    <!--개인정보수정-->
+    <string name="totalmemory">メモリー総</string>
+    <!--전체 메모리-->
+    <string name="searchphone">連絡先で検索</string>
+    <!--연락처로 검색-->
+    <string name="searchid">ID検索</string>
+    <string name="test">세종문화회관</string>
+    <string name="fra_setting_buy">決済する</string>
+    <string name="fra_setting_experien">記録された旅行の思い出を共有しましょう </string>
+    <string name="fra_setting_insta">インスタグラム</string>
+    <string name="fra_setting_facebook">フェイスブック</string>
+    <string name="fra_setting_naverblog">ネイバーブログ</string>
+    <string name="fra_setting_kakaostory">カカオストーリー</string>
+    <string name="activity_choosegender">性別を選んで下さい。</string>
+    <string name="activity_write_title">タイトル</string>
+    <string name="acrivity_quest_logo">お問い合わせの内容</string>
+    <string name="item_mainimage">대표사진</string>
+    <!--id 검색-->
+    <string name="inquire">お問い合わせの内容</string>
+    <!--문의하기-->
+    <string name="enteryourname">名前を入力して下さい。</string>
+    <!--이름을 입력하세요.-->
+    <string name="enteryouraddress">連絡先を入力して下さい。</string>
+    <!--연락처를 입력하세요.-->
+    <string name="chooseyourgender">性別を選んで下さい。</string>
+    <!--성별을 선택하세요.-->
+    <string name="title">タイトル</string>
+    <!--제목-->
+    <string name="createnote">書き込む</string>
+    <!--글쓰기-->
+    <string name="addphonefriend">連絡先で友達を追加</string>
+    <!--연락처로 친구 추가-->
+    <string name="searchphonenumber">連絡先で友達を追加できます。</string>
+    <!--연락처로 친구를 추가할 수 있습니다.-->
+    <string name="addphonenumber">追加したい友達の名前と携帯番号を入力して下さい。</string>
+    <!--추가하고 싶은 친구의 이름과 휴대전화 번호를 입력해 주세요.-->
+    <string name="artmuseumstyle">美術館スタイル</string>
+    <!--미술관 스타일-->
+    <string name="newfriendid">IDで友達を追加できます。</string>
+    <string name="addenterid">追加したい友達のIDを入力して下さい。</string>
+
+</resources>

@@ -53,11 +53,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val group = channelId
 
         val intent = Intent(this, IntroActivity::class.java)
-        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("market_id", data["market_id"])
-        intent.putExtra("chatting_member_id", data["chatting_member_id"])
-        intent.putExtra("content_id", data["content_id"])
-        intent.putExtra("friend_id", data["friend_id"])
+//        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("last_id", data["last_id"])
+        intent.putExtra("created",data["created"])
+//        intent.putExtra("chatting_member_id", data["chatting_member_id"])
+//        intent.putExtra("content_id", data["content_id"])
+//        intent.putExtra("friend_id", data["friend_id"])
         intent.putExtra("FROM_PUSH", true)
 
         val pendingIntent = PendingIntent.getActivity(this, System.currentTimeMillis().toInt(), intent, 0)
@@ -65,7 +66,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.mipmap.group)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setAutoCancel(true)

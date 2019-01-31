@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.ImageLoader
 import com.devstories.nomadnote_android.base.RootActivity
+import com.devstories.nomadnote_android.base.Utils
 import com.devstories.nomadnote_android.com.devstories.nomadnote_android.adapter.ImageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_find_picture_grid.*
@@ -146,7 +147,7 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
             finish()
         }
 
-        addpostBT.setOnClickListener {
+        addpostLL.setOnClickListener {
 
             if (selected != null) {
 
@@ -154,9 +155,9 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
 
                 val builder = AlertDialog.Builder(context)
                 builder
-                        .setMessage("사진을 등록하시겠습니까 ?")
+                        .setMessage(getString(R.string.builderwanttopost))
 
-                        .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                        .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                             dialog.cancel()
 
                             val result = arrayOfNulls<String>(selected.size)
@@ -184,7 +185,7 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                             }
                             finish()
                         })
-                        .setNegativeButton("취소", DialogInterface.OnClickListener { dialog, id ->
+                        .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                             dialog.cancel()
                         })
                 val alert = builder.create()
@@ -276,6 +277,11 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
         override fun newArray(size: Int): Array<FindPictureGridActivity?> {
             return arrayOfNulls(size)
         }
+    }
+
+    override fun onBackPressed() {
+            finish()
+            Utils.hideKeyboard(context)
     }
 
 }

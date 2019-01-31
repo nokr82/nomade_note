@@ -34,7 +34,9 @@ class Login2Activity : RootActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
         this.context = this
-        progressDialog = ProgressDialog(context)
+//        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 
 
 

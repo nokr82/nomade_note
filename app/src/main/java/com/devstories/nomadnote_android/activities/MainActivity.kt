@@ -11,13 +11,11 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.R.id.titleLL
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.firebase.iid.FirebaseInstanceId
-import com.kakao.s2.StringSet.count
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -25,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+
 
 class MainActivity : FragmentActivity() {
     lateinit var context: Context
@@ -38,6 +37,67 @@ class MainActivity : FragmentActivity() {
     val Quest_stack_Fragment : Quest_stack_Fragment = Quest_stack_Fragment()
     val Friend_Fragment : Friend_Fragment = Friend_Fragment()
 
+    private val BACK_PRESSED_TERM:Long = 1000 * 2
+    private var backPressedTime: Long = -1
+
+    var is_push = false
+    var last_id = ""
+    var created = ""
+
+
+    internal var datachangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+
+                var args: Bundle = Bundle()
+                args.putInt("type", 2)
+                Seting_Fragment.setArguments(args)
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
+
+    internal var stylechangeReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+
+                var args: Bundle = Bundle()
+                args.putInt("type", 1)
+                Seting_Fragment.setArguments(args)
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
+
+
+    internal var backReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                logoTV.setText("설정")
+                logoTV.visibility  = View.VISIBLE
+                setmenu()
+                logoIV.visibility = View.GONE
+                titleLL.visibility = View.VISIBLE
+                settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
+                settingTV.setTextColor(Color.parseColor("#0c6e87"))
+                supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
+            }
+        }
+    }
     internal var friendReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -61,36 +121,73 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    internal var myQuotaUpdatedReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                loadInfo()
+            }
+        }
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.devstories.nomadnote_android.R.layout.activity_main)
         supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
-        soloIV.setImageResource(R.mipmap.op_solo)
+        soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_solo)
         soloTV.setTextColor(Color.parseColor("#0c6e87"))
         titleLL.visibility = View.GONE
         click()
         context = this
+
+        progressDialog = ProgressDialog(this, com.devstories.nomadnote_android.R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 
         var filter1 = IntentFilter("FRIEND")
         registerReceiver(friendReciver, filter1)
 
         var filter2 = IntentFilter("UPDATE_TIMELINE")
         registerReceiver(timelineReciver, filter2)
+        var filter3 = IntentFilter("FRIEND_BACK")
+        registerReceiver(backReciver, filter3)
+        var filter4 = IntentFilter("STYLE_CHANGE")
+        registerReceiver(stylechangeReciver, filter4)
+        var filter5 = IntentFilter("DATA_LIMIT")
+        registerReceiver(datachangeReciver, filter5)
+
+        val filter6 = IntentFilter("MY_STEP_UPDATED")
+        registerReceiver(myQuotaUpdatedReceiver, filter1)
 
         updateToken()
         loadInfo()
 
+        var intent = getIntent()
+
+        if (intent.getBooleanExtra("is_push", false) != null){
+            is_push = intent.getBooleanExtra("is_push", false)
+            if (intent.getStringExtra("last_id") != null) {
+                last_id = intent.getStringExtra("last_id")
+                created = intent.getStringExtra("created")
+
+                if (last_id.length > 0) {
+                    val intent = Intent(context, WriteActivity::class.java)
+                    intent.putExtra("qnas_id", last_id)
+                    intent.putExtra("created_at", created)
+                    startActivity(intent)
+                }
+            }
+        }
+
     }
 
     fun setmenu(){
-        soloIV.setImageResource(R.mipmap.solotimeline)
-        questIV.setImageResource(R.mipmap.quest_noclk)
-        mapsearchIV.setImageResource(R.mipmap.map)
-        otherIV.setImageResource(R.mipmap.other_timeline)
-        scrapIV.setImageResource(R.mipmap.scrap_time)
-        settingIV.setImageResource(R.mipmap.setting)
+        soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.solotimeline)
+        questIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.quest_noclk)
+        mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.map)
+        otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.other_timeline)
+        scrapIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.scrap_time)
+        settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.setting)
 
         soloTV.setTextColor(Color.parseColor("#878787"))
         questTV.setTextColor(Color.parseColor("#878787"))
@@ -102,51 +199,59 @@ class MainActivity : FragmentActivity() {
 
     fun click(){
         soloLL.setOnClickListener {
+            titleBackLL.visibility = View.INVISIBLE
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Solo_time_Fragment).commit()
             titleLL.visibility = View.GONE
             setmenu()
-            soloIV.setImageResource(R.mipmap.op_solo)
+            soloIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_solo)
             soloTV.setTextColor(Color.parseColor("#0c6e87"))
 
         }
         questLL.setOnClickListener {
-            logoTV.setText("누적질문보기")
-            logoIV.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
+            logoTV.setText(getString(R.string.seeallquestions))
+            logoTV.visibility = View.GONE
+            logoIV.visibility = View.VISIBLE
             titleLL.visibility = View.VISIBLE
             setmenu()
-            questIV.setImageResource(R.mipmap.op_quest)
+            questIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_quest)
             questTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Quest_stack_Fragment).commit()
         }
         mapsearchLL.setOnClickListener {
-            titleLL.visibility = View.GONE
+//            titleLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             setmenu()
-            mapsearchIV.setImageResource(R.mipmap.op_mapsearch)
+            mapsearchIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_mapsearch)
             mapsearchTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Map_search_Fragment).commit()
         }
         otherLL.setOnClickListener {
-            titleLL.visibility = View.GONE
+//            titleLL.visibility = View.GONE
+            titleBackLL.visibility = View.INVISIBLE
             setmenu()
-            otherIV.setImageResource(R.mipmap.op_other)
+            otherIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_other)
             otherTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Other_time_Fragment).commit()
         }
         scrapLL.setOnClickListener {
-            logoTV.setText("스크랩 리스트")
+//            logoTV.setText("스크랩 리스트")
+            titleBackLL.visibility = View.INVISIBLE
             logoIV.visibility = View.GONE
             setmenu()
-            titleLL.visibility = View.VISIBLE
-            scrapIV.setImageResource(R.mipmap.op_file)
+//            titleLL.visibility = View.GONE
+            scrapIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_file)
             scrapTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Scrap_Fragment).commit()
         }
         settingLL.setOnClickListener {
+            titleBackLL.visibility = View.INVISIBLE
             logoTV.setText("설정")
+            logoTV.visibility = View.VISIBLE
             setmenu()
             logoIV.visibility = View.GONE
             titleLL.visibility = View.VISIBLE
-            settingIV.setImageResource(R.mipmap.op_setting)
+            settingIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.op_setting)
             settingTV.setTextColor(Color.parseColor("#0c6e87"))
             supportFragmentManager.beginTransaction().replace(R.id.fragmentFL, Seting_Fragment).commit()
         }
@@ -157,8 +262,6 @@ class MainActivity : FragmentActivity() {
         val params = RequestParams()
         val member_id = PrefUtils.getIntPreference(context, "member_id")
         val member_token = FirebaseInstanceId.getInstance().token
-
-        println("-------updatetoken0000")
 
         if (member_id == -1 || null == member_token || "" == member_token || member_token.length < 1) {
             return
@@ -177,8 +280,10 @@ class MainActivity : FragmentActivity() {
                     progressDialog!!.dismiss()
                 }
 
+                PrefUtils.setPreference(context, "token", member_token)
+
                 try {
-                    val result = response!!.getString("result")
+//                    val result = response!!.getString("result")
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -265,6 +370,54 @@ class MainActivity : FragmentActivity() {
         }
 
 
+        try {
+            if(friendReciver != null) {
+                unregisterReceiver(friendReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(timelineReciver != null) {
+                unregisterReceiver(timelineReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(backReciver != null) {
+                unregisterReceiver(backReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(stylechangeReciver != null) {
+                unregisterReceiver(stylechangeReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(datachangeReciver != null) {
+                unregisterReceiver(datachangeReciver)
+            }
+        } catch (e:Exception) {
+
+        }
+
+        try {
+            if(myQuotaUpdatedReceiver != null) {
+                unregisterReceiver(myQuotaUpdatedReceiver)
+            }
+        } catch (e:Exception) {
+
+        }
+
     }
 
     fun loadInfo() {
@@ -284,32 +437,40 @@ class MainActivity : FragmentActivity() {
                     if ("ok" == result) {
 
                         var member = response.getJSONObject("member")
-                        var disk = Utils.getInt(member,"disk")
-                        var payment_sum = member.getJSONArray("payments")
+                        var disk = response!!.getString("disk")
+//                        var payment_sum = member.getJSONArray("payments")
+                        var point = Utils.getInt(member,"point")
+                        var pointdouble = Utils.getDouble(member,"point")
+                        var bytedouble = Utils.getDouble(member,"point")
+                        var byte = Utils.getInt(member,"bytes")
 
-                        var payment_byte = 1073741824
-                        if (payment_sum.length()>0){
-                            for (i in 0 until payment_sum.length()){
-                                val payment_item = payment_sum.get(i) as JSONObject
-                                val category = Utils.getInt(payment_item,"category")
+//                        var payment_byte = 2147483648
+                        var payment_byte = 20480
+//                        if (payment_sum.length()>0){
+//                            for (i in 0 until payment_sum.length()){
+//                                val payment_item = payment_sum.get(i) as JSONObject
+//                                val category = Utils.getInt(payment_item,"category")
+//
+//                                if (category == 1){
+//                                    payment_byte = payment_byte + 1073741824
+//                                } else if (category == 2){
+//                                    payment_byte = payment_byte + 644245094
+//                                } else {
+//                                    payment_byte = payment_byte + 21474836
+//                                }
+//
+//                            }
+//                        }
 
-                                if (category == 1){
-                                    payment_byte = payment_byte + 1073741824
-                                } else if (category == 2){
-                                    payment_byte = payment_byte + 644245094
-                                } else {
-                                    payment_byte = payment_byte + 21474836
-                                }
-
-                            }
-                        }
-
-                        var diskabs =  Math.abs(disk)
+//                        var diskabs =  Math.abs(disk)
                         var payment_byteabs = Math.abs(payment_byte)
 
-                        PrefUtils.setPreference(context, "disk", diskabs)
+                        PrefUtils.setPreference(context, "disk", disk.toDouble())
                         PrefUtils.setPreference(context, "payment_byte", payment_byteabs)
-
+                        val style = Utils.getInt(member, "style_id")
+                        PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
+                        PrefUtils.setPreference(context, "point", point)
+                        PrefUtils.setPreference(context, "byte", byte)
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }
@@ -360,6 +521,25 @@ class MainActivity : FragmentActivity() {
                 }
             }
         })
+    }
+
+    override fun onBackPressed() {
+
+        if (System.currentTimeMillis() - backPressedTime < BACK_PRESSED_TERM) {
+            finish()
+        } else {
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            backPressedTime = System.currentTimeMillis()
+            Utils.hideKeyboard(context)
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1001 && Seting_Fragment != null) {
+            Seting_Fragment!!.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
 

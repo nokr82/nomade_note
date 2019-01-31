@@ -18,8 +18,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="127dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -40,7 +40,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="카카오로 시작"
+            android:text="@string/activity_login_kakao"
             android:textColor="#3c1d21"
             android:textSize="12dp"
             android:layout_height="wrap_content" />
@@ -63,7 +63,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="네이버로 시작"
+                android:text="@string/activity_login_naver"
                 android:textColor="#ffffff"
                 android:textSize="12dp"
                 android:layout_height="wrap_content" />
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="4dp"
-            android:background="#cc3731"
+            android:background="#CC00"
             android:gravity="center_vertical|center">
 
             <ImageView
@@ -86,7 +86,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="구글 로그인"
+                android:text="@string/activity_login_google"
                 android:textColor="#ffffff"
                 android:textSize="12dp"
                 android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:text="페이스북 로그인"
+                android:text="@string/activity_login_facebook"
                 android:textSize="12dp"
                 android:textColor="#ffffff"
                 android:layout_height="wrap_content" />
@@ -129,7 +129,16 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#779ba4"
-            android:text="로그인/"/>
+            android:text="@string/activity_login_login"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#779ba4"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="/"/>
 
         <TextView
             android:id="@+id/joinTV"
@@ -138,7 +147,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#779ba4"
-            android:text="회원가입"/>
+            android:text="@string/activity_login_signup"/>
         
     </LinearLayout>
 

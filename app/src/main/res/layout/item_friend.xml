@@ -30,7 +30,7 @@
                android:layout_weight="1"
                android:text="이현수"
                android:textColor="#4a4a4a"
-               android:textSize="12sp" />
+               android:textSize="13dp" />
 
 
                <LinearLayout
@@ -40,17 +40,18 @@
                    android:gravity="center_vertical|right"
                    >
                        <TextView
+                           android:visibility="gone"
                            android:id="@+id/shareTV"
                            android:layout_width="wrap_content"
                            android:layout_height="match_parent"
                            android:gravity="center"
-                           android:textSize="11sp"
+                           android:textSize="13dp"
                            android:textColor="#000000"
                            android:text="공유"
                            android:layout_marginRight="10dp"
                            />
                         <View
-
+                            android:visibility="gone"
                             android:layout_width="1dp"
                             android:layout_height="12dp"
                             android:background="#000000"/>
@@ -60,9 +61,10 @@
                        android:layout_width="wrap_content"
                        android:layout_height="match_parent"
                        android:gravity="center"
-                       android:textSize="11sp"
+                       android:textSize="13dp"
                        android:textColor="#D0021B"
                        android:text="삭제"
+                       android:layout_marginRight="15dp"
                        />
 
                </LinearLayout>

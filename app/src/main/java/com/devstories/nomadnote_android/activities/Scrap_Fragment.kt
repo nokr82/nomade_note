@@ -11,12 +11,14 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ListView
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.CertificationController
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_scrap.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -29,11 +31,14 @@ class Scrap_Fragment : Fragment()  {
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
     lateinit var timelineAdapter: ScrapAdapter
     lateinit var scrapLV: ListView
+    private lateinit var activity: MainActivity
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(myContext)
         getTimeline()
         return inflater.inflate(R.layout.fra_scrap, container, false)
 
@@ -48,6 +53,8 @@ class Scrap_Fragment : Fragment()  {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity = getActivity() as MainActivity
+        activity.titleLL.visibility = View.GONE
         click()
 
     }
@@ -61,6 +68,11 @@ class Scrap_Fragment : Fragment()  {
     }
 
     fun click(){
+
+        writeRL.setOnClickListener {
+            val intent = Intent(myContext, WriteActivity::class.java)
+            startActivity(intent)
+        }
         scrapLV.setOnItemClickListener { parent, view, position, id ->
             val item = timelineDatas.get(position)
             val timeline = item.getJSONObject("timeline")
@@ -71,7 +83,7 @@ class Scrap_Fragment : Fragment()  {
             startActivity(intent)
         }
 
-        searchLL.setOnClickListener {
+        searchIV.setOnClickListener {
             search_scrap()
         }
 
@@ -417,6 +429,105 @@ class Scrap_Fragment : Fragment()  {
             }
         })
 
+    }
+
+    fun add_certification(timeline_id: String){
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("timeline_id", timeline_id)
+        params.put("point", "500")
+
+        CertificationController.add_certification(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        var point = PrefUtils.getIntPreference(context, "point")
+                        var sum = point.toInt()+500
+                        PrefUtils.setPreference(context, "point", sum)
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
     }
 
 

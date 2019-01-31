@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
@@ -35,7 +36,9 @@ class Friend_phone_Fragment : Fragment()  {
     var pem_id = ""
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
-        progressDialog = ProgressDialog(myContext)
+//        progressDialog = ProgressDialog(myContext)
+        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
         return inflater.inflate(R.layout.fra_friend_phoone, container, false)
 
     }
@@ -57,7 +60,22 @@ class Friend_phone_Fragment : Fragment()  {
         addTV.setOnClickListener {
             add_friend()
         }
-
+        nameET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loadInfo()
+                true
+            } else {
+                false
+            }
+        }
+        phoneET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                loadInfo()
+                true
+            } else {
+                false
+            }
+        }
 
     }
     //친구찾기

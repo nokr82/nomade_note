@@ -28,10 +28,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profileIV"
                     android:layout_width="31dp"
                     android:layout_height="31dp"
+                    android:scaleType="centerCrop"
                     android:layout_marginLeft="15dp"
                     android:src="@mipmap/man" />
 
@@ -110,13 +111,18 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
+        <com.joooonho.SelectableRoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:visibility="visible"
             android:layout_width="115dp"
             android:layout_height="77dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="11dp"
             android:layout_marginTop="11dp"
-            android:background="@drawable/background_border_radius8_000000"
+            app:sriv_left_bottom_corner_radius="5dip"
+            app:sriv_left_top_corner_radius="5dip"
+            app:sriv_right_bottom_corner_radius="5dip"
+            app:sriv_right_top_corner_radius="5dip"
+            android:background="#00000000"
             android:scaleType="centerCrop"
             android:id="@+id/backgroundIV"/>
 
@@ -130,7 +136,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:textSize="12sp"
             android:textColor="#4a4a4a"
             android:lineSpacingExtra="6sp"
@@ -142,47 +148,51 @@
             android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/healingTV"
                 android:padding="4dp"
+                android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:background="@drawable/background_border_radius7_000000"
-                android:text="힐링 스타일"
+                android:text="@string/activity_write_healing"
                 android:textSize="10dp"
                 android:textColor="#ffffff"/>
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/hotplaceTV"
                 android:padding="4dp"
+                android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="핫플레이스"
+                android:text="@string/activity_write_hotplace"
                 android:textSize="10dp"
                 android:gravity="center"
                 android:textColor="#878787"/>
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/literatureTV"
                 android:padding="4dp"
+                android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="문학 스타일"
+                android:text="@string/culturalstyle"
                 android:textSize="10dp"
                 android:textColor="#878787"/>
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:id="@+id/historyTV"
                 android:padding="4dp"
+                android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:textColor="#878787"
-                android:text="역사 스타일"
+                android:text="@string/historicalstyle"
                 />
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/museumTV"
@@ -192,7 +202,19 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="박물관 스타일"
+                android:text="@string/museumstyle"
+                android:textSize="10dp"
+                android:textColor="#878787"/>
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/artTV"
+                android:singleLine="true"
+                android:padding="4dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/artmuseumstyle"
                 android:textSize="10dp"
                 android:textColor="#878787"/>
 
@@ -204,7 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#6c6c6c">
+            android:background="@drawable/background_border_radius12">
 
             <RelativeLayout
                 android:id="@+id/trustRL"
@@ -217,18 +239,21 @@
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp">
-                    <ImageView
-                        android:id="@+id/iconIV"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@mipmap/icon_check"/>
                     <TextView
+                        android:id="@+id/textTV"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="#ffffff"
+                        android:text="이 정보를 인증하시겠습니까?"
                         android:gravity="center"
-                        android:layout_marginLeft="10dp"
-                        android:text="정보를 신뢰합니다"/>
+                        android:textColor="#ffffff"
+                        android:layout_marginRight="5dp"/>
+                    <ImageView
+                        android:id="@+id/iconIV"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/scrap_opck"/>
+
                 </LinearLayout>
 
                 <ImageView

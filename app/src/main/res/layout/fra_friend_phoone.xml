@@ -18,6 +18,7 @@
         <ImageView
             android:id="@+id/searchIV"
             android:padding="5dp"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_search"/>
@@ -26,7 +27,8 @@
             android:id="@+id/nameET"
             android:singleLine="true"
             android:gravity="center"
-            android:hint="이름을 입력해주세요."
+            android:textSize="13dp"
+            android:hint="@string/enteryourname"
             android:layout_width="match_parent"
             android:background="@null"
             android:layout_height="wrap_content" />
@@ -46,6 +48,7 @@
 
         <ImageView
             android:id="@+id/search2IV"
+            android:layout_marginLeft="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
@@ -55,7 +58,9 @@
             android:id="@+id/phoneET"
             android:singleLine="true"
             android:gravity="center"
-            android:hint="연락처를 입력해주세요."
+            android:textSize="13dp"
+            android:inputType="number"
+            android:hint="@string/enteryouraddress"
             android:layout_width="match_parent"
             android:background="@null"
             android:layout_height="wrap_content" />
@@ -74,20 +79,21 @@
 
         <TextView
             android:id="@+id/titleTV"
+            android:textSize="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#0C6E87"
             android:textStyle="bold"
-            android:text="연락처로 친구를 추가할 수 있습니다."/>
+            android:text="@string/searchphonenumber"/>
 
         <TextView
             android:id="@+id/contentTV"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="14dp"
             android:textColor="#878787"
-            android:text="추가하고 싶은 친구의 이름과\n휴대전화 번호를 입력해 주세요."
+            android:text="@string/addphonenumber"
             />
 
         <TextView

@@ -67,6 +67,8 @@ public class HttpClient {
 
     public static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
 
+
+        System.out.println(params);
         System.out.println("POST : " + Config.url + url + "?" + params);
 
         client.post(Config.url + url, params, responseHandler);

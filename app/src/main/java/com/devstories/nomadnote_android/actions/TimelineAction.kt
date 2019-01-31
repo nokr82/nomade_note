@@ -12,6 +12,10 @@ object TimelineAction {
         HttpClient.post("/api/timeline/addtimeline", params, handler)
     }
 
+    fun testaddtimeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/testaddtimeline", params, handler)
+    }
+
     // 타임라인 가져오기
     fun my_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/timeline/my_timeline", params, handler)
@@ -44,6 +48,11 @@ object TimelineAction {
     //삭제
     fun delete_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/timeline/delete_timeline", params, handler)
+    }
+
+    //잠금,잠금해제
+    fun change_block(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/change_block", params, handler)
     }
 
 }

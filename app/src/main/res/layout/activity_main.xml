@@ -59,8 +59,7 @@
                         android:visibility="visible"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="16dp"
+                        android:paddingBottom="2.5dp"
                         android:src="@mipmap/nomad_small" />
 
                 </LinearLayout>
@@ -98,7 +97,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -117,11 +117,12 @@
                         android:src="@mipmap/solotimeline" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/soloTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="개인타임라인"
+                        android:text="@string/mytimeline"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -143,11 +144,12 @@
                         android:src="@mipmap/quest_noclk" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/questTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="누적질문보기"
+                        android:text="@string/seeallquestions"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -169,11 +171,12 @@
                         android:src="@mipmap/map" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/mapsearchTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="지도검색"
+                        android:text="@string/searchbymap"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -194,12 +197,12 @@
                         android:layout_marginBottom="3dp"
                         android:src="@mipmap/other_timeline" />
 
-
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/otherTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="타인타임라인"
+                        android:text="@string/timelineofothers"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -220,12 +223,12 @@
                         android:layout_marginBottom="3dp"
                         android:src="@mipmap/scrap_time" />
 
-
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/scrapTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="스크립타임라인"
+                        android:text="@string/savedpoststimeline"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 
@@ -247,11 +250,12 @@
                         android:src="@mipmap/setting" />
 
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="1"
                         android:id="@+id/settingTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="설정"
+                        android:text="@string/settings"
                         android:textColor="#878787"
                         android:textSize="9sp" />
 

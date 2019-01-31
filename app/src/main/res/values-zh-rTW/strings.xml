@@ -1,0 +1,99 @@
+<resources>
+
+    <string name="join_by_email">이메일로 회원가입</string>
+    <string name="emailET_hint">이메일 주소 입력</string>
+    <string name="pwdET_hint">비밀번호 (영문,숫자,특수문자)</string>
+    <string name="joinTV_text">會員加入</string>
+    <string name="activity_login_kakao">kakao開始</string>
+    <!--카카오로 시작-->
+    <string name="activity_login_naver">Naver開始</string>
+    <!--네이버로 시작-->
+    <string name="activity_login_google">Google開始</string>
+    <!--구글 로그인-->
+    <string name="activity_login_facebook">Facebook開始</string>
+    <!--페이스북 로그인-->
+    <string name="activity_login_login">登錄</string>
+    <!--로그인-->
+    <string name="activity_visit_visited">訪問國家記錄</string>
+    <!--방문국가 기록-->
+    <string name="activity_login_signup">會員加入</string>
+    <!--회원가입-->
+    <string name="fragment_solo_style">選擇旅行風格</string>
+    <!--여행스타일 선택하기-->
+    <string name="fragment_solo_addnote">新文本</string>
+    <!--새글쓰기-->
+    <string name="activity_write_note">創建時間</string>
+    <!--작성시간-->
+    <string name="fragment_scrap_keyword">關鍵詞搜索</string>
+    <!--키워드 검색-->
+    <string name="activity_write_location">位置</string>
+    <!--위치-->
+    <string name="activity_write_time">消費時間</string>
+    <!--소비시간-->
+    <string name="activity_write_spent">消費金額</string>
+    <!--소비금액-->
+    <string name="activity_write_rome">羅馬</string>
+    <!--로마-->
+    <string name="activity_write_healing">療養風格</string>
+    <!--힐링 스타일-->
+    <string name="activity_write_hotplace">熱門地區</string>
+    <string name="culturalstyle">文學風格</string>
+    <string name="historicalstyle">歷史風格</string>
+    <string name="museumstyle">博物館風格</string>
+    <string name="entertext">請輸入內容</string>
+    <string name="builderwanttopost">確定要登記嗎？</string>
+    <string name="builderyes">是的</string>
+    <string name="builderno">不</string>
+    <string name="builderdelete">確定要刪除嗎？</string>
+    <string name="muineanswer">在越南穆伊奈的紅沙灘上過得愉快嗎?</string>
+    <string name="reply">回答</string>
+    <string name="mytimeline">個人時間軸</string>
+    <string name="seeallquestions">累積提問</string>
+    <string name="searchbymap">搜索地圖</string>
+    <string name="timelineofothers">他人時間軸</string>
+    <string name="savedpoststimeline">手跡時間軸</string>
+    <string name="settings">設定</string>
+    <string name="welcome">旅行的同伴</string>
+    <string name="nomadnote">Noma Note</string>
+    <string name="welcome2">歡迎</string>
+    <string name="travelstyle">旅行風格</string>
+    <string name="editInformation">個人信息修改</string>
+    <string name="memoryused">內存使用量</string>
+    <string name="addusersettings">朋友添加管理</string>
+    <string name="paymentoptions">結算系統</string>
+    <string name="socialaccounts">SNS連接信息</string>
+    <string name="contactus">使用咨詢</string>
+    <string name="deleteaccount">退出服務</string>
+    <string name="logout">註銷</string>
+    <string name="travelquestion">要以哪種風格接受提問？</string>
+    <string name="setprofile">長按可更換頭像照片</string>
+    <string name="setmyinfo">修改個人信息</string>
+    <string name="setmyinfo2">個人信息修改</string>
+    <string name="totalmemory">全部內存</string>
+    <string name="searchphone">用聯系方式搜索</string>
+    <string name="searchid">ID搜索</string>
+    <string name="test">세종문화회관</string>
+    <string name="fra_setting_buy">結算</string>
+    <string name="fra_setting_experien">共享記錄下的旅行回憶</string>
+    <string name="fra_setting_insta">Instagram</string>
+    <string name="fra_setting_facebook">Facebook</string>
+    <string name="fra_setting_naverblog">Naver Blog</string>
+    <string name="fra_setting_kakaostory">Kakao Story</string>
+    <string name="activity_choosegender">請選擇性別</string>
+    <string name="activity_write_title">題目</string>
+    <string name="acrivity_quest_logo">咨詢</string>
+    <string name="item_mainimage">대표사진</string>
+    <string name="inquire">咨詢</string>
+    <string name="enteryourname">請輸入姓名</string>
+    <string name="enteryouraddress">請輸入聯系方式</string>
+    <string name="chooseyourgender">請選擇性別</string>
+    <string name="title">題目</string>
+    <string name="createnote">文本</string>
+    <string name="addphonefriend">用聯系方式添加好友</string>
+    <string name="searchphonenumber">可以通過聯系方式添加好友</string>
+    <string name="addphonenumber">請輸入想要添加的朋友的姓名和電話號碼。</string>
+    <string name="artmuseumstyle">美術館風格</string>
+    <string name="newfriendid">可以通過ID添加好友</string>
+    <string name="addenterid">請輸入想要添加的朋友的ID。</string>
+
+</resources>
