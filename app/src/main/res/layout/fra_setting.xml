@@ -549,9 +549,9 @@
             <LinearLayout
                 android:id="@+id/op_payLL"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -562,8 +562,9 @@
                     <LinearLayout
                         android:id="@+id/op_1gbLL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="23dp"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="20dp"
                         android:paddingLeft="72dp">
 
                         <ImageView
@@ -585,8 +586,8 @@
                     <LinearLayout
                         android:id="@+id/op_600mbLL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
                         android:paddingLeft="72dp">
 
                         <ImageView
@@ -608,8 +609,8 @@
                     <LinearLayout
                         android:id="@+id/op_20kbLL"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
                         android:paddingLeft="72dp">
 
                         <ImageView
@@ -628,6 +629,32 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/opInputLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="72dp">
+
+                        <ImageView
+                            android:id="@+id/opInputIV"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:src="@drawable/circle_background3" />
+
+                        <EditText
+                            android:id="@+id/opInputET"
+                            android:layout_width="150dp"
+                            android:layout_height="28dp"
+                            android:background="@drawable/background_border_radius5_9b9b9b"
+                            android:paddingLeft="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:hint="0000-0000-0000-0000"
+                            android:textColor="#878787"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
                     <TextView
                         android:id="@+id/buyTV"
                         android:layout_width="match_parent"
@@ -635,6 +662,7 @@
                         android:layout_marginLeft="60dp"
                         android:layout_marginTop="19dp"
                         android:layout_marginRight="60dp"
+                        android:layout_marginBottom="24dp"
                         android:background="@drawable/background_border_radius1_000000"
                         android:gravity="center"
                         android:padding="8dp"
