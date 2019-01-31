@@ -7,10 +7,12 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
@@ -23,11 +25,7 @@ import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
 import com.facebook.FacebookSdk
-import com.facebook.share.Sharer
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
 import com.kakao.kakaolink.v2.KakaoLinkResponse
@@ -46,7 +44,7 @@ import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.logging.Logger
+import java.io.ByteArrayOutputStream
 
 class Solo_detail_Activity : RootActivity() {
 
@@ -61,11 +59,12 @@ class Solo_detail_Activity : RootActivity() {
     var block = ""
 
     var share_image_uri = ""
+    lateinit var share_image_bm: Bitmap
     var share_contents = ""
 
     var adPosition = 0
     private lateinit var fullScreenAdapter: FullScreenImageAdapter
-    var imagePaths:ArrayList<String> = ArrayList<String>()
+    var imagePaths: ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,13 +110,13 @@ class Solo_detail_Activity : RootActivity() {
 
 
         var intent = getIntent()
-        if (intent.getStringExtra("timeline_id") != null){
+        if (intent.getStringExtra("timeline_id") != null) {
             timeline_id = intent.getStringExtra("timeline_id")
             detail_timeline()
         }
 
 
-        if (intent.getStringExtra("qnas_id") != null){
+        if (intent.getStringExtra("qnas_id") != null) {
             timeline_id = intent.getStringExtra("qnas_id")
             detail_timeline()
 //            detail_qnas()
@@ -125,15 +124,15 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun click(){
+    fun click() {
         titleBackLL.setOnClickListener {
             finish()
         }
 
         modifyIV.setOnClickListener {
             val intent = Intent(context, WriteActivity::class.java)
-            intent.putExtra("timeline_id",timeline_id)
-            startActivityForResult(intent,MODIFY)
+            intent.putExtra("timeline_id", timeline_id)
+            startActivityForResult(intent, MODIFY)
         }
 
         deleteIV.setOnClickListener {
@@ -157,14 +156,14 @@ class Solo_detail_Activity : RootActivity() {
 
         lockIV.setOnClickListener {
             val builder = AlertDialog.Builder(context)
-            if (block == "N"){
+            if (block == "N") {
                 builder.setMessage("게시물을 비공개 하시겠습니까?")
             } else {
                 builder.setMessage("게시물을 공개 하시겠습니까?")
             }
             builder
                     .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
-                        if (block == "N"){
+                        if (block == "N") {
                             change_block("Y")
                             lockIV.setImageResource(R.mipmap.lock)
                         } else {
@@ -208,7 +207,7 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun detail_timeline(){
+    fun detail_timeline() {
         val params = RequestParams()
 //        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("timeline_id", timeline_id)
@@ -222,18 +221,18 @@ class Solo_detail_Activity : RootActivity() {
 
                 try {
 
-                    val result =   Utils.getString(response,"result")
+                    val result = Utils.getString(response, "result")
                     if ("ok" == result) {
                         val data = response!!.getJSONObject("timeline")
-                        var place_name = Utils.getString(data,"place_name")
-                        var duration = Utils.getString(data,"duration")
-                        var cost = Utils.getString(data,"cost")
-                        var contents = Utils.getString(data,"contents")
-                        var created = Utils.getString(data,"created_at")
-                        var style = Utils.getString(data,"style_id")
-                        block = Utils.getString(data,"block_yn")
+                        var place_name = Utils.getString(data, "place_name")
+                        var duration = Utils.getString(data, "duration")
+                        var cost = Utils.getString(data, "cost")
+                        var contents = Utils.getString(data, "contents")
+                        var created = Utils.getString(data, "created_at")
+                        var style = Utils.getString(data, "style_id")
+                        block = Utils.getString(data, "block_yn")
 
-                        if (block == "N"){
+                        if (block == "N") {
                             lockIV.setImageResource(R.mipmap.shiels_r)
                         } else {
                             lockIV.setImageResource(R.mipmap.lock)
@@ -250,18 +249,18 @@ class Solo_detail_Activity : RootActivity() {
                         share_contents = contents
 
                         val member = data.getJSONObject("member")
-                        val founder_id = Utils.getString(member,"id")
-                        val name = Utils.getString(member,"name")
-                        val age = Utils.getString(member,"age")
-                        val profile = Utils.getString(member,"profile")
-                        if (profile != null && profile != ""){
+                        val founder_id = Utils.getString(member, "id")
+                        val name = Utils.getString(member, "name")
+                        val age = Utils.getString(member, "age")
+                        val profile = Utils.getString(member, "profile")
+                        if (profile != null && profile != "") {
                             var uri = Config.url + profile
                             ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
                         }
 
                         val image = data.getJSONArray("images")
-                        if (image.length() > 0){
-                            if (imagePaths != null){
+                        if (image.length() > 0) {
+                            if (imagePaths != null) {
                                 imagePaths.clear()
                             }
 
@@ -274,12 +273,12 @@ class Solo_detail_Activity : RootActivity() {
 //                            println("-------uri ---------")
 //                            ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
 
-                            for (i in 0 until image.length()){
+                            for (i in 0 until image.length()) {
                                 val image_item = image.get(i) as JSONObject
-                                val image_uri = Utils.getString(image_item,"image_uri")
-                                val main_yn = Utils.getString(image_item,"main_yn")
+                                val image_uri = Utils.getString(image_item, "image_uri")
+                                val main_yn = Utils.getString(image_item, "main_yn")
                                 var uri = Config.url + image_uri
-                                if (main_yn == "Y"){
+                                if (main_yn == "Y") {
                                     var uri = Config.url + image_uri
 //                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
 //                                    imagePaths.add(uri)
@@ -293,44 +292,44 @@ class Solo_detail_Activity : RootActivity() {
 
                         }
 
-                        if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")){
+                        if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")) {
                             soloLL.visibility = View.GONE
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
                             deleteIV.visibility = View.GONE
                         }
 
-                        infoTV.setText(name+"/"+age+"세")
+                        infoTV.setText(name + "/" + age + "세")
 
 
-                        if (timesplit.get(0).toInt() >= 12){
-                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        if (timesplit.get(0).toInt() >= 12) {
+                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
                         } else {
-                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":" + timesplit.get(1))
                         }
 
-                        when(style){
-                            "1" ->{
+                        when (style) {
+                            "1" -> {
                                 menu_position = 1
                                 setMenuImage(menu_position)
                             }
 
-                            "2" ->{
+                            "2" -> {
                                 menu_position = 2
                                 setMenuImage(menu_position)
                             }
 
-                            "3" ->{
+                            "3" -> {
                                 menu_position = 3
                                 setMenuImage(menu_position)
                             }
 
-                            "4" ->{
+                            "4" -> {
                                 menu_position = 4
                                 setMenuImage(menu_position)
                             }
 
-                            "5" ->{
+                            "5" -> {
                                 menu_position = 5
                                 setMenuImage(menu_position)
                             }
@@ -416,7 +415,7 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun menuSetImage(){
+    fun menuSetImage() {
         healingTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         healingTV.setTextColor(Color.parseColor("#878787"))
         hotplaceTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
@@ -431,35 +430,35 @@ class Solo_detail_Activity : RootActivity() {
         artmuseumTV.setTextColor(Color.parseColor("#878787"))
     }
 
-    fun setMenuImage(menu_position: Int){
+    fun setMenuImage(menu_position: Int) {
         menuSetImage()
-        when(menu_position){
-            1 ->{
+        when (menu_position) {
+            1 -> {
                 healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 healingTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
-            2 ->{
+            2 -> {
                 hotplaceTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
-            3 ->{
+            3 -> {
                 literatureTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 literatureTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
-            4 ->{
+            4 -> {
                 historyTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 historyTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
-            5 ->{
+            5 -> {
                 museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 museumTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
-            6 ->{
+            6 -> {
                 artmuseumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 artmuseumTV.setTextColor(Color.parseColor("#ffffff"))
             }
@@ -483,7 +482,7 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun delete_timeline(){
+    fun delete_timeline() {
         val params = RequestParams()
         params.put("timeline_id", timeline_id)
 
@@ -496,10 +495,10 @@ class Solo_detail_Activity : RootActivity() {
 
                 try {
 
-                    val result =   Utils.getString(response,"result")
+                    val result = Utils.getString(response, "result")
                     if ("ok" == result) {
                         var intent = Intent()
-                        intent.putExtra("reset","reset")
+                        intent.putExtra("reset", "reset")
                         setResult(RESULT_OK, intent);
                         finish()
                     }
@@ -582,7 +581,7 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun change_block(block_yn :String){
+    fun change_block(block_yn: String) {
         val params = RequestParams()
         params.put("timeline_id", timeline_id)
         params.put("block_yn", block_yn)
@@ -596,10 +595,10 @@ class Solo_detail_Activity : RootActivity() {
 
                 try {
 
-                    val result =   Utils.getString(response,"result")
+                    val result = Utils.getString(response, "result")
                     if ("ok" == result) {
                         var intent = Intent()
-                        intent.putExtra("reset","reset")
+                        intent.putExtra("reset", "reset")
                         setResult(RESULT_OK, intent);
                         finish()
                     }
@@ -682,7 +681,7 @@ class Solo_detail_Activity : RootActivity() {
 
     }
 
-    fun detail_qnas(){
+    fun detail_qnas() {
         val params = RequestParams()
 //        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("qnas_id", qnas_id)
@@ -696,21 +695,21 @@ class Solo_detail_Activity : RootActivity() {
 
                 try {
 
-                    val result =   Utils.getString(response,"result")
+                    val result = Utils.getString(response, "result")
                     if ("ok" == result) {
                         val data = response!!.getJSONObject("qnas")
                         val member = data.getJSONObject("member")
-                        val name = Utils.getString(member,"name")
-                        val style_id = Utils.getInt(member,"style_id")
-                        val answer = Utils.getString(data,"answer")
+                        val name = Utils.getString(member, "name")
+                        val style_id = Utils.getInt(member, "style_id")
+                        val answer = Utils.getString(data, "answer")
                         contentTV.setText(answer)
 
                         setMenuImage(style_id)
 
-                        val founder_id = Utils.getString(member,"id")
-                        val age = Utils.getString(member,"age")
-                        val profile = Utils.getString(member,"profile")
-                        if (profile != null && profile != ""){
+                        val founder_id = Utils.getString(member, "id")
+                        val age = Utils.getString(member, "age")
+                        val profile = Utils.getString(member, "profile")
+                        if (profile != null && profile != "") {
                             var uri = Config.url + profile
                             ImageLoader.getInstance().displayImage(uri, profileIV, Utils.UILoptionsUserProfile)
                         }
@@ -720,21 +719,19 @@ class Solo_detail_Activity : RootActivity() {
                         lockIV.visibility = View.GONE
                         deleteIV.visibility = View.GONE
 
-                        val created = Utils.getString(data,"answer_dt")
+                        val created = Utils.getString(data, "answer_dt")
                         locationLL.visibility = View.GONE
 
-                        infoTV.setText(name+"/"+age+"세")
+                        infoTV.setText(name + "/" + age + "세")
 
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
 
-                        if (timesplit.get(0).toInt() >= 12){
-                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+                        if (timesplit.get(0).toInt() >= 12) {
+                            createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
                         } else {
-                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+                            createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":" + timesplit.get(1))
                         }
-
-
 
 
                     }
@@ -819,18 +816,19 @@ class Solo_detail_Activity : RootActivity() {
 
 
     private fun shareInstagram() {
+
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "image/*"
         try {
 
-            var uri:Uri
             var image_uri = Config.url + "/storage/images/2019/02/01/Q2kXN56SHwcO8ZTxB7SM8CRlItFNwLHEMmSGxTYd.jpeg"
 
-            if(share_image_uri != "") {
-                uri = Uri.parse(Config.url + share_image_uri);
-            }
+//            if (share_image_uri != "") {
+//            } else {
+//                uri = Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher");
+//            }
 
-            shareIntent.putExtra(Intent.EXTRA_STREAM, Config.url + share_image_uri);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("android.resource://" + context.packageName + "/mipmap/ic_launcher"));
             shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
             shareIntent.setPackage("com.instagram.android")
             startActivity(shareIntent)
@@ -841,6 +839,13 @@ class Solo_detail_Activity : RootActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun getImageUri(context: Context, inImage: Bitmap) :Uri {
+        var bytes: ByteArrayOutputStream = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        var path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private fun shareFacebook() {
@@ -861,7 +866,7 @@ class Solo_detail_Activity : RootActivity() {
         try {
 
             val title = "노마드노트"
-            val post = share_image_uri + "<br/>" + share_contents
+            val post = share_contents
             val appId = context.packageName
             val appName = "노마드노트"
             val url = String.format("naverblog://write?title=%s&content=%s", title, post);
