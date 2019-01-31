@@ -65,6 +65,8 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
         }
 
 
+
+
     }
 
     override fun onDestroy() {

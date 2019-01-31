@@ -172,8 +172,6 @@ class MapSearchActivity : RootActivity() {
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_id",place_id)
 
-
-
         TimelineAction.place_timeline(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {

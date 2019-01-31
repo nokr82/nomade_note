@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
@@ -61,14 +62,25 @@ class CountryTimelineActivity : RootActivity() {
             intent.putExtra("timeline_id",timeline_id)
             startActivity(intent)
         }
+
+        keywordET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                keyword = keywordET.text.toString()
+                if (keyword != null && keyword != "") {
+                    country_timeline()
+                }
+            }
+
+            Utils.hideKeyboard(context)
+                false
+        }
     }
 
     fun country_timeline(){
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("country_id",country_id)
-
-
+        params.put("keyword",keyword)
 
         TimelineAction.country_timeline(params, object : JsonHttpResponseHandler() {
 
