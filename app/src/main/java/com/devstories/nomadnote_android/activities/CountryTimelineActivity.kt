@@ -66,9 +66,7 @@ class CountryTimelineActivity : RootActivity() {
         keywordET.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 keyword = keywordET.text.toString()
-                if (keyword != null && keyword != "") {
-                    country_timeline()
-                }
+                country_timeline()
             }
 
             Utils.hideKeyboard(context)
