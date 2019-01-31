@@ -25,6 +25,11 @@ object TimelineAction {
         HttpClient.post("/api/timeline/place_timeline", params, handler)
     }
 
+    //나라별 타임라인
+    fun country_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/timeline/country_timeline", params, handler)
+    }
+
     // 타임라인 상세
     fun detail_timeline(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/timeline/detail_timeline", params, handler)

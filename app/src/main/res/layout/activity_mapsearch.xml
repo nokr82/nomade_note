@@ -160,6 +160,7 @@
                                     android:text="평균 체류시간"
                                     />
                                 <TextView
+                                    android:id="@+id/totalDurationsTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="18sp"
@@ -193,6 +194,7 @@
                                     />
 
                                 <TextView
+                                    android:id="@+id/totalCostsTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_horizontal"

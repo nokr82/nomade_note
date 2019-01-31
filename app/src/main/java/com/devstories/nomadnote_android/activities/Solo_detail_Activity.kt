@@ -7,15 +7,12 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
@@ -42,15 +39,12 @@ import com.kakao.network.callback.ResponseCallback
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.assist.FailReason
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 class Solo_detail_Activity : RootActivity() {
 
