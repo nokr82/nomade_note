@@ -79,7 +79,7 @@ public class ImageLoader {
 
             String[] proj = { Images.Thumbnails.DATA };
 
-            Cursor mini = Images.Thumbnails.queryMiniThumbnail(resolver, uid, Images.Thumbnails.MICRO_KIND, proj);
+            Cursor mini = Images.Thumbnails.queryMiniThumbnail(resolver, uid, Images.Thumbnails.MINI_KIND, proj);
             if (mini != null && mini.moveToFirst()) {
                 photoPath = mini.getString(mini.getColumnIndex(proj[0]));
             } else {
@@ -89,31 +89,9 @@ public class ImageLoader {
                 }
             }
 
-            Bitmap bitmap = Utils.getImage(resolver, photoPath, 100);
+            Bitmap bitmap = Utils.getImage(resolver, photoPath, 300);
 
-            /*
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(path, options);
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = 1;
-            if (options.outWidth > 96) {
-                int ws = options.outWidth / 96 + 1;
-                if (ws > options.inSampleSize) {
-                    options.inSampleSize = ws;
-                }
-            }
-            if (options.outHeight > 96) {
-                int hs = options.outHeight / 96 + 1;
-                if (hs > options.inSampleSize) {
-                    options.inSampleSize = hs;
-                }
-            }
-
-            Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-            */
-
-            return Utils.rotate(bitmap, orientation);
+            return bitmap;
         }
 
         @Override

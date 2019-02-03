@@ -587,9 +587,16 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             var place_name = Utils.getString(place, "place")
 
-            val language = Locale.getDefault().getLanguage()
-            if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+            var language = Locale.getDefault().language
+            if(language == "en" || language == "ja") {
                 place_name = Utils.getString(place, language)
+            } else if(language == "zh") {
+                language = Locale.getDefault().isO3Country
+                if(language == "CHN") {
+                    place_name = Utils.getString(place, "zh-rCN")
+                } else if(language == "TWN") {
+                    place_name = Utils.getString(place, "zh-rTW")
+                }
             }
 
 

@@ -15,6 +15,7 @@
     <string name="activity_login_login">登录</string>
     <!--로그인-->
     <string name="activity_visit_visited">访问国家记录</string>
+    <string name="activity_visit_visited2">访问国家记录</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">会员加入</string>
     <!--회원가입-->
@@ -58,7 +59,7 @@
     <string name="savedpoststimeline">手迹时间轴</string>
     <string name="settings">设定</string>
     <string name="welcome">旅行的同伴</string>
-    <string name="nomadnote">Noma Note</string>
+    <string name="nomadnote">NomadNote</string>
     <string name="welcome2">欢迎</string>
     <string name="travelstyle">旅行风格</string>
     <string name="editInformation">个人信息修改</string>
@@ -125,5 +126,6 @@
     <string name="do_login">登錄</string>
     <string name="post_count">個</string>
     <string name="my_points">保持點</string>
+    <string name="transtrating">在翻譯中...</string>
 
 </resources>

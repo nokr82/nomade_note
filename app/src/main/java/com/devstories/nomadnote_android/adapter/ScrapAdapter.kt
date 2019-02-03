@@ -1,19 +1,42 @@
 package com.devstories.nomadnote_android.activities
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.os.AsyncTask
+import android.os.Build
+import android.os.Handler
+import android.os.Message
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
+import com.google.cloud.translate.Translate
+import com.google.cloud.translate.TranslateOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
+import io.nlopez.smartlocation.OnLocationUpdatedListener
+import io.nlopez.smartlocation.SmartLocation
+import io.nlopez.smartlocation.location.config.LocationAccuracy
+import io.nlopez.smartlocation.location.config.LocationParams
+import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import org.json.JSONObject
+import java.lang.ref.WeakReference
+import java.util.*
 
 
-open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
+open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data), OnLocationUpdatedListener {
+
+    val REQUEST_ACCESS_COARSE_LOCATION = 101
+    val REQUEST_FINE_LOCATION = 100
 
     private lateinit var item: ViewHolder
     var view:Int = view
@@ -21,6 +44,8 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
     var menu_position = 1
     var scrap_Fragment = scrap_Fragment
     var myContext: Context = context
+
+    var selectedPostion = -1
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -134,14 +159,29 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             item.iconIV.setImageResource(R.mipmap.visit_city)
         }
 
+        item.trustLL.tag = position
         item.trustLL.setOnClickListener {
             if (certification == "1") {
+
+                selectedPostion = it.tag as Int
+
+                initGPS()
+
                 isSel = !isSel
-                json.put("certification", "2")
-                notifyDataSetChanged()
-                scrap_Fragment.add_certification(timeline_id)
             }
         }
+
+        val translated = Utils.getString(timeline, "translated")
+        item.translatedTV.text = translated
+
+        item.translateIV.tag = position
+        item.translateIV.setOnClickListener {
+            var json = data.get(it.tag as Int)
+            var timeline = json.getJSONObject("timeline")
+            val task = TranslateAsyncTask(myContext, it, timeline, this)
+            task.execute()
+        }
+
 
         return retView
 
@@ -176,6 +216,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var costTV : TextView
         var createdTV:TextView
         var contentTV:TextView
+        var translatedTV:TextView
         var healingTV:me.grantland.widget.AutofitTextView
         var hotplaceTV:me.grantland.widget.AutofitTextView
         var literatureTV:me.grantland.widget.AutofitTextView
@@ -188,6 +229,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var backgroundIV : ImageView
         var textTV: TextView
         var artTV: me.grantland.widget.AutofitTextView
+        var translateIV:ImageView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as CircleImageView
@@ -197,6 +239,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             costTV = v.findViewById<View>(R.id.costTV) as TextView
             createdTV = v.findViewById<View>(R.id.createdTV) as TextView
             contentTV = v.findViewById<View>(R.id.contentTV) as TextView
+            translatedTV = v.findViewById<View>(R.id.translatedTV) as TextView
             healingTV = v.findViewById<View>(R.id.healingTV) as me.grantland.widget.AutofitTextView
             hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
             literatureTV = v.findViewById<View>(R.id.literatureTV) as me.grantland.widget.AutofitTextView
@@ -209,6 +252,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
             textTV = v.findViewById<View>(R.id.textTV) as TextView
             artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
+            translateIV = v.findViewById(R.id.translateIV) as ImageView
 
         }
     }
@@ -263,5 +307,175 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         }
     }
 
+
+    companion object {
+        class TranslateAsyncTask internal constructor(context: Context, view: View, json: JSONObject, scrapAdapter:ScrapAdapter?) : AsyncTask<Void, String, String?>() {
+
+            private val contextReference: WeakReference<Context> = WeakReference(context)
+            private val viewReference: WeakReference<View> = WeakReference(view)
+            private val jsonReference: WeakReference<JSONObject> = WeakReference(json)
+            private val scrapAdapterReference: WeakReference<ScrapAdapter?> = WeakReference(scrapAdapter)
+
+            override fun onPreExecute() {
+                jsonReference.get()!!.put("translated", contextReference.get()!!.getString(R.string.transtrating))
+
+                scrapAdapterReference.get()!!.notifyDataSetChanged()
+            }
+
+            override fun doInBackground(vararg params: Void?): String? {
+                val translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs").build().service
+
+                var contents = Utils.getString(jsonReference.get(),"contents")
+
+                println("contents : $contents")
+
+
+                var targetLanguage = Locale.getDefault().language
+
+                val translation = translate.translate(
+                        contents,
+                        Translate.TranslateOption.targetLanguage(targetLanguage))
+
+                return translation.translatedText
+            }
+
+
+            override fun onPostExecute(result: String?) {
+                jsonReference.get()!!.put("translated", result)
+
+                println("re : $result")
+
+                scrapAdapterReference.get()!!.notifyDataSetChanged()
+
+                // ((viewReference.get()!!.parent.parent.parent.parent.parent as LinearLayout).findViewById(R.id.translatedTV) as TextView).text = result
+            }
+
+        }
+    }
+
+
+    private fun initGPS() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            loadPermissions(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION)
+        } else {
+            checkGPs()
+        }
+    }
+
+    private fun checkGPs() {
+        if (Utils.availableLocationService(context)) {
+            startLocation()
+        } else {
+            gpsCheckAlert.sendEmptyMessage(0)
+        }
+    }
+
+    internal var gpsCheckAlert: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            val mainGpsSearchCount = 0
+
+            if (mainGpsSearchCount == 0) {
+
+            }
+        }
+    }
+
+    private fun startLocation() {
+
+        val smartLocation = SmartLocation.Builder(myContext).logging(true).build()
+        val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
+
+        if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isGpsAvailable) {
+            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.MEDIUM).build()
+            locationControl.config(locationParams)
+        } else if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isNetworkAvailable) {
+            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.LOW).build()
+            locationControl.config(locationParams)
+        }
+
+        smartLocation.location().oneFix().start(this)
+
+    }
+
+    private fun stopLocation() {
+        SmartLocation.with(myContext).location().stop()
+    }
+
+    private fun permissionCheck(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            !(ContextCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED)
+        } else {
+            false
+        }
+    }
+
+    private fun loadPermissions(perm: String, requestCode: Int) {
+        if (ContextCompat.checkSelfPermission(myContext, perm) !== PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(scrap_Fragment.activity as MainActivity, arrayOf(perm), requestCode)
+        } else {
+            if (Manifest.permission.ACCESS_FINE_LOCATION == perm) {
+                loadPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_ACCESS_COARSE_LOCATION)
+            } else if (Manifest.permission.ACCESS_COARSE_LOCATION == perm) {
+                checkGPs()
+            }
+        }
+    }
+
+
+    override fun onLocationUpdated(location: Location?) {
+        stopLocation()
+
+        println("lo : $location")
+
+        if (location != null) {
+
+            val latitude = location.getLatitude()
+            val longitude = location.getLongitude()
+
+            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
+
+            var adminArea = ""
+            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
+            if(list.size > 0){
+                adminArea = list.get(0).adminArea
+            }
+
+            println("adminArea : $adminArea")
+
+            geocoder = Geocoder(myContext);
+
+            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
+
+            println(list)
+
+            if(list.size > 0) {
+                if(selectedPostion >= 0) {
+                    var json = data.get(selectedPostion)
+                    var timeline = json.getJSONObject("timeline")
+                    var timeline_id = Utils.getString(timeline,"id")
+                    var admin_area_kr = Utils.getString(timeline,"admin_area_kr")
+
+                    println("admin_area_kr : $admin_area_kr")
+
+                    if(admin_area_kr == adminArea) {
+                        json.put("certification", "2")
+                        notifyDataSetChanged()
+                        scrap_Fragment.add_certification(timeline_id)
+                    } else {
+                        Toast.makeText(myContext, "Invalid request[4]", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(myContext, "Invalid request[3]", Toast.LENGTH_SHORT).show()
+                }
+
+            } else {
+                Toast.makeText(myContext, "Invalid request[2]", Toast.LENGTH_SHORT).show()
+            }
+
+        } else {
+            Toast.makeText(myContext, "Invalid request[1]", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 
 }

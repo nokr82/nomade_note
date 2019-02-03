@@ -16,8 +16,9 @@
     <string name="activity_login_facebook">페이스북 로그인</string>
     <string name="activity_login_login">로그인</string>
     <string name="activity_visit_visited">방문국가 기록</string>
+    <string name="activity_visit_visited2">방문국가\n기록</string>
     <string name="activity_login_signup">회원가입</string>
-    <string name="fragment_solo_style">여행스타일 선택하기</string>
+    <string name="fragment_solo_style">여행스타일\n선택하기</string>
     <string name="fragment_solo_addnote">새글쓰기</string>
     <string name="activity_write_note">작성시간</string>
     <string name="fragment_scrap_keyword">키워드 검색</string>
@@ -114,5 +115,6 @@
     <string name="do_login">로그인 하기</string>
     <string name="post_count">개</string>
     <string name="my_points">보유 포인트</string>
+    <string name="transtrating">번역중...</string>
 
 </resources>

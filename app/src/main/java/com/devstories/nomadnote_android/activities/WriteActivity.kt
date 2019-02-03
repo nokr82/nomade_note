@@ -82,6 +82,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
     var block_yn = "N"
 
     var country = ""
+    private var admin_area_kr = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -307,6 +308,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("token",PrefUtils.getStringPreference(context,"token"))
         params.put("block_yn",block_yn)
         params.put("country",country)
+        params.put("admin_area_kr",admin_area_kr)
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
@@ -838,6 +840,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         historyTV.setTextColor(Color.parseColor("#878787"))
         museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         museumTV.setTextColor(Color.parseColor("#878787"))
+        artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        artTV.setTextColor(Color.parseColor("#878787"))
     }
 
     private fun permission() {
@@ -976,14 +980,28 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         delIV.tag = i
         fullImageLL.setTag(i)
         delIV.setOnClickListener {
-            if (first.visibility == View.VISIBLE){
+            addPicturesLL!!.removeView(v)
+
+            var isMainExist = false
+            for (i in 0 until addPicturesLL!!.childCount) {
+                val o = JSONObject()
+                val v = addPicturesLL?.getChildAt(i)
+                val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+                val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
+                if (firstLL!!.visibility == View.VISIBLE) {
+                    isMainExist = true
+                    break
+                }
+            }
+
+            if(!isMainExist) {
                 if (addPicturesLL?.getChildAt(0) != null) {
                     val v0 = addPicturesLL?.getChildAt(0)
                     val firstLL = v0?.findViewById<View>(R.id.firstLL) as LinearLayout
                     firstLL.visibility = View.VISIBLE
                 }
             }
-            addPicturesLL!!.removeView(v)
+
         }
         if (imgSeq == 0) {
             addPicturesLL!!.addView(v)
@@ -1122,6 +1140,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
+
     override fun onLocationUpdated(location: Location?) {
         if (location != null) {
             if (myLocation) {
@@ -1134,18 +1153,19 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val strLanguage = systemLocale.language
             var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
 
-            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
                 println("list ---- ${list}")
                 println("list.admin ${list.get(0).adminArea}")
 
                 country = list.get(0).countryName
+                admin_area_kr = list.get(0).adminArea
 
             }
 
             geocoder = Geocoder(context);
 
-            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
                 println("list ---- ${list}")
                 println("list.admin ${list.get(0).adminArea}")

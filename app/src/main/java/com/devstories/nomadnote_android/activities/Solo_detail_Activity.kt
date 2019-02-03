@@ -303,6 +303,11 @@ class Solo_detail_Activity : RootActivity() {
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
                             deleteIV.visibility = View.GONE
+                        } else {
+                            soloLL.visibility = View.VISIBLE
+                            modifyIV.visibility = View.VISIBLE
+                            lockIV.visibility = View.VISIBLE
+                            deleteIV.visibility = View.VISIBLE
                         }
 
                         infoTV.setText(name + "/" + age + "세")

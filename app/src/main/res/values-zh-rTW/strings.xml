@@ -15,6 +15,7 @@
     <string name="activity_login_login">登錄</string>
     <!--로그인-->
     <string name="activity_visit_visited">訪問國家記錄</string>
+    <string name="activity_visit_visited2">訪問國家記錄</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">會員加入</string>
     <!--회원가입-->
@@ -54,7 +55,7 @@
     <string name="savedpoststimeline">手跡時間軸</string>
     <string name="settings">設定</string>
     <string name="welcome">旅行的同伴</string>
-    <string name="nomadnote">Noma Note</string>
+    <string name="nomadnote">NomadNote</string>
     <string name="welcome2">歡迎</string>
     <string name="travelstyle">旅行風格</string>
     <string name="editInformation">個人信息修改</string>
@@ -109,7 +110,7 @@
     <string name="item_scrap_cirti_done">认证当地信息</string>
     <string name="enteryourage">请输入您的年龄。</string>
     <string name="total">枪</string>
-    <string name="view_my_friends">추가리스트로 보기</string>
+    <string name="view_my_friends">添加到列表</string>
     <string name="prd_1gb">1GB (9,000元韩币)</string>
     <string name="prd_600mb">600MB (5,000元韩币)</string>
     <string name="prd_20kb">20KB (免费)</string>
@@ -120,5 +121,6 @@
     <string name="do_login">登录</string>
     <string name="post_count">个</string>
     <string name="my_points">保持点</string>
+    <string name="transtrating">在翻译中...</string>
 
 </resources>

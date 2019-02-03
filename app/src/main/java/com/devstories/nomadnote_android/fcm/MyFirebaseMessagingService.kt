@@ -13,11 +13,10 @@ import android.os.Build
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.activities.IntroActivity
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 
 /**
  * Created by dev1 on 2017-12-15.
@@ -84,8 +83,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val gnotificationBuilder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.mipmap.group)
-                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.group))
+                    .setSmallIcon(R.mipmap.logo)
+                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.logo))
                     .setGroup(group)
                     .setGroupSummary(true)
                     .setAutoCancel(true)

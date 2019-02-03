@@ -16,6 +16,7 @@
     <string name="activity_login_login">ログイン</string>
     <!--로그인-->
     <string name="activity_visit_visited">訪問国家記録</string>
+    <string name="activity_visit_visited2">訪問国家記録</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">会員登録</string>
     <!--회원가입-->
@@ -169,5 +170,6 @@
     <string name="do_login">ログインする</string>
     <string name="post_count">個</string>
     <string name="my_points">保有ポイント</string>
+    <string name="transtrating">翻訳中...</string>
 
 </resources>

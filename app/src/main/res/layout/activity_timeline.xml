@@ -129,14 +129,7 @@
                                 android:id="@+id/placeTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
+                                android:text="가나돌홍호러어러"
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
 
@@ -144,22 +137,17 @@
                                 android:id="@+id/durationTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
+                                android:text="ㅇㄴㄹㅎㄴㄷㅇ"
                                 android:textColor="#878787"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginRight="4dp" />
 
                             <TextView
                                 android:id="@+id/costTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
+                                android:text="ㄴㅇㄹ호ㅓㅕㅛㅗㅅㅎㄱㄴㅇㄹㅎ"
                                 android:textColor="#878787"
                                 android:textSize="11sp" />
                         </LinearLayout>
@@ -168,9 +156,10 @@
                             android:id="@+id/createdTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="1212121"
                             android:textColor="#878787"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:layout_marginTop="2dp"/>
 
                     </LinearLayout>
 
@@ -178,7 +167,6 @@
                         android:id="@+id/contentTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:lineSpacingExtra="7sp"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:text=""

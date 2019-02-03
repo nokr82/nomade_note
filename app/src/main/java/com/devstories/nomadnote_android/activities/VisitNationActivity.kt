@@ -58,9 +58,16 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
             val id = Utils.getInt(item,"id")
             var country = Utils.getString(item,"country")
 
-            val language = Locale.getDefault().getLanguage()
-            if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+            var language = Locale.getDefault().language
+            if(language == "en" || language == "ja") {
                 country = Utils.getString(item, language)
+            } else if(language == "zh") {
+                language = Locale.getDefault().isO3Country
+                if(language == "CHN") {
+                    country = Utils.getString(item, "zh-rCN")
+                } else if(language == "TWN") {
+                    country = Utils.getString(item, "zh-rTW")
+                }
             }
 
             val intent = Intent(context, CountryTimelineActivity::class.java)

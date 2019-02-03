@@ -15,6 +15,7 @@
     <string name="activity_login_login">Login</string>
     <!--로그인-->
     <string name="activity_visit_visited">All Countries Visited</string>
+    <string name="activity_visit_visited2">All Countries\nVisited</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">Sign Up</string>
     <!--회원가입-->
@@ -106,8 +107,8 @@
     <string name="item_scrap_cirti">Would you like to verify this information?</string>
     <string name="item_scrap_cirti_done">Local information verified</string>
     <string name="enteryourage">Enter Your Age.</string>
-    <string name="total">총</string>
-    <string name="view_my_friends">추가리스트로 보기</string>
+    <string name="total">Total</string>
+    <string name="view_my_friends">See Additional List</string>
     <string name="prd_1gb">1GB (9,000KRW)</string>
     <string name="prd_600mb">600MB (5,000KRW)</string>
     <string name="prd_20kb">20KB (Free)</string>
@@ -118,5 +119,6 @@
     <string name="do_login">Sign in</string>
     <string name="post_count">Posts</string>
     <string name="my_points">Hold point</string>
+    <string name="transtrating">In translation...</string>
 
 </resources>

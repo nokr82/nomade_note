@@ -132,12 +132,23 @@
         <TextView
             android:id="@+id/contentTV"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="9dp"
             android:layout_marginRight="15dp"
             android:lineSpacingExtra="6sp"
-            android:text="외국인이 선택한 관광 명소 1위로 꼽힌 바 있는 서울의 상징이자, 영원한 사랑을 꿈꾸는 전세계 연인들의 로맨스 성지인 남산타워에 방문했다. 연인들을 위한 로맨틱한 체험 콘텐츠 &apos;사랑의 자물쇠&apos;와 &apos;하트 의자&apos;가 큰 인기라는데…"
+            android:text=""
+            android:textColor="#4a4a4a"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/translatedTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginRight="15dp"
+            android:text=""
             android:textColor="#4a4a4a"
             android:textSize="12sp" />
 
@@ -261,13 +272,28 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/trustIV"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:padding="9dp"
-                    android:src="@mipmap/icon_scrap" />
+                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true">
+                    <ImageView
+                        android:id="@+id/translateIV"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/logo_translation"
+                        android:scaleType="fitXY"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"/>
+
+                    <ImageView
+                        android:id="@+id/trustIV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="9dp"
+                        android:src="@mipmap/icon_scrap" />
+                </LinearLayout>
+
             </RelativeLayout>
 
 

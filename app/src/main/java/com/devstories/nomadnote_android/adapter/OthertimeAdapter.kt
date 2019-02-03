@@ -2,15 +2,19 @@ package com.devstories.nomadnote_android.activities
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
+import android.os.AsyncTask
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import org.json.JSONObject
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
-import com.nostra13.universalimageloader.core.ImageLoader
 import com.devstories.nomadnote_android.base.Utils
+import com.google.cloud.translate.Translate.TranslateOption
+import com.google.cloud.translate.TranslateOptions
+import com.nostra13.universalimageloader.core.ImageLoader
+import org.json.JSONObject
+import java.lang.ref.WeakReference
+import java.util.*
 
 
 open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, other_time_Fragment: Other_time_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
@@ -20,6 +24,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
     var data:ArrayList<JSONObject> = data
     var menu_position = 1
     var other_time_Fragment = other_time_Fragment
+    var myContext = context
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -62,9 +67,9 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             ImageLoader.getInstance().displayImage(uri, item.profileIV, Utils.UILoptionsUserProfile)
         } else {
             if (Utils.getString(member, "gender") == "F"){
-                item.profileIV.setImageResource(R.mipmap.famal)
+                item.profileIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.famal)
             }else{
-                item.profileIV.setImageResource(R.mipmap.man)
+                item.profileIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.man)
             }
         }
         item.infoTV.setText(name+"/"+age+"세")
@@ -91,7 +96,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 //            var uri = Config.url + image_uri
 //            ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
         } else {
-            item.backgroundIV.setImageResource(R.mipmap.time_bg)
+            item.backgroundIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.time_bg)
         }
 
         item.placeTV.setText(place_name)
@@ -108,10 +113,10 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 
         if (isSel){
 //            item.trustLL.visibility = View.VISIBLE
-            item.trustIV.setImageResource(R.mipmap.scrap_ck)
+            item.trustIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.scrap_ck)
         } else {
 //            item.trustLL.visibility = View.GONE
-            item.trustIV.setImageResource(R.mipmap.icon_scrap)
+            item.trustIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.icon_scrap)
         }
 
         item.trustLL.visibility = View.GONE
@@ -121,6 +126,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 //            item.iconIV.setImageResource(R.mipmap.visit_city)
 //        }
 
+        item.trustIV.tag = position
         item.trustIV.setOnClickListener {
             isSel = !isSel
             json.put("isSelectedOp",isSel)
@@ -136,6 +142,17 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 //                other_time_Fragment.add_certification(timeline_id)
 //            }
 //        }
+
+        val translated = Utils.getString(json, "translated")
+        item.translatedTV.text = translated
+
+        item.translateIV.tag = position
+        item.translateIV.setOnClickListener {
+            var json = data.get(it.tag as Int)
+            val task = TranslateAsyncTask(myContext, it, json, this, null)
+            task.execute()
+        }
+
 
         return retView
 
@@ -170,6 +187,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var costTV : TextView
         var createdTV:TextView
         var contentTV:TextView
+        var translatedTV:TextView
         var healingTV:me.grantland.widget.AutofitTextView
         var hotplaceTV:me.grantland.widget.AutofitTextView
         var literatureTV:me.grantland.widget.AutofitTextView
@@ -182,44 +200,46 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var backgroundIV : ImageView
         var textTV: TextView
         var artTV: me.grantland.widget.AutofitTextView
+        var translateIV:ImageView
 
         init {
-            profileIV = v.findViewById<View>(R.id.profileIV) as ImageView
-            infoTV = v.findViewById<View>(R.id.infoTV) as TextView
-            placeTV = v.findViewById<View>(R.id.placeTV) as TextView
-            durationTV = v.findViewById<View>(R.id.durationTV) as TextView
-            costTV = v.findViewById<View>(R.id.costTV) as TextView
-            createdTV = v.findViewById<View>(R.id.createdTV) as TextView
-            contentTV = v.findViewById<View>(R.id.contentTV) as TextView
-            healingTV = v.findViewById<View>(R.id.healingTV) as me.grantland.widget.AutofitTextView
-            hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
-            literatureTV = v.findViewById<View>(R.id.literatureTV) as me.grantland.widget.AutofitTextView
-            historyTV = v.findViewById<View>(R.id.historyTV) as  me.grantland.widget.AutofitTextView
-            museumTV = v.findViewById<View>(R.id.museumTV) as me.grantland.widget.AutofitTextView
-            iconIV = v.findViewById<View>(R.id.iconIV) as ImageView
-            trustIV = v.findViewById<View>(R.id.trustIV) as ImageView
-            trustLL = v.findViewById<View>(R.id.trustLL) as LinearLayout
-            trustRL = v.findViewById<View>(R.id.trustRL) as RelativeLayout
-            backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
-            textTV = v.findViewById<View>(R.id.textTV) as TextView
-            artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
-
+            profileIV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.profileIV) as ImageView
+            infoTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.infoTV) as TextView
+            placeTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.placeTV) as TextView
+            durationTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.durationTV) as TextView
+            costTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.costTV) as TextView
+            createdTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.createdTV) as TextView
+            contentTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.contentTV) as TextView
+            translatedTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.translatedTV) as TextView
+            healingTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.healingTV) as me.grantland.widget.AutofitTextView
+            hotplaceTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
+            literatureTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.literatureTV) as me.grantland.widget.AutofitTextView
+            historyTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.historyTV) as  me.grantland.widget.AutofitTextView
+            museumTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.museumTV) as me.grantland.widget.AutofitTextView
+            iconIV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.iconIV) as ImageView
+            trustIV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.trustIV) as ImageView
+            trustLL = v.findViewById<View>(com.devstories.nomadnote_android.R.id.trustLL) as LinearLayout
+            trustRL = v.findViewById<View>(com.devstories.nomadnote_android.R.id.trustRL) as RelativeLayout
+            backgroundIV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.backgroundIV) as ImageView
+            textTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.textTV) as TextView
+            artTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.artTV) as me.grantland.widget.AutofitTextView
+            translateIV = v.findViewById(R.id.translateIV) as ImageView
 
         }
     }
 
     fun menuSetImage(){
-        item.healingTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.healingTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item.healingTV.setTextColor(Color.parseColor("#878787"))
-        item.hotplaceTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.hotplaceTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item.hotplaceTV.setTextColor(Color.parseColor("#878787"))
-        item.literatureTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.literatureTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item.literatureTV.setTextColor(Color.parseColor("#878787"))
-        item.historyTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.historyTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item. historyTV.setTextColor(Color.parseColor("#878787"))
-        item.museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.museumTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item.museumTV.setTextColor(Color.parseColor("#878787"))
-        item.artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        item.artTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius8_000000)
         item.artTV.setTextColor(Color.parseColor("#878787"))
     }
 
@@ -227,35 +247,88 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         menuSetImage()
         when(style){
             1 ->{
-                item.healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.healingTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.healingTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
             2 ->{
-                item.hotplaceTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.hotplaceTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.hotplaceTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
             3 ->{
-                item.literatureTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.literatureTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.literatureTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
             4 ->{
-                item.historyTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.historyTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.historyTV.setTextColor(Color.parseColor("#ffffff"))
             }
 
             5 ->{
-                item.museumTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.museumTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.museumTV.setTextColor(Color.parseColor("#ffffff"))
             }
             6-> {
-                item.artTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
+                item.artTV.setBackgroundResource(com.devstories.nomadnote_android.R.drawable.background_border_radius7_000000)
                 item.artTV.setTextColor(Color.parseColor("#ffffff"))
             }
         }
     }
 
+    companion object {
+        class TranslateAsyncTask internal constructor(context: Context, view: View, json: JSONObject, othertimeAdapter: OthertimeAdapter?, scrapAdapter:ScrapAdapter?) : AsyncTask<Void, String, String?>() {
+
+            private val contextReference: WeakReference<Context> = WeakReference(context)
+            private val viewReference: WeakReference<View> = WeakReference(view)
+            private val jsonReference: WeakReference<JSONObject> = WeakReference(json)
+            private val othertimeAdapterReference: WeakReference<OthertimeAdapter?> = WeakReference(othertimeAdapter)
+            private val scrapAdapterReference: WeakReference<ScrapAdapter?> = WeakReference(scrapAdapter)
+
+            override fun onPreExecute() {
+                jsonReference.get()!!.put("translated", contextReference.get()!!.getString(R.string.transtrating))
+
+                if(othertimeAdapterReference.get() != null) {
+                    othertimeAdapterReference.get()!!.notifyDataSetChanged()
+                } else if(scrapAdapterReference.get() != null) {
+                    scrapAdapterReference.get()!!.notifyDataSetChanged()
+                }
+            }
+
+            override fun doInBackground(vararg params: Void?): String? {
+                val translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs").build().service
+
+                var contents = Utils.getString(jsonReference.get(),"contents")
+
+                println(contents)
+
+
+                var targetLanguage = Locale.getDefault().language
+
+                val translation = translate.translate(
+                        contents,
+                        TranslateOption.targetLanguage(targetLanguage))
+
+                return translation.translatedText
+            }
+
+
+            override fun onPostExecute(result: String?) {
+                jsonReference.get()!!.put("translated", result)
+
+                println(result)
+
+                if(othertimeAdapterReference.get() != null) {
+                    othertimeAdapterReference.get()!!.notifyDataSetChanged()
+                } else if(scrapAdapterReference.get() != null) {
+                    scrapAdapterReference.get()!!.notifyDataSetChanged()
+                }
+
+                // ((viewReference.get()!!.parent.parent.parent.parent.parent as LinearLayout).findViewById(R.id.translatedTV) as TextView).text = result
+            }
+
+        }
+    }
 
 }
