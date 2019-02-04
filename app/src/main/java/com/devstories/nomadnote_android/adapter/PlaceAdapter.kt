@@ -2,25 +2,34 @@ package donggolf.android.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.media.Image
+import android.os.AsyncTask
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.nostra13.universalimageloader.core.ImageLoader
-import org.json.JSONObject
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.activities.CountryTimelineActivity
+import com.devstories.nomadnote_android.activities.MapSearchActivity
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
+import com.google.cloud.translate.Translate
+import com.google.cloud.translate.TranslateOptions
+import com.nostra13.universalimageloader.core.ImageLoader
+import org.json.JSONObject
+import java.lang.ref.WeakReference
+import java.util.*
 
 
-open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) : ArrayAdapter<JSONObject>(context,view, data){
+open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, mapSearchActivity: MapSearchActivity?, countryTimelineActivity: CountryTimelineActivity?) : ArrayAdapter<JSONObject>(context,view, data){
 
     private lateinit var item: ViewHolder
     var view:Int = view
     var data:ArrayList<JSONObject> = data
+    var myContext: Context = context
+    var mapSearchActivity = mapSearchActivity
+    var countryTimelineActivity = countryTimelineActivity
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -82,7 +91,6 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         }
 
         item.trustLL.visibility = View.GONE
-        item.trustIV.visibility = View.GONE
         item.infoTV.setText(name+"/"+age+"세")
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
@@ -93,6 +101,45 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         } else {
             item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
         }
+
+        var isSel = json.getBoolean("isSelectedOp")
+
+        if (isSel){
+            item.trustIV.setImageResource(R.mipmap.scrap_ck)
+        } else {
+            item.trustIV.setImageResource(R.mipmap.icon_scrap)
+        }
+
+        item.trustIV.tag = position
+        item.trustIV.setOnClickListener {
+            var json = data.get(it.tag as Int)
+            var isSel = json.getBoolean("isSelectedOp")
+
+            println("isSel : $isSel")
+
+            isSel = !isSel
+            json.put("isSelectedOp",isSel)
+            var timeline_id = Utils.getString(json,"id")
+
+            if(mapSearchActivity != null) {
+                mapSearchActivity!!.set_scrap(timeline_id)
+            } else if(countryTimelineActivity != null) {
+                countryTimelineActivity!!.set_scrap(timeline_id)
+            }
+
+            notifyDataSetChanged()
+        }
+
+        val translated = Utils.getString(json, "translated")
+        item.translatedTV.text = translated
+
+        item.translateIV.tag = position
+        item.translateIV.setOnClickListener {
+            var json = data.get(it.tag as Int)
+            val task = TranslateAsyncTask(myContext, it, json, this)
+            task.execute()
+        }
+
 
         return retView
 
@@ -136,6 +183,9 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
         var historyTV:me.grantland.widget.AutofitTextView
         var museumTV:me.grantland.widget.AutofitTextView
         var artTV: me.grantland.widget.AutofitTextView
+        var translatedTV:TextView
+        var translateIV:ImageView
+
         init {
             profileIV= v.findViewById<View>(R.id.profileIV) as ImageView
             infoTV = v.findViewById<View>(R.id.infoTV) as TextView
@@ -153,6 +203,8 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
             historyTV = v.findViewById<View>(R.id.historyTV) as  me.grantland.widget.AutofitTextView
             museumTV = v.findViewById<View>(R.id.museumTV) as me.grantland.widget.AutofitTextView
             artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
+            translatedTV = v.findViewById<View>(R.id.translatedTV) as TextView
+            translateIV = v.findViewById(R.id.translateIV) as ImageView
 
         }
     }
@@ -204,4 +256,51 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>) 
             }
         }
     }
+
+    companion object {
+        class TranslateAsyncTask internal constructor(context: Context, view: View, json: JSONObject, placeAdapter:PlaceAdapter?) : AsyncTask<Void, String, String?>() {
+
+            private val contextReference: WeakReference<Context> = WeakReference(context)
+            private val viewReference: WeakReference<View> = WeakReference(view)
+            private val jsonReference: WeakReference<JSONObject> = WeakReference(json)
+            private val placeAdapterReference: WeakReference<PlaceAdapter?> = WeakReference(placeAdapter)
+
+            override fun onPreExecute() {
+                jsonReference.get()!!.put("translated", contextReference.get()!!.getString(R.string.transtrating))
+
+                placeAdapterReference.get()!!.notifyDataSetChanged()
+            }
+
+            override fun doInBackground(vararg params: Void?): String? {
+                val translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs").build().service
+
+                var contents = Utils.getString(jsonReference.get(),"contents")
+
+                println("contents : $contents")
+
+
+                var targetLanguage = Locale.getDefault().language
+
+                val translation = translate.translate(
+                        contents,
+                        Translate.TranslateOption.targetLanguage(targetLanguage))
+
+                return translation.translatedText
+            }
+
+
+            override fun onPostExecute(result: String?) {
+                jsonReference.get()!!.put("translated", result)
+
+                println("re : $result")
+
+                placeAdapterReference.get()!!.notifyDataSetChanged()
+
+                // ((viewReference.get()!!.parent.parent.parent.parent.parent as LinearLayout).findViewById(R.id.translatedTV) as TextView).text = result
+            }
+
+        }
+    }
+
+
 }

@@ -1,18 +1,8 @@
 package com.devstories.nomadnote_android.activities
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.AsyncTask
-import android.os.Build
-import android.os.Handler
-import android.os.Message
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -23,20 +13,12 @@ import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
-import io.nlopez.smartlocation.OnLocationUpdatedListener
-import io.nlopez.smartlocation.SmartLocation
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import io.nlopez.smartlocation.location.config.LocationParams
-import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import org.json.JSONObject
 import java.lang.ref.WeakReference
 import java.util.*
 
 
-open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data), OnLocationUpdatedListener {
-
-    val REQUEST_ACCESS_COARSE_LOCATION = 101
-    val REQUEST_FINE_LOCATION = 100
+open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data) {
 
     private lateinit var item: ViewHolder
     var view:Int = view
@@ -44,8 +26,6 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
     var menu_position = 1
     var scrap_Fragment = scrap_Fragment
     var myContext: Context = context
-
-    var selectedPostion = -1
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -157,15 +137,18 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         if (certification == "2"){
             item.textTV.setText(myContext.getString(R.string.item_scrap_cirti_done))
             item.iconIV.setImageResource(R.mipmap.visit_city)
+        } else {
+            item.textTV.setText(myContext.getString(R.string.item_scrap_cirti))
+            item.iconIV.setImageResource(R.mipmap.scrap_opck)
         }
 
         item.trustLL.tag = position
         item.trustLL.setOnClickListener {
             if (certification == "1") {
 
-                selectedPostion = it.tag as Int
+                var selectedPostion = it.tag as Int
 
-                initGPS()
+                scrap_Fragment.initGPS(selectedPostion)
 
                 isSel = !isSel
             }
@@ -351,131 +334,6 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             }
 
         }
-    }
-
-
-    private fun initGPS() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            loadPermissions(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_FINE_LOCATION)
-        } else {
-            checkGPs()
-        }
-    }
-
-    private fun checkGPs() {
-        if (Utils.availableLocationService(context)) {
-            startLocation()
-        } else {
-            gpsCheckAlert.sendEmptyMessage(0)
-        }
-    }
-
-    internal var gpsCheckAlert: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            val mainGpsSearchCount = 0
-
-            if (mainGpsSearchCount == 0) {
-
-            }
-        }
-    }
-
-    private fun startLocation() {
-
-        val smartLocation = SmartLocation.Builder(myContext).logging(true).build()
-        val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
-
-        if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isGpsAvailable) {
-            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.MEDIUM).build()
-            locationControl.config(locationParams)
-        } else if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isNetworkAvailable) {
-            val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.LOW).build()
-            locationControl.config(locationParams)
-        }
-
-        smartLocation.location().oneFix().start(this)
-
-    }
-
-    private fun stopLocation() {
-        SmartLocation.with(myContext).location().stop()
-    }
-
-    private fun permissionCheck(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            !(ContextCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_FINE_LOCATION) !== PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(myContext, Manifest.permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED)
-        } else {
-            false
-        }
-    }
-
-    private fun loadPermissions(perm: String, requestCode: Int) {
-        if (ContextCompat.checkSelfPermission(myContext, perm) !== PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(scrap_Fragment.activity as MainActivity, arrayOf(perm), requestCode)
-        } else {
-            if (Manifest.permission.ACCESS_FINE_LOCATION == perm) {
-                loadPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, REQUEST_ACCESS_COARSE_LOCATION)
-            } else if (Manifest.permission.ACCESS_COARSE_LOCATION == perm) {
-                checkGPs()
-            }
-        }
-    }
-
-
-    override fun onLocationUpdated(location: Location?) {
-        stopLocation()
-
-        println("lo : $location")
-
-        if (location != null) {
-
-            val latitude = location.getLatitude()
-            val longitude = location.getLongitude()
-
-            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
-
-            var adminArea = ""
-            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
-            if(list.size > 0){
-                adminArea = list.get(0).adminArea
-            }
-
-            println("adminArea : $adminArea")
-
-            geocoder = Geocoder(myContext);
-
-            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
-
-            println(list)
-
-            if(list.size > 0) {
-                if(selectedPostion >= 0) {
-                    var json = data.get(selectedPostion)
-                    var timeline = json.getJSONObject("timeline")
-                    var timeline_id = Utils.getString(timeline,"id")
-                    var admin_area_kr = Utils.getString(timeline,"admin_area_kr")
-
-                    println("admin_area_kr : $admin_area_kr")
-
-                    if(admin_area_kr == adminArea) {
-                        json.put("certification", "2")
-                        notifyDataSetChanged()
-                        scrap_Fragment.add_certification(timeline_id)
-                    } else {
-                        Toast.makeText(myContext, "Invalid request[4]", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(myContext, "Invalid request[3]", Toast.LENGTH_SHORT).show()
-                }
-
-            } else {
-                Toast.makeText(myContext, "Invalid request[2]", Toast.LENGTH_SHORT).show()
-            }
-
-        } else {
-            Toast.makeText(myContext, "Invalid request[1]", Toast.LENGTH_SHORT).show()
-        }
-
     }
 
 }
