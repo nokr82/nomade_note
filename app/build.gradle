@@ -23,7 +23,7 @@ android {
         applicationId "com.devstories.nomadnote_android"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 14
+        versionCode 15
         versionName "1.0.0"
         multiDexEnabled true
     }
