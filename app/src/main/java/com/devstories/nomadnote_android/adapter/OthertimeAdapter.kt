@@ -79,16 +79,20 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var image = json.getJSONArray("images")
         if (image.length() > 0){
 
-            var uri = ""
+//            var uri = ""
+//
+//            for (i in 0 until image.length()){
+//                val image_item = image.get(i) as JSONObject
+//                val main_yn = Utils.getString(image_item,"main_yn")
+//                val image_uri = Utils.getString(image_item,"image_uri")
+//                if (main_yn == "Y"){
+//                    uri = Config.url + image_uri
+//                }
+//            }
 
-            for (i in 0 until image.length()){
-                val image_item = image.get(i) as JSONObject
-                val main_yn = Utils.getString(image_item,"main_yn")
-                val image_uri = Utils.getString(image_item,"image_uri")
-                if (main_yn == "Y"){
-                    uri = Config.url + image_uri
-                }
-            }
+            val image_item = image.get(0) as JSONObject
+            val image_uri = Utils.getString(image_item, "image_uri")
+            var uri = Config.url + "/" + image_uri
 
             ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
 //            val image_item = image.get(image.length()-1) as JSONObject
@@ -125,6 +129,10 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 //            item.textTV.setText("이 정보를 인증하였습니다 !")
 //            item.iconIV.setImageResource(R.mipmap.visit_city)
 //        }
+
+        item.trustRL.setOnClickListener {
+
+        }
 
         item.trustIV.tag = position
         item.trustIV.setOnClickListener {

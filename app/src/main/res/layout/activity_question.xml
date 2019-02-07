@@ -114,7 +114,6 @@
                             android:textSize="11sp"
                             android:textColor="#4a4a4a"
                             android:textStyle="bold"
-                            android:text="2017. 10.22   PM10:30"
                             />
 
                     </LinearLayout>

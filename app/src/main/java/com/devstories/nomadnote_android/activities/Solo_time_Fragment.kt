@@ -38,11 +38,19 @@ class Solo_time_Fragment : Fragment() {
     lateinit var gridGV: GridView
 
     var SOLO_WRITE = 1000
-    var RESET = 0
+    var RESET = 1001
 
     lateinit var activity: MainActivity
 
     internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                loadData()
+            }
+        }
+    }
+
+    internal var deleteReciver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
                 loadData()
@@ -79,6 +87,9 @@ class Solo_time_Fragment : Fragment() {
         val filter1 = IntentFilter("UPDATE_TIMELINE")
         activity.registerReceiver(ResetReceiver, filter1)
 
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        activity.registerReceiver(deleteReciver, filter2)
+
         click()
 
         loadData()
@@ -108,14 +119,14 @@ class Solo_time_Fragment : Fragment() {
 
         gridGV.setOnItemClickListener { parent, view, position, id ->
 
-            /*
-            val timeline = timelineDatas.get(position)
-            val timeline_id = Utils.getString(timeline, "id")
+//            val timeline = timelineDatas.get(position) as JSONArray
+//
+//            val timeline_id = Utils.getString(timeline, "id")
+//
+//            val intent = Intent(myContext, Solo_detail_Activity::class.java)
+//            intent.putExtra("timeline_id",timeline_id)
+//            startActivityForResult(intent,RESET)
 
-            val intent = Intent(myContext, Solo_detail_Activity::class.java)
-            intent.putExtra("timeline_id",timeline_id)
-            startActivityForResult(intent,RESET)
-            */
         }
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->
@@ -272,12 +283,14 @@ class Solo_time_Fragment : Fragment() {
             when (requestCode) {
                 SOLO_WRITE -> {
                     if (data!!.getStringExtra("reset") != null) {
+                        println("-ooooooooo")
                         loadData()
                     }
                 }
 
                 RESET -> {
                     if (data!!.getStringExtra("reset") != null) {
+                        println("-ooooooooo")
                         loadData()
                     }
                 }

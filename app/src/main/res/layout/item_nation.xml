@@ -16,7 +16,6 @@
             android:layout_marginLeft="25dp"
             android:layout_width="45dp"
             android:layout_height="28dp"
-            android:src="@mipmap/arhen"
             android:scaleType="centerCrop"/>
 
         <TextView
@@ -26,8 +25,7 @@
             android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:textColor="#4a4a4a"
-            android:text="아르헨티나" />
+            android:textColor="#4a4a4a" />
 
         <TextView
             android:id="@+id/createdTV"
@@ -35,8 +33,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="#4a4a4a"
-            android:text="2018. 07. 13" />
+            android:textColor="#4a4a4a" />
 
         <TextView
             android:id="@+id/countTV"
@@ -44,8 +41,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="#4a4a4a"
-            android:text="100 개" />
+            android:textColor="#4a4a4a" />
 
     </LinearLayout>
 

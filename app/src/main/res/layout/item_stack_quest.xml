@@ -27,8 +27,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="10sp"
-                            android:textColor="#ffffff"
-                            android:text="6H"/>
+                            android:textColor="#ffffff"/>
 
                 </LinearLayout>
 
@@ -44,7 +43,6 @@
                            android:textColor="#4a4a4a"
                            android:maxLines="2"
                            android:gravity="center"
-                           android:text="베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?"
                            />
 
 
@@ -63,7 +61,6 @@
                            android:layout_height="wrap_content"
                            android:textSize="11sp"
                            android:textColor="#f5cd04"
-                           android:text="@string/reply"
                            />
 
 

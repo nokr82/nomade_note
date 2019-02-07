@@ -118,10 +118,11 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             qnas_id = intent.getStringExtra("qnas_id")
             created_at = intent.getStringExtra("created_at")
 
+            println("----created_at --- $created_at")
 
             val now = System.currentTimeMillis()
             val date = Date(now)
-            val sdf = SimpleDateFormat("yy-MM-dd HH:mm:ss")
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val getTime = sdf.format(date)
 
             if(created_at == null || created_at.isEmpty()) {
@@ -141,6 +142,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             minuteET.setText(minutes.toString())
             timetakeTV.setText("소요시간")
             logoIV.setText(getString(R.string.reply))
+
         }
 
         initGPS()
@@ -294,8 +296,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             return
         }
 
-
-
         val params = RequestParams()
         params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_name",location)
@@ -349,8 +349,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                timelineData.add(o)
             }
         }
-
-
 
         params.put("timelineData", timelineData)
         var sum = 0
@@ -547,14 +545,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
-//                    bytes.add(image_size)
                     seq++
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
 //                    params.put("main_yn", "Y")
 //                    o.put("position",i)
-                    params.put("position",i+1)
+                    println("--------visibility----")
+                    params.put("position",i)
                 }
 //                else {
 //                    o.put("main_yn","N")
@@ -711,7 +709,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                             for (i in 0 until images.length()){
                                 val image_item = images.get(i) as JSONObject
                                 var path = Config.url+  Utils.getString(image_item, "image_uri")
-                                reset(path,i)
+//                                detail_image_reset(path,i)
+                                reset(path,i,"detail")
                             }
                         }
 
@@ -877,7 +876,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
                     var item = data?.getStringArrayExtra("images")//photoPath
                     //var name = data?.getStringArrayExtra("displayname")
-
+//                    addPicturesLL!!.removeAllViews()
                     for (i in 0..(item!!.size - 1)) {
                         val str = item[i]
 
@@ -897,8 +896,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                            }
 //                        }
 
-                        reset(str,i)
-
+                        reset(str,i,"picture")
                     }
                 }
 
@@ -946,37 +944,43 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
-    fun reset(str: String,i :Int) {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(str, options)
-        options.inJustDecodeBounds = false
-        options.inSampleSize = 1
-        if (options.outWidth > 96) {
-            val ws = options.outWidth / 96 + 1
-            if (ws > options.inSampleSize) {
-                options.inSampleSize = ws
-            }
-        }
-        if (options.outHeight > 96) {
-            val hs = options.outHeight / 96 + 1
-            if (hs > options.inSampleSize) {
-                options.inSampleSize = hs
-            }
-        }
+    fun reset(str: String,i :Int,type: String) {
 
-        images_path.add(str)
-        var add_file = Utils.getImage(context.contentResolver, str)
-        val bitmap = BitmapFactory.decodeFile(str)
         var v = View.inflate(context, R.layout.item_addgoods, null)
+
+        val bitmap = BitmapFactory.decodeFile(str)
         val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
         val delIV = v.findViewById<View>(R.id.delIV) as ImageView
         val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
         val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
-        if (timeline_id.length > 0) {
+
+        if (type == "detail"){
             ImageLoader.getInstance().displayImage(str, v.addedImgIV, Utils.UILoptionsUserProfile)
+        } else {
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+            BitmapFactory.decodeFile(str, options)
+            options.inJustDecodeBounds = false
+            options.inSampleSize = 1
+            if (options.outWidth > 96) {
+                val ws = options.outWidth / 96 + 1
+                if (ws > options.inSampleSize) {
+                    options.inSampleSize = ws
+                }
+            }
+            if (options.outHeight > 96) {
+                val hs = options.outHeight / 96 + 1
+                if (hs > options.inSampleSize) {
+                    options.inSampleSize = hs
+                }
+            }
+
+            images_path.add(str)
+            var add_file = Utils.getImage(context.contentResolver, str)
+
+            imageIV.setImageBitmap(add_file)
         }
-        imageIV.setImageBitmap(add_file)
+
         delIV.tag = i
         fullImageLL.setTag(i)
         delIV.setOnClickListener {
@@ -1036,7 +1040,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val firstLL = v?.findViewById<View>(R.id.firstLL) as LinearLayout
             val childView = addPicturesLL.getChildAt(i)
             firstLL.visibility = View.GONE
-            println("-----gone")
         }
         val firstLL = v.findViewById<View>(R.id.firstLL) as LinearLayout
         firstLL.visibility = View.VISIBLE

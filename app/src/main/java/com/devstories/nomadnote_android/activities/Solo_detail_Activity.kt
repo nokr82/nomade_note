@@ -507,9 +507,12 @@ class Solo_detail_Activity : RootActivity() {
                 try {
 
                     val result = Utils.getString(response, "result")
-                    if ("ok" == result) {
+                    println("-----result ------ $result")
+                    if (result == "ok") {
                         var intent = Intent()
                         intent.putExtra("reset", "reset")
+                        intent.action = "DELETE_TIMELINE"
+                        sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
                         finish()
                     }

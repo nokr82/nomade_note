@@ -177,6 +177,8 @@ class IntroActivity : RootActivity() {
 
                         LoginActivity.processLoginData(context, data)
 
+                        println("----timeline_id $timeline_id")
+
                         val intent = Intent(context, MainActivity::class.java)
                         intent.putExtra("is_push",is_push)
                         intent.putExtra("last_id",last_id)

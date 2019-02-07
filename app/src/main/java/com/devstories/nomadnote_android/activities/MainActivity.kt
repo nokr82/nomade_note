@@ -164,13 +164,15 @@ class MainActivity : FragmentActivity() {
         loadInfo()
 
         var intent = getIntent()
-        timeline_id = intent.getIntExtra("timeline_id", -1)
+        timeline_id = intent.getIntExtra("timline_id", -1)
 
         if (intent.getBooleanExtra("is_push", false) != null){
             is_push = intent.getBooleanExtra("is_push", false)
             if (intent.getStringExtra("last_id") != null) {
                 last_id = intent.getStringExtra("last_id")
                 created = intent.getStringExtra("created")
+
+                println("-------created-----$created")
 
                 if (last_id.length > 0) {
                     val intent = Intent(context, WriteActivity::class.java)
@@ -180,6 +182,8 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
+
+        println("--------timeline_id $last_id")
 
         if (timeline_id > 0) {
             val intent = Intent(context, Solo_detail_Activity::class.java)
