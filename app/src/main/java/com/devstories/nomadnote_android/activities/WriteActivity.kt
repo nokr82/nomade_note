@@ -888,7 +888,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     for (i in 0..(item!!.size - 1)) {
                         val str = item[i]
 
-                        images_path!!.add(str)
+//                        images_path!!.add(str)
 
 //                        var add_file = Utils.getImage(context.contentResolver, str)
 //
