@@ -126,52 +126,52 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
 
         }
 
-        try {
-            val proj = arrayOf(MediaStore.Video.Media._ID, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DISPLAY_NAME,MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
-            val idx = IntArray(proj.size)
-
-//            val selection = MediaStore.Video.Media.BUCKET_DISPLAY_NAME + " = '" + bucketName + "'"
-
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                cursor = resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC")
-                println(" cursor : " + cursor.count)
-            } else {
-                cursor = MediaStore.Video.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null)
-            }
-//                    cursor = MediaStore.Images.Media.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, selection, MediaStore.Video.Media.DATE_ADDED + " DESC")
-            if (cursor != null && cursor.moveToFirst()) {
-                idx[0] = cursor.getColumnIndex(proj[0])
-                idx[1] = cursor.getColumnIndex(proj[1])
-                idx[2] = cursor.getColumnIndex(proj[2])
-                idx[3] = cursor.getColumnIndex(proj[3])
-
-                do {
-                    val photoID = cursor.getInt(idx[0])
-                    val photoPath = cursor.getString(idx[1])
-                    val displayName = cursor.getString(idx[2])
-                    val orientation = cursor.getInt(idx[3])
-                    if (displayName != null) {
-                        val video = ImageAdapter.PhotoData()
-                        video.photoID = photoID
-                        video.photoPath = photoPath
-                        video.orientation = orientation
-                        video.type = "v"
-                        photoList.add(video)
-                    }
-                } while (cursor.moveToNext())
-            }
-        } catch (ex: Exception) {
-            // Log the exception's message or whatever you like
-        } finally {
-            try {
-                if (cursor != null && !cursor.isClosed) {
-                    cursor.close()
-                }
-            } catch (ex: Exception) {
-            }
-
-        }
+//        try {
+//            val proj = arrayOf(MediaStore.Video.Media._ID, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DISPLAY_NAME,MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
+//            val idx = IntArray(proj.size)
+//
+////            val selection = MediaStore.Video.Media.BUCKET_DISPLAY_NAME + " = '" + bucketName + "'"
+//
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                cursor = resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC")
+//                println(" cursor : " + cursor.count)
+//            } else {
+//                cursor = MediaStore.Video.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null)
+//            }
+////                    cursor = MediaStore.Images.Media.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, selection, MediaStore.Video.Media.DATE_ADDED + " DESC")
+//            if (cursor != null && cursor.moveToFirst()) {
+//                idx[0] = cursor.getColumnIndex(proj[0])
+//                idx[1] = cursor.getColumnIndex(proj[1])
+//                idx[2] = cursor.getColumnIndex(proj[2])
+//                idx[3] = cursor.getColumnIndex(proj[3])
+//
+//                do {
+//                    val photoID = cursor.getInt(idx[0])
+//                    val photoPath = cursor.getString(idx[1])
+//                    val displayName = cursor.getString(idx[2])
+//                    val orientation = cursor.getInt(idx[3])
+//                    if (displayName != null) {
+//                        val video = ImageAdapter.PhotoData()
+//                        video.photoID = photoID
+//                        video.photoPath = photoPath
+//                        video.orientation = orientation
+//                        video.type = "v"
+//                        photoList.add(video)
+//                    }
+//                } while (cursor.moveToNext())
+//            }
+//        } catch (ex: Exception) {
+//            // Log the exception's message or whatever you like
+//        } finally {
+//            try {
+//                if (cursor != null && !cursor.isClosed) {
+//                    cursor.close()
+//                }
+//            } catch (ex: Exception) {
+//            }
+//
+//        }
 
         selectGV.setOnItemClickListener(this)
 

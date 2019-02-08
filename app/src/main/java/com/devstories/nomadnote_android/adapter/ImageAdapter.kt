@@ -43,67 +43,94 @@ open class ImageAdapter(context: Context, data:ArrayList<PhotoData>, imageLoader
         val item = photoList.get(position)
         val type = item.type
 
-        if (type == "i"){
-            if (convertView == null) {
+        if (convertView == null) {
 
-                retView = View.inflate(this.mContext, R.layout.item_findpicture, null)
-                holder.picture_grid_click = retView.findViewById<TextView>(R.id.picture_grid_click);
-                holder.picture_grid_image = retView.findViewById<ImageView>(R.id.picture_grid_image);
+            retView = View.inflate(this.mContext, R.layout.item_findpicture, null)
+            holder.picture_grid_click = retView.findViewById<TextView>(R.id.picture_grid_click);
+            holder.picture_grid_image = retView.findViewById<ImageView>(R.id.picture_grid_image);
 
-                retView.setTag(holder);
-            } else {
-                retView = convertView
-                holder = retView.getTag() as ViewHolder
-            }
-
-            var photo = photoList.get(position);
-
-            holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.photoID, photo.photoPath, photo.orientation))
-
-            if (selected.contains(position.toString())) {
-                val idx = selected.indexOf(position.toString())
-                holder.picture_grid_click.text = (idx + 1).toString()
-
-                Log.d("yjs" ,"idx : " + idx.toString()  )
-            }else {
-                holder.picture_grid_click.text = ""
-            }
-            return retView;
+            retView.setTag(holder);
         } else {
-
-            if (convertView == null) {
-
-                retView = View.inflate(this.mContext, R.layout.item_findpicture, null)
-                holder.picture_grid_click = retView.findViewById<TextView>(R.id.picture_grid_click);
-                holder.picture_grid_image = retView.findViewById<ImageView>(R.id.picture_grid_image);
-
-                retView.setTag(holder);
-            } else {
-                retView = convertView
-                holder = retView.getTag() as ViewHolder
-            }
-
-            var photo = photoList.get(position);
-
-            val bitmap = ThumbnailUtils.createVideoThumbnail(photo.photoPath, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND)
-            val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 360, 480)
-
-            holder.picture_grid_image.setImageBitmap(thumbnail)
-
-//        holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.videoID, photo.videoPath, photo.orientation))
-
-            if (selected.contains(position.toString())) {
-                val idx = selected.indexOf(position.toString())
-                holder.picture_grid_click.text = (idx + 1).toString()
-
-                Log.d("yjs" ,"idx : " + idx.toString()  )
-            }else {
-                holder.picture_grid_click.text = ""
-            }
-
-
-            return retView;
+            retView = convertView
+            holder = retView.getTag() as ViewHolder
         }
+
+        var photo = photoList.get(position);
+
+        holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.photoID, photo.photoPath, photo.orientation))
+
+        if (selected.contains(position.toString())) {
+            val idx = selected.indexOf(position.toString())
+            holder.picture_grid_click.text = (idx + 1).toString()
+
+            Log.d("yjs" ,"idx : " + idx.toString()  )
+        }else {
+            holder.picture_grid_click.text = ""
+        }
+        return retView;
+
+//        if (type == "i"){
+//            if (convertView == null) {
+//
+//                retView = View.inflate(this.mContext, R.layout.item_findpicture, null)
+//                holder.picture_grid_click = retView.findViewById<TextView>(R.id.picture_grid_click);
+//                holder.picture_grid_image = retView.findViewById<ImageView>(R.id.picture_grid_image);
+//
+//                retView.setTag(holder);
+//            } else {
+//                retView = convertView
+//                holder = retView.getTag() as ViewHolder
+//            }
+//
+//            var photo = photoList.get(position);
+//
+//            holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.photoID, photo.photoPath, photo.orientation))
+//
+//            if (selected.contains(position.toString())) {
+//                val idx = selected.indexOf(position.toString())
+//                holder.picture_grid_click.text = (idx + 1).toString()
+//
+//                Log.d("yjs" ,"idx : " + idx.toString()  )
+//            }else {
+//                holder.picture_grid_click.text = ""
+//            }
+//            return retView;
+//        }
+//        else {
+//
+//            if (convertView == null) {
+//
+//                retView = View.inflate(this.mContext, R.layout.item_findpicture, null)
+//                holder.picture_grid_click = retView.findViewById<TextView>(R.id.picture_grid_click);
+//                holder.picture_grid_image = retView.findViewById<ImageView>(R.id.picture_grid_image);
+//
+//                retView.setTag(holder);
+//            } else {
+//                retView = convertView
+//                holder = retView.getTag() as ViewHolder
+//            }
+//
+//            var photo = photoList.get(position);
+//
+//            val bitmap = ThumbnailUtils.createVideoThumbnail(photo.photoPath, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND)
+//            val thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 360, 480)
+//
+//            holder.picture_grid_image.setImageBitmap(thumbnail)
+//
+////        holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.videoID, photo.videoPath, photo.orientation))
+//
+//            if (selected.contains(position.toString())) {
+//                val idx = selected.indexOf(position.toString())
+//                holder.picture_grid_click.text = (idx + 1).toString()
+//
+//                Log.d("yjs" ,"idx : " + idx.toString()  )
+//            }else {
+//                holder.picture_grid_click.text = ""
+//            }
+//
+//
+//            return retView;
+//        }
 
 
     }
