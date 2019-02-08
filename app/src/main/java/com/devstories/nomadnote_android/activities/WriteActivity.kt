@@ -524,6 +524,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("timeline_id",timeline_id)
         params.put("place_name",location)
         params.put("duration",fulltime)
+        params.put("block_yn",block_yn)
         params.put("cost",money)
         params.put("contents",contents)
         params.put("place_id","1")
@@ -689,9 +690,16 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         var contents = Utils.getString(data,"contents")
                         var created = Utils.getString(data,"created_at")
                         var style = Utils.getString(data,"style_id")
-
+                        block_yn = Utils.getString(data,"block_yn")
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
+                        if (block_yn == "N"){
+                            blockIV.setImageResource(R.mipmap.shield)
+                        } else {
+                            blockIV.setImageResource(R.mipmap.lock_icon)
+                        }
+
+
 
                         locationET.setText(place_name)
                         timeET.setText(timesplit.get(0))
