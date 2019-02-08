@@ -46,7 +46,9 @@ class IntroActivity : RootActivity() {
 
 
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
 
         val share_str = intent.dataString
