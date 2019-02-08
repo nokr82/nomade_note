@@ -76,7 +76,7 @@
     <string name="setmyinfo2">个人信息修改</string>
     <string name="totalmemory">全部内存</string>
     <string name="searchphone">用联系方式搜索</string>
-    <string name="searchid">ID搜索</string>
+    <string name="searchid">e-mail搜索</string>
     <string name="test">세종문화회관</string>
     <string name="fra_setting_buy">结算</string>
     <string name="fra_setting_experien">共享记录下的旅行回忆</string>
@@ -98,11 +98,11 @@
     <string name="searchphonenumber">可以通过联系方式添加好友</string>
     <string name="addphonenumber">请输入想要添加的朋友的姓名和电话号码。</string>
     <string name="artmuseumstyle">美术馆风格</string>
-    <string name="newfriendid">可以通过ID添加好友</string>
-    <string name="addenterid">请输入想要添加的朋友的ID。</string>
+    <string name="newfriendid">可以通过e-mail添加好友</string>
+    <string name="addenterid">请输入想要添加的朋友的e-mail。</string>
 
 
-
+    <string name="authenticate_no">無法驗證</string>
 
 
 

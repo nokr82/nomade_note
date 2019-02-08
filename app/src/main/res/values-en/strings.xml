@@ -81,10 +81,10 @@
     <string name="addphonefriend">Add A User With Their Phone Number</string>
     <string name="searchphonenumber">You can add new users by entering their phone number</string>
     <string name="addphonenumber">Please enter the name and phone number of the user you wish to add.</string>
-    <string name="searchid">Search By ID</string>
+    <string name="searchid">Search By e-mail</string>
     <string name="test">세종문화회관</string>
 
-
+    <string name="authenticate_no">Can not authenticate</string>
     <string name="fra_setting_buy">Pay</string>
     <string name="fra_setting_experien">Share your travel experiences</string>
     <string name="fra_setting_insta">Instagram</string>
@@ -96,8 +96,8 @@
     <string name="acrivity_quest_logo">Inquire</string>
     <string name="item_mainimage">Main Image</string>
     <string name="artmuseumstyle">Art Museum Style</string>
-    <string name="newfriendid">Add new friends through their ID</string>
-    <string name="addenterid">Enter the ID of the friend of the user you wish to add.</string>
+    <string name="newfriendid">Add new friends through their e-mail</string>
+    <string name="addenterid">Enter the e-mail of the friend of the user you wish to add.</string>
 
     <!-- 추가 -->
     <string name="auto_login">Auto-Login</string>

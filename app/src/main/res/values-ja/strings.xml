@@ -108,7 +108,7 @@
     <!--전체 메모리-->
     <string name="searchphone">連絡先で検索</string>
     <!--연락처로 검색-->
-    <string name="searchid">ID検索</string>
+    <string name="searchid">e-mail検索</string>
     <string name="test">세종문화회관</string>
     <string name="fra_setting_buy">決済する</string>
     <string name="fra_setting_experien">記録された旅行の思い出を共有しましょう </string>
@@ -141,9 +141,8 @@
     <!--추가하고 싶은 친구의 이름과 휴대전화 번호를 입력해 주세요.-->
     <string name="artmuseumstyle">美術館スタイル</string>
     <!--미술관 스타일-->
-    <string name="newfriendid">IDで友達を追加できます。</string>
-    <string name="addenterid">追加したい友達のIDを入力して下さい。</string>
-
+    <string name="newfriendid">e-mailで友達を追加できます。</string>
+    <string name="addenterid">追加したい友達のe-mailを入力して下さい。</string>
 
 
 
@@ -171,5 +170,5 @@
     <string name="post_count">個</string>
     <string name="my_points">保有ポイント</string>
     <string name="transtrating">翻訳中...</string>
-
+    <string name="authenticate_no">認証できません</string>
 </resources>
