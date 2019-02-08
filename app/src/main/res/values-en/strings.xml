@@ -84,7 +84,7 @@
     <string name="searchid">Search By e-mail</string>
     <string name="test">세종문화회관</string>
 
-
+    <string name="authenticate_no">Can not authenticate</string>
     <string name="fra_setting_buy">Pay</string>
     <string name="fra_setting_experien">Share your travel experiences</string>
     <string name="fra_setting_insta">Instagram</string>

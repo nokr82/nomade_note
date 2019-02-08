@@ -149,7 +149,6 @@
 
 
 
-
     <!-- 추가-->
     <string name="auto_login">自動ログイン</string>
     <string name="fra_setting_kakaotalk">カカオトーク</string>
@@ -171,5 +170,5 @@
     <string name="post_count">個</string>
     <string name="my_points">保有ポイント</string>
     <string name="transtrating">翻訳中...</string>
-
+    <string name="authenticate_no">認証できません</string>
 </resources>

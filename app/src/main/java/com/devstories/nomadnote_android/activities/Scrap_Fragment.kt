@@ -480,10 +480,10 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
                         timelineAdapter.notifyDataSetChanged()
 
                     } else if ("far_away" == result) {
-                        Toast.makeText(myContext, "인증할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(myContext, getString(R.string.authenticate_no), Toast.LENGTH_SHORT).show()
 
                     } else if ("already" == result) {
-                        Toast.makeText(myContext, "인증할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(myContext, getString(R.string.authenticate_no), Toast.LENGTH_SHORT).show()
                     }
 
                 } catch (e: JSONException) {

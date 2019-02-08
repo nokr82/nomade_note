@@ -116,5 +116,6 @@
     <string name="post_count">개</string>
     <string name="my_points">보유 포인트</string>
     <string name="transtrating">번역중...</string>
+    <string name="authenticate_no">인증할 수 없습니다.</string>
 
 </resources>
