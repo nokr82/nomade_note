@@ -61,7 +61,6 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(myContext)
-        getTimeline()
         return inflater.inflate(R.layout.fra_scrap, container, false)
 
     }
@@ -79,6 +78,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
         activity.titleLL.visibility = View.GONE
         click()
 
+        getTimeline()
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -138,6 +138,10 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {
                     progressDialog!!.dismiss()
+                }
+
+                if(activity == null || !isAdded) {
+                    return
                 }
 
                 try {
@@ -646,6 +650,10 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
     override fun onLocationUpdated(location: Location?) {
         stopLocation()
+
+        if(activity == null || !isAdded) {
+            return
+        }
 
         println("lo : $location")
 

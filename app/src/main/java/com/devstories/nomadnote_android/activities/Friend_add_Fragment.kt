@@ -63,6 +63,10 @@ class Friend_add_Fragment : Fragment()  {
                     progressDialog!!.dismiss()
                 }
 
+                if(activity == null || !isAdded) {
+                    return
+                }
+
                 try {
 
                     val result =   Utils.getString(response,"result")

@@ -40,9 +40,6 @@ class Other_time_Fragment : Fragment()  {
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(myContext)
-
-        getTimeline()
-
         return inflater.inflate(R.layout.fra_other_time, container, false)
 
     }
@@ -56,11 +53,15 @@ class Other_time_Fragment : Fragment()  {
 
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        click()
         super.onActivityCreated(savedInstanceState)
 
         activity = getActivity() as MainActivity
         activity.titleLL.visibility = View.GONE
+
+        click()
+
+        getTimeline()
+
     }
 
     fun click(){
@@ -126,6 +127,10 @@ class Other_time_Fragment : Fragment()  {
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {
                     progressDialog!!.dismiss()
+                }
+
+                if(activity == null || !isAdded) {
+                    return
                 }
 
                 try {

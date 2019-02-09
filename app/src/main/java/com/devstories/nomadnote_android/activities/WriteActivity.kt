@@ -1153,6 +1153,11 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
 
     override fun onLocationUpdated(location: Location?) {
+
+        if(isFinishing || isDestroyed) {
+            return
+        }
+
         if (location != null) {
             if (myLocation) {
                 latitude = location.getLatitude()

@@ -98,6 +98,10 @@ class Quest_stack_Fragment : Fragment()  {
                     progressDialog!!.dismiss()
                 }
 
+                if(activity == null || !isAdded) {
+                    return
+                }
+
 
                 try {
 

@@ -106,6 +106,10 @@ class Friend_phone_Fragment : Fragment()  {
                     progressDialog!!.dismiss()
                 }
 
+                if(activity == null || !isAdded) {
+                    return
+                }
+
                 try {
                     val result = response!!.getString("result")
 

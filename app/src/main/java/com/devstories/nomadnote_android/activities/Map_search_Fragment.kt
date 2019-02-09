@@ -431,6 +431,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     override fun onLocationUpdated(location: Location?) {
         stopLocation()
 
+        if(activity == null || !isAdded) {
+            return
+        }
 
         println("lo : $location")
 
@@ -550,6 +553,10 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
 
     private fun addMarkers() {
+
+        if(activity == null || !isAdded) {
+            return
+        }
 
         googleMap?.clear()
 
