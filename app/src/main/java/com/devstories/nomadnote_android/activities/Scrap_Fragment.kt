@@ -105,9 +105,11 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             startActivity(intent)
         }
 
+        /*
         searchIV.setOnClickListener {
             search_scrap()
         }
+        */
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

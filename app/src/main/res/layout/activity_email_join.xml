@@ -54,12 +54,15 @@
                     android:layout_marginTop="70dp"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/background_border_radius5_000000"
-                    android:padding="10dp">
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
                     <EditText
                         android:id="@+id/emailET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:background="@null"
                         android:hint="@string/emailET_hint"
                         android:inputType="textEmailAddress"
@@ -73,12 +76,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_border_radius5_000000"
-                    android:padding="10dp">
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
                     <EditText
                         android:id="@+id/pwET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:background="@null"
                         android:hint="@string/pwdET_hint"
                         android:inputType="textPassword"
@@ -93,12 +99,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_border_radius5_000000"
-                    android:padding="10dp">
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp">
 
                     <EditText
                         android:id="@+id/pw2ET"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="36dp"
                         android:background="@null"
                         android:hint="@string/pwdET_hint"
                         android:inputType="textPassword"
