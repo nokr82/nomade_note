@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -913,15 +914,23 @@ class Solo_detail_Activity : RootActivity() {
                         shareIntent.setPackage("com.instagram.android")
                         startActivityForResult(shareIntent, INSTAGRAM_REQUEST_CODE)
 
+                        Handler().postDelayed({
+                            contentResolver.delete(instagramShareUri, null, null)
+                        }, 5000)
+
                     } catch (e: ActivityNotFoundException) {
                         e.printStackTrace()
 
                         Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
 
+                        contentResolver.delete(instagramShareUri, null, null)
+
                     } catch (e: Exception) {
                         e.printStackTrace()
 
                         Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
+
+                        contentResolver.delete(instagramShareUri, null, null)
 
                     }
                 })
