@@ -171,4 +171,7 @@
     <string name="my_points">保有ポイント</string>
     <string name="transtrating">翻訳中...</string>
     <string name="authenticate_no">認証できません</string>
+    <string name="allow_permission">アクセスを許可してください。</string>
+    <string name="no_image_data">画像がありません。</string>
+    <string name="instagram_not_installed">インスタグラムがインストールされていません。</string>
 </resources>

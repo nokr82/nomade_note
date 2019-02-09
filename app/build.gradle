@@ -21,9 +21,9 @@ android {
 
     defaultConfig {
         applicationId "com.devstories.nomadnote_android"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
-        versionCode 29
+        versionCode 33
         versionName "1.0.0"
         multiDexEnabled true
     }

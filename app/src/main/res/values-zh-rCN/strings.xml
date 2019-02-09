@@ -127,5 +127,8 @@
     <string name="post_count">個</string>
     <string name="my_points">保持點</string>
     <string name="transtrating">在翻譯中...</string>
+    <string name="allow_permission">請授予許可。</string>
+    <string name="no_image_data">沒有可用的圖像。</string>
+    <string name="instagram_not_installed">Instagram沒有安裝。</string>
 
 </resources>

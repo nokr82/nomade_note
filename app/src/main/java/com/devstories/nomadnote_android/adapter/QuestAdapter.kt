@@ -1,16 +1,14 @@
 package com.devstories.nomadnote_android.activities
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import org.json.JSONObject
+import android.widget.ArrayAdapter
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
-import com.nostra13.universalimageloader.core.ImageLoader
-import de.hdodenhof.circleimageview.CircleImageView
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -71,10 +69,11 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             }
         }
 
-
+        /*
         if (answer != null && answer != ""){
             item.answerTV.setText("답변보기")
         }
+        */
 
         item.contentTV.setText(question)
 

@@ -117,5 +117,8 @@
     <string name="my_points">보유 포인트</string>
     <string name="transtrating">번역중...</string>
     <string name="authenticate_no">인증할 수 없습니다.</string>
+    <string name="allow_permission">권한을 허용해주세요.</string>
+    <string name="no_image_data">이미지가 없습니다.</string>
+    <string name="instagram_not_installed">인스타그램이 설치되어 있지 않습니다.</string>
 
 </resources>

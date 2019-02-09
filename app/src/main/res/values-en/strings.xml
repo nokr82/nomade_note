@@ -120,5 +120,8 @@
     <string name="post_count">Posts</string>
     <string name="my_points">Hold point</string>
     <string name="transtrating">In translation...</string>
+    <string name="allow_permission">Please grant permission.</string>
+    <string name="no_image_data">No images available.</string>
+    <string name="instagram_not_installed">Instagram is not installed.</string>
 
 </resources>

@@ -1,9 +1,12 @@
 package com.devstories.nomadnote_android.sms;
 
 import com.devstories.nomadnote_android.base.Config;
+import com.devstories.nomadnote_android.base.HttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.SyncHttpClient;
+
+import org.jetbrains.annotations.NotNull;
 
 public class SMSAction {
 
@@ -23,4 +26,7 @@ public class SMSAction {
         client.post(Config.url + url, params, handler);
     }
 
+    public static void load_latest_sms(@NotNull RequestParams params, @NotNull JsonHttpResponseHandler handler) {
+        HttpClient.post("/api/sms/get_latest_sms", params, handler);
+    }
 }
