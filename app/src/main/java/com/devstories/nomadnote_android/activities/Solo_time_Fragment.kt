@@ -111,7 +111,7 @@ class Solo_time_Fragment : Fragment() {
             myContext.sendBroadcast(intent)
         }
         visitnationRL.setOnClickListener {
-            val intent = Intent(context, VisitNationActivity::class.java)
+            val intent = Intent(myContext, VisitNationActivity::class.java)
             startActivity(intent)
         }
 
@@ -134,7 +134,7 @@ class Solo_time_Fragment : Fragment() {
 
                 loadData()
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
 
             } else {
             }
@@ -148,7 +148,7 @@ class Solo_time_Fragment : Fragment() {
         var keyword = Utils.getString(keywordET)
 
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
         params.put("keyword", keyword)
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
@@ -211,7 +211,7 @@ class Solo_time_Fragment : Fragment() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(

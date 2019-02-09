@@ -87,7 +87,7 @@ class Quest_stack_Fragment : Fragment()  {
 
     fun get_qnas(){
         val params = RequestParams()
-        val member_id = PrefUtils.getIntPreference(context, "member_id")
+        val member_id = PrefUtils.getIntPreference(myContext, "member_id")
         params.put("member_id", member_id)
 
 
@@ -129,7 +129,7 @@ class Quest_stack_Fragment : Fragment()  {
             private fun error() {
 
                 if (progressDialog != null) {
-                    Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                    Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
                 }
             }
 

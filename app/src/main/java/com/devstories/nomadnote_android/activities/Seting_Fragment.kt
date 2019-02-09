@@ -75,7 +75,7 @@ class Seting_Fragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(myContext)
 
         activity = getActivity() as MainActivity
         FacebookSdk.sdkInitialize(getApplicationContext())
@@ -115,7 +115,7 @@ class Seting_Fragment : Fragment() {
         }
 
         settingquestLL.setOnClickListener {
-            val intent = Intent(context, QuestionActivity::class.java)
+            val intent = Intent(myContext, QuestionActivity::class.java)
             startActivity(intent)
         }
 
@@ -135,7 +135,7 @@ class Seting_Fragment : Fragment() {
             override fun failed(e: Exception) {
                 e.printStackTrace()
 
-                Utils.alert(context, "구매 중 장애가 발생하였습니다. " + e.localizedMessage)
+                Utils.alert(myContext, "구매 중 장애가 발생하였습니다. " + e.localizedMessage)
             }
         })
 
@@ -178,7 +178,7 @@ class Seting_Fragment : Fragment() {
                 setmenu()
 //                op_idIV.setImageResource(R.mipmap.icon_check)
                 f_type = 2
-                var intent = Intent(context, AddFriendActivity::class.java)
+                var intent = Intent(myContext, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
                 startActivity(intent)
 //                intent.action = "FRIEND"
@@ -193,7 +193,7 @@ class Seting_Fragment : Fragment() {
                 setmenu()
 //                op_addIV.setImageResource(R.mipmap.icon_check)
                 f_type = 3
-                var intent = Intent(context, AddFriendActivity::class.java)
+                var intent = Intent(myContext, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
                 startActivity(intent)
 //                intent.action = "FRIEND"
@@ -208,7 +208,7 @@ class Seting_Fragment : Fragment() {
                 setmenu()
 //                op_telIV.setImageResource(R.mipmap.icon_check)
                 f_type = 1
-                var intent = Intent(context, AddFriendActivity::class.java)
+                var intent = Intent(myContext, AddFriendActivity::class.java)
                 intent.putExtra("type", f_type)
                 startActivity(intent)
 //                intent.action = "FRIEND"
@@ -397,7 +397,7 @@ class Seting_Fragment : Fragment() {
             startActivity(intent)
         }
 
-        style = PrefUtils.getIntPreference(context, "style").toString()
+        style = PrefUtils.getIntPreference(myContext, "style").toString()
         travelLL.setOnClickListener {
             if (op_travelLL.visibility == View.GONE) {
                 setStyleImage(style)
@@ -417,8 +417,8 @@ class Seting_Fragment : Fragment() {
 
                 // if (PrefUtils.getIntPreference(context, "payment_byte") != null) {
                     // var payment_byte = PrefUtils.getIntPreference(context, "payment_byte")
-                    var disk = PrefUtils.getDoublePreference(context, "disk")
-                    var byte = PrefUtils.getIntPreference(context, "byte")
+                    var disk = PrefUtils.getDoublePreference(myContext, "disk")
+                    var byte = PrefUtils.getIntPreference(myContext, "byte")
 
 //                    var pay_sub = payment_byte.toString().substring(0, 1)
 //                    if (pay_sub == "-") {
@@ -547,7 +547,7 @@ class Seting_Fragment : Fragment() {
         }
 
         deleteLL.setOnClickListener {
-            val builder = AlertDialog.Builder(context)
+            val builder = AlertDialog.Builder(myContext)
             builder
                     .setMessage(getString(R.string.member_delete))
 
@@ -556,7 +556,7 @@ class Seting_Fragment : Fragment() {
                     })
                     .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
-                        Utils.hideKeyboard(context)
+                        Utils.hideKeyboard(myContext)
                     })
             val alert = builder.create()
             alert.show()
@@ -565,17 +565,17 @@ class Seting_Fragment : Fragment() {
     }
 
     fun deleteConfrim() {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(myContext)
         builder
                 .setMessage(getString(R.string.member_delete_confrim))
 
                 .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                     delete_member()
-                    Utils.hideKeyboard(context)
+                    Utils.hideKeyboard(myContext)
                 })
                 .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
-                    Utils.hideKeyboard(context)
+                    Utils.hideKeyboard(myContext)
                 })
         val alert = builder.create()
         alert.show()
@@ -614,13 +614,13 @@ class Seting_Fragment : Fragment() {
             artTV.setTextColor(Color.parseColor("#ffffff"))
         }
 
-        PrefUtils.setPreference(context, "style", style_id.toInt())
+        PrefUtils.setPreference(myContext, "style", style_id.toInt())
         edit_style()
     }
 
     fun edit_style() {
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
         params.put("style", style)
 
         MemberAction.update_info(params, object : JsonHttpResponseHandler() {
@@ -659,7 +659,7 @@ class Seting_Fragment : Fragment() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
@@ -710,7 +710,7 @@ class Seting_Fragment : Fragment() {
 
         val params = RequestParams()
         params.put("quota", quota)
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
         ChargeAction.setCharge(params, object : JsonHttpResponseHandler() {
 
@@ -736,10 +736,10 @@ class Seting_Fragment : Fragment() {
 
                     } else if (result == 0) {
                         // error
-                        Toast.makeText(context, Utils.getString(response, "error"), Toast.LENGTH_LONG).show()
+                        Toast.makeText(myContext, Utils.getString(response, "error"), Toast.LENGTH_LONG).show()
                         return
                     } else {
-                        Toast.makeText(context, "오류가 발생하였습니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(myContext, "오류가 발생하였습니다.", Toast.LENGTH_LONG).show()
                         return
                     }
 
@@ -757,7 +757,7 @@ class Seting_Fragment : Fragment() {
 
             private fun error() {
                 if (progressDialog != null && !activity.isFinishing()) {
-                    Utils.alert(context, "처리중 장애가 발생하였습니다.")
+                    Utils.alert(myContext, "처리중 장애가 발생하였습니다.")
                 }
             }
 
@@ -804,7 +804,7 @@ class Seting_Fragment : Fragment() {
 
     fun delete_member() {
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
         params.put("del_yn", "Y")
 
         MemberAction.update_info(params, object : JsonHttpResponseHandler() {
@@ -819,11 +819,11 @@ class Seting_Fragment : Fragment() {
 
                     if ("ok" == result) {
 
-                        Toast.makeText(context, "탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(myContext, "탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
-                        PrefUtils.clear(context)
+                        PrefUtils.clear(myContext)
 
-                        val intent = Intent(context, LoginActivity::class.java)
+                        val intent = Intent(myContext, LoginActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         startActivity(intent)
 
@@ -848,7 +848,7 @@ class Seting_Fragment : Fragment() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {

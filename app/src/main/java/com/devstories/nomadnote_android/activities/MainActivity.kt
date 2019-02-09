@@ -1,13 +1,17 @@
 package com.devstories.nomadnote_android.activities
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -26,6 +30,11 @@ import org.json.JSONObject
 
 
 class MainActivity : FragmentActivity() {
+
+    private val RECEIVE_SMS_REQUEST_CODE = 1001
+    private val READ_SMS_REQUEST_CODE = 1002
+    private val RECEIVE_MMS_REQUEST_CODE = 1003
+
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
@@ -189,6 +198,21 @@ class MainActivity : FragmentActivity() {
             val intent = Intent(context, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id", timeline_id.toString())
             startActivity(intent)
+        }
+
+        val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECEIVE_SMS), RECEIVE_SMS_REQUEST_CODE)
+        }
+
+        val mmsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_MMS)
+        if (mmsPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECEIVE_MMS), RECEIVE_MMS_REQUEST_CODE)
+        }
+
+        val readSmsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
+        if (readSmsPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_SMS), READ_SMS_REQUEST_CODE)
         }
 
     }
@@ -554,6 +578,43 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RECEIVE_SMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 
+                    println("SMS Permission has been denied by user")
+
+                } else {
+
+                    println("SMS Permission has been granted by user")
+
+                }
+
+            }
+            RECEIVE_MMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    println("MMS Permission has been denied by user")
+
+                } else {
+
+                    println("MMS Permission has been granted by user")
+
+                }
+            }
+            READ_SMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    println("READ SMS Permission has been denied by user")
+
+                } else {
+
+                    println("RED SMS Permission has been granted by user")
+
+                }
+            }
+        }
+    }
 
 }

@@ -74,7 +74,7 @@ class Friend_id_Fragment : Fragment()  {
         val params = RequestParams()
         params.put("search_type",searchtype)
         params.put("email",email)
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
         MemberAction.search_member(params, object : JsonHttpResponseHandler() {
 
@@ -127,7 +127,7 @@ class Friend_id_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -168,7 +168,7 @@ class Friend_id_Fragment : Fragment()  {
     fun add_friend() {
         val params = RequestParams()
         params.put("pem_id", pem_id)
-        params.put("member_id",PrefUtils.getIntPreference(context, "member_id") )
+        params.put("member_id",PrefUtils.getIntPreference(myContext, "member_id") )
 
         MemberAction.add_friend(params, object : JsonHttpResponseHandler() {
 
@@ -203,7 +203,7 @@ class Friend_id_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(

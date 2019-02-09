@@ -156,7 +156,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                 load_place()
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
             } else {
             }
             false
@@ -173,7 +173,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     }
 
     private fun checkGPs() {
-        if (Utils.availableLocationService(context)) {
+        if (Utils.availableLocationService(myContext)) {
             startLocation()
         } else {
             gpsCheckAlert.sendEmptyMessage(0)
@@ -190,7 +190,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
 
 
-                val builder = AlertDialog.Builder(context)
+                val builder = AlertDialog.Builder(myContext)
                 builder.setTitle("확인")
                 builder.setMessage("위치 서비스 이용이 제한되어 있습니다.\n설정에서 위치 서비스 이용을 허용해주세요.")
                 builder.setCancelable(true)
@@ -349,7 +349,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(

@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ListView
 import android.widget.RelativeLayout
-import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.CertificationController
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -76,7 +75,7 @@ class Other_time_Fragment : Fragment()  {
             val timeline_id = Utils.getString(timeline, "id")
             var chk = Utils.getBoolen(timeline, "isSelectedOp")
 
-            var view: View = View.inflate(context, R.layout.item_scrap, null)
+            var view: View = View.inflate(myContext, R.layout.item_scrap, null)
             var trustRL: RelativeLayout = view.findViewById(R.id.trustRL) as RelativeLayout
 
             trustRL.setOnClickListener {
@@ -108,7 +107,7 @@ class Other_time_Fragment : Fragment()  {
                     getTimeline()
                 }
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
             } else {
             }
             false
@@ -118,7 +117,7 @@ class Other_time_Fragment : Fragment()  {
 
     fun getTimeline(){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "all")
 
 
@@ -169,7 +168,7 @@ class Other_time_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -233,7 +232,7 @@ class Other_time_Fragment : Fragment()  {
 
     fun set_scrap(timeline_id: String){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("timeline_id", timeline_id)
 
 
@@ -267,7 +266,7 @@ class Other_time_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -338,7 +337,7 @@ class Other_time_Fragment : Fragment()  {
 
         val params = RequestParams()
         params.put("keyword", keyword)
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "all")
 
 
@@ -389,7 +388,7 @@ class Other_time_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -451,7 +450,7 @@ class Other_time_Fragment : Fragment()  {
     }
     fun add_certification(timeline_id: String){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("timeline_id", timeline_id)
         params.put("point", "500")
 
@@ -485,7 +484,7 @@ class Other_time_Fragment : Fragment()  {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(

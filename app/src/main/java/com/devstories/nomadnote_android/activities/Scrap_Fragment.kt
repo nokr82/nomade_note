@@ -120,7 +120,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
                     getTimeline()
                 }
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
             } else {
             }
             false
@@ -130,7 +130,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
     fun getTimeline(){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "scrap")
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
@@ -176,7 +176,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -240,7 +240,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
     fun set_scrap(timeline_id: String){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("timeline_id", timeline_id)
 
 
@@ -274,7 +274,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -344,7 +344,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
         }
 
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "scrap")
         params.put("keyword", keyword)
 
@@ -391,7 +391,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -455,7 +455,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
     fun add_certification(timeline_id: String, latitude: Double, longitude: Double){
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("timeline_id", timeline_id)
         params.put("latitude", latitude)
         params.put("longitude", longitude)
@@ -472,7 +472,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
                         var point = Utils.getInt(response,"point")
-                        PrefUtils.setPreference(context, "point", point)
+                        PrefUtils.setPreference(myContext, "point", point)
 
 
                         var json = timelineDatas.get(selectedPostion)
@@ -502,7 +502,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -583,7 +583,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
     }
 
     private fun checkGPs() {
-        if (Utils.availableLocationService(context)) {
+        if (Utils.availableLocationService(myContext)) {
             startLocation()
         } else {
             gpsCheckAlert.sendEmptyMessage(0)
@@ -680,7 +680,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
             val latitude = location.getLatitude()
             val longitude = location.getLongitude()
 
-            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
+            var geocoder: Geocoder = Geocoder(myContext, Locale.KOREAN);
 
             var adminArea = ""
             var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
