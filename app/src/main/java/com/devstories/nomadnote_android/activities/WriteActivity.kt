@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.Address
@@ -18,6 +17,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -47,6 +47,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -84,6 +85,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     var country = ""
     private var admin_area_kr = ""
+
+    private var timeline_file_ids = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -324,7 +327,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         val content_size = content_byte.size
         bytes.add(content_size)
 
-        var seq = 0
         if (addPicturesLL != null){
             for (i in 0 until addPicturesLL!!.childCount) {
                 val o = JSONObject()
@@ -332,13 +334,26 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
                 val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
                 if (imageIV is ImageView) {
+
+                    val mediaInfo = imageIV.tag as JSONObject
+                    val mediaType = Utils.getInt(mediaInfo, "mediaType")
+
                     val bitmap = imageIV.drawable as BitmapDrawable
-                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
-//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    params.put("files[$i]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
                     bytes.add(image_size)
-                    seq++
+
+                    if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                        val image_str = Utils.getString(mediaInfo, "image")
+
+                        val file = File(image_str)
+                        var videoBytes = file.readBytes()
+                        bytes.add(videoBytes.size)
+
+                        params.put("videos[$i]", ByteArrayInputStream(videoBytes))
+                    }
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
@@ -371,7 +386,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             Log.d("용량",disk_sum.toString())
             if (disk_sum > disk){
 //                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
-                Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
+                Utils.alert(context,getString(R.string.over_free_space), object: AlertListener {
                     override fun before(): Boolean {
                         return true
                     }
@@ -441,7 +456,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -458,6 +473,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
+
             }
 
             override fun onFailure(
@@ -471,6 +489,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
             }
 
             override fun onStart() {
@@ -537,27 +557,48 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
-        var seq = 0
+        for (idx in 0 until timeline_file_ids.size) {
+            params.put("timeline_file_ids[$idx]", timeline_file_ids.get(idx))
+        }
+
         if (addPicturesLL != null){
-            for (i in 0 until addPicturesLL!!.childCount) {
-                val o = JSONObject()
-                val v = addPicturesLL?.getChildAt(i)
+            for (idx in 0 until addPicturesLL!!.childCount) {
+                // val o = JSONObject()
+                val v = addPicturesLL?.getChildAt(idx)
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
                 val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
-                if (imageIV is ImageView) {
+
+                val mediaInfo = imageIV!!.tag as JSONObject
+                val mediaType = Utils.getInt(mediaInfo, "mediaType")
+
+                val timeline_file_id = Utils.getInt(mediaInfo, "timeline_file_id")
+                if(timeline_file_id == -1) {
                     val bitmap = imageIV.drawable as BitmapDrawable
-                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
-//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    params.put("files[$idx]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
-                    seq++
+                }
+
+                if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                    val video_id = Utils.getInt(mediaInfo, "id")
+                    if(video_id == -1) {
+
+                    } else {
+                        val image_str = Utils.getString(mediaInfo, "image")
+
+                        val file = File(image_str)
+                        var videoBytes = file.readBytes()
+
+                        params.put("videos[$idx]", ByteArrayInputStream(videoBytes))
+                    }
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
 //                    params.put("main_yn", "Y")
 //                    o.put("position",i)
                     println("--------visibility----")
-                    params.put("position",i)
+                    params.put("position", idx)
+                    params.put("position_timeline_file_id", timeline_file_id)
                 }
 //                else {
 //                    o.put("main_yn","N")
@@ -619,7 +660,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                System.out.println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -636,6 +677,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
             }
 
             override fun onFailure(
@@ -721,8 +764,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                             for (i in 0 until images.length()){
                                 val image_item = images.get(i) as JSONObject
                                 var path = Config.url+  Utils.getString(image_item, "image_uri")
+                                val video_path = Utils.getString(image_item, "video_path")
+                                val timeline_file_id = Utils.getInt(image_item, "id")
+                                var mediaType = 1;
+                                if(!video_path.isEmpty()) {
+                                    mediaType = 3
+                                }
 //                                detail_image_reset(path,i)
-                                reset(path,i,"detail")
+                                reset(path, i, "detail", mediaType, -1, timeline_file_id)
                             }
                         }
 
@@ -879,6 +928,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -886,11 +936,15 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
                 SELECT_PICTURE -> {
 
-                    var item = data?.getStringArrayExtra("images")//photoPath
+                    val ids = data?.getIntegerArrayListExtra("ids")
+                    val images = data?.getStringArrayExtra("images")
+                    val mediaTypes = data?.getIntegerArrayListExtra("mediaTypes")
                     //var name = data?.getStringArrayExtra("displayname")
 //                    addPicturesLL!!.removeAllViews()
-                    for (i in 0..(item!!.size - 1)) {
-                        val str = item[i]
+                    for (i in 0..(images!!.size - 1)) {
+                        val id = ids!![i]
+                        val str = images!![i]
+                        val mediaType = mediaTypes!![i]
 
 //                        images_path!!.add(str)
 
@@ -908,7 +962,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                            }
 //                        }
 
-                        reset(str,i,"picture")
+                        reset(str, i, "picture", mediaType, id, -1)
                     }
                 }
 
@@ -956,46 +1010,55 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
-    fun reset(str: String,i :Int,type: String) {
+    fun reset(str: String, idx: Int, type: String, mediaType: Int, id: Int, timeline_file_id: Int) {
 
         var v = View.inflate(context, R.layout.item_addgoods, null)
 
-        val bitmap = BitmapFactory.decodeFile(str)
+        // val bitmap = BitmapFactory.decodeFile(str)
         val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
+
+        // media info
+        val mediaInfo = JSONObject()
+        mediaInfo.put("idx", idx)
+        mediaInfo.put("mediaType", mediaType)
+        mediaInfo.put("image", str)
+        mediaInfo.put("id", id)
+        mediaInfo.put("timeline_file_id", timeline_file_id)
+
+        imageIV.tag = mediaInfo
+
         val delIV = v.findViewById<View>(R.id.delIV) as ImageView
-        val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
+        // val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
         val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
 
         if (type == "detail"){
             ImageLoader.getInstance().displayImage(str, v.addedImgIV, Utils.UILoptionsUserProfile)
         } else {
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-            BitmapFactory.decodeFile(str, options)
-            options.inJustDecodeBounds = false
-            options.inSampleSize = 1
-            if (options.outWidth > 96) {
-                val ws = options.outWidth / 96 + 1
-                if (ws > options.inSampleSize) {
-                    options.inSampleSize = ws
-                }
-            }
-            if (options.outHeight > 96) {
-                val hs = options.outHeight / 96 + 1
-                if (hs > options.inSampleSize) {
-                    options.inSampleSize = hs
-                }
+
+            if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+                images_path.add(str) // TODO 업로드시 이것을 사용해야 한다.
+                var add_file = Utils.getImage(context.contentResolver, str)
+
+                imageIV.setImageBitmap(add_file)
+
+            } else {
+                val curThumb = MediaStore.Video.Thumbnails.getThumbnail(context.contentResolver, id.toLong(), MediaStore.Video.Thumbnails.MINI_KIND, null)
+                imageIV.setImageBitmap(curThumb)
             }
 
-            images_path.add(str)
-            var add_file = Utils.getImage(context.contentResolver, str)
 
-            imageIV.setImageBitmap(add_file)
         }
 
-        delIV.tag = i
-        fullImageLL.setTag(i)
+        delIV.tag = mediaInfo
+        fullImageLL.setTag(idx)
         delIV.setOnClickListener {
+
+            val mediaInfo = it.tag as JSONObject
+            val timeline_file_id = Utils.getInt(mediaInfo, "timeline_file_id")
+            if(timeline_file_id > 0) {
+                timeline_file_ids.add(timeline_file_id)
+            }
+
             addPicturesLL!!.removeView(v)
 
             var isMainExist = false
@@ -1017,8 +1080,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     firstLL.visibility = View.VISIBLE
                 }
             }
-
         }
+
         if (imgSeq == 0) {
             addPicturesLL!!.addView(v)
         }

@@ -123,5 +123,6 @@
     <string name="allow_permission">Please grant permission.</string>
     <string name="no_image_data">No images available.</string>
     <string name="instagram_not_installed">Instagram is not installed.</string>
+    <string name="over_free_space">You have exceeded the free service capacity.</string>
 
 </resources>

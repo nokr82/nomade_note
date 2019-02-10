@@ -27,10 +27,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.facebook.FacebookSdk
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
@@ -47,8 +44,6 @@ import com.kakao.network.callback.ResponseCallback
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.assist.FailReason
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
@@ -78,7 +73,7 @@ class Solo_detail_Activity : RootActivity() {
 
     var adPosition = 0
     private lateinit var fullScreenAdapter: FullScreenImageAdapter
-    var imagePaths: ArrayList<String> = ArrayList<String>()
+    var imagePaths: ArrayList<JSONObject> = ArrayList<JSONObject>()
 
     var instagramShareUri:Uri? = null
 
@@ -104,7 +99,7 @@ class Solo_detail_Activity : RootActivity() {
 
         click()
 
-        fullScreenAdapter = FullScreenImageAdapter(this, imagePaths)
+        fullScreenAdapter = FullScreenImageAdapter(this, imagePaths, context)
         pagerVP.adapter = fullScreenAdapter
         pagerVP.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -309,13 +304,14 @@ class Solo_detail_Activity : RootActivity() {
 //                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
 //                                    imagePaths.add(uri)
                                 }
-                                imagePaths.add(uri)
+                                imagePaths.add(image_item)
                                 share_image_uri = image_uri
 
                             }
                             fullScreenAdapter.notifyDataSetChanged()
                         } else {
-
+                            pagerVP.visibility = View.GONE
+                            logoIV.visibility = View.VISIBLE
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")) {
@@ -879,66 +875,62 @@ class Solo_detail_Activity : RootActivity() {
 
         println("f : " + imagePaths.first())
 
-        ImageLoader.getInstance().loadImage(imagePaths.first(), object: ImageLoadingListener {
+        val image_item = imagePaths.first();
+        val image_uri = Utils.getString(image_item, "image_uri")
+        val video_path = Utils.getString(image_item, "video_path")
+        var uri = Config.url + image_uri
 
-            override fun onLoadingCancelled(imageUri: String?, view: View?) {
+        if(!video_path.isEmpty()) {
+            uri = Config.url + video_path
+        }
 
-            }
+        DownloadFileAsyncTask(context, object:DownloadFileAsyncTask.DownloadedListener {
+            override fun downloaded(uri: Uri?) {
 
-            override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
-
-            }
-
-            override fun onLoadingStarted(imageUri: String?, view: View?) {
-
-            }
-
-            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                instagramShareUri = Utils.saveBitmap2(context, loadedImage)
-
-                // println("path : $path")
-
-                // val imageFileToShare = File(path)
-
-                // val uri = Uri.fromFile(imageFileToShare)
-
-                println("instagramShareUri : $instagramShareUri")
+                instagramShareUri = uri
 
                 runOnUiThread(Runnable {
                     val shareIntent = Intent(Intent.ACTION_SEND)
-                    shareIntent.type = "image/*"
-                    try {
 
-                        // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, instagramShareUri);
-                        shareIntent.setPackage("com.instagram.android")
-                        startActivityForResult(shareIntent, INSTAGRAM_REQUEST_CODE)
-
-                        Handler().postDelayed({
-                            contentResolver.delete(instagramShareUri, null, null)
-                        }, 5000)
-
-                    } catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-
-                        Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
-
-                        contentResolver.delete(instagramShareUri, null, null)
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-
-                        Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
-
-                        contentResolver.delete(instagramShareUri, null, null)
-
+                    if(!video_path.isEmpty()) {
+                        shareIntent.type = "video/*"
+                    } else {
+                        shareIntent.type = "image/*"
                     }
+
+                    shareInstagramReally(shareIntent)
                 })
-
             }
-        })
+        }).execute(uri);
+    }
 
+    private fun shareInstagramReally(shareIntent: Intent) {
+        try {
 
+            // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, instagramShareUri);
+            shareIntent.setPackage("com.instagram.android")
+            startActivityForResult(shareIntent, INSTAGRAM_REQUEST_CODE)
+
+            Handler().postDelayed({
+                contentResolver.delete(instagramShareUri, null, null)
+            }, 5000)
+
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+
+            Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
+
+            contentResolver.delete(instagramShareUri, null, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
+
+            contentResolver.delete(instagramShareUri, null, null)
+
+        }
     }
 
     private fun getImageUri(context: Context, inImage: Bitmap) :Uri {
@@ -1037,9 +1029,6 @@ class Solo_detail_Activity : RootActivity() {
     fun onRequestPermission() {
         val permissionReadStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
         val permissionWriteStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        println("permissionReadStorage : $permissionReadStorage, permissionWriteStorage : $permissionWriteStorage")
-
         if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_CODE)
         } else {

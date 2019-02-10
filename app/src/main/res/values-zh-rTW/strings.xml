@@ -125,5 +125,6 @@
     <string name="allow_permission">请授予许可。</string>
     <string name="no_image_data">没有可用的图像。</string>
     <string name="instagram_not_installed">Instagram没有安装。</string>
+    <string name="over_free_space">超过免费服务容量。</string>
 
 </resources>

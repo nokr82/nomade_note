@@ -9,4 +9,22 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <LinearLayout
+        android:id="@+id/videoLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/play_icon"/>
+    </LinearLayout>
+
+    <VideoView
+        android:id="@+id/videoDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
 </RelativeLayout>

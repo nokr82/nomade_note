@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:background="#638d96"
         android:gravity="center_vertical"
-        android:layout_height="35dp">
+        android:layout_height="38dp">
 
         <ImageView
             android:id="@+id/flagIV"
@@ -25,7 +25,7 @@
             android:layout_weight="1.5"
             android:layout_height="wrap_content"
             android:textSize="13sp"
-            android:textColor="#4a4a4a" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/createdTV"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="#4a4a4a" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/countTV"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="#4a4a4a" />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

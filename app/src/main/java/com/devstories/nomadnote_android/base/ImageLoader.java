@@ -16,16 +16,16 @@ import java.util.Stack;
 
 public class ImageLoader {
 
-    Hashtable<Integer, Bitmap> loadImages;
-    Hashtable<Integer, String> positionRequested;
+    Hashtable<Long, Bitmap> loadImages;
+    Hashtable<Long, String> positionRequested;
     BaseAdapter listener;
     int runningCount = 0;
     Stack<ItemPair> queue;
     ContentResolver resolver;
 
     public ImageLoader(ContentResolver r) {
-        loadImages = new Hashtable<Integer, Bitmap>();
-        positionRequested = new Hashtable<Integer, String>();
+        loadImages = new Hashtable<Long, Bitmap>();
+        positionRequested = new Hashtable<Long, String>();
         queue = new Stack<ItemPair>();
         resolver = r;
     }
@@ -41,7 +41,7 @@ public class ImageLoader {
         queue.clear();
     }
 
-    public Bitmap getImage(int uid, String path, int orientation) {
+    public Bitmap getImage(long uid, String path, int orientation) {
         Bitmap image = loadImages.get(uid);
         if (image != null) {
             return image;
@@ -68,12 +68,12 @@ public class ImageLoader {
 
     public class LoadImageAsyncTask extends AsyncTask<Object, Void, Bitmap> {
 
-        Integer uid;
+        Long uid;
 
         @Override
         protected Bitmap doInBackground(Object... params) {
 
-            this.uid = (Integer) params[0];
+            this.uid = (Long) params[0];
             String photoPath = (String) params[1];
             Integer orientation = (Integer) params[2];
 
@@ -107,11 +107,11 @@ public class ImageLoader {
 
     public static class ItemPair {
 
-        Integer uid;
+        Long uid;
         String path;
         Integer orientation;
 
-        public ItemPair(Integer uid, String path, Integer orientation) {
+        public ItemPair(Long uid, String path, Integer orientation) {
             this.uid = uid;
             this.path = path;
             this.orientation = orientation;

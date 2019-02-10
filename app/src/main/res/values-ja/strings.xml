@@ -174,4 +174,5 @@
     <string name="allow_permission">アクセスを許可してください。</string>
     <string name="no_image_data">画像がありません。</string>
     <string name="instagram_not_installed">インスタグラムがインストールされていません。</string>
+    <string name="over_free_space">無料サービス容量を超えております。</string>
 </resources>
