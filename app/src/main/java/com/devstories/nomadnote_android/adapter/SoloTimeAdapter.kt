@@ -55,7 +55,6 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             val chunk = json.getJSONObject(0)
             setFirst(chunk)
 
-
         } else if(length == 2) {
             item.item2RL.visibility = View.VISIBLE
             item.item3RL.visibility = View.GONE

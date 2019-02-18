@@ -1238,11 +1238,20 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
-                println("list ---- ${list}")
-                println("list.admin ${list.get(0).adminArea}")
+                println("list ---- ${list.get(0)}")
 
                 country = list.get(0).countryName
-                admin_area_kr = list.get(0).adminArea
+
+                if(list.get(0).countryName != null) {
+                    country = list.get(0).countryName
+                }
+
+
+                if(list.get(0).adminArea != null) {
+                    admin_area_kr = list.get(0).adminArea
+                } else if(list.get(0).locality != null) {
+                    admin_area_kr = list.get(0).locality
+                }
 
             }
 
@@ -1250,11 +1259,13 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
-                println("list ---- ${list}")
-                println("list.admin ${list.get(0).adminArea}")
+                println("list ---- ${list.get(0)}")
 
-                locationET.setText(list.get(0).adminArea)
-
+                if(list.get(0).adminArea != null) {
+                    locationET.setText(list.get(0).adminArea)
+                } else if(list.get(0).locality != null) {
+                    locationET.setText(list.get(0).locality)
+                }
             }
 
             if (progressDialog != null) {

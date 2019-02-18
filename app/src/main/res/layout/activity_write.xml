@@ -74,11 +74,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
+                android:layout_height="wrap_content"
                 android:background="#d8d8d8"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingTop="20dp"
+                android:paddingBottom="6dp"
                 android:paddingRight="10dp">
 
                 <LinearLayout
@@ -366,8 +367,6 @@
                         android:text="@string/artmuseumstyle"
                         android:textColor="#878787"
                         android:textSize="10dp" />
-
-
                 </LinearLayout>
 
 
