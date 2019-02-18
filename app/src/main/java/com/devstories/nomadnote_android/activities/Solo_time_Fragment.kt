@@ -31,11 +31,11 @@ import org.json.JSONObject
 
 open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        
     }
 
     override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     lateinit var myContext: Context
