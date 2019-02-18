@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AbsListView
 import android.widget.ListView
 import android.widget.RelativeLayout
 import com.devstories.nomadnote_android.R
@@ -25,7 +26,14 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class Other_time_Fragment : Fragment()  {
+open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
+    override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
     lateinit var OthertimeAdapter: OthertimeAdapter
@@ -34,6 +42,12 @@ class Other_time_Fragment : Fragment()  {
     private lateinit var activity: MainActivity
 
     var timelineDatas:ArrayList<JSONObject> = ArrayList<JSONObject>()
+
+    private var page = 1
+    private var totalPage = 0
+    private var userScrolled = false
+    private var lastcount = 0
+    private var totalItemCountScroll = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -62,6 +76,33 @@ class Other_time_Fragment : Fragment()  {
 
         getTimeline()
 
+        otherLV.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onScrollStateChanged(questLV:AbsListView, newState: Int) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true
+                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    userScrolled = false
+                }
+
+                if (!otherLV.canScrollVertically(-1)) {
+                    page=1
+                    getTimeline()
+                } else if (!otherLV.canScrollVertically(1)) {
+                    if (totalPage > page) {
+                        page++
+                        lastcount = totalItemCountScroll
+
+                        getTimeline()
+                    }
+                }
+            }
+        })
+
     }
 
     fun click(){
@@ -74,16 +115,16 @@ class Other_time_Fragment : Fragment()  {
         otherLV.setOnItemClickListener { parent, view, position, id ->
             val timeline = timelineDatas.get(position)
             val timeline_id = Utils.getString(timeline, "id")
-            var chk = Utils.getBoolen(timeline, "isSelectedOp")
+            var scrap = Utils.getString(timeline, "scrap")
 
             var view: View = View.inflate(myContext, R.layout.item_scrap, null)
             var trustRL: RelativeLayout = view.findViewById(R.id.trustRL) as RelativeLayout
 
             trustRL.setOnClickListener {
-                if (chk){
-                    timelineDatas[position].put("isSelectedOp", false)
+                if (scrap == "1"){
+                    timelineDatas[position].put("scrap", "1")
                 } else {
-                    timelineDatas[position].put("isSelectedOp", true)
+                    timelineDatas[position].put("scrap", "2")
                 }
                 OthertimeAdapter.notifyDataSetChanged()
             }
@@ -105,6 +146,7 @@ class Other_time_Fragment : Fragment()  {
                 }
 
                 if (srchWd == null || srchWd == "") {
+                    timelineDatas.clear()
                     getTimeline()
                 }
 
@@ -120,7 +162,7 @@ class Other_time_Fragment : Fragment()  {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "all")
-
+        params.put("page", page)
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
 
@@ -137,11 +179,12 @@ class Other_time_Fragment : Fragment()  {
 
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
-                        if (timelineDatas != null){
+                        if (page == 1){
                             timelineDatas.clear()
                         }
 
-                        val datas = response!!.getJSONArray("timeline")
+                        val timeline = response!!.getJSONObject("timeline")
+                        val datas = timeline!!.getJSONArray("data")
                         if (datas.length() > 0){
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
@@ -154,6 +197,9 @@ class Other_time_Fragment : Fragment()  {
                                 }
                             }
                         }
+                        totalPage = Utils.getInt(timeline,"last_page")
+                        page = Utils.getInt(timeline,"current_page")
+
                         OthertimeAdapter.notifyDataSetChanged()
                     }
 
@@ -336,6 +382,7 @@ class Other_time_Fragment : Fragment()  {
 
         var keyword = keywordET.text.toString()
         if (keyword == "" || keyword == null){
+            timelineDatas.clear()
             getTimeline()
             return
         }
@@ -366,12 +413,12 @@ class Other_time_Fragment : Fragment()  {
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
                                 timelineDatas.add(timeline)
-                                var scrap = Utils.getString(timeline,"scrap")
-                                if (scrap == "1"){
-                                    timelineDatas[i].put("isSelectedOp", false)
-                                } else {
-                                    timelineDatas[i].put("isSelectedOp", true)
-                                }
+//                                var scrap = Utils.getString(timeline,"scrap")
+//                                if (scrap == "1"){
+//                                    timelineDatas[i].put("isSelectedOp", false)
+//                                } else {
+//                                    timelineDatas[i].put("isSelectedOp", true)
+//                                }
                             }
                         }
                         OthertimeAdapter.notifyDataSetChanged()

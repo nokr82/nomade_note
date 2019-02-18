@@ -105,7 +105,14 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
-        item.costTV.setText(cost+"$ ")
+//        item.costTV.setText(cost+"$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.costTV.setText(other_time_Fragment.getString(R.string.unit) + cost)
+        } else {
+            item.costTV.setText(cost + other_time_Fragment.getString(R.string.unit))
+        }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
@@ -113,9 +120,11 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
             item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
         }
 
-        var isSel = json.getBoolean("isSelectedOp")
 
-        if (isSel){
+
+        var scrap = Utils.getString(json,"scrap")
+
+        if (scrap == "2"){
 //            item.trustLL.visibility = View.VISIBLE
             item.trustIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.scrap_ck)
         } else {
@@ -136,8 +145,12 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
 
         item.trustIV.tag = position
         item.trustIV.setOnClickListener {
-            isSel = !isSel
-            json.put("isSelectedOp",isSel)
+            if (scrap == "1"){
+                scrap = "2"
+            } else {
+                scrap = "1"
+            }
+            json.put("scrap",scrap)
             notifyDataSetChanged()
             other_time_Fragment.set_scrap(timeline_id)
         }

@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.fra_setting.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 class Seting_Fragment : Fragment() {
     lateinit var myContext: Context
@@ -316,6 +317,8 @@ class Seting_Fragment : Fragment() {
             style = "6"
             setStyleImage(style)
         }
+
+
     }
 
     fun setstylemenu() {

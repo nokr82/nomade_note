@@ -10,18 +10,21 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.activities.Solo_detail_Activity
+import com.devstories.nomadnote_android.activities.Solo_time_Fragment
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
-open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>) : ArrayAdapter<JSONArray>(context,view, data){
+open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>,solo_time_fragment: Solo_time_Fragment) : ArrayAdapter<JSONArray>(context,view, data){
 
     private lateinit var item: ViewHolder
     var view:Int = view
     var data:ArrayList<JSONArray> = data
+    var solo_time_fragment = solo_time_fragment
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -138,15 +141,20 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             item.backgroundIV.setImageResource(R.mipmap.time_bg)
         }
 
-
         var createdsplit = created.split(" ")
         //이거슨 이유모를오류
         var timesplit = createdsplit.get(1).split(":")
 
-
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
-        item.costTV.setText(cost + "$ ")
+//        item.costTV.setText(cost + "$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.costTV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.costTV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
@@ -199,7 +207,13 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 
         item.place2TV.setText(place_name)
         item.duration2TV.setText(duration)
-        item.cost2TV.setText(cost + "$ ")
+//        item.cost2TV.setText(cost + "$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.cost2TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.cost2TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
         item.content2TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.created2TV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
@@ -252,7 +266,23 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 
         item.place3TV.setText(place_name)
         item.duration3TV.setText(duration)
-        item.cost3TV.setText(cost + "$ ")
+//        item.cost3TV.setText(cost + "$ ")
+//        var language = Locale.getDefault().getDisplayLanguage()
+//        if (language == "한국어" || language == "中文") {
+//            item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+//        } else {
+//            item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+//        }
+
+//        item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
+
+
         item.content3TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.created3TV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))

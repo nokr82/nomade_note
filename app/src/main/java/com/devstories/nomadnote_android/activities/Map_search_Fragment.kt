@@ -614,7 +614,14 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val duration = "$hour:$min"
 
             val total_costs = Utils.getInt(place, "total_costs")
-            val costs = "$total_costs$"
+            var costs = "$total_costs$"
+            if(language == "en" || language == "ja") {
+                costs = getString(R.string.unit) + total_costs.toString()
+            } else if (language == "zh"){
+                costs = total_costs.toString() +"\n" + getString(R.string.unit)
+            } else {        // 코리아
+                costs = total_costs.toString() + getString(R.string.unit)
+            }
 
             println("duration : $duration, costs : $costs")
 

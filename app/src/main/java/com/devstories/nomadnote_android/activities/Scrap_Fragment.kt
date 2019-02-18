@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AbsListView
 import android.widget.ListView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -41,7 +42,14 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
+open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.OnScrollListener {
+    override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     val REQUEST_ACCESS_COARSE_LOCATION = 101
     val REQUEST_FINE_LOCATION = 100
@@ -55,6 +63,12 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
     private lateinit var activity: MainActivity
 
     var selectedPostion = -1
+
+    private var page = 1
+    private var totalPage = 0
+    private var userScrolled = false
+    private var lastcount = 0
+    private var totalItemCountScroll = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -79,6 +93,34 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
         click()
 
         getTimeline()
+
+        scrapLV.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onScrollStateChanged(questLV:AbsListView, newState: Int) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true
+                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    userScrolled = false
+                }
+
+                if (!scrapLV.canScrollVertically(-1)) {
+                    page=1
+                    getTimeline()
+                } else if (!scrapLV.canScrollVertically(1)) {
+                    if (totalPage > page) {
+                        page++
+                        lastcount = totalItemCountScroll
+
+                        getTimeline()
+                    }
+                }
+            }
+        })
+
     }
     override fun onDestroy() {
         super.onDestroy()
@@ -119,6 +161,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
                 }
 
                 if (srchWd == null || srchWd == "") {
+                    timelineDatas.clear()
                     getTimeline()
                 }
 
@@ -134,6 +177,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(myContext,"member_id"))
         params.put("type", "scrap")
+        params.put("page", page)
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
 
@@ -150,19 +194,24 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
-                        if (timelineDatas != null){
+                        if (page == 1){
                             timelineDatas.clear()
                         }
 
-                        val datas = response!!.getJSONArray("scraps")
+                        val scraps = response!!.getJSONObject("scraps")
+                        val datas = scraps.getJSONArray("data")
                         if (datas.length() > 0){
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
                                 timelineDatas.add(timeline)
-                                timelineDatas[i].put("isSelectedOp", true)
+//                                timelineDatas[i].put("isSelectedOp", true)
 
                             }
                         }
+
+                        totalPage = Utils.getInt(scraps,"last_page")
+                        page = Utils.getInt(scraps,"current_page")
+
                         timelineAdapter.notifyDataSetChanged()
                     }
 
@@ -345,6 +394,7 @@ class Scrap_Fragment : Fragment(), OnLocationUpdatedListener {
 
         var keyword = keywordET.text.toString()
         if (keyword == "" || keyword == null){
+            timelineDatas.clear()
             getTimeline()
             return
         }

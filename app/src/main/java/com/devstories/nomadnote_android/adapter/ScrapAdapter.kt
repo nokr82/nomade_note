@@ -84,26 +84,34 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
         item.costTV.setText(cost+"$ ")
+//        var language = Locale.getDefault().getDisplayLanguage()
+//        if (language == "한국어" || language == "中文") {
+//            item.costTV.setText(cost + scrap_Fragment.getString(R.string.unit))
+//        } else {
+//            item.costTV.setText(scrap_Fragment.getString(R.string.unit) + cost)
+//        }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
         } else {
             item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
         }
+        item.trustIV.setImageResource(R.mipmap.scrap_ck)
 
-        var isSel = json.getBoolean("isSelectedOp")
-
-        if (isSel){
-//            item.trustLL.visibility = View.VISIBLE
-            item.trustIV.setImageResource(R.mipmap.scrap_ck)
-        } else {
-//            item.trustLL.visibility = View.GONE
-            item.trustIV.setImageResource(R.mipmap.icon_scrap)
-        }
+//        var isSel = json.getBoolean("isSelectedOp")
+//
+//        if (isSel){
+////            item.trustLL.visibility = View.VISIBLE
+//            item.trustIV.setImageResource(R.mipmap.scrap_ck)
+//        } else {
+////            item.trustLL.visibility = View.GONE
+//            item.trustIV.setImageResource(R.mipmap.icon_scrap)
+//        }
 
         item.trustIV.setOnClickListener {
-            isSel = !isSel
-            json.put("isSelectedOp",isSel)
+//            isSel = !isSel
+//            json.put("isSelectedOp",isSel)
             scrap_Fragment.set_scrap(timeline_id)
             removeItem(position)
             notifyDataSetChanged()
@@ -158,7 +166,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
                 scrap_Fragment.initGPS(selectedPostion)
 
-                isSel = !isSel
+//                isSel = !isSel
             }
         }
 

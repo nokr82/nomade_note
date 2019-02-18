@@ -30,7 +30,7 @@
     <!--키워드 검색-->
     <string name="activity_write_location">位置</string>
     <!--위치-->
-    <string name="activity_write_time">消費時間</string>
+    <string name="activity_write_time">現在時間</string>
     <!--소비시간-->
     <string name="activity_write_spent">消費金額</string>
     <!--소비금액-->
@@ -159,9 +159,9 @@
     <string name="enteryourage">年齢を入力してください.</string>
     <string name="total">総</string>
     <string name="view_my_friends">追加リストで表示</string>
-    <string name="prd_1gb">1GB (9,000ウォン)</string>
-    <string name="prd_600mb">600MB (5,000ウォン)</string>
-    <string name="prd_20kb">20KB (無料)</string>
+    <string name="prd_1gb">1GB (¥900)</string>
+    <string name="prd_600mb">600MB (¥500)</string>
+    <string name="prd_20kb">20MB (無料)</string>
     <string name="enter_question_title">タイトルを入力してください。</string>
     <string name="enter_question_contents">内容を入力して下さい。</string>
     <string name="choose_pic_title">写真を選択</string>
@@ -175,4 +175,5 @@
     <string name="no_image_data">画像がありません。</string>
     <string name="instagram_not_installed">インスタグラムがインストールされていません。</string>
     <string name="over_free_space">無料サービス容量を超えております。</string>
+    <string name="unit">¥</string>
 </resources>

@@ -246,6 +246,7 @@ class Solo_detail_Activity : RootActivity() {
                     if ("ok" == result) {
                         data = response!!.getJSONObject("timeline")
                         var place_name = Utils.getString(data, "place_name")
+                        var write_id = Utils.getInt(data,"member_id")
                         var duration = Utils.getString(data, "duration")
                         var cost = Utils.getString(data, "cost")
                         var contents = Utils.getString(data, "contents")
@@ -259,12 +260,14 @@ class Solo_detail_Activity : RootActivity() {
                             lockIV.setImageResource(R.mipmap.lock)
                         }
 
+
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
 
                         placeTV.setText(place_name)
                         durationTV.setText(duration)
-                        costTV.setText(cost + "$")
+//                        costTV.setText(cost + "$")
+                        costTV.setText(cost + getString(R.string.unit))
                         contentTV.setText(contents)
 
                         share_contents = contents
@@ -333,6 +336,11 @@ class Solo_detail_Activity : RootActivity() {
                             createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
                         } else {
                             createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":" + timesplit.get(1))
+                        }
+
+                        if (write_id != PrefUtils.getIntPreference(context,"member_id")){
+                            durationTV.visibility = View.GONE
+                            createdTV.setText(createdsplit.get(0))
                         }
 
                         when (style) {
@@ -532,12 +540,11 @@ class Solo_detail_Activity : RootActivity() {
                 try {
 
                     val result = Utils.getString(response, "result")
-                    println("-----result ------ $result")
                     if (result == "ok") {
                         var intent = Intent()
                         intent.putExtra("reset", "reset")
-                        intent.action = "DELETE_TIMELINE"
-                        sendBroadcast(intent)
+//                        intent.action = "DELETE_TIMELINE"
+//                        sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
                         finish()
                     }

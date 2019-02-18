@@ -29,7 +29,7 @@
     <!--키워드 검색-->
     <string name="activity_write_location">Location</string>
     <!--위치-->
-    <string name="activity_write_time">Time Purchased</string>
+    <string name="activity_write_time">Current time</string>
     <!--소비시간-->
     <string name="activity_write_spent">Amount of Money Spent</string>
     <!--소비금액-->
@@ -109,9 +109,9 @@
     <string name="enteryourage">Enter Your Age.</string>
     <string name="total">Total</string>
     <string name="view_my_friends">See Additional List</string>
-    <string name="prd_1gb">1GB (9,000KRW)</string>
-    <string name="prd_600mb">600MB (5,000KRW)</string>
-    <string name="prd_20kb">20KB (Free)</string>
+    <string name="prd_1gb">1GB ($8)</string>
+    <string name="prd_600mb">600MB ($5)</string>
+    <string name="prd_20kb">20MB (Free)</string>
     <string name="enter_question_title">Enter title</string>
     <string name="enter_question_contents">Enter text</string>
     <string name="choose_pic_title">Select photo</string>
@@ -124,5 +124,6 @@
     <string name="no_image_data">No images available.</string>
     <string name="instagram_not_installed">Instagram is not installed.</string>
     <string name="over_free_space">You have exceeded the free service capacity.</string>
+    <string name="unit">$</string>
 
 </resources>

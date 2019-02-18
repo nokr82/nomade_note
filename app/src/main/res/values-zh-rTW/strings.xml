@@ -29,7 +29,7 @@
     <!--키워드 검색-->
     <string name="activity_write_location">位置</string>
     <!--위치-->
-    <string name="activity_write_time">消費時間</string>
+    <string name="activity_write_time">當前時間</string>
     <!--소비시간-->
     <string name="activity_write_spent">消費金額</string>
     <!--소비금액-->
@@ -111,9 +111,9 @@
     <string name="enteryourage">请输入您的年龄。</string>
     <string name="total">枪</string>
     <string name="view_my_friends">添加到列表</string>
-    <string name="prd_1gb">1GB (9,000元韩币)</string>
-    <string name="prd_600mb">600MB (5,000元韩币)</string>
-    <string name="prd_20kb">20KB (免费)</string>
+    <string name="prd_1gb">1GB (55CNY)</string>
+    <string name="prd_600mb">600MB (31CNY)</string>
+    <string name="prd_20kb">20MB (免费)</string>
     <string name="enter_question_title">请输入标题。</string>
     <string name="enter_question_contents">请输入内容</string>
     <string name="choose_pic_title">选择照片</string>
@@ -126,5 +126,6 @@
     <string name="no_image_data">没有可用的图像。</string>
     <string name="instagram_not_installed">Instagram没有安装。</string>
     <string name="over_free_space">超过免费服务容量。</string>
+    <string name="unit">CNY</string>
 
 </resources>

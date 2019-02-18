@@ -94,7 +94,13 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         item.infoTV.setText(name+"/"+age+"세")
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
-        item.costTV.setText(cost+"$ ")
+//        item.costTV.setText(cost+"$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
+        } else {
+            item.costTV.setText(cost + mapSearchActivity!!.getString(R.string.unit))
+        }
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))

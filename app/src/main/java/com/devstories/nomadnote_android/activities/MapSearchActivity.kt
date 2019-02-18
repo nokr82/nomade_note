@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_mapsearch.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 class MapSearchActivity : RootActivity() {
 
@@ -113,7 +114,13 @@ class MapSearchActivity : RootActivity() {
                         totalDurationsTV.setText(duration)
 
                         val total_costs =   Utils.getInt(place,"total_costs")
-                        totalCostsTV.setText("$total_costs$")
+//                        totalCostsTV.setText("$total_costs$")
+                        var language = Locale.getDefault().language
+                        if(language == "en" || language == "ja") {
+                            totalCostsTV.setText(getString(R.string.unit) + total_costs.toString())
+                        } else {
+                            totalCostsTV.setText(total_costs.toString() + getString(R.string.unit))
+                        }
 
                     }
 

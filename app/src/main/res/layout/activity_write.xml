@@ -169,6 +169,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/mytimeLL"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="4dp"
@@ -268,7 +269,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:padding="7dp"
-                                android:text="$"
+                                android:text="@string/unit"
                                 android:textColor="#4a4a4a"
                                 android:textSize="12sp" />
                         </LinearLayout>

@@ -52,9 +52,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val group = channelId
 
         val intent = Intent(this, IntroActivity::class.java)
-//        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("last_id", data["last_id"])
-        intent.putExtra("created",data["created"])
+        intent.putExtra("created", data["created"])
 //        intent.putExtra("chatting_member_id", data["chatting_member_id"])
 //        intent.putExtra("content_id", data["content_id"])
 //        intent.putExtra("friend_id", data["friend_id"])

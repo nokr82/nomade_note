@@ -243,7 +243,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             builder
 
                     .setMessage(getString(R.string.builderwanttopost))
-
                     .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                         if (timeline_id == "") {

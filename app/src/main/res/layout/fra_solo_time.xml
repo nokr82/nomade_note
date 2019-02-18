@@ -65,7 +65,7 @@
             android:layout_marginTop="19dp">
 
             <RelativeLayout
-                android:id="@+id/visitnationRL"
+                android:id="@+id/writeRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -76,21 +76,22 @@
                     android:layout_centerHorizontal="true"
                     android:orientation="horizontal">
 
+
                     <ImageView
-                        android:id="@+id/visitnationIV"
+                        android:id="@+id/writeIV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:paddingTop="10dp"
                         android:paddingRight="2dp"
-                        android:src="@mipmap/visit_city" />
+                        android:src="@mipmap/paper_air" />
 
                     <TextView
-                        android:id="@+id/viTV"
+                        android:id="@+id/writeTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="@string/activity_visit_visited2"
+                        android:text="@string/fragment_solo_addnote"
                         android:textColor="#ffffff"
                         android:textSize="12dp"
                         android:gravity="center_horizontal" />
@@ -133,7 +134,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/writeRL"
+                android:id="@+id/visitnationRL"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -145,24 +146,25 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/writeIV"
+                        android:id="@+id/visitnationIV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:paddingTop="10dp"
                         android:paddingRight="2dp"
-                        android:src="@mipmap/paper_air" />
+                        android:src="@mipmap/visit_city" />
 
                     <TextView
-                        android:id="@+id/writeTV"
+                        android:id="@+id/viTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="@string/fragment_solo_addnote"
+                        android:text="@string/activity_visit_visited2"
                         android:textColor="#ffffff"
                         android:textSize="12dp"
                         android:gravity="center_horizontal" />
                 </LinearLayout>
+
 
             </RelativeLayout>
 

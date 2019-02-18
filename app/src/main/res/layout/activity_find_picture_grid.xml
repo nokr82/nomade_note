@@ -7,6 +7,7 @@
     tools:context=".activities.FindPictureGridActivity"
     android:orientation="vertical">
     <LinearLayout
+        android:background="@drawable/background_gradient"
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
@@ -20,7 +21,7 @@
                 android:layout_height="17dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@mipmap/back" />
+                android:background="@mipmap/back_white" />
         </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +29,7 @@
             android:gravity="center"
             android:text="@string/choose_pic_title"
             android:textSize="15dp"
-            android:textColor="#000000" />
+            android:textColor="#ffffff"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -42,6 +43,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="0"
+                    android:textColor="#ffffff"
                     android:textSize="15dp" />
                 <LinearLayout
                     android:id="@+id/addpostLL"
@@ -52,10 +54,10 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="@string/choose_pic_done"
+                        android:textColor="#ffffff"
                         android:textSize="15dp"
                         android:layout_marginRight="13dp"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="#000000" />
+                        android:layout_marginLeft="5dp"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -66,7 +68,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="#cccccc"/>
+        android:background="#cccccc"
+        android:visibility="gone"/>
     <GridView
         android:scrollbars="none"
         android:id="@+id/selectGV"

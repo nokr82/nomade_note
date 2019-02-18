@@ -23,7 +23,7 @@
     <string name="activity_write_note">작성시간</string>
     <string name="fragment_scrap_keyword">키워드 검색</string>
     <string name="activity_write_location">위치</string>
-    <string name="activity_write_time">소비시간</string>
+    <string name="activity_write_time">현재시간</string>
     <string name="activity_write_spent">소비금액</string>
     <string name="activity_write_rome">로마</string>
     <string name="activity_write_healing">힐링 스타일</string>
@@ -83,7 +83,7 @@
     <string name="acrivity_quest_logo">문의하기</string>
     <string name="item_mainimage">대표사진</string>
     <string name="artmuseumstyle">미술관 스타일</string>
-    <string name="newfriendid">e-mail로 친구를 추가할 수 있습니다.</string>
+    <string name="newfriendid">e-mail 로 친구를 추가할 수 있습니다.</string>
     <string name="addenterid">추가하고 싶은 친구의 e-mail를 입력해 주세요.</string>
 
 
@@ -107,7 +107,7 @@
     <string name="view_my_friends">추가리스트로 보기</string>
     <string name="prd_1gb">1GB (9,000원)</string>
     <string name="prd_600mb">600MB (5,000원)</string>
-    <string name="prd_20kb">20KB (무료)</string>
+    <string name="prd_20kb">20MB (무료)</string>
     <string name="enter_question_title">제목을 입력해주세요.</string>
     <string name="enter_question_contents">내용을 입력해주세요.</string>
     <string name="choose_pic_title">사진선택</string>
@@ -121,5 +121,6 @@
     <string name="no_image_data">이미지가 없습니다.</string>
     <string name="instagram_not_installed">인스타그램이 설치되어 있지 않습니다.</string>
     <string name="over_free_space">무료 서비스 용량을 초과하였습니다.</string>
+    <string name="unit">원</string>
 
 </resources>

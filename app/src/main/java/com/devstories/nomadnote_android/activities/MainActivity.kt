@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 
 class MainActivity : FragmentActivity() {
@@ -173,24 +174,39 @@ class MainActivity : FragmentActivity() {
         loadInfo()
 
         var intent = getIntent()
-        timeline_id = intent.getIntExtra("timline_id", -1)
-
-        if (intent.getBooleanExtra("is_push", false) != null){
-            is_push = intent.getBooleanExtra("is_push", false)
-            if (intent.getStringExtra("last_id") != null) {
-                last_id = intent.getStringExtra("last_id")
-                created = intent.getStringExtra("created")
-
-                println("-------created-----$created")
-
-                if (last_id.length > 0) {
-                    val intent = Intent(context, WriteActivity::class.java)
-                    intent.putExtra("qnas_id", last_id)
-                    intent.putExtra("created_at", created)
-                    startActivity(intent)
-                }
-            }
+        val is_push = PrefUtils.getBooleanPreference(context, "is_push")
+        if (is_push) {
+            val last_id = PrefUtils.getStringPreference(context,"last_id")
+            val created = PrefUtils.getStringPreference(context,"created")
+            val intent = Intent(context, WriteActivity::class.java)
+            intent.putExtra("qnas_id", last_id)
+            intent.putExtra("created_at", created)
+            startActivity(intent)
         }
+
+        PrefUtils.removePreference(context, "is_push")
+        PrefUtils.removePreference(context, "last_id")
+        PrefUtils.removePreference(context, "created")
+        PrefUtils.removePreference(context, "timeline_id")
+
+//        timeline_id = intent.getIntExtra("timline_id", -1)
+//        is_push = intent.getBooleanExtra("is_push", false)
+//
+//        if (is_push){
+//
+//            last_id = intent.getStringExtra("last_id")
+//            created = intent.getStringExtra("created")
+//
+//            println("-------created-----$created")
+//
+//            if (last_id.length > 0) {
+//                val intent = Intent(context, WriteActivity::class.java)
+//                intent.putExtra("qnas_id", last_id)
+//                intent.putExtra("created_at", created)
+//                startActivity(intent)
+//            }
+//
+//        }
 
         println("--------timeline_id $last_id")
 
@@ -480,6 +496,8 @@ class MainActivity : FragmentActivity() {
                         var bytedouble = Utils.getDouble(member,"point")
                         var byte = Utils.getInt(member,"bytes")
 
+                        println("-----memberbyte : $byte")
+
 //                        var payment_byte = 2147483648
                         // var payment_byte = 20480
 //                        if (payment_sum.length()>0){
@@ -615,6 +633,26 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent2: Intent?) {
+        super.onNewIntent(intent2)
+
+        val is_push = PrefUtils.getBooleanPreference(context, "is_push")
+        if (is_push) {
+            val last_id = PrefUtils.getStringPreference(context,"last_id")
+            val created = PrefUtils.getStringPreference(context,"created")
+            val intent = Intent(context, WriteActivity::class.java)
+            intent.putExtra("qnas_id", last_id)
+            intent.putExtra("created_at", created)
+            startActivity(intent)
+        }
+
+        PrefUtils.removePreference(context, "is_push")
+        PrefUtils.removePreference(context, "last_id")
+        PrefUtils.removePreference(context, "created")
+        PrefUtils.removePreference(context, "timeline_id")
+
     }
 
 }
