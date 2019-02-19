@@ -496,6 +496,9 @@ class MainActivity : FragmentActivity() {
                         var bytedouble = Utils.getDouble(member,"point")
                         var byte = Utils.getInt(member,"bytes")
 
+                        var usebytes = response.getString("usebytes")
+                        println("----- usebytes : $usebytes")
+
                         println("-----memberbyte : $byte")
 
 //                        var payment_byte = 2147483648
@@ -524,7 +527,7 @@ class MainActivity : FragmentActivity() {
                         val style = Utils.getInt(member, "style_id")
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
                         PrefUtils.setPreference(context, "point", point)
-                        PrefUtils.setPreference(context, "byte", byte)
+                        PrefUtils.setPreference(context, "byte", usebytes.toInt())
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }

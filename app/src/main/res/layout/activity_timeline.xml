@@ -134,7 +134,6 @@
                                     android:id="@+id/placeTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="12"
                                     android:textColor="#878787"
                                     android:textSize="11sp"
                                     android:layout_marginRight="4dp"/>
@@ -143,7 +142,6 @@
                                     android:id="@+id/durationTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="34"
                                     android:textColor="#878787"
                                     android:textSize="11sp"
                                     android:layout_marginRight="4dp" />
@@ -152,7 +150,6 @@
                                     android:id="@+id/costTV"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="56"
                                     android:textColor="#878787"
                                     android:textSize="11sp" />
                             </LinearLayout>
@@ -161,7 +158,6 @@
                                 android:id="@+id/createdTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="78"
                                 android:textSize="11sp"
                                 android:layout_marginTop="2dp"/>
 

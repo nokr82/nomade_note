@@ -482,13 +482,15 @@ class Seting_Fragment : Fragment() {
                     println("-----rament$rament")
 
                     if (maxabs.toInt() == 0){
-                        if (maxgb.toInt() == 0){
-                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxkb).toString() + "KB")
-                            progressPB.setMax(maxkb.toInt())
-                            progressPB.setProgress(ramentabskb.toInt())
-                        } else {
-                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxgb).toString() + "MB")
-                        }
+
+                        mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxgb).toString() + "MB")
+//                        if (maxgb.toInt() == 0){
+//                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxkb).toString() + "KB")
+//                            progressPB.setMax(maxkb.toInt())
+//                            progressPB.setProgress(ramentabskb.toInt())
+//                        } else {
+//                            mydataTV.setText(getString(R.string.total) + " " + Math.abs(maxgb).toString() + "MB")
+//                        }
                     } else {
                         mydataTV.setText(getString(R.string.total) + " " + maxabs.toString() + "GB")
                     }
@@ -496,17 +498,20 @@ class Seting_Fragment : Fragment() {
                     println("--------------paymentsabs $paymentabs")
                     println("--------------ramentabs $ramentabs")
 
-                    if (paymentabs == 0.toLong()){
-                        remantTV.setText(paymentabskb.toString()  + "KB")
-                    } else {
-                        remantTV.setText(paymentabs.toString() + "MB")
-                    }
 
-                    if (ramentabs == 0.toLong()){
-                        useTV.setText(ramentabskb.toString() + "KB")
-                    } else {
-                        useTV.setText(ramentabs.toString() + "MB")
-                    }
+                    remantTV.setText(paymentabs.toString() + "MB")
+//                    if (paymentabs == 0.toLong()){
+//                        remantTV.setText(paymentabskb.toString()  + "KB")
+//                    } else {
+//                        remantTV.setText(paymentabs.toString() + "MB")
+//                    }
+
+                    useTV.setText(ramentabs.toString() + "MB")
+//                    if (ramentabs == 0.toLong()){
+//                        useTV.setText(ramentabskb.toString() + "KB")
+//                    } else {
+//                        useTV.setText(ramentabs.toString() + "MB")
+//                    }
 //                    mydataTV.setText(getString(R.string.total) + " " + maxabs.toString() + "GB")
 //                    remantTV.setText(paymentabs.toString() + "MB")
 //                    useTV.setText(ramentabs.toString() + "MB")

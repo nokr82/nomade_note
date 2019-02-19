@@ -31,7 +31,7 @@ import org.json.JSONObject
 
 open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
-        
+
     }
 
     override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {

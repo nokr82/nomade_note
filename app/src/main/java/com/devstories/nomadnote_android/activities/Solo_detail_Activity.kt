@@ -79,6 +79,8 @@ class Solo_detail_Activity : RootActivity() {
 
     lateinit var data:JSONObject;
 
+    var bytes = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -252,6 +254,7 @@ class Solo_detail_Activity : RootActivity() {
                         var contents = Utils.getString(data, "contents")
                         var created = Utils.getString(data, "created_at")
                         var style = Utils.getString(data, "style_id")
+                        bytes = Utils.getInt(data,"bytes")
                         block = Utils.getString(data, "block_yn")
 
                         if (block == "N") {
@@ -523,7 +526,6 @@ class Solo_detail_Activity : RootActivity() {
             }
         }
 
-
     }
 
     fun delete_timeline() {
@@ -543,10 +545,14 @@ class Solo_detail_Activity : RootActivity() {
                     if (result == "ok") {
                         var intent = Intent()
                         intent.putExtra("reset", "reset")
-//                        intent.action = "DELETE_TIMELINE"
-//                        sendBroadcast(intent)
+                        intent.action = "DELETE_TIMELINE"
+                        sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
                         finish()
+                        var usebytes = PrefUtils.getIntPreference(context, "byte")
+                        usebytes -= bytes
+                        PrefUtils.setPreference(context, "byte", usebytes.toInt())
+                        println("--------usebytes : $usebytes")
                     }
 
                 } catch (e: JSONException) {
