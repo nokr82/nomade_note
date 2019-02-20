@@ -61,8 +61,6 @@ class AddFriendActivity : FragmentActivity() {
         addV.visibility = View.GONE
     }
 
-
-
     fun click(){
         titleBackLL.setOnClickListener {
             finish()
