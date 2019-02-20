@@ -123,4 +123,7 @@
     <string name="over_free_space">무료 서비스 용량을 초과하였습니다.</string>
     <string name="unit">원</string>
 
+    <!-- 시리얼 코드 메세지 -->
+    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+
 </resources>

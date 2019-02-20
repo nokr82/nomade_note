@@ -21,6 +21,7 @@ import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.ChargeAction
 import com.devstories.nomadnote_android.actions.MemberAction
+import com.devstories.nomadnote_android.actions.VoucherAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
@@ -146,6 +147,23 @@ class Seting_Fragment : Fragment() {
                 iapHelper?.buy("1gb")
             } else if(op_600mbLL.isSelected) {
                 iapHelper?.buy("600mb")
+            } else if (opInputLL.isSelected) {
+                val op_input_str = Utils.getString(opInputET)
+
+                if (op_input_str.count() != 19) {
+                    voucherAlert()
+                    return@setOnClickListener
+                }
+
+                var op_input = op_input_str.split("-")
+
+                if(op_input.count() != 4) {
+                    voucherAlert()
+                    return@setOnClickListener
+                }
+
+                useVoucher(op_input[0], op_input[1], op_input[2], op_input[3])
+
             }
         }
     }
@@ -572,6 +590,18 @@ class Seting_Fragment : Fragment() {
 
     }
 
+    fun voucherAlert() {
+        // 시리얼 코드를 다시 확인해주세요.
+        val builder = AlertDialog.Builder(myContext)
+        builder
+                .setMessage(getString(R.string.voucher_error))
+                .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
+                })
+
+        val alert = builder.create()
+        alert.show()
+    }
+
     fun deleteConfrim() {
         val builder = AlertDialog.Builder(myContext)
         builder
@@ -649,6 +679,96 @@ class Seting_Fragment : Fragment() {
                     } else {
 
 //                        Toast.makeText(context, "오류가 발생하였습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONArray?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
+    fun useVoucher(voucher1: String, voucher2: String, voucher3: String, voucher4: String) {
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
+        params.put("voucher1", voucher1)
+        params.put("voucher2", voucher2)
+        params.put("voucher3", voucher3)
+        params.put("voucher4", voucher4)
+
+        VoucherAction.use_voucher(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+
+                        val intent = Intent()
+                        intent.action = "MY_QUOTA_UPDATED"
+                        myContext.sendBroadcast(intent)
+
+                    } else {
+                        voucherAlert();
                     }
 
                 } catch (e: JSONException) {

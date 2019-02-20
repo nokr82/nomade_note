@@ -126,4 +126,7 @@
     <string name="over_free_space">You have exceeded the free service capacity.</string>
     <string name="unit">$</string>
 
+    <!-- 바우처 -->
+    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+
 </resources>

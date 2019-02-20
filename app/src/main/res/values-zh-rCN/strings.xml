@@ -133,4 +133,7 @@
     <string name="over_free_space">超過免費服務容量。</string>
     <string name="unit">CNY</string>
 
+
+    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+
 </resources>

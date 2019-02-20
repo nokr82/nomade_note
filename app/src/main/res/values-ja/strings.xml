@@ -176,4 +176,8 @@
     <string name="instagram_not_installed">インスタグラムがインストールされていません。</string>
     <string name="over_free_space">無料サービス容量を超えております。</string>
     <string name="unit">¥</string>
+
+
+    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+
 </resources>
