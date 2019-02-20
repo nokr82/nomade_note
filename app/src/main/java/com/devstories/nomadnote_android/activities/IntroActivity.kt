@@ -46,7 +46,9 @@ class IntroActivity : RootActivity() {
 
 
         this.context = this
-        progressDialog = ProgressDialog(context)
+        progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
+        progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+//        progressDialog = ProgressDialog(context)
 
 
         val share_str = intent.dataString
@@ -128,6 +130,12 @@ class IntroActivity : RootActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        println("fg $intent")
+    }
+
     private fun toLogin() {
         val autoLogin = PrefUtils.getBooleanPreference(context, "autoLogin")
 
@@ -138,8 +146,18 @@ class IntroActivity : RootActivity() {
             PrefUtils.clear(context)
 
             var intent = Intent(context, LoginActivity::class.java)
+//            intent.putExtra("is_push",is_push)
+//            intent.putExtra("last_id",last_id)
+//            intent.putExtra("created",created)
+//            intent.putExtra("timeline_id",timeline_id)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            println("------intro is_push : $is_push last_id : $last_id created : $created")
             startActivity(intent)
+
+            PrefUtils.setPreference(context, "is_push", is_push)
+            PrefUtils.setPreference(context, "last_id", last_id)
+            PrefUtils.setPreference(context, "created", created)
+            PrefUtils.setPreference(context, "timeline_id", timeline_id)
         }
 
     }
@@ -177,21 +195,30 @@ class IntroActivity : RootActivity() {
 
                         LoginActivity.processLoginData(context, data)
 
+                        println("----timeline_id $timeline_id")
+
                         val intent = Intent(context, MainActivity::class.java)
-                        intent.putExtra("is_push",is_push)
-                        intent.putExtra("last_id",last_id)
-                        intent.putExtra("created",created)
-                        intent.putExtra("timeline_id",timeline_id)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         startActivity(intent)
+
+                        PrefUtils.setPreference(context, "is_push", is_push)
+                        PrefUtils.setPreference(context, "last_id", last_id)
+                        PrefUtils.setPreference(context, "created", created)
+                        PrefUtils.setPreference(context, "timeline_id", timeline_id)
 
                     } else {
 
                         PrefUtils.clear(context)
 
                         val intent = Intent(context, LoginActivity::class.java)
+
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         startActivity(intent)
+
+                        PrefUtils.setPreference(context, "is_push", is_push)
+                        PrefUtils.setPreference(context, "last_id", last_id)
+                        PrefUtils.setPreference(context, "created", created)
+                        PrefUtils.setPreference(context, "timeline_id", timeline_id)
                     }
 
                 } catch (e: JSONException) {

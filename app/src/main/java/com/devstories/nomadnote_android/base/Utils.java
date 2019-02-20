@@ -19,9 +19,11 @@ import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
+import android.support.v4.content.FileProvider;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -49,6 +51,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -586,30 +589,28 @@ public class Utils {
         return null;
     }
 
-    public static String saveBitmap2(Context context, Bitmap bitmap) {
+    public static Uri saveBitmap2(Context context, Bitmap bitmap) {
         try {
-            String imageLocalPath = Environment.getExternalStorageDirectory()+ File.separator + context.getPackageName();
+            File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File photo = File.createTempFile(
+                    String.valueOf(System.currentTimeMillis()), /* prefix */
+                    ".png", /* suffix */
+                    storageDir      /* directory */
+            );
 
-            // String dataDir = context.getApplicationInfo().dataDir;
-            // dataDir = dataDir + File.separator + "download";
-            File dir = new File(imageLocalPath);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-
-            // list
-            File f = new File(imageLocalPath, String.valueOf(System.currentTimeMillis() + ".png"));
-            f.createNewFile();
+            String cameraPath = photo.getAbsolutePath();
+            //imageUri = Uri.fromFile(photo);
+            Uri imageUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", photo);
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(CompressFormat.PNG, 100, bos);
             byte[] bitmapdata = bos.toByteArray();
 
-            FileOutputStream fos = new FileOutputStream(f);
+            FileOutputStream fos = new FileOutputStream(photo);
             fos.write(bitmapdata);
             fos.close();
 
-            return f.getAbsolutePath();
+            return imageUri;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -1090,6 +1091,23 @@ public class Utils {
 
     public static byte[] getByteArray(Bitmap bitmap) {
         return getByteArray(bitmap, 100);
+    }
+
+    public static byte[] getByteArray(File file) {
+        int size = (int) file.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return bytes;
     }
 
     public static byte[] getByteArray(Bitmap bitmap, int quality) {

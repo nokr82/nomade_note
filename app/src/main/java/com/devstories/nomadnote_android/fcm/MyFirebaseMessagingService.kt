@@ -13,11 +13,10 @@ import android.os.Build
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
-
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.activities.IntroActivity
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 
 /**
  * Created by dev1 on 2017-12-15.
@@ -53,9 +52,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val group = channelId
 
         val intent = Intent(this, IntroActivity::class.java)
-//        // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("last_id", data["last_id"])
-        intent.putExtra("created",data["created"])
+        intent.putExtra("created", data["created"])
 //        intent.putExtra("chatting_member_id", data["chatting_member_id"])
 //        intent.putExtra("content_id", data["content_id"])
 //        intent.putExtra("friend_id", data["friend_id"])
@@ -84,8 +83,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val gnotificationBuilder = NotificationCompat.Builder(this, channelId)
-                    .setSmallIcon(R.mipmap.group)
-                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.group))
+                    .setSmallIcon(R.mipmap.logo)
+                    .setLargeIcon(BitmapFactory.decodeResource(resources, R.mipmap.logo))
                     .setGroup(group)
                     .setGroupSummary(true)
                     .setAutoCancel(true)

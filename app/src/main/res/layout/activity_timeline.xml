@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,14 +13,13 @@
         <RelativeLayout
             android:id="@+id/titleLL"
             android:layout_width="match_parent"
-            android:layout_height="170dp">
+            android:layout_height="220dp">
 
             <android.support.v4.view.ViewPager
                 android:visibility="gone"
                 android:id="@+id/pagerVP"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
             </android.support.v4.view.ViewPager>
 
             <ImageView
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_horizontal"
-                android:text="노마드 / 35세"
+                android:text=""
                 android:textColor="#878787"
                 android:textSize="12sp" />
 
@@ -115,71 +115,80 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="20dp">
-
+                        android:orientation="horizontal">
                         <LinearLayout
-                            android:id="@+id/locationLL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingTop="20dp">
+
+                            <LinearLayout
+                                android:id="@+id/locationLL"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/placeTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#878787"
+                                    android:textSize="11sp"
+                                    android:layout_marginRight="4dp"/>
+
+                                <TextView
+                                    android:id="@+id/durationTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#878787"
+                                    android:textSize="11sp"
+                                    android:layout_marginRight="4dp" />
+
+                                <TextView
+                                    android:id="@+id/costTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#878787"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
 
                             <TextView
-                                android:id="@+id/placeTV"
+                                android:id="@+id/createdTV"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
+                                android:textSize="11sp"
+                                android:layout_marginTop="2dp"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/durationTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
-
-                            <TextView
-                                android:id="@+id/costTV"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text=""
-                                android:textColor="#878787"
-                                android:textSize="11sp" />
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/createdTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="#878787"
-                            android:textSize="11sp" />
-
+                        <ImageView
+                            android:id="@+id/translateIV"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/logo_translation"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="bottom"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:background="#638d96"/>
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/contentTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:lineSpacingExtra="7sp"
                         android:paddingTop="10dp"
+                        android:text=""
+                        android:textColor="#878787"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/translatedTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
                         android:paddingBottom="10dp"
                         android:text=""
                         android:textColor="#878787"
@@ -283,7 +292,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center_horizontal"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="150dp"

@@ -11,26 +11,28 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.facebook.FacebookSdk
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
+import com.google.cloud.translate.Translate
+import com.google.cloud.translate.TranslateOptions
 import com.kakao.kakaolink.v2.KakaoLinkResponse
 import com.kakao.kakaolink.v2.KakaoLinkService
 import com.kakao.message.template.ButtonObject
@@ -42,17 +44,18 @@ import com.kakao.network.callback.ResponseCallback
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.assist.FailReason
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_timeline.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
-import java.io.File
+import java.lang.ref.WeakReference
+import java.util.*
 
 class Solo_detail_Activity : RootActivity() {
+
+    val INSTAGRAM_REQUEST_CODE = 1001
 
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
@@ -70,7 +73,13 @@ class Solo_detail_Activity : RootActivity() {
 
     var adPosition = 0
     private lateinit var fullScreenAdapter: FullScreenImageAdapter
-    var imagePaths: ArrayList<String> = ArrayList<String>()
+    var imagePaths: ArrayList<JSONObject> = ArrayList<JSONObject>()
+
+    var instagramShareUri:Uri? = null
+
+    lateinit var data:JSONObject;
+
+    var bytes = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +101,7 @@ class Solo_detail_Activity : RootActivity() {
 
         click()
 
-        fullScreenAdapter = FullScreenImageAdapter(this, imagePaths)
+        fullScreenAdapter = FullScreenImageAdapter(this, imagePaths, context)
         pagerVP.adapter = fullScreenAdapter
         pagerVP.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -202,6 +211,14 @@ class Solo_detail_Activity : RootActivity() {
             shareKakaoStory()
         }
 
+
+        translateIV.setOnClickListener {
+            translatedTV.text = "translated"
+
+            val task = TranslateAsyncTask(context, it, data, translatedTV)
+            task.execute()
+        }
+
     }
 
     override fun onDestroy() {
@@ -229,13 +246,15 @@ class Solo_detail_Activity : RootActivity() {
 
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
-                        val data = response!!.getJSONObject("timeline")
+                        data = response!!.getJSONObject("timeline")
                         var place_name = Utils.getString(data, "place_name")
+                        var write_id = Utils.getInt(data,"member_id")
                         var duration = Utils.getString(data, "duration")
                         var cost = Utils.getString(data, "cost")
                         var contents = Utils.getString(data, "contents")
                         var created = Utils.getString(data, "created_at")
                         var style = Utils.getString(data, "style_id")
+                        bytes = Utils.getInt(data,"bytes")
                         block = Utils.getString(data, "block_yn")
 
                         if (block == "N") {
@@ -244,12 +263,14 @@ class Solo_detail_Activity : RootActivity() {
                             lockIV.setImageResource(R.mipmap.lock)
                         }
 
+
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
 
                         placeTV.setText(place_name)
                         durationTV.setText(duration)
-                        costTV.setText(cost + "$")
+//                        costTV.setText(cost + "$")
+                        costTV.setText(cost + getString(R.string.unit))
                         contentTV.setText(contents)
 
                         share_contents = contents
@@ -289,13 +310,14 @@ class Solo_detail_Activity : RootActivity() {
 //                                    ImageLoader.getInstance().displayImage(uri, logoIV, Utils.UILoptionsUserProfile)
 //                                    imagePaths.add(uri)
                                 }
-                                imagePaths.add(uri)
+                                imagePaths.add(image_item)
                                 share_image_uri = image_uri
 
                             }
                             fullScreenAdapter.notifyDataSetChanged()
                         } else {
-
+                            pagerVP.visibility = View.GONE
+                            logoIV.visibility = View.VISIBLE
                         }
 
                         if (founder_id.toInt() != PrefUtils.getIntPreference(context, "member_id")) {
@@ -303,6 +325,11 @@ class Solo_detail_Activity : RootActivity() {
                             modifyIV.visibility = View.GONE
                             lockIV.visibility = View.GONE
                             deleteIV.visibility = View.GONE
+                        } else {
+                            soloLL.visibility = View.VISIBLE
+                            modifyIV.visibility = View.VISIBLE
+                            lockIV.visibility = View.VISIBLE
+                            deleteIV.visibility = View.VISIBLE
                         }
 
                         infoTV.setText(name + "/" + age + "세")
@@ -312,6 +339,11 @@ class Solo_detail_Activity : RootActivity() {
                             createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
                         } else {
                             createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":" + timesplit.get(1))
+                        }
+
+                        if (write_id != PrefUtils.getIntPreference(context,"member_id")){
+                            durationTV.visibility = View.GONE
+                            createdTV.setText(createdsplit.get(0))
                         }
 
                         when (style) {
@@ -473,6 +505,9 @@ class Solo_detail_Activity : RootActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        println("requestCode : $requestCode, data : $data")
+
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
 
@@ -482,9 +517,14 @@ class Solo_detail_Activity : RootActivity() {
                         detail_timeline()
                     }
                 }
+
+                INSTAGRAM_REQUEST_CODE -> {
+                    if(instagramShareUri != null) {
+                        contentResolver.delete(instagramShareUri, null, null)
+                    }
+                }
             }
         }
-
 
     }
 
@@ -502,11 +542,17 @@ class Solo_detail_Activity : RootActivity() {
                 try {
 
                     val result = Utils.getString(response, "result")
-                    if ("ok" == result) {
+                    if (result == "ok") {
                         var intent = Intent()
                         intent.putExtra("reset", "reset")
+                        intent.action = "DELETE_TIMELINE"
+                        sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
                         finish()
+                        var usebytes = PrefUtils.getIntPreference(context, "byte")
+                        usebytes -= bytes
+                        PrefUtils.setPreference(context, "byte", usebytes.toInt())
+                        println("--------usebytes : $usebytes")
                     }
 
                 } catch (e: JSONException) {
@@ -824,7 +870,7 @@ class Solo_detail_Activity : RootActivity() {
     private fun shareInstagram() {
 
         if (imagePaths.size == 0) {
-            Utils.alert(context, "No Image")
+            Utils.alert(context, getString(R.string.no_image_data))
             return
         }
 
@@ -836,62 +882,68 @@ class Solo_detail_Activity : RootActivity() {
     private fun doShareInstagram() {
 
         if (imagePaths.size == 0) {
-            Utils.alert(context, "No Image")
+            Utils.alert(context, getString(R.string.no_image_data))
             return
         }
 
         println("f : " + imagePaths.first())
 
-        ImageLoader.getInstance().loadImage(imagePaths.first(), object: ImageLoadingListener {
+        val image_item = imagePaths.first();
+        val image_uri = Utils.getString(image_item, "image_uri")
+        val video_path = Utils.getString(image_item, "video_path")
+        var uri = Config.url + image_uri
 
-            override fun onLoadingCancelled(imageUri: String?, view: View?) {
+        if(!video_path.isEmpty()) {
+            uri = Config.url + video_path
+        }
 
-            }
+        DownloadFileAsyncTask(context, object:DownloadFileAsyncTask.DownloadedListener {
+            override fun downloaded(uri: Uri?) {
 
-            override fun onLoadingFailed(imageUri: String?, view: View?, failReason: FailReason?) {
-
-            }
-
-            override fun onLoadingStarted(imageUri: String?, view: View?) {
-
-            }
-
-            override fun onLoadingComplete(imageUri: String?, view: View?, loadedImage: Bitmap?) {
-                val path = Utils.saveBitmap2(context, loadedImage)
-
-                println("path : $path")
-
-                val imageFileToShare = File(path)
-
-                val uri = Uri.fromFile(imageFileToShare)
-
-                println("uri : $uri")
+                instagramShareUri = uri
 
                 runOnUiThread(Runnable {
                     val shareIntent = Intent(Intent.ACTION_SEND)
-                    shareIntent.type = "image/*"
-                    try {
 
-                        // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "텍스트는 지원하지 않음!")
-                        shareIntent.setPackage("com.instagram.android")
-                        startActivity(shareIntent)
-
-                    } catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-
-                        Toast.makeText(context, "인스타그램이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                    if(!video_path.isEmpty()) {
+                        shareIntent.type = "video/*"
+                    } else {
+                        shareIntent.type = "image/*"
                     }
+
+                    shareInstagramReally(shareIntent)
                 })
-
             }
-        })
+        }).execute(uri);
+    }
 
+    private fun shareInstagramReally(shareIntent: Intent) {
+        try {
 
+            // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + path));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, instagramShareUri);
+            shareIntent.setPackage("com.instagram.android")
+            startActivityForResult(shareIntent, INSTAGRAM_REQUEST_CODE)
+
+            Handler().postDelayed({
+                contentResolver.delete(instagramShareUri, null, null)
+            }, 5000)
+
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+
+            Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
+
+            contentResolver.delete(instagramShareUri, null, null)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            Toast.makeText(context, getString(R.string.instagram_not_installed), Toast.LENGTH_SHORT).show()
+
+            contentResolver.delete(instagramShareUri, null, null)
+
+        }
     }
 
     private fun getImageUri(context: Context, inImage: Bitmap) :Uri {
@@ -905,6 +957,9 @@ class Solo_detail_Activity : RootActivity() {
         if (ShareDialog.canShow(ShareLinkContent::class.java)) {
 
             val url = Config.url + "/share/open?id=" + timeline_id + "&image_uri=" + share_image_uri + "&contents=" + share_contents
+
+            println(url)
+
             val content = ShareLinkContent.Builder().setContentUrl(Uri.parse(url)).build()
 
             val shareDialog = ShareDialog(this)
@@ -987,9 +1042,6 @@ class Solo_detail_Activity : RootActivity() {
     fun onRequestPermission() {
         val permissionReadStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
         val permissionWriteStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-        println("permissionReadStorage : $permissionReadStorage, permissionWriteStorage : $permissionWriteStorage")
-
         if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_CODE)
         } else {
@@ -1005,17 +1057,63 @@ class Solo_detail_Activity : RootActivity() {
                 val grantResult = grantResults[i]
                 if (permission == android.Manifest.permission.READ_EXTERNAL_STORAGE) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this.context, "허용했으니 가능함", Toast.LENGTH_LONG).show()
                         permissionCheck = true
 
                         doShareInstagram();
 
                     } else {
-                        Toast.makeText(this.context, "허용하지 않으면 공유 못함 ㅋ", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this.context, getString(R.string.allow_permission), Toast.LENGTH_LONG).show()
+                        permissionCheck = false
+                    }
+                } else if (permission == android.Manifest.permission.WRITE_EXTERNAL_STORAGE) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        permissionCheck = true
+
+                        doShareInstagram();
+
+                    } else {
+                        Toast.makeText(this.context, getString(R.string.allow_permission), Toast.LENGTH_LONG).show()
                         permissionCheck = false
                     }
                 }
             }
+        }
+    }
+
+
+    companion object {
+        class TranslateAsyncTask internal constructor(context: Context, view: View, json: JSONObject, translatedTV: TextView) : AsyncTask<Void, String, String?>() {
+
+            private val contextReference: WeakReference<Context> = WeakReference(context)
+            private val jsonReference: WeakReference<JSONObject> = WeakReference(json)
+            private val translatedTVReference: WeakReference<TextView> = WeakReference(translatedTV)
+
+            override fun onPreExecute() {
+
+            }
+
+            override fun doInBackground(vararg params: Void?): String? {
+                val translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs").build().service
+
+                var contents = Utils.getString(jsonReference.get(),"contents")
+
+                println("contents : $contents")
+
+
+                var targetLanguage = Locale.getDefault().language
+
+                val translation = translate.translate(
+                        contents,
+                        Translate.TranslateOption.targetLanguage(targetLanguage))
+
+                return translation.translatedText
+            }
+
+
+            override fun onPostExecute(result: String?) {
+                translatedTVReference.get()!!.text = result
+            }
+
         }
     }
 

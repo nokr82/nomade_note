@@ -85,6 +85,12 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
     private var autoLogin = false
 
+    private var is_push:Boolean = false
+
+    var last_id = ""
+    var created = ""
+    var timeline_id = -1
+
     companion object {
         fun processLoginData(context: Context, data: JSONObject) {
 
@@ -110,6 +116,16 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
+
+        var intent = getIntent()
+//        is_push = intent.getBooleanExtra("is_push", false)
+//
+//        if (is_push){
+//            last_id = intent.getStringExtra("last_id")
+//            created = intent.getStringExtra("created")
+//
+//            println("login:::::::is_push:::::::::::::$is_push last_id::$last_id::::::::created=$created")
+//        }
 
         callback = SessionCallback()
         Session.getCurrentSession().addCallback(callback)
@@ -159,6 +175,10 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         loginTV.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)
+//            intent.putExtra("is_push",is_push)
+//            intent.putExtra("last_id",last_id)
+//            intent.putExtra("created",created)
+//            println("intentlogin2:::::::is_push:::::::::::::$is_push last_id::$last_id::::::::created=$created")
             startActivity(intent)
         }
         joinTV.setOnClickListener {
@@ -201,6 +221,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             }
 
         }
+
 
     }
 
@@ -387,6 +408,11 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                         LoginActivity.processLoginData(context, data)
 
                         val intent = Intent(context, MainActivity::class.java)
+//                        intent.putExtra("is_push",is_push)
+//                        intent.putExtra("last_id",last_id)
+//                        intent.putExtra("created",created)
+//                        intent.putExtra("timeline_id",timeline_id)
+                        PrefUtils.setPreference(context, "autoLogin", autoLogin)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
 

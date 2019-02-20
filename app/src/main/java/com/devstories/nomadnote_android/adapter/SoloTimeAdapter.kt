@@ -10,18 +10,21 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.activities.Solo_detail_Activity
+import com.devstories.nomadnote_android.activities.Solo_time_Fragment
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
 
 
-open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>) : ArrayAdapter<JSONArray>(context,view, data){
+open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>,solo_time_fragment: Solo_time_Fragment) : ArrayAdapter<JSONArray>(context,view, data){
 
     private lateinit var item: ViewHolder
     var view:Int = view
     var data:ArrayList<JSONArray> = data
+    var solo_time_fragment = solo_time_fragment
 
     override fun getView(position: Int, convertView: View?, parent : ViewGroup?): View {
 
@@ -54,7 +57,6 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             // 1
             val chunk = json.getJSONObject(0)
             setFirst(chunk)
-
 
         } else if(length == 2) {
             item.item2RL.visibility = View.VISIBLE
@@ -105,26 +107,30 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 
         //이거슨 그친구에 이미지를 연결해야함
 
-
         if (chunk.has("images")) {
             var image = chunk.getJSONArray("images")
 
             if (image.length() > 0) {
-                var uri = ""
+//                var uri = ""
 
 //                val image_item = image.get(image.length() - 1) as JSONObject
 //                val image_uri = Utils.getString(image_item, "image_uri")
 //                var uri = Config.url + "/" + image_uri
 //                ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
-                for (i in 0 until image.length()){
-                    val image_item = image.get(i) as JSONObject
-                    val main_yn = Utils.getString(image_item,"main_yn")
-                    val image_uri = Utils.getString(image_item,"image_uri")
-                    if (main_yn == "Y"){
-                        uri = Config.url + image_uri
+//                for (i in 0 until image.length()){
+//                    val image_item = image.get(i) as JSONObject
+//                    val main_yn = Utils.getString(image_item,"main_yn")
+//                    val image_uri = Utils.getString(image_item,"image_uri")
+//                    if (main_yn == "Y"){
+//                        uri = Config.url + image_uri
+//
+//                    }
+//                }
 
-                    }
-                }
+                val image_item = image.get(0) as JSONObject
+                val image_uri = Utils.getString(image_item, "image_uri")
+                var uri = Config.url + "/" + image_uri
+                ImageLoader.getInstance().displayImage(uri, item.background2IV, Utils.UILoptionsUserProfile)
 
                 ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
 
@@ -135,15 +141,20 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             item.backgroundIV.setImageResource(R.mipmap.time_bg)
         }
 
-
         var createdsplit = created.split(" ")
         //이거슨 이유모를오류
         var timesplit = createdsplit.get(1).split(":")
 
-
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
-        item.costTV.setText(cost + "$ ")
+//        item.costTV.setText(cost + "$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.costTV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.costTV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
@@ -177,7 +188,7 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             var image = chunk.getJSONArray("images")
 
             if (image.length() > 0) {
-                val image_item = image.get(image.length() - 1) as JSONObject
+                val image_item = image.get(0) as JSONObject
                 val image_uri = Utils.getString(image_item, "image_uri")
                 var uri = Config.url + "/" + image_uri
                 ImageLoader.getInstance().displayImage(uri, item.background2IV, Utils.UILoptionsUserProfile)
@@ -196,7 +207,13 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 
         item.place2TV.setText(place_name)
         item.duration2TV.setText(duration)
-        item.cost2TV.setText(cost + "$ ")
+//        item.cost2TV.setText(cost + "$ ")
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.cost2TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.cost2TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
         item.content2TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.created2TV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
@@ -230,7 +247,7 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
             var image = chunk.getJSONArray("images")
 
             if (image.length() > 0) {
-                val image_item = image.get(image.length() - 1) as JSONObject
+                val image_item = image.get(0) as JSONObject
                 val image_uri = Utils.getString(image_item, "image_uri")
                 var uri = Config.url + image_uri
                 ImageLoader.getInstance().displayImage(uri, item.background3IV, Utils.UILoptionsUserProfile)
@@ -249,7 +266,23 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 
         item.place3TV.setText(place_name)
         item.duration3TV.setText(duration)
-        item.cost3TV.setText(cost + "$ ")
+//        item.cost3TV.setText(cost + "$ ")
+//        var language = Locale.getDefault().getDisplayLanguage()
+//        if (language == "한국어" || language == "中文") {
+//            item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+//        } else {
+//            item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+//        }
+
+//        item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
+            item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+        } else {
+            item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+        }
+
+
         item.content3TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.created3TV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))

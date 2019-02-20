@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">nomadnote</string>
+    <string name="app_name">nomad note</string>
     <string name="facebook_app_id">2158792287772424</string>
     <string name="fb_login_protocol_scheme">fb2158792287772424</string>
     <string name="kakao_scheme">kakao30c846cc5fc8a6f301a8fc0cc2e9e7f3</string>
@@ -16,13 +16,14 @@
     <string name="activity_login_facebook">페이스북 로그인</string>
     <string name="activity_login_login">로그인</string>
     <string name="activity_visit_visited">방문국가 기록</string>
+    <string name="activity_visit_visited2">방문국가\n기록</string>
     <string name="activity_login_signup">회원가입</string>
-    <string name="fragment_solo_style">여행스타일 선택하기</string>
+    <string name="fragment_solo_style">여행스타일\n선택하기</string>
     <string name="fragment_solo_addnote">새글쓰기</string>
     <string name="activity_write_note">작성시간</string>
     <string name="fragment_scrap_keyword">키워드 검색</string>
     <string name="activity_write_location">위치</string>
-    <string name="activity_write_time">소비시간</string>
+    <string name="activity_write_time">현재시간</string>
     <string name="activity_write_spent">소비금액</string>
     <string name="activity_write_rome">로마</string>
     <string name="activity_write_healing">힐링 스타일</string>
@@ -82,8 +83,8 @@
     <string name="acrivity_quest_logo">문의하기</string>
     <string name="item_mainimage">대표사진</string>
     <string name="artmuseumstyle">미술관 스타일</string>
-    <string name="newfriendid">ID로 친구를 추가할 수 있습니다.</string>
-    <string name="addenterid">추가하고 싶은 친구의 ID를 입력해 주세요.</string>
+    <string name="newfriendid">e-mail 로 친구를 추가할 수 있습니다.</string>
+    <string name="addenterid">추가하고 싶은 친구의 e-mail를 입력해 주세요.</string>
 
 
     <!-- 변경 -->
@@ -106,7 +107,7 @@
     <string name="view_my_friends">추가리스트로 보기</string>
     <string name="prd_1gb">1GB (9,000원)</string>
     <string name="prd_600mb">600MB (5,000원)</string>
-    <string name="prd_20kb">20KB (무료)</string>
+    <string name="prd_20kb">20MB (무료)</string>
     <string name="enter_question_title">제목을 입력해주세요.</string>
     <string name="enter_question_contents">내용을 입력해주세요.</string>
     <string name="choose_pic_title">사진선택</string>
@@ -114,5 +115,12 @@
     <string name="do_login">로그인 하기</string>
     <string name="post_count">개</string>
     <string name="my_points">보유 포인트</string>
+    <string name="transtrating">번역중...</string>
+    <string name="authenticate_no">인증할 수 없습니다.</string>
+    <string name="allow_permission">권한을 허용해주세요.</string>
+    <string name="no_image_data">이미지가 없습니다.</string>
+    <string name="instagram_not_installed">인스타그램이 설치되어 있지 않습니다.</string>
+    <string name="over_free_space">무료 서비스 용량을 초과하였습니다.</string>
+    <string name="unit">원</string>
 
 </resources>

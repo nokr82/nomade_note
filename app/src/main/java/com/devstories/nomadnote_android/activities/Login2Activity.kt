@@ -29,6 +29,12 @@ class Login2Activity : RootActivity() {
 
     var autoLogin = false
 
+    private var is_push:Boolean = false
+
+    var last_id = ""
+    var created = ""
+    var timeline_id = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
@@ -36,6 +42,16 @@ class Login2Activity : RootActivity() {
 //        progressDialog = ProgressDialog(context)
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        var intent = getIntent()
+        is_push = intent.getBooleanExtra("is_push", false)
+
+        if (is_push){
+            last_id = intent.getStringExtra("last_id")
+            created = intent.getStringExtra("created")
+
+            println("login2:::::::is_push:::::::::::::$is_push last_id::$last_id::::::::created=$created")
+        }
 
         loginTV.setOnClickListener {
             passwd = Utils.getString(passwdET)
@@ -106,6 +122,10 @@ class Login2Activity : RootActivity() {
                         Utils.hideKeyboard(context)
 
                         val intent = Intent(context, MainActivity::class.java)
+//                        intent.putExtra("is_push",is_push)
+//                        intent.putExtra("last_id",last_id)
+//                        intent.putExtra("created",created)
+//                        intent.putExtra("timeline_id",timeline_id)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
 

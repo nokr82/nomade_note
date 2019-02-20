@@ -2,18 +2,23 @@ package com.devstories.nomadnote_android.activities
 
 import android.content.Context
 import android.graphics.Color
+import android.os.AsyncTask
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
+import com.google.cloud.translate.Translate
+import com.google.cloud.translate.TranslateOptions
 import com.nostra13.universalimageloader.core.ImageLoader
 import de.hdodenhof.circleimageview.CircleImageView
 import org.json.JSONObject
+import java.lang.ref.WeakReference
+import java.util.*
 
 
-open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data){
+open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>, scrap_Fragment: Scrap_Fragment) : ArrayAdapter<JSONObject>(context,view, data) {
 
     private lateinit var item: ViewHolder
     var view:Int = view
@@ -79,45 +84,61 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
         item.costTV.setText(cost+"$ ")
+//        var language = Locale.getDefault().getDisplayLanguage()
+//        if (language == "한국어" || language == "中文") {
+//            item.costTV.setText(cost + scrap_Fragment.getString(R.string.unit))
+//        } else {
+//            item.costTV.setText(scrap_Fragment.getString(R.string.unit) + cost)
+//        }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
         } else {
             item.createdTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
         }
+        item.trustIV.setImageResource(R.mipmap.scrap_ck)
 
-        var isSel = json.getBoolean("isSelectedOp")
-
-        if (isSel){
-//            item.trustLL.visibility = View.VISIBLE
-            item.trustIV.setImageResource(R.mipmap.scrap_ck)
-        } else {
-//            item.trustLL.visibility = View.GONE
-            item.trustIV.setImageResource(R.mipmap.icon_scrap)
-        }
+//        var isSel = json.getBoolean("isSelectedOp")
+//
+//        if (isSel){
+////            item.trustLL.visibility = View.VISIBLE
+//            item.trustIV.setImageResource(R.mipmap.scrap_ck)
+//        } else {
+////            item.trustLL.visibility = View.GONE
+//            item.trustIV.setImageResource(R.mipmap.icon_scrap)
+//        }
 
         item.trustIV.setOnClickListener {
-            isSel = !isSel
-            json.put("isSelectedOp",isSel)
+//            isSel = !isSel
+//            json.put("isSelectedOp",isSel)
             scrap_Fragment.set_scrap(timeline_id)
             removeItem(position)
             notifyDataSetChanged()
         }
 
+        item.trustRL.setOnClickListener {
+
+        }
+
         var image = timeline.getJSONArray("images")
         if (image.length() > 0){
 
-            var uri = ""
+//            var uri = ""
+//
+//            for (i in 0 until image.length()){
+//                val image_item = image.get(i) as JSONObject
+//                val main_yn = Utils.getString(image_item,"main_yn")
+//                val image_uri = Utils.getString(image_item,"image_uri")
+//                if (main_yn == "Y"){
+//                    uri = Config.url + image_uri
+//
+//                }
+//            }
 
-            for (i in 0 until image.length()){
-                val image_item = image.get(i) as JSONObject
-                val main_yn = Utils.getString(image_item,"main_yn")
-                val image_uri = Utils.getString(image_item,"image_uri")
-                if (main_yn == "Y"){
-                    uri = Config.url + image_uri
-
-                }
-            }
+            val image_item = image.get(0) as JSONObject
+            val image_uri = Utils.getString(image_item, "image_uri")
+            var uri = Config.url + "/" + image_uri
 
             ImageLoader.getInstance().displayImage(uri, item.backgroundIV, Utils.UILoptionsUserProfile)
 //            val image_item = image.get(image.length()-1) as JSONObject
@@ -132,16 +153,34 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         if (certification == "2"){
             item.textTV.setText(myContext.getString(R.string.item_scrap_cirti_done))
             item.iconIV.setImageResource(R.mipmap.visit_city)
+        } else {
+            item.textTV.setText(myContext.getString(R.string.item_scrap_cirti))
+            item.iconIV.setImageResource(R.mipmap.scrap_opck)
         }
 
+        item.trustLL.tag = position
         item.trustLL.setOnClickListener {
             if (certification == "1") {
-                isSel = !isSel
-                json.put("certification", "2")
-                notifyDataSetChanged()
-                scrap_Fragment.add_certification(timeline_id)
+
+                var selectedPostion = it.tag as Int
+
+                scrap_Fragment.initGPS(selectedPostion)
+
+//                isSel = !isSel
             }
         }
+
+        val translated = Utils.getString(timeline, "translated")
+        item.translatedTV.text = translated
+
+        item.translateIV.tag = position
+        item.translateIV.setOnClickListener {
+            var json = data.get(it.tag as Int)
+            var timeline = json.getJSONObject("timeline")
+            val task = TranslateAsyncTask(myContext, it, timeline, this)
+            task.execute()
+        }
+
 
         return retView
 
@@ -176,6 +215,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var costTV : TextView
         var createdTV:TextView
         var contentTV:TextView
+        var translatedTV:TextView
         var healingTV:me.grantland.widget.AutofitTextView
         var hotplaceTV:me.grantland.widget.AutofitTextView
         var literatureTV:me.grantland.widget.AutofitTextView
@@ -188,6 +228,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var backgroundIV : ImageView
         var textTV: TextView
         var artTV: me.grantland.widget.AutofitTextView
+        var translateIV:ImageView
 
         init {
             profileIV = v.findViewById<View>(R.id.profileIV) as CircleImageView
@@ -197,6 +238,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             costTV = v.findViewById<View>(R.id.costTV) as TextView
             createdTV = v.findViewById<View>(R.id.createdTV) as TextView
             contentTV = v.findViewById<View>(R.id.contentTV) as TextView
+            translatedTV = v.findViewById<View>(R.id.translatedTV) as TextView
             healingTV = v.findViewById<View>(R.id.healingTV) as me.grantland.widget.AutofitTextView
             hotplaceTV = v.findViewById<View>(R.id.hotplaceTV) as me.grantland.widget.AutofitTextView
             literatureTV = v.findViewById<View>(R.id.literatureTV) as me.grantland.widget.AutofitTextView
@@ -209,6 +251,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
             backgroundIV = v.findViewById<View>(R.id.backgroundIV) as ImageView
             textTV = v.findViewById<View>(R.id.textTV) as TextView
             artTV = v.findViewById<View>(R.id.artTV) as me.grantland.widget.AutofitTextView
+            translateIV = v.findViewById(R.id.translateIV) as ImageView
 
         }
     }
@@ -263,5 +306,50 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         }
     }
 
+
+    companion object {
+        class TranslateAsyncTask internal constructor(context: Context, view: View, json: JSONObject, scrapAdapter:ScrapAdapter?) : AsyncTask<Void, String, String?>() {
+
+            private val contextReference: WeakReference<Context> = WeakReference(context)
+            private val viewReference: WeakReference<View> = WeakReference(view)
+            private val jsonReference: WeakReference<JSONObject> = WeakReference(json)
+            private val scrapAdapterReference: WeakReference<ScrapAdapter?> = WeakReference(scrapAdapter)
+
+            override fun onPreExecute() {
+                jsonReference.get()!!.put("translated", contextReference.get()!!.getString(R.string.transtrating))
+
+                scrapAdapterReference.get()!!.notifyDataSetChanged()
+            }
+
+            override fun doInBackground(vararg params: Void?): String? {
+                val translate = TranslateOptions.newBuilder().setApiKey("AIzaSyAvs-J-QHV-Ni6sQHAAYzaoSFDlMdq55Fs").build().service
+
+                var contents = Utils.getString(jsonReference.get(),"contents")
+
+                println("contents : $contents")
+
+
+                var targetLanguage = Locale.getDefault().language
+
+                val translation = translate.translate(
+                        contents,
+                        Translate.TranslateOption.targetLanguage(targetLanguage))
+
+                return translation.translatedText
+            }
+
+
+            override fun onPostExecute(result: String?) {
+                jsonReference.get()!!.put("translated", result)
+
+                println("re : $result")
+
+                scrapAdapterReference.get()!!.notifyDataSetChanged()
+
+                // ((viewReference.get()!!.parent.parent.parent.parent.parent as LinearLayout).findViewById(R.id.translatedTV) as TextView).text = result
+            }
+
+        }
+    }
 
 }

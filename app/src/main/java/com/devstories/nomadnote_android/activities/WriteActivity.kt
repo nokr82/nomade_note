@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.Address
@@ -18,6 +17,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.util.Log
@@ -29,6 +29,7 @@ import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
+import com.devstories.nomadnote_android.sms.SMSAction
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -46,6 +47,7 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -82,6 +84,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
     var block_yn = "N"
 
     var country = ""
+    private var admin_area_kr = ""
+
+    private var timeline_file_ids = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,16 +116,19 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         if (intent.getStringExtra("timeline_id") != null){
             timeline_id = intent.getStringExtra("timeline_id")
             detail_timeline()
+        } else {
+            loadLatestSms()
         }
 
         if (intent.getStringExtra("qnas_id") != null){
             qnas_id = intent.getStringExtra("qnas_id")
             created_at = intent.getStringExtra("created_at")
 
+            println("----created_at --- $created_at")
 
             val now = System.currentTimeMillis()
             val date = Date(now)
-            val sdf = SimpleDateFormat("yy-MM-dd HH:mm:ss")
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val getTime = sdf.format(date)
 
             if(created_at == null || created_at.isEmpty()) {
@@ -140,11 +148,13 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             minuteET.setText(minutes.toString())
             timetakeTV.setText("소요시간")
             logoIV.setText(getString(R.string.reply))
+
         }
 
         initGPS()
 
     }
+
     fun click(){
         blockLL.setOnClickListener {
             if (block_yn == "N"){
@@ -233,7 +243,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             builder
 
                     .setMessage(getString(R.string.builderwanttopost))
-
                     .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         dialog.cancel()
                         if (timeline_id == "") {
@@ -293,8 +302,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             return
         }
 
-
-
         val params = RequestParams()
         params.put("member_id",PrefUtils.getIntPreference(context,"member_id"))
         params.put("place_name",location)
@@ -307,6 +314,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("token",PrefUtils.getStringPreference(context,"token"))
         params.put("block_yn",block_yn)
         params.put("country",country)
+        params.put("admin_area_kr",admin_area_kr)
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
@@ -318,7 +326,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         val content_size = content_byte.size
         bytes.add(content_size)
 
-        var seq = 0
         if (addPicturesLL != null){
             for (i in 0 until addPicturesLL!!.childCount) {
                 val o = JSONObject()
@@ -326,13 +333,26 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
                 val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
                 if (imageIV is ImageView) {
+
+                    val mediaInfo = imageIV.tag as JSONObject
+                    val mediaType = Utils.getInt(mediaInfo, "mediaType")
+
                     val bitmap = imageIV.drawable as BitmapDrawable
-                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
-//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    params.put("files[$i]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
                     bytes.add(image_size)
-                    seq++
+
+                    if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                        val image_str = Utils.getString(mediaInfo, "image")
+
+                        val file = File(image_str)
+                        var videoBytes = file.readBytes()
+                        bytes.add(videoBytes.size)
+
+                        params.put("videos[$i]", ByteArrayInputStream(videoBytes))
+                    }
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
@@ -347,8 +367,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                timelineData.add(o)
             }
         }
-
-
 
         params.put("timelineData", timelineData)
         var sum = 0
@@ -367,7 +385,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             Log.d("용량",disk_sum.toString())
             if (disk_sum > disk){
 //                Toast.makeText(context, "데이터 초과입니다.", Toast.LENGTH_SHORT).show()
-                Utils.alert(context,"무료 서비스 용량을 초과하였습니다.", object: AlertListener {
+                Utils.alert(context,getString(R.string.over_free_space), object: AlertListener {
                     override fun before(): Boolean {
                         return true
                     }
@@ -437,7 +455,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -454,6 +472,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
+
             }
 
             override fun onFailure(
@@ -467,6 +488,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
             }
 
             override fun onStart() {
@@ -524,6 +547,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("timeline_id",timeline_id)
         params.put("place_name",location)
         params.put("duration",fulltime)
+        params.put("block_yn",block_yn)
         params.put("cost",money)
         params.put("contents",contents)
         params.put("place_id","1")
@@ -532,27 +556,48 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
-        var seq = 0
+        for (idx in 0 until timeline_file_ids.size) {
+            params.put("timeline_file_ids[$idx]", timeline_file_ids.get(idx))
+        }
+
         if (addPicturesLL != null){
-            for (i in 0 until addPicturesLL!!.childCount) {
-                val o = JSONObject()
-                val v = addPicturesLL?.getChildAt(i)
+            for (idx in 0 until addPicturesLL!!.childCount) {
+                // val o = JSONObject()
+                val v = addPicturesLL?.getChildAt(idx)
                 val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
                 val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
-                if (imageIV is ImageView) {
+
+                val mediaInfo = imageIV!!.tag as JSONObject
+                val mediaType = Utils.getInt(mediaInfo, "mediaType")
+
+                val timeline_file_id = Utils.getInt(mediaInfo, "timeline_file_id")
+                if(timeline_file_id == -1) {
                     val bitmap = imageIV.drawable as BitmapDrawable
-                    params.put("files[$seq]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
-//                    o.put("files",ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
+                    params.put("files[$idx]", ByteArrayInputStream(Utils.getByteArray(bitmap.bitmap)))
                     var image = Utils.getByteArray(bitmap.bitmap)
                     var image_size = image.size
-//                    bytes.add(image_size)
-                    seq++
+                }
+
+                if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                    val video_id = Utils.getInt(mediaInfo, "id")
+                    if(video_id == -1) {
+
+                    } else {
+                        val image_str = Utils.getString(mediaInfo, "image")
+
+                        val file = File(image_str)
+                        var videoBytes = file.readBytes()
+
+                        params.put("videos[$idx]", ByteArrayInputStream(videoBytes))
+                    }
                 }
 
                 if (firstLL!!.visibility == View.VISIBLE){
 //                    params.put("main_yn", "Y")
 //                    o.put("position",i)
-                    params.put("position",i+1)
+                    println("--------visibility----")
+                    params.put("position", idx)
+                    params.put("position_timeline_file_id", timeline_file_id)
                 }
 //                else {
 //                    o.put("main_yn","N")
@@ -614,7 +659,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                System.out.println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -631,6 +676,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 }
                 throwable.printStackTrace()
                 error()
+
+                println(errorResponse)
             }
 
             override fun onFailure(
@@ -689,9 +736,16 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         var contents = Utils.getString(data,"contents")
                         var created = Utils.getString(data,"created_at")
                         var style = Utils.getString(data,"style_id")
-
+                        block_yn = Utils.getString(data,"block_yn")
                         var createdsplit = created.split(" ")
                         var timesplit = createdsplit.get(1).split(":")
+                        if (block_yn == "N"){
+                            blockIV.setImageResource(R.mipmap.shield)
+                        } else {
+                            blockIV.setImageResource(R.mipmap.lock_icon)
+                        }
+
+
 
                         locationET.setText(place_name)
                         timeET.setText(timesplit.get(0))
@@ -709,7 +763,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                             for (i in 0 until images.length()){
                                 val image_item = images.get(i) as JSONObject
                                 var path = Config.url+  Utils.getString(image_item, "image_uri")
-                                reset(path,i)
+                                val video_path = Utils.getString(image_item, "video_path")
+                                val timeline_file_id = Utils.getInt(image_item, "id")
+                                var mediaType = 1;
+                                if(!video_path.isEmpty()) {
+                                    mediaType = 3
+                                }
+//                                detail_image_reset(path,i)
+                                reset(path, i, "detail", mediaType, -1, timeline_file_id)
                             }
                         }
 
@@ -838,6 +899,8 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         historyTV.setTextColor(Color.parseColor("#878787"))
         museumTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
         museumTV.setTextColor(Color.parseColor("#878787"))
+        artTV.setBackgroundResource(R.drawable.background_border_radius8_000000)
+        artTV.setTextColor(Color.parseColor("#878787"))
     }
 
     private fun permission() {
@@ -864,6 +927,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -871,13 +935,17 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
                 SELECT_PICTURE -> {
 
-                    var item = data?.getStringArrayExtra("images")//photoPath
+                    val ids = data?.getIntegerArrayListExtra("ids")
+                    val images = data?.getStringArrayExtra("images")
+                    val mediaTypes = data?.getIntegerArrayListExtra("mediaTypes")
                     //var name = data?.getStringArrayExtra("displayname")
+//                    addPicturesLL!!.removeAllViews()
+                    for (i in 0..(images!!.size - 1)) {
+                        val id = ids!![i]
+                        val str = images!![i]
+                        val mediaType = mediaTypes!![i]
 
-                    for (i in 0..(item!!.size - 1)) {
-                        val str = item[i]
-
-                        images_path!!.add(str)
+//                        images_path!!.add(str)
 
 //                        var add_file = Utils.getImage(context.contentResolver, str)
 //
@@ -893,8 +961,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                            }
 //                        }
 
-                        reset(str,i)
-
+                        reset(str, i, "picture", mediaType, id, -1)
                     }
                 }
 
@@ -942,49 +1009,78 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
-    fun reset(str: String,i :Int) {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(str, options)
-        options.inJustDecodeBounds = false
-        options.inSampleSize = 1
-        if (options.outWidth > 96) {
-            val ws = options.outWidth / 96 + 1
-            if (ws > options.inSampleSize) {
-                options.inSampleSize = ws
+    fun reset(str: String, idx: Int, type: String, mediaType: Int, id: Int, timeline_file_id: Int) {
+
+        var v = View.inflate(context, R.layout.item_addgoods, null)
+
+        // val bitmap = BitmapFactory.decodeFile(str)
+        val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
+
+        // media info
+        val mediaInfo = JSONObject()
+        mediaInfo.put("idx", idx)
+        mediaInfo.put("mediaType", mediaType)
+        mediaInfo.put("image", str)
+        mediaInfo.put("id", id)
+        mediaInfo.put("timeline_file_id", timeline_file_id)
+
+        imageIV.tag = mediaInfo
+
+        val delIV = v.findViewById<View>(R.id.delIV) as ImageView
+        // val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
+        val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
+
+        if (type == "detail"){
+            ImageLoader.getInstance().displayImage(str, v.addedImgIV, Utils.UILoptionsUserProfile)
+        } else {
+
+            if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+                images_path.add(str) // TODO 업로드시 이것을 사용해야 한다.
+                var add_file = Utils.getImage(context.contentResolver, str)
+
+                imageIV.setImageBitmap(add_file)
+
+            } else {
+                val curThumb = MediaStore.Video.Thumbnails.getThumbnail(context.contentResolver, id.toLong(), MediaStore.Video.Thumbnails.MINI_KIND, null)
+                imageIV.setImageBitmap(curThumb)
             }
-        }
-        if (options.outHeight > 96) {
-            val hs = options.outHeight / 96 + 1
-            if (hs > options.inSampleSize) {
-                options.inSampleSize = hs
-            }
+
+
         }
 
-        images_path.add(str)
-        var add_file = Utils.getImage(context.contentResolver, str)
-        val bitmap = BitmapFactory.decodeFile(str)
-        var v = View.inflate(context, R.layout.item_addgoods, null)
-        val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
-        val delIV = v.findViewById<View>(R.id.delIV) as ImageView
-        val first = v.findViewById<View>(R.id.firstLL) as LinearLayout
-        val fullImageLL = v.findViewById<View>(R.id.fullImageLL) as RelativeLayout
-        if (timeline_id.length > 0) {
-            ImageLoader.getInstance().displayImage(str, v.addedImgIV, Utils.UILoptionsUserProfile)
-        }
-        imageIV.setImageBitmap(add_file)
-        delIV.tag = i
-        fullImageLL.setTag(i)
+        delIV.tag = mediaInfo
+        fullImageLL.setTag(idx)
         delIV.setOnClickListener {
-            if (first.visibility == View.VISIBLE){
+
+            val mediaInfo = it.tag as JSONObject
+            val timeline_file_id = Utils.getInt(mediaInfo, "timeline_file_id")
+            if(timeline_file_id > 0) {
+                timeline_file_ids.add(timeline_file_id)
+            }
+
+            addPicturesLL!!.removeView(v)
+
+            var isMainExist = false
+            for (i in 0 until addPicturesLL!!.childCount) {
+                val o = JSONObject()
+                val v = addPicturesLL?.getChildAt(i)
+                val imageIV = v?.findViewById<ImageView>(R.id.addedImgIV)
+                val firstLL = v?.findViewById<LinearLayout>(R.id.firstLL)
+                if (firstLL!!.visibility == View.VISIBLE) {
+                    isMainExist = true
+                    break
+                }
+            }
+
+            if(!isMainExist) {
                 if (addPicturesLL?.getChildAt(0) != null) {
                     val v0 = addPicturesLL?.getChildAt(0)
                     val firstLL = v0?.findViewById<View>(R.id.firstLL) as LinearLayout
                     firstLL.visibility = View.VISIBLE
                 }
             }
-            addPicturesLL!!.removeView(v)
         }
+
         if (imgSeq == 0) {
             addPicturesLL!!.addView(v)
         }
@@ -1018,7 +1114,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val firstLL = v?.findViewById<View>(R.id.firstLL) as LinearLayout
             val childView = addPicturesLL.getChildAt(i)
             firstLL.visibility = View.GONE
-            println("-----gone")
         }
         val firstLL = v.findViewById<View>(R.id.firstLL) as LinearLayout
         firstLL.visibility = View.VISIBLE
@@ -1122,7 +1217,13 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
+
     override fun onLocationUpdated(location: Location?) {
+
+        if(isFinishing || isDestroyed) {
+            return
+        }
+
         if (location != null) {
             if (myLocation) {
                 latitude = location.getLatitude()
@@ -1134,24 +1235,36 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val strLanguage = systemLocale.language
             var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
 
-            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
-                println("list ---- ${list}")
-                println("list.admin ${list.get(0).adminArea}")
+                println("list ---- ${list.get(0)}")
 
                 country = list.get(0).countryName
+
+                if(list.get(0).countryName != null) {
+                    country = list.get(0).countryName
+                }
+
+
+                if(list.get(0).adminArea != null) {
+                    admin_area_kr = list.get(0).adminArea
+                } else if(list.get(0).locality != null) {
+                    admin_area_kr = list.get(0).locality
+                }
 
             }
 
             geocoder = Geocoder(context);
 
-            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 1);
+            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
             if(list.size > 0){
-                println("list ---- ${list}")
-                println("list.admin ${list.get(0).adminArea}")
+                println("list ---- ${list.get(0)}")
 
-                locationET.setText(list.get(0).adminArea)
-
+                if(list.get(0).adminArea != null) {
+                    locationET.setText(list.get(0).adminArea)
+                } else if(list.get(0).locality != null) {
+                    locationET.setText(list.get(0).locality)
+                }
             }
 
             if (progressDialog != null) {
@@ -1177,7 +1290,102 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     }
 
+    private fun loadLatestSms() {
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
 
+        SMSAction.load_latest_sms(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        val money = Utils.getInt(response, "money")
+                        moneyET.setText(money.toString())
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
 
 
 

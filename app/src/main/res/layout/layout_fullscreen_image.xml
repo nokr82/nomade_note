@@ -9,4 +9,24 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <RelativeLayout
+        android:id="@+id/videoRL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <VideoView
+            android:id="@+id/videoDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/playIV"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/play_icon"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
 </RelativeLayout>

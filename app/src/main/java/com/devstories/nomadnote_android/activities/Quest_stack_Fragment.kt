@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.ListView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QnasAction
@@ -22,7 +23,14 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class Quest_stack_Fragment : Fragment()  {
+open class Quest_stack_Fragment : Fragment() , AbsListView.OnScrollListener {
+    override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+    }
+
+    override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
+
+    }
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
@@ -35,6 +43,11 @@ class Quest_stack_Fragment : Fragment()  {
 
     lateinit var questLV: ListView
 
+    private var page = 1
+    private var totalPage = 0
+    private var userScrolled = false
+    private var lastcount = 0
+    private var totalItemCountScroll = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -72,6 +85,33 @@ class Quest_stack_Fragment : Fragment()  {
             }
         }
 
+        questLV.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onScrollStateChanged(questLV:AbsListView, newState: Int) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true
+                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    userScrolled = false
+                }
+
+                if (!questLV.canScrollVertically(-1)) {
+                    page=1
+                    get_qnas()
+                } else if (!questLV.canScrollVertically(1)) {
+                    if (totalPage > page) {
+                        page++
+                        lastcount = totalItemCountScroll
+
+                        get_qnas()
+                    }
+                }
+            }
+        })
+
         get_qnas()
     }
 
@@ -87,8 +127,9 @@ class Quest_stack_Fragment : Fragment()  {
 
     fun get_qnas(){
         val params = RequestParams()
-        val member_id = PrefUtils.getIntPreference(context, "member_id")
+        val member_id = PrefUtils.getIntPreference(myContext, "member_id")
         params.put("member_id", member_id)
+        params.put("page", page)
 
 
         QnasAction.get_qnas(params, object : JsonHttpResponseHandler() {
@@ -98,19 +139,29 @@ class Quest_stack_Fragment : Fragment()  {
                     progressDialog!!.dismiss()
                 }
 
+                if(activity == null || !isAdded) {
+                    return
+                }
+
 
                 try {
 
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
-                        adapterData.clear()
-                        val qnas = response!!.getJSONArray("qnas")
-                        if (qnas.length() > 0){
-                            for (i in 0 until qnas.length()){
-                                val item = qnas.get(i) as JSONObject
+                        if (page == 1){
+                            adapterData.clear()
+                        }
+                        val qnas = response!!.getJSONObject("qnas")
+                        var datas = qnas.getJSONArray("data")
+                        if (datas.length() > 0){
+                            for (i in 0 until datas.length()){
+                                val item = datas.get(i) as JSONObject
                                 adapterData.add(item)
                             }
                         }
+
+                        totalPage = Utils.getInt(qnas,"last_page")
+                        page = Utils.getInt(qnas,"current_page")
                         QuestAdapter.notifyDataSetChanged()
                     }
 
@@ -129,7 +180,7 @@ class Quest_stack_Fragment : Fragment()  {
             private fun error() {
 
                 if (progressDialog != null) {
-                    Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                    Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
                 }
             }
 

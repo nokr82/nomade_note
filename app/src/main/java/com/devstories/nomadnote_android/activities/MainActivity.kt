@@ -1,13 +1,17 @@
 package com.devstories.nomadnote_android.activities
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -23,9 +27,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 
 class MainActivity : FragmentActivity() {
+
+    private val RECEIVE_SMS_REQUEST_CODE = 1001
+    private val READ_SMS_REQUEST_CODE = 1002
+    private val RECEIVE_MMS_REQUEST_CODE = 1003
+
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
@@ -164,27 +174,61 @@ class MainActivity : FragmentActivity() {
         loadInfo()
 
         var intent = getIntent()
-        timeline_id = intent.getIntExtra("timeline_id", -1)
-
-        if (intent.getBooleanExtra("is_push", false) != null){
-            is_push = intent.getBooleanExtra("is_push", false)
-            if (intent.getStringExtra("last_id") != null) {
-                last_id = intent.getStringExtra("last_id")
-                created = intent.getStringExtra("created")
-
-                if (last_id.length > 0) {
-                    val intent = Intent(context, WriteActivity::class.java)
-                    intent.putExtra("qnas_id", last_id)
-                    intent.putExtra("created_at", created)
-                    startActivity(intent)
-                }
-            }
+        val is_push = PrefUtils.getBooleanPreference(context, "is_push")
+        if (is_push) {
+            val last_id = PrefUtils.getStringPreference(context,"last_id")
+            val created = PrefUtils.getStringPreference(context,"created")
+            val intent = Intent(context, WriteActivity::class.java)
+            intent.putExtra("qnas_id", last_id)
+            intent.putExtra("created_at", created)
+            startActivity(intent)
         }
+
+        PrefUtils.removePreference(context, "is_push")
+        PrefUtils.removePreference(context, "last_id")
+        PrefUtils.removePreference(context, "created")
+        PrefUtils.removePreference(context, "timeline_id")
+
+//        timeline_id = intent.getIntExtra("timline_id", -1)
+//        is_push = intent.getBooleanExtra("is_push", false)
+//
+//        if (is_push){
+//
+//            last_id = intent.getStringExtra("last_id")
+//            created = intent.getStringExtra("created")
+//
+//            println("-------created-----$created")
+//
+//            if (last_id.length > 0) {
+//                val intent = Intent(context, WriteActivity::class.java)
+//                intent.putExtra("qnas_id", last_id)
+//                intent.putExtra("created_at", created)
+//                startActivity(intent)
+//            }
+//
+//        }
+
+        println("--------timeline_id $last_id")
 
         if (timeline_id > 0) {
             val intent = Intent(context, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id", timeline_id.toString())
             startActivity(intent)
+        }
+
+        val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS)
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECEIVE_SMS), RECEIVE_SMS_REQUEST_CODE)
+        }
+
+        val mmsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_MMS)
+        if (mmsPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECEIVE_MMS), RECEIVE_MMS_REQUEST_CODE)
+        }
+
+        val readSmsPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
+        if (readSmsPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_SMS), READ_SMS_REQUEST_CODE)
         }
 
     }
@@ -452,6 +496,11 @@ class MainActivity : FragmentActivity() {
                         var bytedouble = Utils.getDouble(member,"point")
                         var byte = Utils.getInt(member,"bytes")
 
+                        var usebytes = response.getString("usebytes")
+                        println("----- usebytes : $usebytes")
+
+                        println("-----memberbyte : $byte")
+
 //                        var payment_byte = 2147483648
                         // var payment_byte = 20480
 //                        if (payment_sum.length()>0){
@@ -478,7 +527,7 @@ class MainActivity : FragmentActivity() {
                         val style = Utils.getInt(member, "style_id")
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
                         PrefUtils.setPreference(context, "point", point)
-                        PrefUtils.setPreference(context, "byte", byte)
+                        PrefUtils.setPreference(context, "byte", usebytes.toInt())
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }
@@ -550,6 +599,63 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            RECEIVE_SMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
 
+                    println("SMS Permission has been denied by user")
+
+                } else {
+
+                    println("SMS Permission has been granted by user")
+
+                }
+
+            }
+            RECEIVE_MMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    println("MMS Permission has been denied by user")
+
+                } else {
+
+                    println("MMS Permission has been granted by user")
+
+                }
+            }
+            READ_SMS_REQUEST_CODE -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    println("READ SMS Permission has been denied by user")
+
+                } else {
+
+                    println("RED SMS Permission has been granted by user")
+
+                }
+            }
+        }
+    }
+
+    override fun onNewIntent(intent2: Intent?) {
+        super.onNewIntent(intent2)
+
+        val is_push = PrefUtils.getBooleanPreference(context, "is_push")
+        if (is_push) {
+            val last_id = PrefUtils.getStringPreference(context,"last_id")
+            val created = PrefUtils.getStringPreference(context,"created")
+            val intent = Intent(context, WriteActivity::class.java)
+            intent.putExtra("qnas_id", last_id)
+            intent.putExtra("created_at", created)
+            startActivity(intent)
+        }
+
+        PrefUtils.removePreference(context, "is_push")
+        PrefUtils.removePreference(context, "last_id")
+        PrefUtils.removePreference(context, "created")
+        PrefUtils.removePreference(context, "timeline_id")
+
+    }
 
 }

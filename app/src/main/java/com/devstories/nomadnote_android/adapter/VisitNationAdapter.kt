@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
@@ -43,9 +42,16 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         var json = data.get(position)
         var countryName = Utils.getString(json,"country")
 
-        val language = Locale.getDefault().getLanguage()
-        if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+        var language = Locale.getDefault().language
+        if(language == "en" || language == "ja") {
             countryName = Utils.getString(json, language)
+        } else if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if(language == "CHN") {
+                countryName = Utils.getString(json, "zh-rCN")
+            } else if(language == "TWN") {
+                countryName = Utils.getString(json, "zh-rTW")
+            }
         }
 
 
@@ -60,7 +66,7 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         item.countryTV.setText(countryName)
         var created_split = created_at.split(" ")
         item.createdTV.setText(created_split.get(0))
-        item.countTV.setText(count.toString() + " " + myContext.getString(R.string.post_count))
+        item.countTV.setText(count.toString() + " " + myContext.getString(com.devstories.nomadnote_android.R.string.post_count))
 
 
         return retView
@@ -95,10 +101,10 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
         var countTV: TextView
 
         init {
-            flagIV = v.findViewById<View>(R.id.flagIV) as ImageView
-            countryTV = v.findViewById<View>(R.id.countryTV) as TextView
-            createdTV = v.findViewById<View>(R.id.createdTV) as TextView
-            countTV = v.findViewById<View>(R.id.countTV) as TextView
+            flagIV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.flagIV) as ImageView
+            countryTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.countryTV) as TextView
+            createdTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.createdTV) as TextView
+            countTV = v.findViewById<View>(com.devstories.nomadnote_android.R.id.countTV) as TextView
         }
     }
 

@@ -16,16 +16,16 @@ import java.util.Stack;
 
 public class ImageLoader {
 
-    Hashtable<Integer, Bitmap> loadImages;
-    Hashtable<Integer, String> positionRequested;
+    Hashtable<Long, Bitmap> loadImages;
+    Hashtable<Long, String> positionRequested;
     BaseAdapter listener;
     int runningCount = 0;
     Stack<ItemPair> queue;
     ContentResolver resolver;
 
     public ImageLoader(ContentResolver r) {
-        loadImages = new Hashtable<Integer, Bitmap>();
-        positionRequested = new Hashtable<Integer, String>();
+        loadImages = new Hashtable<Long, Bitmap>();
+        positionRequested = new Hashtable<Long, String>();
         queue = new Stack<ItemPair>();
         resolver = r;
     }
@@ -41,7 +41,7 @@ public class ImageLoader {
         queue.clear();
     }
 
-    public Bitmap getImage(int uid, String path, int orientation) {
+    public Bitmap getImage(long uid, String path, int orientation) {
         Bitmap image = loadImages.get(uid);
         if (image != null) {
             return image;
@@ -68,18 +68,18 @@ public class ImageLoader {
 
     public class LoadImageAsyncTask extends AsyncTask<Object, Void, Bitmap> {
 
-        Integer uid;
+        Long uid;
 
         @Override
         protected Bitmap doInBackground(Object... params) {
 
-            this.uid = (Integer) params[0];
+            this.uid = (Long) params[0];
             String photoPath = (String) params[1];
             Integer orientation = (Integer) params[2];
 
             String[] proj = { Images.Thumbnails.DATA };
 
-            Cursor mini = Images.Thumbnails.queryMiniThumbnail(resolver, uid, Images.Thumbnails.MICRO_KIND, proj);
+            Cursor mini = Images.Thumbnails.queryMiniThumbnail(resolver, uid, Images.Thumbnails.MINI_KIND, proj);
             if (mini != null && mini.moveToFirst()) {
                 photoPath = mini.getString(mini.getColumnIndex(proj[0]));
             } else {
@@ -89,31 +89,9 @@ public class ImageLoader {
                 }
             }
 
-            Bitmap bitmap = Utils.getImage(resolver, photoPath, 100);
+            Bitmap bitmap = Utils.getImage(resolver, photoPath, 300);
 
-            /*
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(path, options);
-            options.inJustDecodeBounds = false;
-            options.inSampleSize = 1;
-            if (options.outWidth > 96) {
-                int ws = options.outWidth / 96 + 1;
-                if (ws > options.inSampleSize) {
-                    options.inSampleSize = ws;
-                }
-            }
-            if (options.outHeight > 96) {
-                int hs = options.outHeight / 96 + 1;
-                if (hs > options.inSampleSize) {
-                    options.inSampleSize = hs;
-                }
-            }
-
-            Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-            */
-
-            return Utils.rotate(bitmap, orientation);
+            return bitmap;
         }
 
         @Override
@@ -129,11 +107,11 @@ public class ImageLoader {
 
     public static class ItemPair {
 
-        Integer uid;
+        Long uid;
         String path;
         Integer orientation;
 
-        public ItemPair(Integer uid, String path, Integer orientation) {
+        public ItemPair(Long uid, String path, Integer orientation) {
             this.uid = uid;
             this.path = path;
             this.orientation = orientation;

@@ -57,7 +57,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     private lateinit var activity: MainActivity
 
-    private var myLocation = true
+    private var myLocationSetted = false
     private var selected_item: JSONObject? = null
     val REQUEST_FINE_LOCATION = 100
     val REQUEST_ACCESS_COARSE_LOCATION = 101
@@ -68,7 +68,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     // lateinit var mapView:MapView
 
-    private lateinit var googleMap: GoogleMap
+    private var googleMap: GoogleMap? = null
     private lateinit var mapFragment: SupportMapFragment
 
     private val markers = ArrayList<Marker>()
@@ -156,7 +156,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                 load_place()
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
             } else {
             }
             false
@@ -173,8 +173,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     }
 
     private fun checkGPs() {
-        if (Utils.availableLocationService(context)) {
-//            startLocation()
+        if (Utils.availableLocationService(myContext)) {
+            startLocation()
         } else {
             gpsCheckAlert.sendEmptyMessage(0)
         }
@@ -190,7 +190,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
 
 
-                val builder = AlertDialog.Builder(context)
+                val builder = AlertDialog.Builder(myContext)
                 builder.setTitle("확인")
                 builder.setMessage("위치 서비스 이용이 제한되어 있습니다.\n설정에서 위치 서비스 이용을 허용해주세요.")
                 builder.setCancelable(true)
@@ -280,7 +280,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             }
         }
 
-        myLocation = false
+        // myLocation = false
         /*    val mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155)
             val marker = MapPOIItem()
             marker.itemName = "테스트"
@@ -349,7 +349,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -430,17 +430,25 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     override fun onLocationUpdated(location: Location?) {
         stopLocation()
-        if (location != null) {
-            if (myLocation) {
-                latitude = location.getLatitude()
-                longitude = location.getLongitude()
 
+        if(activity == null || !isAdded) {
+            return
+        }
+
+        println("lo : $location")
+
+        if (location != null) {
+
+            latitude = location.getLatitude()
+            longitude = location.getLongitude()
+
+            myLocationSetted = true
+
+            if(googleMap != null) {
+                val cu = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 14.1f)
+                googleMap!!.animateCamera(cu)
             }
 
-            val latlng = LatLng(latitude, longitude)
-
-            val cu = CameraUpdateFactory.newLatLng(latlng)
-            googleMap.animateCamera(cu)
 
             if (progressDialog != null) {
                 progressDialog!!.dismiss()
@@ -489,9 +497,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
-        googleMap.getUiSettings().setRotateGesturesEnabled(false)
+        googleMap!!.getUiSettings().setRotateGesturesEnabled(false)
 
-        googleMap.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
+        googleMap!!.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
             // System.out.println(marker);
 
             val keyword = Utils.getString(keywordET)
@@ -505,26 +513,26 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val intent = Intent(myContext, MapSearchActivity::class.java)
             intent.putExtra("place_id", place_id)
             intent.putExtra("keyword", keyword)
-            intent.putExtra("type","place")
 
             startActivity(intent)
 
             true
         })
 
-        googleMap.setOnMapClickListener(GoogleMap.OnMapClickListener {
+        googleMap!!.setOnMapClickListener(GoogleMap.OnMapClickListener {
 
         })
 
-        googleMap.setOnCameraMoveStartedListener(GoogleMap.OnCameraMoveStartedListener {
+        googleMap!!.setOnCameraMoveStartedListener(GoogleMap.OnCameraMoveStartedListener {
 
         })
 
-        googleMap.setOnCameraIdleListener {
-            println("zoom : ${googleMap.cameraPosition.zoom}")
+        googleMap!!.setOnCameraIdleListener {
+            val zoom = googleMap!!.cameraPosition.zoom
 
-            val zoom = googleMap.cameraPosition.zoom
-            if(zoom > 14.5) {
+            println("zoom : $zoom")
+
+            if(zoom >= 14) {
                 for (marker in markers) {
                     marker.isVisible = true
                 }
@@ -535,13 +543,22 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             }
         }
 
+        if(myLocationSetted) {
+            val cu = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 14.1f)
+            googleMap?.animateCamera(cu)
+        }
+
         load_place()
     }
 
 
     private fun addMarkers() {
 
-        googleMap.clear()
+        if(activity == null || !isAdded) {
+            return
+        }
+
+        googleMap?.clear()
 
         for (i in 0 until places.length()) {
             val place = places.getJSONObject(i)
@@ -577,9 +594,16 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             var place_name = Utils.getString(place, "place")
 
-            val language = Locale.getDefault().getLanguage()
-            if(language == "en" || language == "ja" || language == "zh-rCN" || language == "zh-rTW") {
+            var language = Locale.getDefault().language
+            if(language == "en" || language == "ja") {
                 place_name = Utils.getString(place, language)
+            } else if(language == "zh") {
+                language = Locale.getDefault().isO3Country
+                if(language == "CHN") {
+                    place_name = Utils.getString(place, "zh-rCN")
+                } else if(language == "TWN") {
+                    place_name = Utils.getString(place, "zh-rTW")
+                }
             }
 
 
@@ -590,7 +614,14 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val duration = "$hour:$min"
 
             val total_costs = Utils.getInt(place, "total_costs")
-            val costs = "$total_costs$"
+            var costs = "$total_costs$"
+            if(language == "en" || language == "ja") {
+                costs = getString(R.string.unit) + total_costs.toString()
+            } else if (language == "zh"){
+                costs = total_costs.toString() +"\n" + getString(R.string.unit)
+            } else {        // 코리아
+                costs = total_costs.toString() + getString(R.string.unit)
+            }
 
             println("duration : $duration, costs : $costs")
 
@@ -636,14 +667,14 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             // draw
 
 
-            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
+            val marker = googleMap!!.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
             marker.tag = place
             marker.isVisible = false
 
             markers.add(marker)
         }
 
-        fitBounds()
+        // fitBounds()
 
     }
 
@@ -660,7 +691,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
         val padding = 200 // offset from edges of the map in pixels
         val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
-        googleMap.moveCamera(cu)
+        googleMap?.moveCamera(cu)
     }
 
 }

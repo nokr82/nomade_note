@@ -8,16 +8,15 @@
         android:layout_height="125dp"
         android:gravity="center_horizontal"
         android:background="@drawable/circle_background_map">
+
         <TextView
             android:id="@+id/titleTV"
-            android:paddingTop="25dp"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:gravity="center"
+            android:paddingTop="25dp"
             android:textColor="#ffffff"
-            android:text="@string/test"
-            />
+            android:textSize="15sp" />
         <TextView
             android:id="@+id/timeTV"
             android:layout_below="@+id/titleTV"
@@ -26,7 +25,6 @@
             android:textSize="12sp"
             android:gravity="center_horizontal"
             android:textColor="#ffffff"
-            android:text="05:00"
             />
         <RelativeLayout
             android:layout_marginTop="5dp"
@@ -41,7 +39,6 @@
                 android:textSize="11sp"
                 android:textColor="#ffffff"
                 android:gravity="center"
-                android:text="300$"
                 />
 
         </RelativeLayout>

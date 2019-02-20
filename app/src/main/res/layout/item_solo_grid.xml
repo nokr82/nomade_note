@@ -33,7 +33,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
                 android:padding="10dp"
-                android:text="20년지기 친구들과 파리여행"
                 android:textColor="#ffffff"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -51,7 +50,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:lineSpacingExtra="1sp"
-                    android:text="파리"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
@@ -68,7 +66,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="1sp"
-                    android:text="01:34"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
@@ -85,7 +82,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="1sp"
-                    android:text="200$ "
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
 
@@ -97,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="1sp"
                 android:paddingLeft="10dp"
-                android:text=" 2018. 07.02 PM10:30"
                 android:textColor="#ffffff"
                 android:textSize="10sp"
                 android:textStyle="bold" />

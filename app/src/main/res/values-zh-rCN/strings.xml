@@ -15,6 +15,7 @@
     <string name="activity_login_login">登录</string>
     <!--로그인-->
     <string name="activity_visit_visited">访问国家记录</string>
+    <string name="activity_visit_visited2">访问国家记录</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">会员加入</string>
     <!--회원가입-->
@@ -28,7 +29,7 @@
     <!--키워드 검색-->
     <string name="activity_write_location">位置</string>
     <!--위치-->
-    <string name="activity_write_time">消费时间</string>
+    <string name="activity_write_time">当前时间</string>
     <!--소비시간-->
     <string name="activity_write_spent">消费金额</string>
     <!--소비금액-->
@@ -58,7 +59,7 @@
     <string name="savedpoststimeline">手迹时间轴</string>
     <string name="settings">设定</string>
     <string name="welcome">旅行的同伴</string>
-    <string name="nomadnote">Noma Note</string>
+    <string name="nomadnote"></string>
     <string name="welcome2">欢迎</string>
     <string name="travelstyle">旅行风格</string>
     <string name="editInformation">个人信息修改</string>
@@ -75,7 +76,7 @@
     <string name="setmyinfo2">个人信息修改</string>
     <string name="totalmemory">全部内存</string>
     <string name="searchphone">用联系方式搜索</string>
-    <string name="searchid">ID搜索</string>
+    <string name="searchid">e-mail搜索</string>
     <string name="test">세종문화회관</string>
     <string name="fra_setting_buy">结算</string>
     <string name="fra_setting_experien">共享记录下的旅行回忆</string>
@@ -97,11 +98,11 @@
     <string name="searchphonenumber">可以通过联系方式添加好友</string>
     <string name="addphonenumber">请输入想要添加的朋友的姓名和电话号码。</string>
     <string name="artmuseumstyle">美术馆风格</string>
-    <string name="newfriendid">可以通过ID添加好友</string>
-    <string name="addenterid">请输入想要添加的朋友的ID。</string>
+    <string name="newfriendid">可以通过e-mail添加好友</string>
+    <string name="addenterid">请输入想要添加的朋友的e-mail。</string>
 
 
-
+    <string name="authenticate_no">無法驗證</string>
 
 
 
@@ -115,9 +116,9 @@
     <string name="enteryourage">請輸入您的年齡。</string>
     <string name="total">槍</string>
     <string name="view_my_friends">添加到列表</string>
-    <string name="prd_1gb">1GB (9,000元韓幣)</string>
-    <string name="prd_600mb">600MB (5,000元韓幣)</string>
-    <string name="prd_20kb">20KB (免費)</string>
+    <string name="prd_1gb">1GB (55CNY)</string>
+    <string name="prd_600mb">600MB (31CNY)</string>
+    <string name="prd_20kb">20MB (免費)</string>
     <string name="enter_question_title">請輸入標題。</string>
     <string name="enter_question_contents">請輸入內容</string>
     <string name="choose_pic_title">選擇照片</string>
@@ -125,5 +126,11 @@
     <string name="do_login">登錄</string>
     <string name="post_count">個</string>
     <string name="my_points">保持點</string>
+    <string name="transtrating">在翻譯中...</string>
+    <string name="allow_permission">請授予許可。</string>
+    <string name="no_image_data">沒有可用的圖像。</string>
+    <string name="instagram_not_installed">Instagram沒有安裝。</string>
+    <string name="over_free_space">超過免費服務容量。</string>
+    <string name="unit">CNY</string>
 
 </resources>

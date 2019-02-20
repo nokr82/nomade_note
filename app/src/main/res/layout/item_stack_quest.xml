@@ -1,81 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/background_border_radius3_000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-       <LinearLayout
-           android:layout_width="match_parent"
-           android:layout_height="45dp"
-           android:layout_marginBottom="5dp"
-           android:orientation="horizontal"
-           android:gravity="center_vertical"
-           android:background="@drawable/background_border_radius3_000000">
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/circle_background2"
+            android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:background="@drawable/circle_background2">
+            <TextView
+                android:id="@+id/timeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="10sp" />
 
-                        <TextView
-                            android:id="@+id/timeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="10sp"
-                            android:textColor="#ffffff"
-                            android:text="6H"/>
+        </LinearLayout>
 
-                </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-               <LinearLayout
-                   android:layout_width="0dp"
-                   android:layout_weight="1"
-                   android:layout_height="match_parent">
-                       <TextView
-                           android:id="@+id/contentTV"
-                           android:layout_width="wrap_content"
-                           android:layout_height="match_parent"
-                           android:textSize="12sp"
-                           android:textColor="#4a4a4a"
-                           android:maxLines="2"
-                           android:gravity="center"
-                           android:text="베트남 무이네의 붉은사막에서 즐거운 시간을 보내고 계신가요?"
-                           />
+            <TextView
+                android:id="@+id/contentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="#4a4a4a"
+                android:textSize="12sp" />
 
+        </LinearLayout>
 
-               </LinearLayout>
+        <LinearLayout
+            android:id="@+id/answerLL"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-               <LinearLayout
-                   android:id="@+id/answerLL"
-                   android:layout_width="72dp"
-                   android:layout_height="match_parent"
-                   android:gravity="center"
-                   >
-                       <TextView
-                           android:id="@+id/answerTV"
-                           android:textStyle="bold"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:textSize="11sp"
-                           android:textColor="#f5cd04"
-                           android:text="@string/reply"
-                           />
+            <TextView
+                android:id="@+id/answerTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#f5cd04"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:text="@string/reply" />
 
+        </LinearLayout>
 
-               </LinearLayout>
-
-       </LinearLayout>
-
-
-
-
-
-
+    </LinearLayout>
 
 
 </LinearLayout>

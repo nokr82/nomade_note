@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.PrefUtils
@@ -47,7 +48,7 @@ class CountryTimelineActivity : RootActivity() {
         country = intent.getStringExtra("country")
         logoTV.setText(country)
 
-        countryAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas)
+        countryAdapter = PlaceAdapter(context, R.layout.item_scrap, timelineDatas, null, this)
         scrapLV.adapter = countryAdapter
         country_timeline()
         click()
@@ -61,14 +62,23 @@ class CountryTimelineActivity : RootActivity() {
             intent.putExtra("timeline_id",timeline_id)
             startActivity(intent)
         }
+
+        keywordET.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                keyword = keywordET.text.toString()
+                country_timeline()
+            }
+
+            Utils.hideKeyboard(context)
+                false
+        }
     }
 
     fun country_timeline(){
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
         params.put("country_id",country_id)
-
-
+        params.put("keyword",keyword)
 
         TimelineAction.country_timeline(params, object : JsonHttpResponseHandler() {
 
@@ -193,4 +203,103 @@ class CountryTimelineActivity : RootActivity() {
         finish()
         Utils.hideKeyboard(context)
     }
+
+
+    fun set_scrap(timeline_id: String){
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(context,"member_id"))
+        params.put("timeline_id", timeline_id)
+
+
+        TimelineAction.set_scrap(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
 }

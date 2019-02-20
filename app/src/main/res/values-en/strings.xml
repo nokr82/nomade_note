@@ -15,6 +15,7 @@
     <string name="activity_login_login">Login</string>
     <!--로그인-->
     <string name="activity_visit_visited">All Countries Visited</string>
+    <string name="activity_visit_visited2">All Countries\nVisited</string>
     <!--방문국가 기록-->
     <string name="activity_login_signup">Sign Up</string>
     <!--회원가입-->
@@ -28,7 +29,7 @@
     <!--키워드 검색-->
     <string name="activity_write_location">Location</string>
     <!--위치-->
-    <string name="activity_write_time">Time Purchased</string>
+    <string name="activity_write_time">Current time</string>
     <!--소비시간-->
     <string name="activity_write_spent">Amount of Money Spent</string>
     <!--소비금액-->
@@ -54,7 +55,7 @@
     <string name="savedpoststimeline">Saved Posts Timeline</string>
     <string name="settings">Settings</string>
     <string name="welcome">Traveler\'s Companion</string>
-    <string name="nomadnote">NOMADNOTE</string>
+    <string name="nomadnote"></string>
     <string name="welcome2">Welcome</string>
     <string name="travelstyle">Travel Style</string>
     <string name="editInformation">Edit Your Personal Information</string>
@@ -80,10 +81,10 @@
     <string name="addphonefriend">Add A User With Their Phone Number</string>
     <string name="searchphonenumber">You can add new users by entering their phone number</string>
     <string name="addphonenumber">Please enter the name and phone number of the user you wish to add.</string>
-    <string name="searchid">Search By ID</string>
+    <string name="searchid">Search By e-mail</string>
     <string name="test">세종문화회관</string>
 
-
+    <string name="authenticate_no">Can not authenticate</string>
     <string name="fra_setting_buy">Pay</string>
     <string name="fra_setting_experien">Share your travel experiences</string>
     <string name="fra_setting_insta">Instagram</string>
@@ -95,8 +96,8 @@
     <string name="acrivity_quest_logo">Inquire</string>
     <string name="item_mainimage">Main Image</string>
     <string name="artmuseumstyle">Art Museum Style</string>
-    <string name="newfriendid">Add new friends through their ID</string>
-    <string name="addenterid">Enter the ID of the friend of the user you wish to add.</string>
+    <string name="newfriendid">Add new friends through their e-mail</string>
+    <string name="addenterid">Enter the e-mail of the friend of the user you wish to add.</string>
 
     <!-- 추가 -->
     <string name="auto_login">Auto-Login</string>
@@ -106,11 +107,11 @@
     <string name="item_scrap_cirti">Would you like to verify this information?</string>
     <string name="item_scrap_cirti_done">Local information verified</string>
     <string name="enteryourage">Enter Your Age.</string>
-    <string name="total">총</string>
-    <string name="view_my_friends">추가리스트로 보기</string>
-    <string name="prd_1gb">1GB (9,000KRW)</string>
-    <string name="prd_600mb">600MB (5,000KRW)</string>
-    <string name="prd_20kb">20KB (Free)</string>
+    <string name="total">Total</string>
+    <string name="view_my_friends">See Additional List</string>
+    <string name="prd_1gb">1GB ($8)</string>
+    <string name="prd_600mb">600MB ($5)</string>
+    <string name="prd_20kb">20MB (Free)</string>
     <string name="enter_question_title">Enter title</string>
     <string name="enter_question_contents">Enter text</string>
     <string name="choose_pic_title">Select photo</string>
@@ -118,5 +119,11 @@
     <string name="do_login">Sign in</string>
     <string name="post_count">Posts</string>
     <string name="my_points">Hold point</string>
+    <string name="transtrating">In translation...</string>
+    <string name="allow_permission">Please grant permission.</string>
+    <string name="no_image_data">No images available.</string>
+    <string name="instagram_not_installed">Instagram is not installed.</string>
+    <string name="over_free_space">You have exceeded the free service capacity.</string>
+    <string name="unit">$</string>
 
 </resources>

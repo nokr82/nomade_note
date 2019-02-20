@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
+import android.support.v4.content.CursorLoader
 import android.support.v4.content.FileProvider
 import android.util.Log
 import android.view.View
@@ -25,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_find_picture_grid.*
 import java.io.File
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListener {
     private lateinit var context: Context
@@ -72,10 +74,19 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                     MediaStore.Images.Media.DATA,
                     MediaStore.Images.Media.DISPLAY_NAME,
                     MediaStore.Images.Media.ORIENTATION,
-                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                    MediaStore.Video.Media._ID,
+                    MediaStore.Video.Media.DATA,
+                    MediaStore.Video.Media.DISPLAY_NAME,
+                    MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
+                    MediaStore.Video.Media.MINI_THUMB_MAGIC,
+                    MediaStore.Files.FileColumns.MEDIA_TYPE
             )
             val idx = IntArray(proj.size)
 
+            val selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE + " OR " + MediaStore.Files.FileColumns.MEDIA_TYPE + "=" + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO
+
+            /*
             cursor = MediaStore.Images.Media.query(
                     resolver,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -83,12 +94,31 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                     null,
                     MediaStore.Images.Media.DATE_ADDED + " DESC"
             )
+            */
+
+            val cursorLoader = CursorLoader(
+                    this,
+                    MediaStore.Files.getContentUri("external"),
+                    null,
+                    selection,
+                    null, // Selection args (none).
+                    MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
+            );
+
+            val cursor = cursorLoader.loadInBackground()
+
             if (cursor != null && cursor.moveToFirst()) {
                 idx[0] = cursor.getColumnIndex(proj[0])
                 idx[1] = cursor.getColumnIndex(proj[1])
                 idx[2] = cursor.getColumnIndex(proj[2])
                 idx[3] = cursor.getColumnIndex(proj[3])
                 idx[4] = cursor.getColumnIndex(proj[4])
+                idx[5] = cursor.getColumnIndex(proj[5])
+                idx[6] = cursor.getColumnIndex(proj[6])
+                idx[7] = cursor.getColumnIndex(proj[7])
+                idx[8] = cursor.getColumnIndex(proj[8])
+                idx[9] = cursor.getColumnIndex(proj[9])
+                idx[10] = cursor.getColumnIndex(proj[10])
 
                 var photo = ImageAdapter.PhotoData()
 
@@ -98,14 +128,31 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                     val displayName = cursor.getString(idx[2])
                     val orientation = cursor.getInt(idx[3])
                     val bucketDisplayName = cursor.getString(idx[4])
+
+                    val videoID = cursor.getInt(idx[5])
+                    val videoPath = cursor.getString(idx[6])
+                    val videoDisplayName = cursor.getString(idx[7])
+                    val videoBucketDisplayName = cursor.getString(idx[8])
+                    val miniThumbMagic = cursor.getString(idx[9])
+
+                    val mediaType = cursor.getInt(idx[10])
+
                     if (displayName != null) {
                         photo = ImageAdapter.PhotoData()
                         photo.photoID = photoID
                         photo.photoPath = photoPath
-                        //Log.d("yjs", "name : " + displayName)
                         photo.displayName = displayName
                         photo.orientation = orientation
                         photo.bucketPhotoName = bucketDisplayName
+
+                        photo.videoID = videoID
+                        photo.videoPath = videoPath
+                        photo.videoDisplayName = videoBucketDisplayName
+                        photo.videoBucketDisplayName = videoBucketDisplayName
+
+                        photo.mediaType = mediaType
+
+                        // photo.type = "i"
                         photoList!!.add(photo)
                     }
 
@@ -124,6 +171,53 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
             }
 
         }
+
+//        try {
+//            val proj = arrayOf(MediaStore.Video.Media._ID, MediaStore.Video.Media.DATA, MediaStore.Video.Media.DISPLAY_NAME,MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
+//            val idx = IntArray(proj.size)
+//
+////            val selection = MediaStore.Video.Media.BUCKET_DISPLAY_NAME + " = '" + bucketName + "'"
+//
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                cursor = resolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC")
+//                println(" cursor : " + cursor.count)
+//            } else {
+//                cursor = MediaStore.Video.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null)
+//            }
+////                    cursor = MediaStore.Images.Media.query(resolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI, proj, selection, MediaStore.Video.Media.DATE_ADDED + " DESC")
+//            if (cursor != null && cursor.moveToFirst()) {
+//                idx[0] = cursor.getColumnIndex(proj[0])
+//                idx[1] = cursor.getColumnIndex(proj[1])
+//                idx[2] = cursor.getColumnIndex(proj[2])
+//                idx[3] = cursor.getColumnIndex(proj[3])
+//
+//                do {
+//                    val photoID = cursor.getInt(idx[0])
+//                    val photoPath = cursor.getString(idx[1])
+//                    val displayName = cursor.getString(idx[2])
+//                    val orientation = cursor.getInt(idx[3])
+//                    if (displayName != null) {
+//                        val video = ImageAdapter.PhotoData()
+//                        video.photoID = photoID
+//                        video.photoPath = photoPath
+//                        video.orientation = orientation
+//                        video.type = "v"
+//                        photoList.add(video)
+//                    }
+//                } while (cursor.moveToNext())
+//            }
+//        } catch (ex: Exception) {
+//            // Log the exception's message or whatever you like
+//        } finally {
+//            try {
+//                if (cursor != null && !cursor.isClosed) {
+//                    cursor.close()
+//                }
+//            } catch (ex: Exception) {
+//            }
+//
+//        }
 
         selectGV.setOnItemClickListener(this)
 
@@ -156,26 +250,44 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
                 val builder = AlertDialog.Builder(context)
                 builder
                         .setMessage(getString(R.string.builderwanttopost))
-
                         .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                             dialog.cancel()
 
+                            val ids = ArrayList<Int>(selected.size)
                             val result = arrayOfNulls<String>(selected.size)
                             val name = arrayOfNulls<String>(selected.size)
+                            val mediaTypes = ArrayList<Int>(selected.size)
 
                             var idx = 0
-                            var idxn = 0
 
                             for (strPo in selected) {
-                                result[idx++] = photoList[Integer.parseInt(strPo)].photoPath
-                                name[idxn++] = photoList[Integer.parseInt(strPo)].displayName
 
-                                Log.d("yjs", "Path : " + photoList[0].photoPath + photoList[0].displayName)
+                                val photo = photoList[Integer.parseInt(strPo)]
+
+                                if(photo.mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+                                    ids.add(photo.photoID)
+                                    result[idx] = photo.photoPath
+                                    name[idx] = photo.displayName
+                                } else {
+                                    ids.add(photo.videoID)
+                                    result[idx] = photo.videoPath
+                                    name[idx] = photo.videoDisplayName
+
+
+                                    println("photo.videoPath : ${photo.videoPath}")
+
+                                }
+                                mediaTypes.add(photo.mediaType)
+
+                                idx++;
+
                             }
 
                             val returnIntent = Intent()
+                            returnIntent.putExtra("ids", ids)
                             returnIntent.putExtra("images", result)
                             returnIntent.putExtra("displayname",name)
+                            returnIntent.putExtra("mediaTypes",mediaTypes)
                             setResult(RESULT_OK, returnIntent)
                             try {
                                 if (cursor != null && !cursor.isClosed) {

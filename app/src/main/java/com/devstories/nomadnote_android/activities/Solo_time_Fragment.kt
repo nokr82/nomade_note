@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AbsListView
 import android.widget.GridView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
@@ -28,7 +29,15 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-class Solo_time_Fragment : Fragment() {
+open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
+    override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+    }
+
+    override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
+
+    }
+
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
@@ -38,13 +47,29 @@ class Solo_time_Fragment : Fragment() {
     lateinit var gridGV: GridView
 
     var SOLO_WRITE = 1000
-    var RESET = 0
+    var RESET = 1001
 
     lateinit var activity: MainActivity
+
+    private var page = 1
+    private var totalPage = 0
+    private var userScrolled = false
+    private var lastcount = 0
+    private var totalItemCountScroll = 0
 
     internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
+                timelineDatas.clear()
+                loadData()
+            }
+        }
+    }
+
+    internal var deleteReciver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                timelineDatas.clear()
                 loadData()
             }
         }
@@ -65,7 +90,7 @@ class Solo_time_Fragment : Fragment() {
 
         gridGV = view.findViewById(R.id.gridGV)
 
-        timelineAdaper = SoloTimeAdapter(myContext!!, R.layout.item_solo_grid, timelineDatas)
+        timelineAdaper = SoloTimeAdapter(myContext!!, R.layout.item_solo_grid, timelineDatas,this)
         gridGV.adapter = timelineAdaper
 
         super.onViewCreated(view, savedInstanceState)
@@ -79,9 +104,39 @@ class Solo_time_Fragment : Fragment() {
         val filter1 = IntentFilter("UPDATE_TIMELINE")
         activity.registerReceiver(ResetReceiver, filter1)
 
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        activity.registerReceiver(deleteReciver, filter2)
+
         click()
 
         loadData()
+
+        gridGV.setOnScrollListener(object : AbsListView.OnScrollListener {
+            override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onScrollStateChanged(gridGV:AbsListView, newState: Int) {
+
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    userScrolled = true
+                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    userScrolled = false
+                }
+
+                if (!gridGV.canScrollVertically(-1)) {
+                    page=1
+                    loadData()
+                } else if (!gridGV.canScrollVertically(1)) {
+                    if (totalPage > page) {
+                        page++
+                        lastcount = totalItemCountScroll
+
+                        loadData()
+                    }
+                }
+            }
+        })
 
     }
 
@@ -100,7 +155,7 @@ class Solo_time_Fragment : Fragment() {
             myContext.sendBroadcast(intent)
         }
         visitnationRL.setOnClickListener {
-            val intent = Intent(context, VisitNationActivity::class.java)
+            val intent = Intent(myContext, VisitNationActivity::class.java)
             startActivity(intent)
         }
 
@@ -108,22 +163,23 @@ class Solo_time_Fragment : Fragment() {
 
         gridGV.setOnItemClickListener { parent, view, position, id ->
 
-            /*
-            val timeline = timelineDatas.get(position)
-            val timeline_id = Utils.getString(timeline, "id")
+//            val timeline = timelineDatas.get(position) as JSONArray
+//
+//            val timeline_id = Utils.getString(timeline, "id")
+//
+//            val intent = Intent(myContext, Solo_detail_Activity::class.java)
+//            intent.putExtra("timeline_id",timeline_id)
+//            startActivityForResult(intent,RESET)
 
-            val intent = Intent(myContext, Solo_detail_Activity::class.java)
-            intent.putExtra("timeline_id",timeline_id)
-            startActivityForResult(intent,RESET)
-            */
         }
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
+                timelineDatas.clear()
                 loadData()
 
-                Utils.hideKeyboard(context)
+                Utils.hideKeyboard(myContext)
 
             } else {
             }
@@ -135,10 +191,12 @@ class Solo_time_Fragment : Fragment() {
     fun loadData() {
 
         var keyword = Utils.getString(keywordET)
+        println("----keyword : $keyword")
 
         val params = RequestParams()
-        params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
         params.put("keyword", keyword)
+        params.put("page", page)
 
         TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
 
@@ -147,13 +205,23 @@ class Solo_time_Fragment : Fragment() {
                     progressDialog!!.dismiss()
                 }
 
+                if(activity == null || !isAdded) {
+                    return
+                }
+
                 try {
 
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
-                        if (timelineDatas != null) {
+                        if (page == 1){
                             timelineDatas.clear()
                         }
+                        totalPage = response!!.getInt("last_page");
+                        page = response!!.getInt("current_page");
+
+                        println("-------page $page")
+                        println("-------totalpage $totalPage")
+
                         val friends = response!!.getJSONArray("friend")
                         Log.d("친구", friends.toString())
                         if (friends.length() > 0) {
@@ -200,7 +268,7 @@ class Solo_time_Fragment : Fragment() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
             }
 
             override fun onFailure(
@@ -272,12 +340,16 @@ class Solo_time_Fragment : Fragment() {
             when (requestCode) {
                 SOLO_WRITE -> {
                     if (data!!.getStringExtra("reset") != null) {
+                        println("-ooooooooo")
+                        timelineDatas.clear()
                         loadData()
                     }
                 }
 
                 RESET -> {
                     if (data!!.getStringExtra("reset") != null) {
+                        println("-ooooooooo")
+                        timelineDatas.clear()
                         loadData()
                     }
                 }
