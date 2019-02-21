@@ -64,9 +64,9 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
             } else if(language == "zh") {
                 language = Locale.getDefault().isO3Country
                 if(language == "CHN") {
-                    country = Utils.getString(item, "zh-rCN")
+                    country = Utils.getString(item, "zh_rCN")
                 } else if(language == "TWN") {
-                    country = Utils.getString(item, "zh-rTW")
+                    country = Utils.getString(item, "zh_rTW")
                 }
             }
 

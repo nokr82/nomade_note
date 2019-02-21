@@ -600,9 +600,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             } else if(language == "zh") {
                 language = Locale.getDefault().isO3Country
                 if(language == "CHN") {
-                    place_name = Utils.getString(place, "zh-rCN")
+                    place_name = Utils.getString(place, "zh_rCN")
                 } else if(language == "TWN") {
-                    place_name = Utils.getString(place, "zh-rTW")
+                    place_name = Utils.getString(place, "zh_rTW")
                 }
             }
 
