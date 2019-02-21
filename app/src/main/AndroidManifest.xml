@@ -10,9 +10,9 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.READ_SMS"/>
+    <!-- uses-permission android:name="android.permission.READ_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_MMS"/ -->
 
     <application
         android:name=".base.GlobalApplication"
@@ -22,6 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_id"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.devstories.nomadnote_android.provider"
@@ -68,6 +73,11 @@
                     android:scheme="@string/kakao_scheme" />
 
                 <!-- <data android:scheme="@string/fb_login_protocol_scheme" /> -->
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
 
@@ -159,7 +169,8 @@
         <activity
             android:name=".activities.WriteActivity"
             android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+        </activity>
         <activity
             android:name=".activities.MyinfoChangeActivity"
             android:theme="@style/NoTitleDialog"

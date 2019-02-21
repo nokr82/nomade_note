@@ -8,11 +8,13 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -63,7 +65,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     val SELECT_PICTURE = 1000
 
-    var images_path: ArrayList<String> = ArrayList<String>()
+    // var images_path: ArrayList<String> = ArrayList<String>()
 
     var timeline_id = ""
     var qnas_id = ""
@@ -153,6 +155,15 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         initGPS()
 
+        val action_send_uri = intent.getStringExtra("action_send_uri")
+        if(action_send_uri != null) {
+
+            val uri = Uri.parse(action_send_uri)
+
+            val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+
+            reset(uri.toString(), 0, "picture", MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE, -1, -1, bitmap)
+        }
     }
 
     fun click(){
@@ -419,6 +430,10 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         var intent = Intent()
                         intent.putExtra("reset","reset")
                         setResult(RESULT_OK, intent);
+
+                        val uIntent = Intent()
+                        uIntent.action = "UPDATE_TIMELINE"
+                        sendBroadcast(uIntent)
 
                         Utils.hideKeyboard(context)
 
@@ -770,7 +785,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                                     mediaType = 3
                                 }
 //                                detail_image_reset(path,i)
-                                reset(path, i, "detail", mediaType, -1, timeline_file_id)
+                                reset(path, i, "detail", mediaType, -1, timeline_file_id, null)
                             }
                         }
 
@@ -961,7 +976,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                            }
 //                        }
 
-                        reset(str, i, "picture", mediaType, id, -1)
+                        reset(str, i, "picture", mediaType, id, -1, null)
                     }
                 }
 
@@ -1009,7 +1024,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
-    fun reset(str: String, idx: Int, type: String, mediaType: Int, id: Int, timeline_file_id: Int) {
+    fun reset(str: String, idx: Int, type: String, mediaType: Int, id: Int, timeline_file_id: Int, bitmap: Bitmap?) {
 
         var v = View.inflate(context, R.layout.item_addgoods, null)
 
@@ -1035,10 +1050,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         } else {
 
             if(mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
-                images_path.add(str) // TODO 업로드시 이것을 사용해야 한다.
-                var add_file = Utils.getImage(context.contentResolver, str)
+                // images_path.add(str) // TODO 업로드시 이것을 사용해야 한다.
 
-                imageIV.setImageBitmap(add_file)
+                if(bitmap != null) {
+                    imageIV.setImageBitmap(bitmap)
+                } else {
+                    var add_file = Utils.getImage(context.contentResolver, str)
+                    imageIV.setImageBitmap(add_file)
+                }
 
             } else {
                 val curThumb = MediaStore.Video.Thumbnails.getThumbnail(context.contentResolver, id.toLong(), MediaStore.Video.Thumbnails.MINI_KIND, null)

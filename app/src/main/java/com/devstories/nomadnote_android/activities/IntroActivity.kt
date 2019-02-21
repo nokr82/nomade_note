@@ -4,11 +4,14 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.os.Parcelable
 import android.util.Base64
 import android.util.Log
+import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.LoginAction
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.RootActivity
@@ -21,7 +24,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import com.devstories.nomadnote_android.R
 
 
 class IntroActivity : RootActivity() {
@@ -50,6 +52,18 @@ class IntroActivity : RootActivity() {
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
+
+        when {
+            intent?.action == Intent.ACTION_SEND -> {
+                if (intent.type?.startsWith("image/") == true) {
+                    val uri = intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+
+                    PrefUtils.setPreference(context, "is_action_send", true)
+                    PrefUtils.setPreference(context, "action_send_uri", uri.toString())
+
+                }
+            }
+        }
 
         val share_str = intent.dataString
 

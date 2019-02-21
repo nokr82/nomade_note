@@ -25,7 +25,7 @@
     <!--새글쓰기-->
     <string name="activity_write_note">Create New Note</string>
     <!--작성시간-->
-    <string name="fragment_scrap_keyword">Search by Keyword</string>
+    <string name="fragment_scrap_keyword">Searching by age, sex, and cities</string>
     <!--키워드 검색-->
     <string name="activity_write_location">Location</string>
     <!--위치-->
@@ -127,6 +127,7 @@
     <string name="unit">$</string>
 
     <!-- 바우처 -->
-    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+    <string name="voucher_error">Please check the serial code again.</string>
+    <string name="facebook_required">Facebook is not installed.</string>
 
 </resources>

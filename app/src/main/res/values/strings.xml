@@ -7,6 +7,7 @@
     <string name="OAUTH_CLIENT_ID">LQpdkxmlxSIEru59aHTw</string>
     <string name="OAUTH_CLIENT_SECRET">99o13Fawjf</string>
     <string name="OAUTH_CLIENT_NAME">노마드노트</string>
+    <string name="admob_id">ca-app-pub-5097070292431028~5074159055</string>
 
     <string name="join_by_email">이메일로 회원가입</string>
     <string name="emailET_hint">이메일 주소 입력</string>
@@ -21,7 +22,7 @@
     <string name="fragment_solo_style">여행스타일\n선택하기</string>
     <string name="fragment_solo_addnote">새글쓰기</string>
     <string name="activity_write_note">작성시간</string>
-    <string name="fragment_scrap_keyword">키워드 검색</string>
+    <string name="fragment_scrap_keyword">연령대, 성별, 도시 검색</string>
     <string name="activity_write_location">위치</string>
     <string name="activity_write_time">현재시간</string>
     <string name="activity_write_spent">소비금액</string>
@@ -125,5 +126,6 @@
 
     <!-- 시리얼 코드 메세지 -->
     <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+    <string name="facebook_required">페이스북이 설치되어 있지 않습니다.</string>
 
 </resources>

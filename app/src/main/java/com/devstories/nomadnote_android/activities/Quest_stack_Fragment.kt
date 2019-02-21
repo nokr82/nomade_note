@@ -49,6 +49,8 @@ open class Quest_stack_Fragment : Fragment() , AbsListView.OnScrollListener {
     private var lastcount = 0
     private var totalItemCountScroll = 0
 
+    private var visibleThreshold = 2
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
@@ -86,8 +88,15 @@ open class Quest_stack_Fragment : Fragment() , AbsListView.OnScrollListener {
         }
 
         questLV.setOnScrollListener(object : AbsListView.OnScrollListener {
-            override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+            override fun onScroll(view: AbsListView?, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
+                if (userScrolled && totalItemCount - visibleItemCount <= firstVisibleItem + visibleThreshold && page < totalPage && totalPage > 0) {
+                    userScrolled = false
 
+                    if (totalPage > page) {
+                        page++
+                        get_qnas()
+                    }
+                }
             }
 
             override fun onScrollStateChanged(questLV:AbsListView, newState: Int) {
@@ -98,6 +107,7 @@ open class Quest_stack_Fragment : Fragment() , AbsListView.OnScrollListener {
                     userScrolled = false
                 }
 
+                /*
                 if (!questLV.canScrollVertically(-1)) {
                     page=1
                     get_qnas()
@@ -109,6 +119,7 @@ open class Quest_stack_Fragment : Fragment() , AbsListView.OnScrollListener {
                         get_qnas()
                     }
                 }
+                */
             }
         })
 

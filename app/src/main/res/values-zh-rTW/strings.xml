@@ -25,7 +25,7 @@
     <!--새글쓰기-->
     <string name="activity_write_note">創建時間</string>
     <!--작성시간-->
-    <string name="fragment_scrap_keyword">關鍵詞搜索</string>
+    <string name="fragment_scrap_keyword">年龄,性别,城市搜索</string>
     <!--키워드 검색-->
     <string name="activity_write_location">位置</string>
     <!--위치-->
@@ -129,6 +129,7 @@
     <string name="unit">CNY</string>
 
 
-    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+    <string name="voucher_error">请重新确认谷物代码。</string>
+    <string name="facebook_required">未安装facebook。</string>
 
 </resources>

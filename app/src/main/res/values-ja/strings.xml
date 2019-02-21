@@ -26,7 +26,7 @@
     <!--새글쓰기-->
     <string name="activity_write_note">作成時間</string>
     <!--작성시간-->
-    <string name="fragment_scrap_keyword">キーワード検索</string>
+    <string name="fragment_scrap_keyword">年齢代,性別,都市検索</string>
     <!--키워드 검색-->
     <string name="activity_write_location">位置</string>
     <!--위치-->
@@ -178,6 +178,7 @@
     <string name="unit">¥</string>
 
 
-    <string name="voucher_error">시리얼 코드를 다시 확인해주세요.</string>
+    <string name="voucher_error">シリアルコードを再確認してください。</string>
+    <string name="facebook_required">フェイスブックが設置されていません。</string>
 
 </resources>

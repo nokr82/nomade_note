@@ -31,6 +31,8 @@ import com.facebook.FacebookSdk.getApplicationContext
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.share.model.ShareLinkContent
 import com.facebook.share.widget.ShareDialog
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -39,7 +41,6 @@ import kotlinx.android.synthetic.main.fra_setting.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 class Seting_Fragment : Fragment() {
     lateinit var myContext: Context
@@ -164,6 +165,32 @@ class Seting_Fragment : Fragment() {
 
                 useVoucher(op_input[0], op_input[1], op_input[2], op_input[3])
 
+            }
+        }
+
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
+        adView.adListener = object: AdListener() {
+            override fun onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+            }
+
+            override fun onAdFailedToLoad(errorCode : Int) {
+                // Code to be executed when an ad request fails.
+            }
+
+            override fun onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            override fun onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            override fun onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
             }
         }
     }
