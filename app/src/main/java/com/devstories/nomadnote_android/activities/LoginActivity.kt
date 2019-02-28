@@ -173,6 +173,18 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                 // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
         )
 
+        findidTV.setOnClickListener {
+            val intent = Intent(context, FindIDAndPasswdActivity::class.java)
+            intent.putExtra("type","id")
+            startActivity(intent)
+        }
+
+        findpasswordTV.setOnClickListener {
+            val intent = Intent(context, FindIDAndPasswdActivity::class.java)
+            intent.putExtra("type","password")
+            startActivity(intent)
+        }
+
         loginTV.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)
 //            intent.putExtra("is_push",is_push)

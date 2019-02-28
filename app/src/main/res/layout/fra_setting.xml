@@ -921,7 +921,6 @@
                     android:textColor="#878787"
                     android:textSize="12sp" />
 
-
             </LinearLayout>
 
             <View

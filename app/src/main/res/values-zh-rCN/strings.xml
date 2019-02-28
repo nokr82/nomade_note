@@ -136,5 +136,54 @@
 
     <string name="voucher_error">請重新確認穀物代碼。</string>
     <string name="facebook_required">未安裝facebook。</string>
+    <string name="delete_question">退出后所有旅行记录都将被删除。</string>
+    <string name="delete_question2">真的要离开吗?</string>
+    <string name="delete_toast_message">所有旅行记录都删除了。</string>
+    <string name="goodbyte_message">再见。</string>
+    <string name="find_id">寻找ID</string>
+    <string name="find_password">找回密码</string>
+    <string name="find_id_choice">请选择查找ID的方法。</string>
+    <string name="find_phone">用已注册的手机号查找</string>
+    <string name="name">名称</string>
+    <string name="phon_edit_message">手机号(不输入-)</string>
+    <string name="id">ID</string>
+    <string name="email">的电子邮件</string>
+    <string name="direct_input">直接输入</string>
+    <string name="send_code">验证码传送</string>
+    <string name="find_sns_login">通过SNS登录查找</string>
+    <string name="terms_and_conditions">意使用条款</string>
+    <string name="private_infomation">个人信息处理方针</string>
+    <string name="business_infomation">经营者信息确认</string>
+    <string name="service_registration_number">邮购号码</string>
+    <string name="company_registration_number">营业执照号</string>
+    <string name="registration_status">申报现状</string>
+    <string name="service_reporting">邮购业务申报</string>
+    <string name="corporation_individeual">法人与否</string>
+    <string name="individual_business">个人</string>
+    <string name="company_name">商号</string>
+    <string name="nomadnote_global">NOMADNOTE</string>
+    <string name="name_representative">代表人名称</string>
+    <string name="shin">新**</string>
+    <string name="tel">代表电话</string>
+    <string name="service_mode">销售方式</string>
+    <string name="internet">网络</string>
+    <string name="handled_item">处理种类</string>
+    <string name="multishop">综合商城</string>
+    <string name="giftcard">商品券</string>
+    <string name="email_global">电子邮件（E-mail)</string>
+    <string name="reporting_date">申报日期</string>
+    <string name="business_address">营业场所所在地(道路名)</string>
+    <string name="business_location">首尔特别市瑞草区江南大路369 12层 1387号</string>
+    <string name="internet_domain">网络域名</string>
+    <string name="host_server">主服务器所在地</string>
+    <string name="reporting_agency">通信销售业  申报机构名</string>
+    <string name="company_message">本资料是为使消费者在电子商务市场准确地掌握准确经营者信息，实现安全交易，根据《电子商务消费者保护法》第十二条第四款的规定，向全国市、郡、区提供申报的通信销售经营者的身份信息。对经营者信息的疑问事项或经营者的身份信息与信息公开内容不一致时，请在搜索经营者信息时，可向确认的相关申报机关(地方自治团体)进行咨询。
+
+部分经营者虽然按照附加价值税法进行了事业者停业申报，但是可能没有根据电子商务法进行通信销售业停业申报。为防止消费者遭受损失,请通过国税厅网站(www.hometax.go.kr)的经营者注册状态查询栏，确认在附加价值税法上经营者是否也已经停业。</string>
+    <string name="link">【快捷键链接】</string>
+    <string name="find_password_choice">请选择找回密码的方法。</string>
+    <string name="identity_verification">本人确认后可重新设置密码。</string>
+    <string name="enter_name">请输入姓名。</string>
+    <string name="enter_phonenumber">请输入联系方式。</string>
 
 </resources>

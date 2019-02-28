@@ -30,4 +30,8 @@ object MemberAction {
     fun regist_token(params: RequestParams, handler: JsonHttpResponseHandler) {
         HttpClient.post("/api/member/regist_token", params, handler)
     }
+
+    fun find_phone(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/find_phone", params, handler)
+    }
 }

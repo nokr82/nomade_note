@@ -602,7 +602,7 @@ class Seting_Fragment : Fragment() {
         deleteLL.setOnClickListener {
             val builder = AlertDialog.Builder(myContext)
             builder
-                    .setMessage(getString(R.string.member_delete))
+                    .setMessage(getString(R.string.delete_question) + getString(R.string.delete_question2))
 
                     .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                         deleteConfrim()
@@ -974,7 +974,7 @@ class Seting_Fragment : Fragment() {
 
                     if ("ok" == result) {
 
-                        Toast.makeText(myContext, "탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(myContext, getString(R.string.delete_toast_message) + getString(R.string.goodbyte_message), Toast.LENGTH_SHORT).show()
 
                         PrefUtils.clear(myContext)
 

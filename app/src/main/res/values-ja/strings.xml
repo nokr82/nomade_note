@@ -180,5 +180,55 @@
 
     <string name="voucher_error">シリアルコードを再確認してください。</string>
     <string name="facebook_required">フェイスブックが設置されていません。</string>
+    <string name="delete_question">退会されると、全ての旅行記録が削除されます。</string>
+    <string name="delete_question2">本当に行かれるのですか？</string>
+    <string name="delete_toast_message">全ての旅行記録が削除されました。</string>
+    <string name="goodbyte_message">さようなら。</string>
+    <string name="find_id">アイディーを探す。</string>
+    <string name="find_password">パスワードを探す。</string>
+    <string name="find_id_choice">アイディーを探す方法を選択してください。</string>
+    <string name="find_phone">登録された携帯番号で探す。</string>
+    <string name="name">お名前</string>
+    <string name="phon_edit_message">携帯番号(数字だけ入力)</string>
+    <string name="id">アイディー</string>
+    <string name="email">Eメー</string>
+    <string name="direct_input">直接入力</string>
+    <string name="send_code">パスワード送信</string>
+    <string name="find_sns_login">SNSログインで探す。</string>
+    <string name="terms_and_conditions">個人情報処理方針</string>
+    <string name="private_infomation">個人情報処理方針</string>
+    <string name="business_infomation">事業者情報確認</string>
+    <string name="service_registration_number">通信販売番号</string>
+    <string name="company_registration_number">事業者登録番号</string>
+    <string name="registration_status">登録現況</string>
+    <string name="service_reporting">通信販売業登録</string>
+    <string name="corporation_individeual">法人可否</string>
+    <string name="individual_business">個人</string>
+    <string name="company_name">商号</string>
+    <string name="nomadnote_global">ノマドノート(NOMADNOTE)</string>
+    <string name="name_representative">代表取締役</string>
+    <string name="shin">シン・**</string>
+    <string name="tel">代表電話番号</string>
+    <string name="service_mode">販売方式</string>
+    <string name="internet">インターネット</string>
+    <string name="handled_item">取扱品目</string>
+    <string name="multishop">総合モール</string>
+    <string name="giftcard">商品券</string>
+    <string name="email_global">電子メール（E-mail）</string>
+    <string name="reporting_date">登録日付</string>
+    <string name="business_address">事業場所在地(道路名)</string>
+    <string name="business_location">ソウル特別市瑞草(ソチョ)区江南(カンナム)大路369、12階1387号</string>
+    <string name="internet_domain">インターネットドメイン</string>
+    <string name="host_server">ホストサーバ所在地</string>
+    <string name="reporting_agency">通信販売業登録機関名</string>
+    <string name="company_message">本資料は電子商取引市場で消費者が正確な事業者情報を持って安全な取引ができるように全国の市·郡·区で登録された通信販売業者の身元情報を電子商取引消費者保護法第12条4項に基づき提供する情報です。 事業者情報に関して気になる点や事業者の身元情報が情報公開内容と一致しない場合は、事業者情報検索の際に確認できる該当登録機関(地方自治体)にお問い合わせください。
+
+
+一部の事業者の場合、付加価値税法上事業者廃業届は出したが、電子商取引法上通信販売業廃業届は出していなこともあります。 消費者被害防止のために付加価値税法上事業者廃業可否も国税庁ホームページ(www.hometax.go.kr)の事業者登録状態照会コーナーを通してご確認ください。</string>
+    <string name="link">[ショートカットのリンク] </string>
+    <string name="find_password_choice">パスワードを探す方法を選択してください。</string>
+    <string name="identity_verification">本人確認後、パスワードを再設定することができます。</string>
+    <string name="enter_name">お名前を入力してください。</string>
+    <string name="enter_phonenumber">連絡先を入力してください。</string>
 
 </resources>
