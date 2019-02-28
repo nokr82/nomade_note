@@ -261,6 +261,7 @@ class Solo_detail_Activity : RootActivity() {
                         var contents = Utils.getString(data, "contents")
                         var created = Utils.getString(data, "created_at")
                         var style = Utils.getString(data, "style_id")
+                        var money_unit = Utils.getString(data, "money_unit")
                         bytes = Utils.getInt(data,"bytes")
                         block = Utils.getString(data, "block_yn")
 
@@ -277,7 +278,8 @@ class Solo_detail_Activity : RootActivity() {
                         placeTV.setText(place_name)
                         durationTV.setText(duration)
 //                        costTV.setText(cost + "$")
-                        costTV.setText(cost + getString(R.string.unit))
+                        // costTV.setText(cost + getString(R.string.unit))
+                        costTV.setText(cost + money_unit)
                         contentTV.setText(contents)
 
                         share_contents = contents

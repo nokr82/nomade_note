@@ -974,7 +974,7 @@ class Seting_Fragment : Fragment() {
 
                     if ("ok" == result) {
 
-                        Toast.makeText(myContext, "탈퇴 처리가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(myContext, getString(R.string.withdrawal_done), Toast.LENGTH_SHORT).show()
 
                         PrefUtils.clear(myContext)
 

@@ -136,5 +136,6 @@
 
     <string name="voucher_error">請重新確認穀物代碼。</string>
     <string name="facebook_required">未安裝facebook。</string>
+    <string name="withdrawal_done">退出處理已完成。</string>
 
 </resources>

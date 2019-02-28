@@ -131,5 +131,6 @@
 
     <string name="voucher_error">请重新确认谷物代码。</string>
     <string name="facebook_required">未安装facebook。</string>
+    <string name="withdrawal_done">退出处理已完成。</string>
 
 </resources>

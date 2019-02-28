@@ -129,5 +129,6 @@
     <!-- 바우처 -->
     <string name="voucher_error">Please check the serial code again.</string>
     <string name="facebook_required">Facebook is not installed.</string>
+    <string name="withdrawal_done">The withdrawal processing has been completed.</string>
 
 </resources>
