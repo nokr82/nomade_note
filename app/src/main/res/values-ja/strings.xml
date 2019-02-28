@@ -180,6 +180,7 @@
 
     <string name="voucher_error">シリアルコードを再確認してください。</string>
     <string name="facebook_required">フェイスブックが設置されていません。</string>
+    <string name="withdrawal_done">脱退処理が完了しました。</string>
     <string name="delete_question">退会されると、全ての旅行記録が削除されます。</string>
     <string name="delete_question2">本当に行かれるのですか？</string>
     <string name="delete_toast_message">全ての旅行記録が削除されました。</string>

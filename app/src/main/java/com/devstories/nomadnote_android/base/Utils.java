@@ -1508,4 +1508,6 @@ public class Utils {
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
         return bitmap;
     }
+
+
 }

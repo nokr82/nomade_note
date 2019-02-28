@@ -185,5 +185,6 @@
     <string name="identity_verification">本人确认后可重新设置密码。</string>
     <string name="enter_name">请输入姓名。</string>
     <string name="enter_phonenumber">请输入联系方式。</string>
+    <string name="withdrawal_done">退出處理已完成。</string>
 
 </resources>

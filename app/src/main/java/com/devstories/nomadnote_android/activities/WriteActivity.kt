@@ -329,6 +329,11 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("latitude", latitude)
         params.put("longitude", longitude)
 
+        val moneyUnit = Utils.getString(moneyUnitTV)
+        params.put("money_unit", moneyUnit)
+
+        println("moneyUnitTV : $moneyUnitTV")
+
         if(created_at != null && !created_at.isEmpty()) {
             params.put("created_at", created_at)
         }
