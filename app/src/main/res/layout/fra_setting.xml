@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -939,8 +940,23 @@
                 ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
             </com.google.android.gms.ads.AdView>
 
-        </LinearLayout>
+            <com.devstories.nomadnote_android.base.RationalRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                app:ratio="320:100">
 
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/adverVP"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v4.view.ViewPager>
+
+            </com.devstories.nomadnote_android.base.RationalRelativeLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

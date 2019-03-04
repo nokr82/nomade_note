@@ -10,18 +10,24 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.AdvertiseAction
 import com.devstories.nomadnote_android.actions.ChargeAction
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.VoucherAction
+import com.devstories.nomadnote_android.adapter.AdvertiseAdapter
+import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
@@ -58,12 +64,20 @@ class Seting_Fragment : Fragment() {
 
     private var iapHelper: IAPHelper? = null
 
+    lateinit var advertiseAdapter: AdvertiseAdapter
+    var adapterData: ArrayList<JSONObject> = ArrayList<JSONObject>()
+
+    private var adTime = 0
+    private var handler: Handler? = null
+
+    var adPosition = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
 //        progressDialog = ProgressDialog(myContext)
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
         return inflater.inflate(R.layout.fra_setting, container, false)
 
     }
@@ -83,6 +97,28 @@ class Seting_Fragment : Fragment() {
         activity = getActivity() as MainActivity
         FacebookSdk.sdkInitialize(getApplicationContext())
         AppEventsLogger.activateApp(myContext)
+
+        advertiseAdapter = AdvertiseAdapter(activity, adapterData)
+        adverVP.adapter = advertiseAdapter
+        adverVP.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                adPosition = position
+            }
+
+            override fun onPageSelected(position: Int) {
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+                for (i in adapterData.indices) {
+                    if (i == adPosition) {
+//                        addDot(circleLL, true)
+                    } else {
+//                        addDot(circleLL, false)
+                    }
+                }
+            }
+        })
 
 
         click()
@@ -193,6 +229,9 @@ class Seting_Fragment : Fragment() {
                 // to the app after tapping on an ad.
             }
         }
+
+        loadData()
+
     }
 
     override fun onPause() {
@@ -411,7 +450,6 @@ class Seting_Fragment : Fragment() {
             }
         }
     }
-
 
     fun setmenu2() {
         op_1gbIV.setImageResource(R.drawable.circle_background3)
@@ -655,7 +693,6 @@ class Seting_Fragment : Fragment() {
 
     }
 
-
     fun setStyleImage(style_id: String) {
         setstylemenu()
 
@@ -768,6 +805,130 @@ class Seting_Fragment : Fragment() {
                 }
             }
         })
+    }
+
+    fun loadData() {
+
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
+
+        AdvertiseAction.adver_list(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+                    val result = response!!.getString("result")
+
+                    if ("ok" == result) {
+
+                        adapterData.clear()
+                        advertiseAdapter.notifyDataSetChanged()
+
+                        val advers = response.getJSONArray("advers")
+
+                        for (i in 0 until advers.length()) {
+                            val adver = advers[i] as JSONObject
+
+                            adapterData.add(adver)
+                        }
+                        timer()
+
+                        advertiseAdapter.notifyDataSetChanged()
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(statusCode: Int, headers: Array<Header>?, throwable: Throwable, errorResponse: JSONArray?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+    }
+
+    private fun timer() {
+
+        if(handler != null) {
+            handler!!.removeCallbacksAndMessages(null);
+        }
+
+        handler = object : Handler() {
+            override fun handleMessage(msg: Message) {
+
+                adTime++
+
+                val index = adverVP.getCurrentItem()
+                val last_index = adapterData.size - 1
+
+                if (adTime % 2 == 0) {
+                    if (index < last_index) {
+                        adverVP.setCurrentItem(index + 1)
+                    } else {
+                        adverVP.setCurrentItem(0)
+                    }
+                }
+
+                handler!!.sendEmptyMessageDelayed(0, 2000) // 1초에 한번 업, 1000 = 1 초
+            }
+        }
+        handler!!.sendEmptyMessage(0)
     }
 
     fun useVoucher(voucher1: String, voucher2: String, voucher3: String, voucher4: String) {
