@@ -194,7 +194,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     fun loadData() {
 
         var keyword = Utils.getString(keywordET)
-        println("----keyword : $keyword")
 
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
