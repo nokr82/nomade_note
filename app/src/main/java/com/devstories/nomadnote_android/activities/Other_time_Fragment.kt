@@ -480,6 +480,11 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
+    }
+
 
 
 }

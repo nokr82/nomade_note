@@ -231,5 +231,10 @@
     <string name="identity_verification">本人確認後、パスワードを再設定することができます。</string>
     <string name="enter_name">お名前を入力してください。</string>
     <string name="enter_phonenumber">連絡先を入力してください。</string>
+    <string name="enter_id">IDを入力してください</string>
+    <string name="enter_email">メールアドレスを入力してください</string>
+    <string name="nomember">There are no members</string>
+    <string name="confirm">確認</string>
+    <string name="searchkeyword">キーワード検索</string>
 
 </resources>

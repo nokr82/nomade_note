@@ -175,5 +175,10 @@
     <string name="enter_name">이름은 필수 입력입니다.</string>
     <string name="enter_phonenumber">연락처를 입력하세요.</string>
     <string name="withdrawal_done">탈퇴 처리가 완료되었습니다.</string>
+    <string name="enter_id">아이디를 입력하세요</string>
+    <string name="enter_email">이메일을 입력해주세요.</string>
+    <string name="nomember">회원이 없습니다.</string>
+    <string name="confirm">확인</string>
+    <string name="searchkeyword">키워드검색</string>
 
 </resources>

@@ -186,5 +186,10 @@
     <string name="enter_name">请输入姓名。</string>
     <string name="enter_phonenumber">请输入联系方式。</string>
     <string name="withdrawal_done">退出處理已完成。</string>
+    <string name="enter_id">请输入您的ID</string>
+    <string name="enter_email">請輸入您的電子郵件</string>
+    <string name="nomember">There are no members</string>
+    <string name="confirm">确认</string>
+    <string name="searchkeyword">关键词搜索</string>
 
 </resources>

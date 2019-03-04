@@ -133,6 +133,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
         })
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -689,6 +690,11 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             Toast.makeText(myContext, "Invalid request[1]", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
     }
 
 }
