@@ -13,21 +13,77 @@
         <RelativeLayout
             android:id="@+id/titleLL"
             android:layout_width="match_parent"
-            android:layout_height="220dp">
+            android:layout_height="270dp">
 
             <android.support.v4.view.ViewPager
                 android:visibility="gone"
                 android:id="@+id/pagerVP"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="220dp">
             </android.support.v4.view.ViewPager>
 
-            <ImageView
-                android:id="@+id/logoIV"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/time_bg" />
+                android:layout_height="220dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/logoIV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/time_bg" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/r_LL"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/profileIV"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/man" />
+                        <ImageView
+                            android:id="@+id/translateIV"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/logo_translation"
+                            android:scaleType="fitXY"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:background="#638d96"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/infoTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="#878787"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/titleBackLL"
@@ -65,39 +121,12 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/r_LL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="130dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profileIV"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/man" />
-
-            <TextView
-                android:id="@+id/infoTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:text=""
-                android:textColor="#878787"
-                android:textSize="12sp" />
-
-        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/r_LL"
+            android:layout_below="@id/titleLL"
             android:fillViewport="true">
 
             <LinearLayout
@@ -163,16 +192,6 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/translateIV"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/logo_translation"
-                            android:scaleType="fitXY"
-                            android:layout_gravity="bottom"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
-                            android:background="#638d96"/>
                     </LinearLayout>
 
                     <TextView

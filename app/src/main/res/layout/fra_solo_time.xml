@@ -196,7 +196,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="@string/fragment_scrap_keyword"
+                android:hint="@string/searchkeyword"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textColor="#ffffff"

@@ -22,4 +22,13 @@ object JoinAction {
         HttpClient.post("/api/join/check_email", params, handler)
     }
 
+    fun get_emaillist(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/join/get_emaillist", params, handler)
+    }
+
+    fun send_mail(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/join/send_mail", params, handler)
+    }
+
+
 }

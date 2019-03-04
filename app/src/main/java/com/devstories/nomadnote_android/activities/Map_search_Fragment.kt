@@ -694,4 +694,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         googleMap?.moveCamera(cu)
     }
 
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
+    }
+
 }

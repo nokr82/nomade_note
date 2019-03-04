@@ -178,28 +178,27 @@
 
             <LinearLayout
                 android:id="@+id/findphoneLL"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="25dp"
+                    android:text="@string/find_phone"
+                    android:textColor="#878787"
+                    android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="25dp"
-                android:text="@string/find_phone"
-                android:textColor="#878787"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/phoneIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:padding="17dp"
-                android:src="@mipmap/icon_arrow" />
+                <ImageView
+                    android:id="@+id/phoneIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:padding="17dp"
+                    android:src="@mipmap/icon_arrow" />
 
         </LinearLayout>
 
@@ -215,6 +214,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/phoneidLL"
+                    android:visibility="gone"
+                    android:background="@drawable/background_border_radius13"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="22dp"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/phoneidET"
+                        android:padding="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:hint="@string/id"
+                        android:background="@null"
+                        android:singleLine="true"
+                        android:textColor="#878787"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:background="@drawable/background_border_radius13"
@@ -274,7 +299,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginBottom="15dp"
-                    android:text="확인"
+                    android:text="@string/confirm"
                     android:textColor="#FFFFFF"
                     android:gravity="center" />
 
@@ -331,6 +356,8 @@
 
 
                 <LinearLayout
+                    android:id="@+id/emailidLL"
+                    android:visibility="gone"
                     android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -340,6 +367,7 @@
                     android:gravity="center_vertical">
 
                     <EditText
+                        android:id="@+id/idET"
                         android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -363,6 +391,7 @@
                     android:gravity="center_vertical">
 
                     <EditText
+                        android:id="@+id/emailnameET"
                         android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -391,6 +420,7 @@
                         android:layout_weight="1"
                         android:layout_marginRight="5dp">
                         <EditText
+                            android:id="@+id/useremailET"
                             android:padding="5dp"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -408,6 +438,17 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical">
                         <EditText
+                            android:id="@+id/emailET"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null"
+                            android:hint="@string/direct_input"
+                            android:textSize="12dp"
+                            android:padding="5dp"/>
+                        <TextView
+                            android:visibility="gone"
+                            android:id="@+id/emailTV"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -420,11 +461,10 @@
                             android:layout_width="30dp"
                             android:layout_height="match_parent"
                             android:gravity="center">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/icon_arrow"
-                            android:rotation="90"/>
+                            <Spinner
+                                android:id="@+id/spinnerS"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -432,6 +472,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/sendemailTV"
                     android:background="@drawable/background_border_radius14"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -439,7 +480,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/send_code"
+                    android:text="@string/confirm"
                     android:textColor="#FFFFFF"
                     android:gravity="center" />
 

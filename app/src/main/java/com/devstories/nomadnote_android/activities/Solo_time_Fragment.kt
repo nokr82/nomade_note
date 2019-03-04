@@ -90,6 +90,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
         gridGV = view.findViewById(R.id.gridGV)
 
+
         timelineAdaper = SoloTimeAdapter(myContext!!, R.layout.item_solo_grid, timelineDatas,this)
         gridGV.adapter = timelineAdaper
 
@@ -139,6 +140,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         })
 
     }
+
 
     fun click() {
 //        soloRL.setOnClickListener {
@@ -380,6 +382,11 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         } catch (e: IllegalArgumentException) {
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
     }
 }
 

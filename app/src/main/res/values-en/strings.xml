@@ -179,5 +179,10 @@
     <string name="enter_name">Enter your name.</string>
     <string name="enter_phonenumber">Enter your phone number.</string>
     <string name="withdrawal_done">The withdrawal processing has been completed.</string>
+    <string name="enter_id">Enter your id.</string>
+    <string name="enter_email">Enter your email.</string>
+    <string name="nomember">There are no members</string>
+    <string name="confirm">Confirm</string>
+    <string name="searchkeyword">Search Keyword</string>
 
 </resources>

@@ -31,7 +31,8 @@ object MemberAction {
         HttpClient.post("/api/member/regist_token", params, handler)
     }
 
-    fun find_phone(params: RequestParams, handler: JsonHttpResponseHandler) {
-        HttpClient.post("/api/member/find_phone", params, handler)
+    fun check_phone(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/check_phone", params, handler)
     }
+
 }

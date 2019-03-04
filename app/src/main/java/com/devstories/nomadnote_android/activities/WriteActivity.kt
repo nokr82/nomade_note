@@ -148,7 +148,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis);
             timeET.setText(hours.toString())
             minuteET.setText(minutes.toString())
-            timetakeTV.setText("소요시간")
+            timetakeTV.setText(getString(R.string.activity_write_time))
             logoIV.setText(getString(R.string.reply))
 
         }
