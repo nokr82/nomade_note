@@ -1314,10 +1314,16 @@ public class Utils {
     }
 
     public static String getString(EditText editText) {
+        if(editText == null) {
+            return "";
+        }
         return editText.getText().toString().trim();
     }
 
     public static String getString(TextView textView) {
+        if(textView == null) {
+            return "";
+        }
         return textView.getText().toString().trim();
     }
 
@@ -1502,4 +1508,6 @@ public class Utils {
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint);
         return bitmap;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.devstories.nomadnote_android.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.media.MediaPlayer
 import android.net.Uri
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -10,11 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.VideoView
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.Utils
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.yqritc.scalablevideoview.ScalableVideoView
 import org.json.JSONObject
+
+
 
 
 
@@ -43,7 +46,7 @@ class FullScreenImageAdapter(activity: Activity, imagePaths: ArrayList<JSONObjec
         imgDisplay.scaleType = ImageView.ScaleType.CENTER_CROP
 
         val videoRL = viewLayout.findViewById(com.devstories.nomadnote_android.R.id.videoRL) as RelativeLayout
-        val videoDisplay = viewLayout.findViewById(com.devstories.nomadnote_android.R.id.videoDisplay) as VideoView
+        val videoDisplay = viewLayout.findViewById(com.devstories.nomadnote_android.R.id.videoDisplay) as ScalableVideoView
         val playIV = viewLayout.findViewById(com.devstories.nomadnote_android.R.id.playIV) as ImageView
 
         val image_item = _imagePaths.get(position)
@@ -67,9 +70,13 @@ class FullScreenImageAdapter(activity: Activity, imagePaths: ArrayList<JSONObjec
             imgDisplay.visibility = View.GONE
             videoRL.visibility = View.VISIBLE
 
+            // videoDisplay.setScalableType(ScalableType.CENTER_TOP_CROP)
+
             var uri = Uri.parse(Config.url + video_path)
-            videoDisplay.setVideoURI(uri)
-            videoDisplay.seekTo(1)
+            videoDisplay.setDataSource(Config.url + video_path)
+            videoDisplay.prepare(MediaPlayer.OnPreparedListener {
+                videoDisplay.seekTo(1)
+            })
 
             playIV.setOnClickListener {
 

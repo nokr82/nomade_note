@@ -281,7 +281,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                System.out.println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -369,6 +369,13 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         try {
             if (ResetReceiver != null) {
                 context!!.unregisterReceiver(ResetReceiver)
+            }
+        } catch (e: IllegalArgumentException) {
+        }
+
+        try {
+            if (deleteReciver != null) {
+                context!!.unregisterReceiver(deleteReciver)
             }
         } catch (e: IllegalArgumentException) {
         }

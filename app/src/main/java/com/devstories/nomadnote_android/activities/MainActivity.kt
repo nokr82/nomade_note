@@ -19,6 +19,7 @@ import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.Config
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
+import com.google.android.gms.ads.MobileAds
 import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
@@ -27,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.*
 
 
 class MainActivity : FragmentActivity() {
@@ -231,6 +231,23 @@ class MainActivity : FragmentActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_SMS), READ_SMS_REQUEST_CODE)
         }
 
+        MobileAds.initialize(this, getString(R.string.admob_id));
+
+        val is_action_send = PrefUtils.getBooleanPreference(context, "is_action_send")
+        if(is_action_send) {
+            handleActionSend()
+        }
+    }
+
+    private fun handleActionSend() {
+        val action_send_uri = PrefUtils.getStringPreference(context, "action_send_uri")
+
+        val intent = Intent(context, WriteActivity::class.java)
+        intent.putExtra("action_send_uri", action_send_uri)
+        startActivity(intent)
+
+        PrefUtils.removePreference(context, "is_action_send")
+        PrefUtils.removePreference(context, "action_send_uri")
     }
 
     fun setmenu(){

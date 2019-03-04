@@ -29,7 +29,10 @@ import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
 import com.devstories.nomadnote_android.base.*
 import com.facebook.FacebookSdk
-import com.facebook.share.model.ShareLinkContent
+import com.facebook.share.model.SharePhoto
+import com.facebook.share.model.SharePhotoContent
+import com.facebook.share.model.ShareVideo
+import com.facebook.share.model.ShareVideoContent
 import com.facebook.share.widget.ShareDialog
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
@@ -76,10 +79,13 @@ class Solo_detail_Activity : RootActivity() {
     var imagePaths: ArrayList<JSONObject> = ArrayList<JSONObject>()
 
     var instagramShareUri:Uri? = null
+    var facebookShareUri:Uri? = null
 
     lateinit var data:JSONObject;
 
     var bytes = 0
+
+    lateinit var activity : Solo_detail_Activity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +97,7 @@ class Solo_detail_Activity : RootActivity() {
         }
         setContentView(R.layout.activity_timeline)
 
+        this.activity = this
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
@@ -254,6 +261,7 @@ class Solo_detail_Activity : RootActivity() {
                         var contents = Utils.getString(data, "contents")
                         var created = Utils.getString(data, "created_at")
                         var style = Utils.getString(data, "style_id")
+                        var money_unit = Utils.getString(data, "money_unit")
                         bytes = Utils.getInt(data,"bytes")
                         block = Utils.getString(data, "block_yn")
 
@@ -270,7 +278,8 @@ class Solo_detail_Activity : RootActivity() {
                         placeTV.setText(place_name)
                         durationTV.setText(duration)
 //                        costTV.setText(cost + "$")
-                        costTV.setText(cost + getString(R.string.unit))
+                        // costTV.setText(cost + getString(R.string.unit))
+                        costTV.setText(cost + money_unit)
                         contentTV.setText(contents)
 
                         share_contents = contents
@@ -505,8 +514,6 @@ class Solo_detail_Activity : RootActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        println("requestCode : $requestCode, data : $data")
 
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
@@ -875,7 +882,7 @@ class Solo_detail_Activity : RootActivity() {
         }
 
         //외부저장 권한 요청(안드로이드 6.0 이후 필수)
-        onRequestPermission()
+        onRequestPermission(1)
 
     }
 
@@ -897,23 +904,20 @@ class Solo_detail_Activity : RootActivity() {
             uri = Config.url + video_path
         }
 
-        DownloadFileAsyncTask(context, object:DownloadFileAsyncTask.DownloadedListener {
-            override fun downloaded(uri: Uri?) {
+        DownloadFileAsyncTask(context, DownloadFileAsyncTask.DownloadedListener { uri ->
+            instagramShareUri = uri
 
-                instagramShareUri = uri
+            runOnUiThread(Runnable {
+                val shareIntent = Intent(Intent.ACTION_SEND)
 
-                runOnUiThread(Runnable {
-                    val shareIntent = Intent(Intent.ACTION_SEND)
+                if(!video_path.isEmpty()) {
+                    shareIntent.type = "video/*"
+                } else {
+                    shareIntent.type = "image/*"
+                }
 
-                    if(!video_path.isEmpty()) {
-                        shareIntent.type = "video/*"
-                    } else {
-                        shareIntent.type = "image/*"
-                    }
-
-                    shareInstagramReally(shareIntent)
-                })
-            }
+                shareInstagramReally(shareIntent)
+            })
         }).execute(uri);
     }
 
@@ -954,6 +958,16 @@ class Solo_detail_Activity : RootActivity() {
     }
 
     private fun shareFacebook() {
+
+        if (imagePaths.size == 0) {
+            Utils.alert(context, getString(R.string.no_image_data))
+            return
+        }
+
+        //외부저장 권한 요청(안드로이드 6.0 이후 필수)
+        onRequestPermission(2)
+
+        /*
         if (ShareDialog.canShow(ShareLinkContent::class.java)) {
 
             val url = Config.url + "/share/open?id=" + timeline_id + "&image_uri=" + share_image_uri + "&contents=" + share_contents
@@ -965,7 +979,78 @@ class Solo_detail_Activity : RootActivity() {
             val shareDialog = ShareDialog(this)
             shareDialog.show(content)   //AUTOMATIC, FEED, NATIVE, WEB 등이 있으며 이는 다이얼로그 형식을 말합니다.
         }
+        */
+    }
 
+    private fun doShareFacebook() {
+
+        if (imagePaths.size == 0) {
+            Utils.alert(context, getString(R.string.no_image_data))
+            return
+        }
+
+        println("f : " + imagePaths.first())
+
+        val image_item = imagePaths.first();
+        val image_uri = Utils.getString(image_item, "image_uri")
+        val video_path = Utils.getString(image_item, "video_path")
+        var uri = Config.url + image_uri
+
+        if(!video_path.isEmpty()) {
+            uri = Config.url + video_path
+
+            if (!ShareDialog.canShow(ShareVideoContent::class.java)) {
+                Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
+                return
+            }
+
+        }
+
+        if (!ShareDialog.canShow(SharePhotoContent::class.java)) {
+            Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        DownloadFileAsyncTask(context, DownloadFileAsyncTask.DownloadedListener { uri ->
+            facebookShareUri = uri
+
+            runOnUiThread(Runnable {
+
+                if(!video_path.isEmpty()) {
+                    val video = ShareVideo.Builder()
+                            .setLocalUrl(uri)
+                            .build();
+                    val content = ShareVideoContent.Builder()
+                            .setVideo(video)
+                            .build();
+                    val shareDialog = ShareDialog(activity)
+
+                    if (ShareDialog.canShow(ShareVideoContent::class.java)) {
+                        shareDialog.show(content);
+                    } else{
+                        Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
+                    }
+
+                } else {
+
+                    val photo = SharePhoto.Builder()
+                            .setImageUrl(uri)
+                            .build();
+                    val content = SharePhotoContent.Builder()
+                            .addPhoto(photo)
+                            .build();
+                    val shareDialog = ShareDialog(activity)
+
+                    if (ShareDialog.canShow(SharePhotoContent::class.java)) {
+                        shareDialog.show(content);
+                    } else{
+                        Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            })
+        }).execute(uri);
     }
 
     private fun shareNaverBlog() {
@@ -1039,14 +1124,24 @@ class Solo_detail_Activity : RootActivity() {
     private var permissionCheck = false
     var REQUEST_EXTERNAL_STORAGE_CODE = 1
 
-    fun onRequestPermission() {
+    private var requestPermission: Int = 1
+
+    fun onRequestPermission(type: Int) {
+
+        requestPermission = type
+
         val permissionReadStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
         val permissionWriteStorage = ContextCompat.checkSelfPermission(FacebookSdk.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permissionReadStorage == PackageManager.PERMISSION_DENIED || permissionWriteStorage == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_EXTERNAL_STORAGE_CODE)
         } else {
             permissionCheck = true //이미 허용되어 있으므로 PASS
-            doShareInstagram();
+
+            if(requestPermission == 1) {
+                doShareInstagram();
+            } else if(requestPermission == 2) {
+                doShareFacebook();
+            }
         }
     }
 
@@ -1059,7 +1154,11 @@ class Solo_detail_Activity : RootActivity() {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
                         permissionCheck = true
 
-                        doShareInstagram();
+                        if(requestPermission == 1) {
+                            doShareInstagram();
+                        } else if(requestPermission == 2) {
+                            doShareFacebook();
+                        }
 
                     } else {
                         Toast.makeText(this.context, getString(R.string.allow_permission), Toast.LENGTH_LONG).show()
@@ -1069,7 +1168,11 @@ class Solo_detail_Activity : RootActivity() {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
                         permissionCheck = true
 
-                        doShareInstagram();
+                        if(requestPermission == 1) {
+                            doShareInstagram();
+                        } else if(requestPermission == 2) {
+                            doShareFacebook();
+                        }
 
                     } else {
                         Toast.makeText(this.context, getString(R.string.allow_permission), Toast.LENGTH_LONG).show()
