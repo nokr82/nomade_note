@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fra_friend_add.*
 
 class AddFriendActivity : FragmentActivity() {
 
+
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
