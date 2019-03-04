@@ -35,4 +35,11 @@ object MemberAction {
         HttpClient.post("/api/member/check_phone", params, handler)
     }
 
+    fun request_friends(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/request_friends", params, handler)
+    }
+
+    fun confirm_friend(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/member/confirm_friend", params, handler)
+    }
 }

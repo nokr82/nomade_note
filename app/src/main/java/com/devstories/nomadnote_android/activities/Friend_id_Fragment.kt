@@ -92,7 +92,9 @@ class Friend_id_Fragment : Fragment()  {
 
                     if ("ok" == result) {
 
-                        if (Utils.getString(response, "friend_yn") == "Y") {
+                        var member = response.getJSONObject("member")
+
+                        if (Utils.getString(response, "friend_yn") == "Y" && Utils.getInt(member, "id") == PrefUtils.getIntPreference(myContext, "member_id")) {
                             addTV.visibility = View.GONE
                         } else {
                             addTV.visibility = View.VISIBLE
@@ -101,7 +103,6 @@ class Friend_id_Fragment : Fragment()  {
 //                        addTV.visibility = View.VISIBLE
                         startLL.visibility = View.GONE
                         friendLL.visibility = View.VISIBLE
-                        var member = response.getJSONObject("member")
                         var name =  Utils.getString(member, "name")
                         var  age =  Utils.getInt(member, "age")
                         var gender =  Utils.getString(member, "gender")
