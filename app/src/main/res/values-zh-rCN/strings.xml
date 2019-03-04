@@ -149,7 +149,7 @@
     <string name="id">ID</string>
     <string name="email">的电子邮件</string>
     <string name="direct_input">直接输入</string>
-    <string name="send_code">验证码传送</string>
+    <string name="send_code">发送密码</string>
     <string name="find_sns_login">通过SNS登录查找</string>
     <string name="terms_and_conditions">意使用条款</string>
     <string name="private_infomation">个人信息处理方针</string>
@@ -191,5 +191,10 @@
     <string name="nomember">There are no members</string>
     <string name="confirm">确认</string>
     <string name="searchkeyword">关键词搜索</string>
+    <string name="not_disturb">设定禁止干扰的时间段</string>
+    <string name="refuse_time">在相应时间段内不接受通知。</string>
+    <string name="start">开始</string>
+    <string name="end">结束</string>
+    <string name="block_notifications">阻止所有通知</string>
 
 </resources>

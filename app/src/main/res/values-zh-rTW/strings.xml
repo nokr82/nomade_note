@@ -144,7 +144,7 @@
     <string name="id">ID</string>
     <string name="email">電子郵件</string>
     <string name="direct_input">直接输入</string>
-    <string name="send_code">驗證碼傳送</string>
+    <string name="send_code">發送密碼</string>
     <string name="find_sns_login">通過SNS登錄查找</string>
     <string name="terms_and_conditions">用條款及</string>
     <string name="private_infomation">個人信息處理方針</string>
@@ -186,5 +186,10 @@
     <string name="nomember">There are no members</string>
     <string name="confirm">確認</string>
     <string name="searchkeyword">關鍵詞搜索</string>
+    <string name="not_disturb">設定禁止幹擾的時間段</string>
+    <string name="refuse_time">在相應時間段內不接受通知。</string>
+    <string name="start">開始</string>
+    <string name="end">結束</string>
+    <string name="block_notifications">阻止所有通知</string>
 
 </resources>

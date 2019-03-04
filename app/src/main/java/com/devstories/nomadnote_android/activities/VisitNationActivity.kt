@@ -247,7 +247,8 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
             val latlng = LatLng(lat, lng)
 
-            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.visit_city)))
+//            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.visit_city)))
+            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_icon)))
             marker.tag = place
 
             markers.add(marker)

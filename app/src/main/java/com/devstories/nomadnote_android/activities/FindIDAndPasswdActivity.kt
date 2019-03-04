@@ -210,7 +210,7 @@ class FindIDAndPasswdActivity : RootActivity() {
             params.put("id",id)
         }
 
-        MemberAction.check_phone(params, object : JsonHttpResponseHandler() {
+        JoinAction.check_phone(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {

@@ -144,7 +144,7 @@
     <string name="id">ID</string>
     <string name="email">e-mail</string>
     <string name="direct_input">Enter the address.</string>
-    <string name="send_code">Send Verification Code</string>
+    <string name="send_code">Send a password</string>
     <string name="find_sns_login">Find through SNS log-in.</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="private_infomation">Private Information Processing Policy</string>
@@ -184,5 +184,10 @@
     <string name="nomember">There are no members</string>
     <string name="confirm">Confirm</string>
     <string name="searchkeyword">Search Keyword</string>
+    <string name="not_disturb">Set up "Do Not Disturb" time range.</string>
+    <string name="refuse_time">Refuse to get notifications during the time set.</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="block_notifications">Block all notifications</string>
 
 </resources>
