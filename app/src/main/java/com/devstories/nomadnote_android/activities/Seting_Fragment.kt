@@ -178,6 +178,11 @@ class Seting_Fragment : Fragment() {
             }
         })
 
+        notdisturbLL.setOnClickListener {
+            val intent = Intent(myContext, NotDisturbActivity::class.java)
+            startActivity(intent)
+        }
+
         buyTV.setOnClickListener {
 
             if(op_1gbLL.isSelected) {

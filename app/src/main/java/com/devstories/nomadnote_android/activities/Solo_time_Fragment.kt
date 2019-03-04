@@ -611,5 +611,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         super.onPause()
         keywordET.setText("")
     }
+
 }
 

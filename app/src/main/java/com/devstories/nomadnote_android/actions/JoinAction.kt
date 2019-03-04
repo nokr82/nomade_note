@@ -30,5 +30,9 @@ object JoinAction {
         HttpClient.post("/api/join/send_mail", params, handler)
     }
 
+    fun check_phone(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/join/check_phone", params, handler)
+    }
+
 
 }

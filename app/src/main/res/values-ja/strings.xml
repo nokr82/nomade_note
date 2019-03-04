@@ -194,7 +194,7 @@
     <string name="id">アイディー</string>
     <string name="email">Eメー</string>
     <string name="direct_input">直接入力</string>
-    <string name="send_code">パスワード送信</string>
+    <string name="send_code">パスワード発送</string>
     <string name="find_sns_login">SNSログインで探す。</string>
     <string name="terms_and_conditions">個人情報処理方針</string>
     <string name="private_infomation">個人情報処理方針</string>
@@ -236,5 +236,10 @@
     <string name="nomember">There are no members</string>
     <string name="confirm">確認</string>
     <string name="searchkeyword">キーワード検索</string>
+    <string name="not_disturb">ミュート時間帯を設定</string>
+    <string name="refuse_time">該当時間帯には通知を受信しません。</string>
+    <string name="start">開始</string>
+    <string name="end">終了</string>
+    <string name="block_notifications">全ての通知をブロック</string>
 
 </resources>

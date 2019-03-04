@@ -140,7 +140,7 @@
     <string name="id">아이디</string>
     <string name="email">이메일</string>
     <string name="direct_input">직접입력</string>
-    <string name="send_code">인증번호 전송</string>
+    <string name="send_code">비밀번호 발송</string>
     <string name="find_sns_login">SNS 로그인으로 찾기</string>
     <string name="terms_and_conditions">이용약관</string>
     <string name="private_infomation">개인정보처리방침</string>
@@ -180,5 +180,10 @@
     <string name="nomember">회원이 없습니다.</string>
     <string name="confirm">확인</string>
     <string name="searchkeyword">키워드검색</string>
+    <string name="not_disturb">방해금지 시간대 설정</string>
+    <string name="refuse_time">해당 시간대에 알림을 받지 않습니다.</string>
+    <string name="start">시작</string>
+    <string name="end">종료</string>
+    <string name="block_notifications">알람 전체 차단</string>
 
 </resources>

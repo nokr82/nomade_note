@@ -246,7 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
                     android:gravity="center_vertical">
 
@@ -325,7 +325,6 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="25dp"
-                    android:inputType="textEmailAddress"
                     android:text="등록된 이메일로 찾기"
                     android:textColor="#878787"
                     android:textSize="12sp" />
@@ -347,7 +346,6 @@
                 android:background="#9b9b9b" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/op_emailLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -457,15 +455,22 @@
                             android:textSize="12dp"
                             android:padding="5dp"/>
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center">
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="9dp"
+                                android:src="@mipmap/icon_arrow"
+                                android:rotation="90"/>
                             <Spinner
                                 android:id="@+id/spinnerS"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"/>
+                        </RelativeLayout>
 
                     </LinearLayout>
 
