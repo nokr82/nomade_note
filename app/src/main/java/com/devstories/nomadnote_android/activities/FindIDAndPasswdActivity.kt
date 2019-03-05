@@ -10,6 +10,8 @@ import android.widget.*
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.actions.MemberAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -39,6 +41,8 @@ class FindIDAndPasswdActivity : RootActivity() {
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "아이디,비밀번호찾기")
 
         spinnerItem.add(getString(R.string.direct_input))
         get_emaillist()

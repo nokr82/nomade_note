@@ -12,9 +12,7 @@ import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -56,6 +54,7 @@ class MemberInputActivity : RootActivity() {
 //        progressDialog = ProgressDialog(context)
         setmenu()
 
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "회원가입")
 
         intent = getIntent()
         email = intent.getStringExtra("email")

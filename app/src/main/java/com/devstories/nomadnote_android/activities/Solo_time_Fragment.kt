@@ -17,6 +17,8 @@ import android.widget.GridView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -79,6 +81,9 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "개인타임라인")
 //        progressDialog = ProgressDialog(myContext)
 
         return inflater.inflate(R.layout.fra_solo_time, container, false)

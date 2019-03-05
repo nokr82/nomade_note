@@ -9,10 +9,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.R.id.*
 import com.devstories.nomadnote_android.actions.JoinAction
 import com.devstories.nomadnote_android.actions.MemberAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
@@ -42,6 +39,8 @@ class EmailJoinActivity : RootActivity() {
             finish()
             Utils.hideKeyboard(this)
         }
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "이메일회원가입")
 
 
 

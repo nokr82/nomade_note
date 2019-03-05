@@ -13,6 +13,8 @@ import android.util.Log
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.facebook.*
@@ -116,6 +118,8 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "로그인")
 
         var intent = getIntent()
 //        is_push = intent.getBooleanExtra("is_push", false)

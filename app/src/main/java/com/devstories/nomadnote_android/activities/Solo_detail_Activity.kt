@@ -97,6 +97,9 @@ class Solo_detail_Activity : RootActivity() {
         }
         setContentView(R.layout.activity_timeline)
 
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "게시글 상세")
+
+
         this.activity = this
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)

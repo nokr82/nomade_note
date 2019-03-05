@@ -28,9 +28,7 @@ import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.VoucherAction
 import com.devstories.nomadnote_android.adapter.AdvertiseAdapter
 import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.billing.IAPHelper
 import com.facebook.FacebookSdk
 import com.facebook.FacebookSdk.getApplicationContext
@@ -93,6 +91,8 @@ class Seting_Fragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         progressDialog = ProgressDialog(myContext)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "세팅")
 
         activity = getActivity() as MainActivity
         FacebookSdk.sdkInitialize(getApplicationContext())

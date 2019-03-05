@@ -16,9 +16,7 @@ import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -154,6 +152,8 @@ class MainActivity : FragmentActivity() {
 
         progressDialog = ProgressDialog(this, com.devstories.nomadnote_android.R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "메인")
 
         var filter1 = IntentFilter("FRIEND")
         registerReceiver(friendReciver, filter1)
