@@ -164,6 +164,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             reset(uri.toString(), 0, "picture", MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE, -1, -1, bitmap)
         }
+
     }
 
     fun click(){
@@ -331,6 +332,17 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         val moneyUnit = Utils.getString(moneyUnitTV)
         params.put("money_unit", moneyUnit)
+
+        var language = Locale.getDefault().language
+
+        var cost_str = ""
+        if(language == "en" || language == "ja") {
+            cost_str = moneyUnit + money
+        } else {
+            cost_str = money + moneyUnit
+        }
+
+        params.put("cost_str", cost_str)
 
         println("moneyUnitTV : $moneyUnitTV")
 
@@ -569,6 +581,21 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         params.put("duration",fulltime)
         params.put("block_yn",block_yn)
         params.put("cost",money)
+
+        val moneyUnit = Utils.getString(moneyUnitTV)
+        params.put("money_unit", moneyUnit)
+
+        var language = Locale.getDefault().language
+
+        var cost_str = ""
+        if(language == "en" || language == "ja") {
+            cost_str = moneyUnit + money
+        } else {
+            cost_str = money + moneyUnit
+        }
+
+        params.put("cost_str", cost_str)
+
         params.put("contents",contents)
         params.put("place_id","1")
         params.put("country_id","1")
