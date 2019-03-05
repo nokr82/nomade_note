@@ -18,8 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.NotDisturbActivity"
-            android:theme="@style/NoTitleDialog" ></activity>
+        <activity android:name=".activities.DlgSelectTimeActivity"
+            android:theme="@style/full_screen_dialog1"></activity>
+        <activity
+            android:name=".activities.NotDisturbActivity"
+            android:theme="@style/NoTitleDialog" />
         <activity
             android:name=".activities.CompanyInfomationActivity"
             android:theme="@style/NoTitleDialog" />
