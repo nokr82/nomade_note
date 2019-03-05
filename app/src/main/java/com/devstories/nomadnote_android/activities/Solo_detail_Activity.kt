@@ -282,7 +282,8 @@ class Solo_detail_Activity : RootActivity() {
                         durationTV.setText(duration)
 //                        costTV.setText(cost + "$")
                         // costTV.setText(cost + getString(R.string.unit))
-                        costTV.setText(cost + money_unit)
+//                        costTV.setText(cost + money_unit)
+                        costTV.setText(Utils.getString(data, "cost_str"))
                         contentTV.setText(contents)
 
                         share_contents = contents

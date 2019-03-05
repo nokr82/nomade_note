@@ -684,7 +684,7 @@
                             android:src="@drawable/circle_background3" />
 
                         <EditText
-                            android:id="@+id/opInputET"
+                            android:id="@+id/opInput1ET"
                             android:layout_width="45dp"
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
@@ -695,6 +695,7 @@
                             android:textSize="12sp"
                             android:singleLine="true"
                             android:gravity="center"
+                            android:maxLength="4"
                             android:maxLines="1"/>
                         <TextView
                             android:layout_width="wrap_content"
@@ -703,6 +704,7 @@
                             android:layout_marginLeft="3dp"/>
 
                         <EditText
+                            android:id="@+id/opInput2ET"
                             android:layout_width="45dp"
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
@@ -713,6 +715,7 @@
                             android:textColor="#878787"
                             android:textSize="12sp"
                             android:singleLine="true"
+                            android:maxLength="4"
                             android:maxLines="1"/>
 
                         <TextView
@@ -722,6 +725,7 @@
                             android:layout_marginLeft="3dp"/>
 
                         <EditText
+                            android:id="@+id/opInput3ET"
                             android:layout_width="45dp"
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
@@ -732,6 +736,7 @@
                             android:textColor="#878787"
                             android:textSize="12sp"
                             android:singleLine="true"
+                            android:maxLength="4"
                             android:maxLines="1"/>
 
                         <TextView
@@ -741,6 +746,7 @@
                             android:layout_marginLeft="3dp"/>
 
                         <EditText
+                            android:id="@+id/opInput4ET"
                             android:layout_width="45dp"
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
@@ -751,6 +757,7 @@
                             android:textColor="#878787"
                             android:textSize="12sp"
                             android:singleLine="true"
+                            android:maxLength="4"
                             android:maxLines="1"/>
 
                     </LinearLayout>

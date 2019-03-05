@@ -190,21 +190,32 @@ class Seting_Fragment : Fragment() {
             } else if(op_600mbLL.isSelected) {
                 iapHelper?.buy("600mb")
             } else if (opInputLL.isSelected) {
-                val op_input_str = Utils.getString(opInputET)
+                val op_input1 = Utils.getString(opInput1ET)
+                val op_input2 = Utils.getString(opInput2ET)
+                val op_input3 = Utils.getString(opInput3ET)
+                val op_input4 = Utils.getString(opInput4ET)
 
-                if (op_input_str.count() != 19) {
+                if (op_input1.count() != 4) {
                     voucherAlert()
                     return@setOnClickListener
                 }
 
-                var op_input = op_input_str.split("-")
-
-                if(op_input.count() != 4) {
+                if (op_input2.count() != 4) {
                     voucherAlert()
                     return@setOnClickListener
                 }
 
-                useVoucher(op_input[0], op_input[1], op_input[2], op_input[3])
+                if (op_input3.count() != 4) {
+                    voucherAlert()
+                    return@setOnClickListener
+                }
+
+                if (op_input4.count() != 4) {
+                    voucherAlert()
+                    return@setOnClickListener
+                }
+
+                useVoucher(op_input1, op_input2, op_input3, op_input4)
 
             }
         }
@@ -368,7 +379,43 @@ class Seting_Fragment : Fragment() {
 
         }
 
-        opInputET.setOnClickListener {
+        opInput1ET.setOnClickListener {
+            opInputLL.isSelected = true
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
+            setmenu2()
+            opInputIV.setImageResource(R.mipmap.icon_check)
+
+        }
+
+        opInput2ET.setOnClickListener {
+            opInputLL.isSelected = true
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
+            setmenu2()
+            opInputIV.setImageResource(R.mipmap.icon_check)
+
+        }
+
+        opInput3ET.setOnClickListener {
+            opInputLL.isSelected = true
+
+            op_1gbLL.isSelected = false
+            op_20kbLL.isSelected = false
+            op_600mbLL.isSelected = false
+
+            setmenu2()
+            opInputIV.setImageResource(R.mipmap.icon_check)
+
+        }
+
+        opInput4ET.setOnClickListener {
             opInputLL.isSelected = true
 
             op_1gbLL.isSelected = false
