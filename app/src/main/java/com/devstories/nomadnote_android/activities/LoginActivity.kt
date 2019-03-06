@@ -1,6 +1,5 @@
 package com.devstories.nomadnote_android.activities
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -8,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.FragmentActivity
 import android.util.Base64
 import android.util.Log
@@ -84,7 +84,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     private var facebook_ID: String? = null
     private var facebook_NAME: String? = null
     private val RC_SIGN_IN = 1000
-    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var mAuth: FirebaseAuth
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     var email = ""
@@ -132,7 +132,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "로그인")
 
-        var intent = getIntent()
+        var intent = intent
 //        is_push = intent.getBooleanExtra("is_push", false)
 //
 //        if (is_push){
@@ -157,7 +157,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                  .enableAutoManage(this, this)
                  .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                  .build()*/
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -225,7 +225,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
              intent.putExtra("jointype",jointype)
              startActivity(intent)*/
 //            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-            val signInIntent = mGoogleSignInClient!!.getSignInIntent()
+            val signInIntent = mGoogleSignInClient!!.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
@@ -308,7 +308,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                             // System.out.println("user : "  + user);
 
                             if (user != null) {
-                                sns_join(user.getEmail(), "3", user.getUid(), user.getDisplayName()!!)
+                                sns_join(user.email, "3", user.uid, user.displayName!!)
                             }
                             //                            isMember(user.getEmail(), "4", user.getUid(), user.getDisplayName());
                         } else {
@@ -316,7 +316,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                             // Utils.alert(context, "Exception 2 : " + task.getException().getLocalizedMessage());
 
                             var errorMag = "로그인에 실패하였습니다."
-                            val errorCode = (task.exception as FirebaseAuthException).getErrorCode()
+                            val errorCode = (task.exception as FirebaseAuthException).errorCode
 
                             println("errorCode : $errorCode")
 
@@ -411,14 +411,14 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-        var macAddress = recupAdresseMAC(wifiManager)
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
         params.put("email", email)
         params.put("sns_key", sns_key)
-        params.put("mac_address", macAddress)
+        params.put("android_id", android_id)
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
@@ -452,7 +452,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     } else {
 
 
-                        Toast.makeText(context, response!!.getString("message"), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, response.getString("message"), Toast.LENGTH_LONG).show()
 
                     }
 
@@ -460,10 +460,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -485,7 +481,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                System.out.println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -613,7 +609,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     }
 
     fun naverLogin() {
-        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
+        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler)
     }
 
     /**
@@ -625,25 +621,25 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             print("success : $success")
 
             if (success) {
-                val accessToken = mOAuthLoginModule.getAccessToken(context);
-                val refreshToken = mOAuthLoginModule.getRefreshToken(context);
-                val expiresAt = mOAuthLoginModule.getExpiresAt(context);
-                val tokenType = mOAuthLoginModule.getTokenType(context);
+                val accessToken = mOAuthLoginModule.getAccessToken(context)
+                val refreshToken = mOAuthLoginModule.getRefreshToken(context)
+                val expiresAt = mOAuthLoginModule.getExpiresAt(context)
+                val tokenType = mOAuthLoginModule.getTokenType(context)
 
                 RequestApiTask(loginActivity, mOAuthLoginModule).execute()
 
             } else {
-                val errorCode = mOAuthLoginModule.getLastErrorCode(context).getCode();
-                val errorDesc = mOAuthLoginModule.getLastErrorDesc(context);
-                Toast.makeText(context, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+                val errorCode = mOAuthLoginModule.getLastErrorCode(context).code
+                val errorDesc = mOAuthLoginModule.getLastErrorDesc(context)
+                Toast.makeText(context, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private class RequestApiTask(loginActivity: LoginActivity, mOAuthLoginModule: OAuthLogin) : AsyncTask<Void, Void, String?>() {
 
-        private var activityRef: WeakReference<LoginActivity> = WeakReference(loginActivity);
-        private var mOAuthLoginModuleRef: WeakReference<OAuthLogin> = WeakReference(mOAuthLoginModule);
+        private var activityRef: WeakReference<LoginActivity> = WeakReference(loginActivity)
+        private var mOAuthLoginModuleRef: WeakReference<OAuthLogin> = WeakReference(mOAuthLoginModule)
 
         override fun onPreExecute() {
 
@@ -787,7 +783,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         }
 
 
-        val macAddressLength = macAddress!!.length
+        val macAddressLength = macAddress.length
 
         var macAddressWithPadding = macAddress
 

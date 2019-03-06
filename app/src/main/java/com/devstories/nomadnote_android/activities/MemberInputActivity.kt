@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -125,6 +126,9 @@ class MemberInputActivity : RootActivity() {
 
 
     fun join() {
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val params = RequestParams()
         params.put("name", name)
         params.put("email",email )
@@ -133,6 +137,7 @@ class MemberInputActivity : RootActivity() {
         params.put("passwd",pw)
         params.put("phone",phone)
         params.put("join_type", 5)
+        params.put("android_id", android_id)
 
         if (maleimage != null){
             params.put("photo", ByteArrayInputStream(Utils.getByteArray(maleimage)))

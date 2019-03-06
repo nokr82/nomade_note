@@ -18,6 +18,8 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.base.*
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
@@ -236,6 +238,15 @@ class MainActivity : FragmentActivity() {
         val is_action_send = PrefUtils.getBooleanPreference(context, "is_action_send")
         if(is_action_send) {
             handleActionSend()
+        }
+
+        val client: SmsRetrieverClient = SmsRetriever.getClient(this)
+        val task = client.startSmsRetriever()
+        task.addOnSuccessListener {
+            // Successfully started retriever, expect broadcast intent
+        }
+        task.addOnFailureListener {
+            // Failed to start retriever, inspect Exception for more details
         }
     }
 

@@ -161,7 +161,9 @@ class Seting_Fragment : Fragment() {
 
             override fun bought(sku: String, purchaseToken: String) {
 
-                println("$sku bought!!! $purchaseToken");
+                println("$sku bought!!! $purchaseToken")
+
+
 
                 if ("1gb" == sku) {
                     setCharge(1024*1024*1024, purchaseToken)
@@ -742,6 +744,13 @@ class Seting_Fragment : Fragment() {
             progressDialog!!.dismiss()
         }
 
+        if(handler != null) {
+            handler!!.removeCallbacksAndMessages(null);
+        }
+
+        if(iapHelper != null) {
+            iapHelper?.destroy()
+        }
     }
 
     fun setStyleImage(style_id: String) {
@@ -1077,6 +1086,7 @@ class Seting_Fragment : Fragment() {
 
         val params = RequestParams()
         params.put("quota", quota)
+        params.put("purchaseToken", purchaseToken)
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
         ChargeAction.setCharge(params, object : JsonHttpResponseHandler() {

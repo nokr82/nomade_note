@@ -23,8 +23,8 @@ android {
         applicationId "com.devstories.nomadnote_android"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 39
-        versionName "1.0.1"
+        versionCode 40
+        versionName "1.0.2"
         multiDexEnabled true
     }
     // 요기랑
