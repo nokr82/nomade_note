@@ -129,6 +129,65 @@
     <!-- 바우처 -->
     <string name="voucher_error">Please check the serial code again.</string>
     <string name="facebook_required">Facebook is not installed.</string>
+    <!-- 바우처 -->
+
+    <string name="delete_question">If you remove your account, all trip records will be deleted.</string>
+    <string name="delete_question2">Are you really leaving us?</string>
+    <string name="delete_toast_message">All your trip records have been deleted.</string>
+    <string name="goodbyte_message">Good bye.</string>
+    <string name="find_id">Forgot ID</string>
+    <string name="find_password">Forgot Password</string>
+    <string name="find_id_choice">Please select the method of finding your ID.</string>
+    <string name="find_phone">Registered Phone Number Verification</string>
+    <string name="name">Name</string>
+    <string name="phon_edit_message">Phone number (without -)</string>
+    <string name="id">ID</string>
+    <string name="email">e-mail</string>
+    <string name="direct_input">Enter the address.</string>
+    <string name="send_code">Send a password</string>
+    <string name="find_sns_login">Find through SNS log-in.</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="private_infomation">Private Information Processing Policy</string>
+    <string name="business_infomation">Business Information Confirmation</string>
+    <string name="service_registration_number">Telecommunication Service Registration Number</string>
+    <string name="company_registration_number">Company Registration Number</string>
+    <string name="registration_status">Registration Status</string>
+    <string name="service_reporting">Telecommunication Service Reporting</string>
+    <string name="corporation_individeual">Corporation or Individual Business</string>
+    <string name="individual_business">Individual Business</string>
+    <string name="company_name">Company Name</string>
+    <string name="nomadnote_global">NOMADNOTE</string>
+    <string name="name_representative">Name of the Representative</string>
+    <string name="shin">Shin**</string>
+    <string name="tel">Tel</string>
+    <string name="service_mode">Service Mode</string>
+    <string name="internet">Internet</string>
+    <string name="handled_item">Handled Item</string>
+    <string name="multishop">Multi shop</string>
+    <string name="giftcard">gift cards</string>
+    <string name="email_global">E-mail</string>
+    <string name="reporting_date">Reporting Date</string>
+    <string name="business_address">Business Address (Road-based system)</string>
+    <string name="business_location">1387ho, 12th floor, 369 Gangnamdaero, Seochogu, Seoul</string>
+    <string name="internet_domain">Internet Domain</string>
+    <string name="host_server">Location of host server</string>
+    <string name="reporting_agency">Telecommunication Service Reporting Agency</string>
+    <string name="company_message">This is the information of the Telecommunication Service Provider Identification according to the reports submitted to local agencies in the country (Si, Gun, Gu), provided pursuant to the E-commerce Consumer Protection Law Article 12 (4) in order to ensure that consumers can make safe transactions with accurate business information in e-commerce market.  If you have any inquiries about business information or the identity information of the business is inconsistent with the information disclosure, please contact the relevant reporting agency (local government) that is confirmed by search results of the business information.                In case of some business operators, there may be cases where they have filed notices of business closure in accordance with the VAT Law, but not filed notices of mail order business closure in accordance with the E-Commerce Act. In order to prevent consumer loss, please check whether the business has filed closure according to the VAT Law, refer to the registration status inquiry section on the website of the National Tax Service</string>
+    <string name="link">(www.hometax.go.kr)</string>
+    <string name="find_password_choice">Please select the method of finding your Password.</string>
+    <string name="identity_verification">You can reset your password after identity verification.</string>
+    <string name="enter_name">Enter your name.</string>
+    <string name="enter_phonenumber">Enter your phone number.</string>
     <string name="withdrawal_done">The withdrawal processing has been completed.</string>
+    <string name="enter_id">Enter your id.</string>
+    <string name="enter_email">Enter your email.</string>
+    <string name="nomember">There are no members</string>
+    <string name="confirm">Confirm</string>
+    <string name="searchkeyword">Search Keyword</string>
+    <string name="not_disturb">Set up "Do Not Disturb" time range.</string>
+    <string name="refuse_time">Refuse to get notifications during the time set.</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="block_notifications">Block all notifications</string>
 
 </resources>

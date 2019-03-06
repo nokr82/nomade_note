@@ -14,6 +14,8 @@ import android.util.Log
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.facebook.*
@@ -128,6 +130,8 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "로그인")
+
         var intent = getIntent()
 //        is_push = intent.getBooleanExtra("is_push", false)
 //
@@ -183,6 +187,18 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                 //,OAUTH_CALLBACK_INTENT
                 // SDK 4.1.4 버전부터는 OAUTH_CALLBACK_INTENT변수를 사용하지 않습니다.
         )
+
+        findidTV.setOnClickListener {
+            val intent = Intent(context, FindIDAndPasswdActivity::class.java)
+            intent.putExtra("type","id")
+            startActivity(intent)
+        }
+
+        findpasswordTV.setOnClickListener {
+            val intent = Intent(context, FindIDAndPasswdActivity::class.java)
+            intent.putExtra("type","password")
+            startActivity(intent)
+        }
 
         loginTV.setOnClickListener {
             val intent = Intent(context, Login2Activity::class.java)

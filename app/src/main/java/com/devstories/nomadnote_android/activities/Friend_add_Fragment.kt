@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -32,6 +34,8 @@ class Friend_add_Fragment : Fragment()  {
 //        progressDialog = ProgressDialog(myContext)
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
         return inflater.inflate(R.layout.fra_friend_add_list, container, false)
 
     }
@@ -44,6 +48,9 @@ class Friend_add_Fragment : Fragment()  {
 
         FriendAdapter = FriendAdapter(myContext, R.layout.item_friend, adapterData,this)
         friendLV.adapter = FriendAdapter
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "친구검색")
 
         getFriend()
 

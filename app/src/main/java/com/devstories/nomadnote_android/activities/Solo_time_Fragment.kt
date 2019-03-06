@@ -2,11 +2,9 @@ package com.devstories.nomadnote_android.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -17,7 +15,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AbsListView
 import android.widget.GridView
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.TimelineAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -80,6 +81,9 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "개인타임라인")
 //        progressDialog = ProgressDialog(myContext)
 
         return inflater.inflate(R.layout.fra_solo_time, container, false)
@@ -89,6 +93,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         gridGV = view.findViewById(R.id.gridGV)
+
 
         timelineAdaper = SoloTimeAdapter(myContext!!, R.layout.item_solo_grid, timelineDatas,this)
         gridGV.adapter = timelineAdaper
@@ -110,6 +115,8 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         click()
 
         loadData()
+
+        loadFriendRequestData()
 
         gridGV.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
@@ -139,6 +146,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         })
 
     }
+
 
     fun click() {
 //        soloRL.setOnClickListener {
@@ -191,7 +199,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     fun loadData() {
 
         var keyword = Utils.getString(keywordET)
-        println("----keyword : $keyword")
 
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
@@ -331,6 +338,229 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
     }
 
+    fun loadFriendRequestData() {
+
+        val params = RequestParams()
+        params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
+
+        MemberAction.request_friends(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result = Utils.getString(response, "result")
+                    if ("ok" == result) {
+
+                        val friends = response!!.getJSONArray("friends")
+
+                        for (i in 0 until friends.length()) {
+                            val friend = friends[i] as JSONObject
+                            val member = friend.getJSONObject("Member")
+
+                            val name = Utils.getString(member, "name")
+
+                            val message = name + "님이 친구 요청을 하였습니다.\n수락하시겠습니까?"
+
+                            val builder = AlertDialog.Builder(context)
+                            builder
+                                    .setMessage(message)
+                                    .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
+                                        confirmFriend(Utils.getInt(friend, "id"), "add")
+                                        dialog.cancel()
+                                    })
+                                    .setNegativeButton(getString(R.string.builderno), DialogInterface.OnClickListener { dialog, id ->
+                                        confirmFriend(Utils.getInt(friend, "id"), "del")
+                                        dialog.cancel()
+                                    })
+                            val alert = builder.create()
+                            alert.show()
+
+                        }
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+
+    }
+
+    fun confirmFriend(id: Int, type: String) {
+
+        val params = RequestParams()
+        params.put("friend_id", id)
+        params.put("type", type)
+
+        MemberAction.confirm_friend(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result = Utils.getString(response, "result")
+                    if ("ok" == result) {
+
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+
+    }
+
     @SuppressLint("NewApi")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -381,5 +611,11 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         }
 
     }
+
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
+    }
+
 }
 

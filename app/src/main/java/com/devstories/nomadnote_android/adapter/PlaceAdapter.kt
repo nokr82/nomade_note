@@ -99,7 +99,7 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         if(language == "en" || language == "ja") {
             item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
         } else {
-            item.costTV.setText(cost + mapSearchActivity!!.getString(R.string.unit))
+            item.costTV.setText(cost + context.getString(R.string.unit))
         }
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){

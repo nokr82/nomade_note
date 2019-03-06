@@ -12,10 +12,7 @@ import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -53,6 +50,8 @@ class MyinfoChangeActivity : RootActivity() {
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "개인정보수정")
 
         titleBackLL.setOnClickListener {
             finish()

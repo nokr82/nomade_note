@@ -6,15 +6,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <!-- uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" / -->
-    <!-- uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.RECEIVE_MMS"/ -->
 
     <application
         android:name=".base.GlobalApplication"
@@ -24,10 +18,22 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.DlgSelectTimeActivity"
+            android:theme="@style/full_screen_dialog1"></activity>
+        <activity
+            android:name=".activities.NotDisturbActivity"
+            android:theme="@style/NoTitleDialog" />
+        <activity
+            android:name=".activities.CompanyInfomationActivity"
+            android:theme="@style/NoTitleDialog" />
+        <activity
+            android:name=".activities.FindIDAndPasswdActivity"
+            android:theme="@style/NoTitleDialog"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_id"/>
+            android:value="@string/admob_id" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -78,7 +84,9 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
@@ -93,17 +101,15 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <receiver
-            android:name=".sms.SmsBroadcastReceiver">
+        <receiver android:name=".sms.SmsBroadcastReceiver">
             <intent-filter android:priority="10000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name=".sms.MmsBroadcastReceiver">
+        <receiver android:name=".sms.MmsBroadcastReceiver">
             <intent-filter android:priority="10000">
                 <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
+
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
@@ -129,7 +135,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <!--
               <activity
               android:name=".activities.IntroActivity"
@@ -153,8 +158,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="nomadnote" />
 
+                <data android:scheme="nomadnote" />
                 <data
                     android:host="@string/kakaolink_host"
                     android:scheme="@string/kakao_scheme" />
@@ -171,8 +176,7 @@
         <activity
             android:name=".activities.WriteActivity"
             android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.MyinfoChangeActivity"
             android:theme="@style/NoTitleDialog"
@@ -201,9 +205,10 @@
             android:name=".activities.AddFriendActivity"
             android:theme="@style/NoTitleDialog"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".activities.CountryTimelineActivity"
+        <activity
+            android:name=".activities.CountryTimelineActivity"
             android:theme="@style/NoTitleDialog"
-            android:windowSoftInputMode="adjustResize|stateHidden" ></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

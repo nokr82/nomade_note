@@ -9,6 +9,7 @@ import android.view.Display;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kakao.auth.KakaoSDK;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -19,6 +20,7 @@ public class GlobalApplication extends MultiDexApplication {
     private static volatile GlobalApplication instance = null;
     private static volatile Activity currentActivity = null;
     private ImageLoader imageLoader;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     public static Activity getCurrentActivity() {
         return currentActivity;
@@ -36,6 +38,14 @@ public class GlobalApplication extends MultiDexApplication {
         if(instance == null)
             throw new IllegalStateException("this application does not inherit com.kakao.GlobalApplication");
         return instance;
+    }
+
+    synchronized public FirebaseAnalytics getFirebaseAnalytics() {
+        if (mFirebaseAnalytics == null) {
+            // Obtain the FirebaseAnalytics instance.
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        }
+        return mFirebaseAnalytics;
     }
 
     /**

@@ -131,6 +131,65 @@
 
     <string name="voucher_error">请重新确认谷物代码。</string>
     <string name="facebook_required">未安装facebook。</string>
+    <string name="delete_question">退出後所有旅行記錄都將被刪除。</string>
+    <string name="delete_question2">真的要離開嗎?</string>
+    <string name="delete_toast_message">所有旅行記錄都刪除了。</string>
+    <string name="goodbyte_message">再見。</string>
+    <string name="find_id">尋找ID</string>
+    <string name="find_password">找回密碼</string>
+    <string name="find_id_choice">請選擇查找ID的方法。</string>
+    <string name="find_phone">用已註冊的手機號查找</string>
+    <string name="name">名稱</string>
+    <string name="phon_edit_message">手機號(不輸入-)</string>
+    <string name="id">ID</string>
+    <string name="email">電子郵件</string>
+    <string name="direct_input">直接输入</string>
+    <string name="send_code">發送密碼</string>
+    <string name="find_sns_login">通過SNS登錄查找</string>
+    <string name="terms_and_conditions">用條款及</string>
+    <string name="private_infomation">個人信息處理方針</string>
+    <string name="business_infomation">經營者信息確認</string>
+    <string name="service_registration_number">郵購號碼</string>
+    <string name="company_registration_number">營業執照號</string>
+    <string name="registration_status">申報現狀</string>
+    <string name="service_reporting">郵購業務申報</string>
+    <string name="corporation_individeual">法人與否</string>
+    <string name="individual_business">個人</string>
+    <string name="company_name">商號</string>
+    <string name="nomadnote_global">NOMADNOTE</string>
+    <string name="name_representative">代表人名稱</string>
+    <string name="shin">新**</string>
+    <string name="tel">代表電話</string>
+    <string name="service_mode">銷售方式</string>
+    <string name="internet">網絡</string>
+    <string name="handled_item">處理種類</string>
+    <string name="multishop">綜合商城</string>
+    <string name="giftcard">商品券</string>
+    <string name="email_global">電子郵件（E-mail)</string>
+    <string name="reporting_date">申報日期</string>
+    <string name="business_address">營業場所所在地(道路名)</string>
+    <string name="business_location">首爾特別市瑞草區江南大路369 12層 1387號</string>
+    <string name="internet_domain">網絡域名</string>
+    <string name="host_server">主服務器所在地</string>
+    <string name="reporting_agency">通信銷售業  申報機構名</string>
+    <string name="company_message">本資料是為使消費者在電子商務市場準確地掌握準確經營者信息，實現安全交易，根據《電子商務消費者保護法》第十二條第四款的規定，向全國市、郡、區提供申報的通信銷售經營者的身份信息。對經營者信息的疑問事項或經營者的身份信息與信息公開內容不壹致時，請在搜索經營者信息時，可向確認的相關申報機關(地方自治團體)進行咨詢。
+
+部分經營者雖然按照附加價值稅法進行了事業者停業申報，但是可能沒有根據電子商務法進行通信銷售業停業申報。為防止消費者遭受損失,請通過國稅廳網站(www.hometax.go.kr)的經營者註冊狀態查詢欄，確認在附加價值稅法上經營者是否也已經停業。</string>
+    <string name="link">【快捷鍵鏈接】</string>
+    <string name="find_password_choice">請選擇找回密碼的方法。</string>
+    <string name="identity_verification">本人確認後可重新設置密碼。</string>
+    <string name="enter_name">請輸入姓名。</string>
+    <string name="enter_phonenumber">請輸入聯系方式。</string>
     <string name="withdrawal_done">退出处理已完成。</string>
+    <string name="enter_id">请输入您的ID</string>
+    <string name="enter_email">請輸入您的電子郵件</string>
+    <string name="nomember">There are no members</string>
+    <string name="confirm">確認</string>
+    <string name="searchkeyword">關鍵詞搜索</string>
+    <string name="not_disturb">設定禁止幹擾的時間段</string>
+    <string name="refuse_time">在相應時間段內不接受通知。</string>
+    <string name="start">開始</string>
+    <string name="end">結束</string>
+    <string name="block_notifications">阻止所有通知</string>
 
 </resources>

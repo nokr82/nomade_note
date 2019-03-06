@@ -16,9 +16,7 @@ import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.iid.FirebaseInstanceId
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -154,6 +152,8 @@ class MainActivity : FragmentActivity() {
 
         progressDialog = ProgressDialog(this, com.devstories.nomadnote_android.R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "메인")
 
         var filter1 = IntentFilter("FRIEND")
         registerReceiver(friendReciver, filter1)
@@ -512,11 +512,16 @@ class MainActivity : FragmentActivity() {
                         var pointdouble = Utils.getDouble(member,"point")
                         var bytedouble = Utils.getDouble(member,"point")
                         var byte = Utils.getInt(member,"bytes")
+                        var tmp_password_yn = Utils.getString(member,"tmp_password_yn")
 
                         var usebytes = response.getString("usebytes")
                         println("----- usebytes : $usebytes")
 
                         println("-----memberbyte : $byte")
+                        if (disk == "" || disk == null){
+                            disk = "0"
+                        }
+                        println("-----disk : $disk")
 
 //                        var payment_byte = 2147483648
                         // var payment_byte = 20480
@@ -545,6 +550,12 @@ class MainActivity : FragmentActivity() {
                         PrefUtils.setPreference(context, "style", Utils.getInt(member, "style_id"))
                         PrefUtils.setPreference(context, "point", point)
                         PrefUtils.setPreference(context, "byte", usebytes.toInt())
+
+                        if (tmp_password_yn == "Y"){
+                            val intent = Intent(context, MyinfoChangeActivity::class.java)
+                            startActivity(intent)
+                        }
+
                     } else {
                         Toast.makeText(context, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
                     }

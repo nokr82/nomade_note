@@ -23,6 +23,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.PlaceAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -78,6 +80,9 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "지도검색")
+
         return inflater.inflate(R.layout.fra_map_search, container, false)
 
     }
@@ -692,6 +697,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         val padding = 200 // offset from edges of the map in pixels
         val cu = CameraUpdateFactory.newLatLngBounds(bounds, padding)
         googleMap?.moveCamera(cu)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        keywordET.setText("")
     }
 
 }

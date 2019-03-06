@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.LoginAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -42,6 +40,9 @@ class Login2Activity : RootActivity() {
 //        progressDialog = ProgressDialog(context)
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "이메일로 로그인")
 
         var intent = getIntent()
         is_push = intent.getBooleanExtra("is_push", false)

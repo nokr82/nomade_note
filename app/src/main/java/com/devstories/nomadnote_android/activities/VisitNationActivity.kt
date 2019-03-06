@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.NationAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -42,6 +44,8 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "방문국가기록")
 
         titleBackLL.setOnClickListener {
             finish()
@@ -247,7 +251,8 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
 
             val latlng = LatLng(lat, lng)
 
-            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.visit_city)))
+//            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.visit_city)))
+            val marker = googleMap.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker_icon)))
             marker.tag = place
 
             markers.add(marker)
