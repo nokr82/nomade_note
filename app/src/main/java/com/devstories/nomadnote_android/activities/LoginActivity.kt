@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
@@ -53,10 +54,17 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 import java.lang.ref.WeakReference
+import java.net.NetworkInterface
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.security.spec.InvalidKeySpecException
 import java.util.*
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 
 class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedListener {
     override fun onConnectionFailed(p0: ConnectionResult) {
@@ -92,6 +100,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     var last_id = ""
     var created = ""
     var timeline_id = -1
+
+    private val marshmallowMacAddress = "02:00:00:00:00:00"
+    private val fileAddressMac = "/sys/class/net/wlan0/address"
 
     companion object {
         fun processLoginData(context: Context, data: JSONObject) {
@@ -397,11 +408,17 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     }
 
     fun sns_join(email: String?, join_type: String, sns_key: String?, name: String?) {
+
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        var macAddress = recupAdresseMAC(wifiManager)
+
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
         params.put("email", email)
         params.put("sns_key", sns_key)
+        params.put("mac_address", macAddress)
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
@@ -680,6 +697,117 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             progressDialog!!.dismiss()
         }
 
+    }
+
+
+    fun recupAdresseMAC(wifiMan: WifiManager): String? {
+
+        val wifiInf = wifiMan.connectionInfo
+
+        if (wifiInf.macAddress == marshmallowMacAddress) {
+            var ret: String? = null
+            try {
+                ret = getAdressMacByInterface()
+                if (ret != null && ret.isNotEmpty()) {
+                    return ret
+                } else {
+                    ret = getAddressMacByFile(wifiMan)
+                    return ret
+                }
+            } catch (e: IOException) {
+                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC")
+            } catch (e: Exception) {
+                Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ")
+            }
+
+        } else {
+            return wifiInf.macAddress
+        }
+        return marshmallowMacAddress
+    }
+
+    private fun getAdressMacByInterface(): String? {
+        try {
+            val all = Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (nif in all) {
+                if (nif.name.equals("wlan0", ignoreCase = true)) {
+                    val macBytes = nif.hardwareAddress ?: return ""
+
+                    val res1 = StringBuilder()
+                    for (b in macBytes) {
+                        res1.append(String.format("%02X:", b))
+                    }
+
+                    if (res1.length > 0) {
+                        res1.deleteCharAt(res1.length - 1)
+                    }
+                    return res1.toString()
+                }
+            }
+
+        } catch (e: Exception) {
+            Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ")
+        }
+
+        return null
+    }
+
+    @Throws(Exception::class)
+    private fun getAddressMacByFile(wifiMan: WifiManager): String {
+        val ret: String
+        val wifiState = wifiMan.wifiState
+
+        wifiMan.isWifiEnabled = true
+        val fl = File(fileAddressMac)
+        val fin = FileInputStream(fl)
+        val builder = StringBuilder()
+        while (true) {
+            val ch = fin.read()
+            if(ch != -1) {
+                break
+            }
+            builder.append(ch.toChar())
+        }
+
+        ret = builder.toString()
+        fin.close()
+
+        val enabled = WifiManager.WIFI_STATE_ENABLED == wifiState
+        wifiMan.isWifiEnabled = enabled
+        return ret
+    }
+
+    @Throws(NoSuchAlgorithmException::class, InvalidKeySpecException::class)
+    fun generateKey(wifiManager:WifiManager, macAddress:String?): SecretKey {
+
+        println("macAddress : $macAddress")
+
+        if(macAddress == null) {
+            return SecretKeySpec("".toByteArray(), "AES")
+        }
+
+
+        val macAddressLength = macAddress!!.length
+
+        var macAddressWithPadding = macAddress
+
+        if(macAddressLength < 16) {
+            for (idx in 0 until (16 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        } else if(macAddressLength < 24) {
+            for (idx in 0 until (24 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        } else if(macAddressLength < 32) {
+            for (idx in 0 until (32 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        }
+
+        println("macAddress.length : ${macAddressWithPadding.length}")
+
+        return SecretKeySpec(macAddressWithPadding.toByteArray(), "AES")
     }
 
 }
