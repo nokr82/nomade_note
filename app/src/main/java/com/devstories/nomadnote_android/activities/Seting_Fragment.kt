@@ -27,7 +27,6 @@ import com.devstories.nomadnote_android.actions.ChargeAction
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.VoucherAction
 import com.devstories.nomadnote_android.adapter.AdvertiseAdapter
-import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
 import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.billing.IAPHelper
 import com.facebook.FacebookSdk
@@ -162,7 +161,7 @@ class Seting_Fragment : Fragment() {
 
             override fun bought(sku: String, purchaseToken: String) {
 
-                println("$sku bought!!!");
+                println("$sku bought!!! $purchaseToken");
 
                 if ("1gb" == sku) {
                     setCharge(1024*1024*1024, purchaseToken)
