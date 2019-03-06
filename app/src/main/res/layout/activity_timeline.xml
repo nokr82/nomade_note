@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -219,73 +220,79 @@
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/healingTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/background_border_radius7_000000"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/activity_write_healing"
                             android:textColor="#ffffff"
                             android:textSize="10dp" />
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/hotplaceTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/activity_write_hotplace"
                             android:textColor="#878787"
                             android:textSize="10dp" />
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/literatureTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/culturalstyle"
                             android:textColor="#878787"
                             android:textSize="10dp" />
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/historyTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/historicalstyle"
                             android:textColor="#878787"
                             android:textSize="10dp" />
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/museumTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/museumstyle"
                             android:textColor="#878787"
                             android:textSize="10dp" />
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/artmuseumTV"
-                            android:singleLine="true"
+                            android:maxLines="2"
+                            autofit:minTextSize="3dp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:padding="4dp"
+                            android:padding="2dp"
                             android:text="@string/artmuseumstyle"
                             android:textColor="#878787"
                             android:textSize="10dp" />
