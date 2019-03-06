@@ -406,7 +406,7 @@ class NotDisturbActivity : RootActivity() {
                         }
 
                         push_block_yn = Utils.getString(member,"push_block_yn")
-                        time_push_yn = Utils.getString(member,"time_push_yn")
+                        time_push_yn = Utils.getString(member,"time_notpush_yn")
                         if (push_block_yn == "Y"){
                             allblock = true
                             allblockIV.setImageResource(R.mipmap.check_off)

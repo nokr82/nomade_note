@@ -189,5 +189,6 @@
     <string name="start">Start</string>
     <string name="end">End</string>
     <string name="block_notifications">Block all notifications</string>
+    <string name="service_center">Service center</string>
 
 </resources>

@@ -251,11 +251,6 @@ class Seting_Fragment : Fragment() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        arguments = null
-        s_type = -1
-    }
 
     fun op_click() {
 
@@ -1276,7 +1271,12 @@ class Seting_Fragment : Fragment() {
         iapHelper?.onActivityResult(requestCode, resultCode, data)
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        if (handler != null) {
+            handler!!.removeCallbacksAndMessages(null);
+        }
+    }
 
     private fun shareInstagram() {
         val shareIntent = Intent(Intent.ACTION_SEND)

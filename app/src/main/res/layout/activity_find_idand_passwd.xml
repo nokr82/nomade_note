@@ -706,7 +706,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="고객센터 0000-0000"
+                            android:text="@string/service_center"
+                            android:textSize="12dp"
+                            android:textColor="#878787"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 0000-0000"
                             android:textSize="12dp"
                             android:textColor="#878787"/>
                     </LinearLayout>
@@ -714,7 +720,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                        <TextView
+                        <me.grantland.widget.AutofitTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#878787"
@@ -728,7 +734,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:textSize="12dp"/>
-                        <TextView
+                        <me.grantland.widget.AutofitTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#878787"
@@ -742,7 +748,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             android:textSize="12dp"/>
-                        <TextView
+                        <me.grantland.widget.AutofitTextView
                             android:id="@+id/companyinfoTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
