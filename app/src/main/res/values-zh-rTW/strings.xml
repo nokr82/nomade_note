@@ -193,4 +193,9 @@
     <string name="block_notifications">阻止所有通知</string>
     <string name="service_center">服務中心</string>
 
+
+    <string name="voucher_used_error">이미 사용된 시리얼 코드입니다.</string>
+    <string name="voucher_block_error">차단된 시리얼 코드입니다.</string>
+    <string name="voucher_use">사용되었습니다.</string>
+
 </resources>
