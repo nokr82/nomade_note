@@ -550,7 +550,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         val location = locationET.text.toString()
         if (location == "" || location == null){
-            Toast.makeText(context, "지역은 필수입력 입니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.enter_are), Toast.LENGTH_SHORT).show()
             return
         }
 

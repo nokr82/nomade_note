@@ -252,5 +252,11 @@
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
     <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
     <string name="addtofriends">友達に追加</string>
+    <string name="check_email">Eメールを確認してください。</string>
+    <string name="enter_password">暗証番号をご入力ください。</string>
+    <string name="mismatch_password">暗証番号を一致しません。</string>
+    <string name="info_check">個人情報の同意に同意してください。</string>
+    <string name="already_email">既に使用中のメールです。</string>
+    <string name="enter_are">地域は必須入力です。</string>
 
 </resources>

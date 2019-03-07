@@ -202,5 +202,11 @@
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
     <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
     <string name="addtofriends">加好友</string>
+    <string name="check_email">請確認郵件。</string>
+    <string name="enter_password">請輸入密碼。</string>
+    <string name="mismatch_password">密碼不一致。</string>
+    <string name="info_check">請同意個人信息</string>
+    <string name="already_email">已經使用的郵件。</string>
+    <string name="enter_are">地區是必填內容。</string>
 
 </resources>

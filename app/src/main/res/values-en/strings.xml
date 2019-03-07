@@ -200,5 +200,11 @@
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
     <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
     <string name="addtofriends">Add to friends</string>
+    <string name="check_email">Please check your e-mail.</string>
+    <string name="enter_password">Please enter your password.</string>
+    <string name="mismatch_password">Password mismatch.</string>
+    <string name="info_check">Please agree to consent to personal information.</string>
+    <string name="already_email">This email is already in use.</string>
+    <string name="enter_are">The area is required.</string>
 
 </resources>

@@ -60,12 +60,12 @@ class Login2Activity : RootActivity() {
             email = Utils.getString(emailET)
 
             if (email == "") {
-                Toast.makeText(context, "이메일을 입력해주세요.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.enter_email), Toast.LENGTH_LONG).show();
                 return@setOnClickListener
             }
 
             if (email == "") {
-                Toast.makeText(context, "비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.enter_password), Toast.LENGTH_LONG).show();
                 return@setOnClickListener
             }
 
