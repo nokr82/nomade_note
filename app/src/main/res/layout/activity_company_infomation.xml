@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,9 +47,9 @@
 
     <ScrollView
         android:layout_marginTop="10dp"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="6"
         android:fillViewport="true">
 
         <LinearLayout
@@ -571,90 +572,101 @@
         </LinearLayout>
 
     </ScrollView>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="bottom">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="22dp"
+                android:layout_marginBottom="3dp"
+                android:src="@mipmap/login_logo" />
+
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="bottom">
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/login_logo"
-                    android:layout_marginBottom="3dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/service_center"
-                    android:textSize="12dp"
-                    android:textColor="#878787"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 0000-0000"
-                    android:textSize="12dp"
-                    android:textColor="#878787"/>
-            </LinearLayout>
+                android:maxLines="1"
+                android:text="@string/service_center"
+                android:textColor="#878787"
+                android:textSize="12dp"
+                autofit:minTextSize="3dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/serviceTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#878787"
-                    android:text="@string/terms_and_conditions"
-                    android:textSize="12dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#878787"
-                    android:text="|"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="12dp"/>
-                <me.grantland.widget.AutofitTextView
-                    android:id="@+id/privacyTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#878787"
-                    android:text="@string/private_infomation"
-                    android:textSize="12dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#878787"
-                    android:text="|"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:textSize="12dp"/>
-                <me.grantland.widget.AutofitTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#878787"
-                    android:text="@string/business_infomation"
-                    android:textSize="12dp"
-                    tools:ignore="HardcodedText" />
-            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="11dp"
+                android:text=" 0000-0000"
                 android:textColor="#878787"
-                android:layout_marginBottom="15dp"
-                android:text="Copyright (c) nomadnote. All rights reserved."/>
+                android:textSize="12dp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/serviceTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/terms_and_conditions"
+                android:textColor="#878787"
+                android:textSize="12dp"
+                autofit:minTextSize="3dp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#878787" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/privacyTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/private_infomation"
+                android:textColor="#878787"
+                android:textSize="12dp"
+                autofit:minTextSize="3dp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#878787" />
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/companyinfoTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/business_infomation"
+                android:textColor="#878787"
+                android:textSize="12dp"
+                autofit:minTextSize="3dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Copyright (c) nomadnote. All rights reserved."
+            android:textColor="#878787"
+            android:textSize="11dp" />
     </LinearLayout>
 
 </LinearLayout>
