@@ -218,5 +218,7 @@
     <string name="add_friends">添加了。</string>
     <string name="add_friends_already">已经是朋友了。</string>
     <string name="age">岁</string>
+    <string name="success_member">成功注册</string>
+    <string name="delete_message">删除</string>
 
 </resources>

@@ -210,5 +210,7 @@
     <string name="add_friends">Added.</string>
     <string name="add_friends_already">I＇m already a friend.</string>
     <string name="age">years old</string>
+    <string name="success_member">a successful accession</string>
+    <string name="delete_message">Delete</string>
 
 </resources>

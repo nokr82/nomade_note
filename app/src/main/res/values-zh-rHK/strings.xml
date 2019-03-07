@@ -212,5 +212,7 @@
     <string name="info_check">請同意個人信息</string>
     <string name="already_email">已經使用的郵件。</string>
     <string name="enter_are">地區是必填內容。</string>
+    <string name="success_member">成功註冊</string>
+    <string name="delete_message">刪除</string>
 
 </resources>

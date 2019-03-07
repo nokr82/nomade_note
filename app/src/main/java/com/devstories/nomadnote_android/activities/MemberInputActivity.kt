@@ -185,7 +185,7 @@ class MemberInputActivity : RootActivity() {
 
                         val intent = Intent(context, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        Toast.makeText(context, "가입성공", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.success_member), Toast.LENGTH_LONG).show()
                         startActivity(intent)
                     } else {
 
