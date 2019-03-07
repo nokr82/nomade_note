@@ -197,22 +197,22 @@ class Seting_Fragment : Fragment() {
                 val op_input4 = Utils.getString(opInput4ET)
 
                 if (op_input1.count() != 4) {
-                    voucherAlert()
+                    voucherAlert(1)
                     return@setOnClickListener
                 }
 
                 if (op_input2.count() != 4) {
-                    voucherAlert()
+                    voucherAlert(1)
                     return@setOnClickListener
                 }
 
                 if (op_input3.count() != 4) {
-                    voucherAlert()
+                    voucherAlert(1)
                     return@setOnClickListener
                 }
 
                 if (op_input4.count() != 4) {
-                    voucherAlert()
+                    voucherAlert(1)
                     return@setOnClickListener
                 }
 
@@ -703,11 +703,24 @@ class Seting_Fragment : Fragment() {
 
     }
 
-    fun voucherAlert() {
+    fun voucherAlert(type: Int) {
+
+        var message = ""
+
+        if (type == 2) {
+            message = getString(R.string.voucher_used_error)
+        } else if (type == 3) {
+            message = getString(R.string.voucher_block_error)
+        } else if (type == 4) {
+            message = getString(R.string.voucher_use)
+        } else {
+            message = getString(R.string.voucher_error)
+        }
+
         // 시리얼 코드를 다시 확인해주세요.
         val builder = AlertDialog.Builder(myContext)
         builder
-                .setMessage(getString(R.string.voucher_error))
+                .setMessage(message)
                 .setPositiveButton(getString(R.string.builderyes), DialogInterface.OnClickListener { dialog, id ->
                 })
 
@@ -1006,12 +1019,18 @@ class Seting_Fragment : Fragment() {
 
                     if ("ok" == result) {
 
+                        voucherAlert(4);
+
                         val intent = Intent()
                         intent.action = "MY_QUOTA_UPDATED"
                         myContext.sendBroadcast(intent)
 
+                    } else if ("used" == result) {
+                        voucherAlert(2);
+                    } else if ("block" == result) {
+                        voucherAlert(3);
                     } else {
-                        voucherAlert();
+                        voucherAlert(1);
                     }
 
                 } catch (e: JSONException) {
