@@ -1062,6 +1062,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
         // val bitmap = BitmapFactory.decodeFile(str)
         val imageIV = v.findViewById(R.id.addedImgIV) as ImageView
+        val videoIV = v.findViewById(R.id.videoIV) as ImageView
 
         // media info
         val mediaInfo = JSONObject()
@@ -1090,10 +1091,11 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     var add_file = Utils.getImage(context.contentResolver, str)
                     imageIV.setImageBitmap(add_file)
                 }
-
+                videoIV.visibility = View.GONE
             } else {
                 val curThumb = MediaStore.Video.Thumbnails.getThumbnail(context.contentResolver, id.toLong(), MediaStore.Video.Thumbnails.MINI_KIND, null)
                 imageIV.setImageBitmap(curThumb)
+                videoIV.visibility = View.VISIBLE
             }
 
 

@@ -59,6 +59,7 @@ open class ImageAdapter(context: Context, data:ArrayList<PhotoData>, imageLoader
             retView = View.inflate(this.mContext, com.devstories.nomadnote_android.R.layout.item_findpicture, null)
             holder.picture_grid_click = retView.findViewById<TextView>(com.devstories.nomadnote_android.R.id.picture_grid_click);
             holder.picture_grid_image = retView.findViewById<ImageView>(com.devstories.nomadnote_android.R.id.picture_grid_image);
+            holder.videoIV =  retView.findViewById<ImageView>(com.devstories.nomadnote_android.R.id.videoIV);
 
             retView.setTag(holder);
         } else {
@@ -70,11 +71,14 @@ open class ImageAdapter(context: Context, data:ArrayList<PhotoData>, imageLoader
 
         if(photo.mediaType == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
             holder.picture_grid_image.setImageBitmap(imageLoader.getImage(photo.photoID.toLong(), photo.photoPath, photo.orientation))
+            holder.videoIV.visibility = View.GONE
+
         } else {
             val options = BitmapFactory.Options()
             options.inSampleSize = 1
             val curThumb = MediaStore.Video.Thumbnails.getThumbnail(mContext.contentResolver, photo.videoID.toLong(), MediaStore.Video.Thumbnails.MINI_KIND, options)
             holder.picture_grid_image.setImageBitmap(curThumb)
+            holder.videoIV.visibility = View.VISIBLE
         }
 
         if (selected.contains(position.toString())) {
@@ -174,6 +178,7 @@ open class ImageAdapter(context: Context, data:ArrayList<PhotoData>, imageLoader
     inner class ViewHolder {
         lateinit var picture_grid_click :TextView
         lateinit var picture_grid_image : ImageView
+        lateinit var videoIV : ImageView
     }
 
 }
