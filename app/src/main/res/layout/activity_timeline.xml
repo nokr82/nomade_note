@@ -351,6 +351,7 @@
                         android:background="#d8d8d8" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/soloLL"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
