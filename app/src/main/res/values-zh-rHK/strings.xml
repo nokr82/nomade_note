@@ -202,5 +202,9 @@
     <string name="find_pw_send_email">已通過該郵箱發送密碼。</string>
     <string name="find_id_send_email">用該郵件發送用戶名。</string>
     <string name="addtofriends">加好友</string>
+    <string name="add_friends_empty">不存在一致的會員。</string>
+    <string name="add_friends">添加了。</string>
+    <string name="add_friends_already">已经是朋友了。</string>
+    <string name="age">岁</string>
 
 </resources>

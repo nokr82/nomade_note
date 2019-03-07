@@ -196,6 +196,11 @@
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
     <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
     <string name="addtofriends">친구추가</string>
+    <string name="add_friends_empty">일치하는 회원이 존재하지 않습니다.</string>
+    <string name="add_friends">추가하였습니다.</string>
+    <string name="add_friends_already">이미 친구입니다.</string>
+    <string name="age">세</string>
+
 
 
 </resources>

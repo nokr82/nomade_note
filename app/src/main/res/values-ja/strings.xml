@@ -252,5 +252,9 @@
     <string name="find_pw_send_email">該当Eメールでパスワードを転送しました。</string>
     <string name="find_id_send_email">該当EメールでIDを送信しました。</string>
     <string name="addtofriends">友達に追加</string>
+    <string name="add_friends_empty">一致する会員が存在しません。</string>
+    <string name="add_friends">追加しました。</string>
+    <string name="add_friends_already">もう友達です</string>
+    <string name="age">歳</string>
 
 </resources>

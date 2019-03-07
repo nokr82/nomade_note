@@ -200,5 +200,9 @@
     <string name="find_pw_send_email">You have sent your password via the email.</string>
     <string name="find_id_send_email">You have sent your ID to the appropriate email.</string>
     <string name="addtofriends">Add to friends</string>
+    <string name="add_friends_empty">No matching member exists.</string>
+    <string name="add_friends">Added.</string>
+    <string name="add_friends_already">I＇m already a friend.</string>
+    <string name="age">years old</string>
 
 </resources>
