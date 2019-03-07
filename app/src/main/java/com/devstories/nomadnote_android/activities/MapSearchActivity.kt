@@ -29,11 +29,14 @@ class MapSearchActivity : RootActivity() {
     var place_id = -1
     var keyword = ""
 
+    val SELECT_ITEM = 1000
+
     internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
                 timelineDatas.clear()
                 place_timeline()
+                load_place()
             }
         }
     }
@@ -45,6 +48,9 @@ class MapSearchActivity : RootActivity() {
 
         val filter1 = IntentFilter("UPDATE_TIMELINE")
         registerReceiver(ResetReceiver, filter1)
+
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        registerReceiver(ResetReceiver, filter2)
 
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
@@ -81,7 +87,7 @@ class MapSearchActivity : RootActivity() {
             val timeline_id = Utils.getString(item, "id")
             val intent = Intent(context, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
-            startActivity(intent)
+            startActivityForResult(intent,SELECT_ITEM)
         }
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->

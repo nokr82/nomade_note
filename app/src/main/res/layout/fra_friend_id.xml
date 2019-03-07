@@ -69,7 +69,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:text="친구추가"
+            android:text="@string/addtofriends"
             android:background="@drawable/background_border_radius7_000000"/>
 
 
@@ -117,7 +117,7 @@
             android:layout_height="35dp"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:text="친구추가"
+            android:text="@string/addtofriends"
             android:background="@drawable/background_border_radius7_000000"/>
 
     </LinearLayout>

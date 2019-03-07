@@ -195,6 +195,7 @@
     <string name="chk_info">개인정보 동의하기</string>
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
     <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
+    <string name="addtofriends">친구추가</string>
 
 
 </resources>
