@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.os.Parcelable
+import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import com.devstories.nomadnote_android.R
@@ -36,8 +37,8 @@ class IntroActivity : RootActivity() {
 
     private var is_push:Boolean = false
 
-    var last_id = ""
-    var created = ""
+    var last_id:String? = null
+    var created:String? = null
     var timeline_id = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -178,6 +179,9 @@ class IntroActivity : RootActivity() {
 
     // 로그인
     private fun login() {
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val email = PrefUtils.getStringPreference(context, "email")
         val passwd = PrefUtils.getStringPreference(context, "passwd")
         val sns_key = PrefUtils.getStringPreference(context, "sns_key")
@@ -188,6 +192,7 @@ class IntroActivity : RootActivity() {
         params.put("passwd", passwd)
         params.put("join_type", join_type)
         params.put("sns_key", sns_key)
+        params.put("android_id", android_id)
 
         println("params : $params")
 

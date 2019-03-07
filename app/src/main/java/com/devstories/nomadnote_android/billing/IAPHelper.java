@@ -62,7 +62,7 @@ public class IAPHelper implements ServiceConnection {
             Bundle skuDetails = mService.getSkuDetails(3, this.activity.getPackageName(), "inapp", querySkus);
             int response = skuDetails.getInt("RESPONSE_CODE");
 
-            // System.out.println(skuDetails);
+            System.out.println(skuDetails);
 
             if (response == 0) {
                 ArrayList<String> responseList = skuDetails.getStringArrayList("DETAILS_LIST");
@@ -152,6 +152,9 @@ public class IAPHelper implements ServiceConnection {
         try {
             Bundle ownedItems = mService.getPurchases(3, this.activity.getPackageName(), "inapp", null);
             int response = ownedItems.getInt("RESPONSE_CODE");
+
+            System.out.println(ownedItems);
+
             if (response == 0) {
                 ArrayList<String> ownedSkus = ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST");
                 ArrayList<String>  purchaseDataList = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
@@ -166,6 +169,8 @@ public class IAPHelper implements ServiceConnection {
                     try {
                         JSONObject jo = new JSONObject(purchaseData);
                         String purchaseToken = Utils.getString(jo, "purchaseToken");
+
+                        System.out.println(jo);
 
                         consume(purchaseToken);
 
@@ -195,4 +200,5 @@ public class IAPHelper implements ServiceConnection {
         void bought(String sku, String purchaseToken);
         void failed(Exception e);
     }
+
 }
