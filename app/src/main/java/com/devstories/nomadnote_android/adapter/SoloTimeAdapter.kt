@@ -102,6 +102,8 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
         var place_name = Utils.getString(chunk, "place_name")
         var duration = Utils.getString(chunk, "duration")
         var cost = Utils.getString(chunk, "cost")
+        var money_unit = Utils.getString(chunk, "money_unit")
+        var cost_str = Utils.getString(chunk, "cost_str")
         var contents = Utils.getString(chunk, "contents")
         var created = Utils.getString(chunk, "created_at")
 
@@ -149,10 +151,15 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
         item.durationTV.setText(duration)
 //        item.costTV.setText(cost + "$ ")
         var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            item.costTV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.costTV.setText(cost_str)
         } else {
-            item.costTV.setText(cost + solo_time_fragment.getString(R.string.unit))
+            if (language == "en" || language == "ja") {
+                item.costTV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+            } else {
+                item.costTV.setText(cost + solo_time_fragment.getString(R.string.unit))
+            }
         }
 
         item.contentTV.setText(contents)
@@ -178,6 +185,8 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
         var place_name = Utils.getString(chunk, "place_name")
         var duration = Utils.getString(chunk, "duration")
         var cost = Utils.getString(chunk, "cost")
+        var money_unit = Utils.getString(chunk, "money_unit")
+        var cost_str = Utils.getString(chunk, "cost_str")
         var contents = Utils.getString(chunk, "contents")
         var created = Utils.getString(chunk, "created_at")
 
@@ -209,11 +218,17 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
         item.duration2TV.setText(duration)
 //        item.cost2TV.setText(cost + "$ ")
         var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            item.cost2TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.cost2TV.text = cost_str
         } else {
-            item.cost2TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+            if (language == "en" || language == "ja") {
+                item.cost2TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+            } else {
+                item.cost2TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+            }
         }
+
         item.content2TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {
             item.created2TV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":" + timesplit.get(1))
@@ -237,6 +252,7 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
         var place_name = Utils.getString(chunk, "place_name")
         var duration = Utils.getString(chunk, "duration")
         var cost = Utils.getString(chunk, "cost")
+        var cost_str = Utils.getString(chunk, "cost_str")
         var contents = Utils.getString(chunk, "contents")
         var created = Utils.getString(chunk, "created_at")
 
@@ -275,13 +291,17 @@ open class SoloTimeAdapter(context: Context, view:Int, data:ArrayList<JSONArray>
 //        }
 
 //        item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
-        var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
-        } else {
-            item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
-        }
 
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.cost3TV.text = cost_str
+        } else {
+            var language = Locale.getDefault().language
+            if (language == "en" || language == "ja") {
+                item.cost3TV.setText(solo_time_fragment.getString(R.string.unit) + cost)
+            } else {
+                item.cost3TV.setText(cost + solo_time_fragment.getString(R.string.unit))
+            }
+        }
 
         item.content3TV.setText(contents)
         if (timesplit.get(0).toInt() >= 12) {

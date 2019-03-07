@@ -53,6 +53,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         var contents = Utils.getString(timeline,"contents")
         var created = Utils.getString(timeline,"created_at")
         var timeline_id = Utils.getString(timeline,"id")
+        var cost_str = Utils.getString(timeline,"cost_str")
         var certification = json.getString("certification")
 
         var createdsplit = created.split(" ")
@@ -83,13 +84,18 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
-        item.costTV.setText(cost+"$ ")
-//        var language = Locale.getDefault().getDisplayLanguage()
-//        if (language == "한국어" || language == "中文") {
-//            item.costTV.setText(cost + scrap_Fragment.getString(R.string.unit))
-//        } else {
-//            item.costTV.setText(scrap_Fragment.getString(R.string.unit) + cost)
-//        }
+//        item.costTV.setText(cost+"$ ")
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.costTV.setText(cost_str)
+        } else {
+            var language = Locale.getDefault().getDisplayLanguage()
+            if (language == "en" || language == "ja") {
+                item.costTV.setText(scrap_Fragment.getString(R.string.unit) + cost)
+            } else {
+                item.costTV.setText(cost + scrap_Fragment.getString(R.string.unit))
+            }
+        }
 
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
@@ -273,7 +279,7 @@ open class ScrapAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
     fun setMenuImage(style: Int){
         menuSetImage()
-        when(menu_position){
+        when(style){
             1 ->{
                 item.healingTV.setBackgroundResource(R.drawable.background_border_radius7_000000)
                 item.healingTV.setTextColor(Color.parseColor("#ffffff"))

@@ -53,6 +53,7 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         var place_name = Utils.getString(json,"place_name")
         var duration = Utils.getString(json,"duration")
         var cost = Utils.getString(json,"cost")
+        var cost_str = Utils.getString(json,"cost_str")
         var contents = Utils.getString(json,"contents")
         var created = Utils.getString(json,"created_at")
         var image = json.getJSONArray("images")
@@ -95,12 +96,18 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
 //        item.costTV.setText(cost+"$ ")
-        var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.costTV.setText(cost_str)
         } else {
-            item.costTV.setText(cost + context.getString(R.string.unit))
+            var language = Locale.getDefault().language
+            if(language == "en" || language == "ja") {
+                item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
+            } else {
+                item.costTV.setText(cost + context.getString(R.string.unit))
+            }
         }
+
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){
             item.createdTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
