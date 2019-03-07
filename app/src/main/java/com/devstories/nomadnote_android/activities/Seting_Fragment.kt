@@ -980,6 +980,10 @@ class Seting_Fragment : Fragment() {
         handler = object : Handler() {
             override fun handleMessage(msg: Message) {
 
+                if(adverVP == null) {
+                    return
+                }
+
                 adTime++
 
                 val index = adverVP.getCurrentItem()
