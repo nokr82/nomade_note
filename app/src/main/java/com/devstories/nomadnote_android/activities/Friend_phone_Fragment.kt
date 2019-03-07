@@ -22,12 +22,14 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
+
+
 class Friend_phone_Fragment : Fragment()  {
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
 
-
+     val m_Codes = arrayOf( "+82","+376", "+971", "+93", "+355", "+374", "+599", "+244", "+672", "+54", "+43", "+61", "+297", "+994", "+387", "+880", "+32", "+226", "+359", "+973", "+257", "+229", "+590", "+673", "+591", "+55", "+975", "+267", "+375", "+501", "+1", "+61", "+243", "+236", "+242", "+41", "+225", "+682", "+56", "+237", "+86", "+57", "+506", "+53", "+238", "+61", "+357", "+420", "+49", "+253", "+45", "+213", "+593", "+372", "+20", "+291", "+34", "+251", "+358", "+679", "+500", "+691", "+298", "+33", "+241", "+44", "+995", "+233", "+350", "+299", "+220", "+224", "+240", "+30", "+502", "+245", "+592", "+852", "+504", "+385", "+509", "+36", "+62", "+353", "+972", "+44", "+91", "+964", "+98", "+39", "+962", "+81", "+254", "+996", "+855", "+686", "+269", "+850", "+965", "+7", "+856", "+961", "+423", "+94", "+231", "+266", "+370", "+352", "+371", "+218", "+212", "+377", "+373", "+382", "+261", "+692", "+389", "+223", "+95", "+976", "+853", "+222", "+356", "+230", "+960", "+265", "+52", "+60", "+258", "+264", "+687", "+227", "+234", "+505", "+31", "+47", "+977", "+674", "+683", "+64", "+968", "+507", "+51", "+689", "+675", "+63", "+92", "+48", "+508", "+870", "+1", "+351", "+680", "+595", "+974", "+40", "+381", "+7", "+250", "+966", "+677", "+248", "+249", "+46", "+65", "+290", "+386", "+421", "+232", "+378", "+221", "+252", "+597", "+239", "+503", "+963", "+268", "+235", "+228", "+66", "+992", "+690", "+670", "+993", "+216", "+676", "+90", "+688", "+886", "+255", "+380", "+256", "+1", "+598", "+998", "+39", "+58", "+84", "+678", "+681", "+685", "+967", "+262", "+27", "+260", "+263")
     var option_phone = arrayOf("+82")
     lateinit var adapter: ArrayAdapter<String>
     var searchtype = "phone"
@@ -37,9 +39,9 @@ class Friend_phone_Fragment : Fragment()  {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
 //        progressDialog = ProgressDialog(myContext)
-        progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
+        progressDialog = ProgressDialog(myContext, com.devstories.nomadnote_android.R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
-        return inflater.inflate(R.layout.fra_friend_phoone, container, false)
+        return inflater.inflate(com.devstories.nomadnote_android.R.layout.fra_friend_phoone, container, false)
 
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +59,10 @@ class Friend_phone_Fragment : Fragment()  {
        /* search2IV.setOnClickListener {
             loadInfo()
         }*/
-        adapter = ArrayAdapter(myContext, R.layout.spiner_item, option_phone)
+
+
+
+        adapter = ArrayAdapter(myContext, com.devstories.nomadnote_android.R.layout.spiner_item, m_Codes)
         phoneSP.adapter = adapter
 
 
@@ -139,9 +144,9 @@ class Friend_phone_Fragment : Fragment()  {
                         pem_id = Utils.getString(member,"id")
 
                         if (gender == "M"){
-                            genderIV.setImageResource(R.mipmap.man)
+                            genderIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.man)
                         }else if (gender =="F"){
-                            genderIV.setImageResource(R.mipmap.famal)
+                            genderIV.setImageResource(com.devstories.nomadnote_android.R.mipmap.famal)
                         }
                         nameTV.setText(name)
                         statTV.setText(age.toString()+"세")
