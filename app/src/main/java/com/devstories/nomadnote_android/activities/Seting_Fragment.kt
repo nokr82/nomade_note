@@ -488,10 +488,10 @@ class Seting_Fragment : Fragment() {
                 val grantResult = grantResults[i]
                 if (permission == android.Manifest.permission.READ_EXTERNAL_STORAGE) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(myContext, "허용했으니 가능함", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(myContext, "허용했으니 가능함", Toast.LENGTH_LONG).show()
                         permissionCheck = true
                     } else {
-                        Toast.makeText(myContext, "허용하지 않으면 공유 못함 ㅋ", Toast.LENGTH_LONG).show()
+//                        Toast.makeText(myContext, "허용하지 않으면 공유 못함 ㅋ", Toast.LENGTH_LONG).show()
                         permissionCheck = false
                     }
                 }
