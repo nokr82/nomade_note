@@ -102,7 +102,12 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         } else {
             var language = Locale.getDefault().language
             if(language == "en" || language == "ja") {
-                item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
+                if (countryTimelineActivity!=null){
+                    item.costTV.setText(countryTimelineActivity!!.getString(R.string.unit) + cost)
+                }else{
+                    item.costTV.setText(mapSearchActivity!!.getString(R.string.unit) + cost)
+                }
+
             } else {
                 item.costTV.setText(cost + context.getString(R.string.unit))
             }

@@ -5,10 +5,12 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
+import com.loopj.android.http.AsyncHttpClient.log
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -96,6 +98,7 @@ class CountryTimelineActivity : RootActivity() {
                         }
 
                         val datas = response!!.getJSONArray("timeline")
+                        Log.d("국가별",datas.toString())
                         if (datas.length() > 0){
                             for (i in 0 until datas.length()){
                                 val timeline = datas.get(i) as JSONObject
