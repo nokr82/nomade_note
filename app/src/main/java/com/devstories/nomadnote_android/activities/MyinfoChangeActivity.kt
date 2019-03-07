@@ -57,6 +57,11 @@ class MyinfoChangeActivity : RootActivity() {
             finish()
         }
 
+        companyinfoTV.setOnClickListener {
+            var intent = Intent(context, CompanyInfomationActivity::class.java)
+            startActivity(intent)
+        }
+
         manLL.setOnClickListener {
             setmenu()
             manIV.visibility = View.VISIBLE

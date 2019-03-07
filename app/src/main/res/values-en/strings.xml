@@ -196,5 +196,6 @@
     <string name="voucher_block_error">차단된 시리얼 코드입니다.</string>
     <string name="voucher_use">사용되었습니다.</string>
     <string name="started_message">Click on "Get started" to agree to Terms and Conditions and Private Information Processing Policy, GPS Service Terms and Conditions.</string>
+    <string name="chk_info">Agree to Private Information</string>
 
 </resources>

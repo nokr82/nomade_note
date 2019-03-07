@@ -122,14 +122,44 @@
 
 
                 <LinearLayout
+                    android:layout_marginTop="35dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center">
 
+                    <LinearLayout
+                        android:id="@+id/chkinfoLL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="개인정보 동의하기"/>
+                        android:text="@string/chk_info"
+                        android:textColor="#878787"/>
+
+                    <LinearLayout
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@mipmap/rectangle"/>
+                            <ImageView
+                                android:visibility="gone"
+                                android:id="@+id/fillIV"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/fill"/>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -138,7 +168,7 @@
                     android:id="@+id/joinTV"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/background_border_radius1_000000"
                     android:gravity="center"
                     android:text="@string/joinTV_text"
