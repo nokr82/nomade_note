@@ -213,5 +213,6 @@
     <string name="success_member">a successful accession</string>
     <string name="delete_message">Delete</string>
     <string name="find_email">Find by registered email</string>
+    <string name="back_message">Press the \'Back\' button once more to exit.</string>
 
 </resources>
