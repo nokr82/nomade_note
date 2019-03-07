@@ -114,7 +114,7 @@ class Friend_id_Fragment : Fragment()  {
                             genderIV.setImageResource(R.mipmap.famal)
                         }
                         nameTV.setText(name)
-                        statTV.setText(age.toString()+"세")
+                        statTV.setText(age.toString()+getString(R.string.age))
 
                     } else {
                         Toast.makeText(myContext, getString(R.string.add_friends_empty), Toast.LENGTH_LONG).show()
