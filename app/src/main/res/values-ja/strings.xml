@@ -249,5 +249,7 @@
     <string name="voucher_use">사용되었습니다.</string>
     <string name="started_message">｢スタート」を押して利用約款及び個人情報処理方針、位置基盤サービス利用約款に同意してください。</string>
     <string name="chk_info">個人情報に同意する。</string>
+    <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
+    <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
 
 </resources>

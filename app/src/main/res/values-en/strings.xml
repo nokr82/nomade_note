@@ -197,5 +197,7 @@
     <string name="voucher_use">사용되었습니다.</string>
     <string name="started_message">Click on "Get started" to agree to Terms and Conditions and Private Information Processing Policy, GPS Service Terms and Conditions.</string>
     <string name="chk_info">Agree to Private Information</string>
+    <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
+    <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
 
 </resources>

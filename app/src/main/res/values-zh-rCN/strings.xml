@@ -205,5 +205,7 @@
     <string name="voucher_use">사용되었습니다.</string>
     <string name="started_message">按下开始，请同意使用条款及个人信息处理方针、以位置为基础的服务使用条款。</string>
     <string name="chk_info">同意个人信息</string>
+    <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
+    <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
 
 </resources>

@@ -34,5 +34,9 @@ object JoinAction {
         HttpClient.post("/api/join/check_phone", params, handler)
     }
 
+    fun find_pw_by_sns(params: RequestParams, handler: JsonHttpResponseHandler) {
+        HttpClient.post("/api/join/find_pw_by_sns", params, handler)
+    }
+
 
 }
