@@ -244,7 +244,7 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
                 if (lastVisibleItemPosition == itemTotalCount) {
                     if (totalPage > page) {
                         page++
-                        lastcount = totalItemCountScroll
+//                        lastcount = totalItemCountScroll
 
                         loadData()
                     }
