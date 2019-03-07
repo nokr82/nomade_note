@@ -112,7 +112,7 @@ class IntroActivity : RootActivity() {
                     stopIntro()
                 }
             }
-        }
+        } 
         (splashThread as Thread).start()
 
         val buldle = intent.extras
