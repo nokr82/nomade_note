@@ -51,6 +51,7 @@ class SoloItemAdapter(private val context:Context, private val activity:Activity
         var cost = Utils.getString(item, "cost")
         var contents = Utils.getString(item, "contents")
         var created = Utils.getString(item, "created_at")
+        var cost_str = Utils.getString(item, "cost_str")
 
 
         val holder = holder as SoloItemHolder
@@ -78,11 +79,22 @@ class SoloItemAdapter(private val context:Context, private val activity:Activity
         holder.placeTV.text = place_name
         holder.durationTV.text = duration
 //        holder.costTV.setText(cost + "$ ")
+//        var language = Locale.getDefault().language
+//        if(language == "en" || language == "ja") {
+//            holder.costTV.text = activity.getString(R.string.unit) + cost
+//        } else {
+//            holder.costTV.text = cost + activity.getString(R.string.unit)
+//        }
         var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            holder.costTV.text = activity.getString(R.string.unit) + cost
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            holder.costTV.setText(cost_str)
         } else {
-            holder.costTV.text = cost + activity.getString(R.string.unit)
+            if (language == "en" || language == "ja") {
+                holder.costTV.setText(context.getString(R.string.unit) + cost)
+            } else {
+                holder.costTV.setText(cost + context.getString(R.string.unit))
+            }
         }
 
         holder.contentTV.text = contents
