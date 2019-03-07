@@ -355,8 +355,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center_horizontal"
-                        android:padding="10dp"
-                        android:visibility="gone">
+                        android:padding="10dp">
 
                         <LinearLayout
                             android:layout_width="150dp"
@@ -387,7 +386,7 @@
 
                                 <ImageView
                                     android:layout_width="15dp"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="24dp"
                                     android:layout_weight="1"
                                     android:padding="7dp"
                                     android:src="@mipmap/deletebt" />

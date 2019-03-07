@@ -37,9 +37,9 @@
     <!--로마-->
     <string name="activity_write_healing">Healing Style</string>
     <!--힐링 스타일-->
-    <string name="activity_write_hotplace">Popular Destinations</string>
+    <string name="activity_write_hotplace">Hot Place</string>
     <string name="culturalstyle">Cultural Style</string>
-    <string name="historicalstyle">Historical Style</string>
+    <string name="historicalstyle">History Style</string>
     <string name="museumstyle">Museum Style</string>
     <string name="entertext">Enter text</string>
     <string name="builderwanttopost">Do you want to post?</string>
