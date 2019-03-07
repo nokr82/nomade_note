@@ -222,5 +222,7 @@
     <string name="delete_message">删除</string>
     <string name="find_email">用已登记的电子邮件查找</string>
     <string name="back_message">再按一次"向后"键即可结束。</string>
+    <string name="duration_time">平均停留时间</string>
+    <string name="consumption_amount">平均消费时间</string>
 
 </resources>

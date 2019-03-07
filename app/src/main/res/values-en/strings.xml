@@ -214,5 +214,7 @@
     <string name="delete_message">Delete</string>
     <string name="find_email">Find by registered email</string>
     <string name="back_message">Press the \'Back\' button once more to exit.</string>
+    <string name="duration_time">Average duration time</string>
+    <string name="consumption_amount">Average consumption amount</string>
 
 </resources>
