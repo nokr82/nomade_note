@@ -73,6 +73,7 @@ class Solo_detail_Activity : RootActivity() {
     var timeline_id = ""
     var qnas_id = ""
     var menu_position = 1
+    var modify = false
 
     var MODIFY = 100
     var block = ""
@@ -164,6 +165,12 @@ class Solo_detail_Activity : RootActivity() {
 
     fun click() {
         titleBackLL.setOnClickListener {
+            if (modify == true) {
+                var intent = Intent()
+                intent.putExtra("timeline_id", timeline_id)
+                setResult(RESULT_OK, intent);
+            }
+            Utils.hideKeyboard(context)
             finish()
         }
 
@@ -548,6 +555,7 @@ class Solo_detail_Activity : RootActivity() {
                     if (data!!.getStringExtra("reset") != null) {
                         timeline_id = data!!.getStringExtra("timeline_id")
                         detail_timeline()
+                        modify = true
                     }
                 }
 
@@ -579,6 +587,7 @@ class Solo_detail_Activity : RootActivity() {
                     if (result == "ok") {
                         var intent = Intent()
                         intent.putExtra("reset", "reset")
+                        intent.putExtra("timeline_id",timeline_id)
                         intent.action = "DELETE_TIMELINE"
                         sendBroadcast(intent)
                         setResult(RESULT_OK, intent);
@@ -1181,6 +1190,13 @@ class Solo_detail_Activity : RootActivity() {
     }
 
     override fun onBackPressed() {
+
+        if (modify == true){
+            var intent = Intent()
+            intent.putExtra("timeline_id",timeline_id)
+            setResult(RESULT_OK, intent);
+        }
+
         finish()
         Utils.hideKeyboard(context)
     }

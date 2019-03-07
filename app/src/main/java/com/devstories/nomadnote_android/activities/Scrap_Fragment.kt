@@ -1,9 +1,13 @@
 package com.devstories.nomadnote_android.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -74,6 +78,17 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
 
     private var visibleThreshold = 2
 
+    val SELECT_TIMELINE = 1000
+
+    internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                var timeline_id = intent.getStringExtra("timeline_id")
+                detail_timeline(timeline_id)
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
@@ -96,6 +111,13 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
         super.onActivityCreated(savedInstanceState)
         activity = getActivity() as MainActivity
         activity.titleLL.visibility = View.GONE
+
+        val filter1 = IntentFilter("UPDATE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter1)
+
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter2)
+
         click()
 
         getTimeline()
@@ -145,6 +167,13 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             progressDialog!!.dismiss()
         }
 
+        try {
+            if (ResetReceiver != null) {
+                context!!.unregisterReceiver(ResetReceiver)
+            }
+        } catch (e: IllegalArgumentException) {
+        }
+
     }
 
     fun click(){
@@ -160,7 +189,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
 
             val intent = Intent(myContext, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
-            startActivity(intent)
+            startActivityForResult(intent,SELECT_TIMELINE)
         }
 
         searchIV.setOnClickListener {
@@ -699,6 +728,78 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
     override fun onPause() {
         super.onPause()
         keywordET.setText("")
+    }
+
+    fun detail_timeline(timeline_id:String) {
+        val params = RequestParams()
+        params.put("timeline_id", timeline_id)
+
+        TimelineAction.detail_timeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result = Utils.getString(response, "result")
+                    if ("ok" == result) {
+                        var timeline = response!!.getJSONObject("timeline")
+                        val data_id = Utils.getString(timeline,"id")
+                        for (i in 0 until timelineDatas.size){
+                            val item = timelineDatas.get(i)
+                            val id = Utils.getString(item,"id")
+                            if (data_id == id){
+                                timelineDatas.set(i,timeline)
+                            }
+                        }
+                        timelineAdapter.notifyDataSetChanged()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+        })
+
+    }
+
+    @SuppressLint("NewApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            when (requestCode) {
+                SELECT_TIMELINE-> {
+                    if (data!!.getStringExtra("timeline_id") != null) {
+                        val timeline_id = data!!.getStringExtra("timeline_id")
+                        for (i in 0 until timelineDatas.size){
+                            val item = timelineDatas.get(i)
+                            val id = Utils.getString(item,"id")
+                            if (timeline_id == id){
+                                timelineDatas.removeAt(i)
+                                break
+                            }
+                        }
+                        timelineAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+
     }
 
 }

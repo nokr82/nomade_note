@@ -78,12 +78,14 @@ open class PlaceAdapter(context: Context, view:Int, data:ArrayList<JSONObject>, 
         var createdsplit = created.split(" ")
         var timesplit = createdsplit.get(1).split(":")
 
+        if (gender =="M"){
+            item.profileIV.setImageResource(R.mipmap.man)
+        }else{
+            item.profileIV.setImageResource(R.mipmap.famal)
+        }
+
         if (profile.length < 1) {
-            if (gender =="M"){
-                item.profileIV.setImageResource(R.mipmap.man)
-            }else{
-                item.profileIV.setImageResource(R.mipmap.famal)
-            }
+
         } else {
 
             var uri = Config.url + profile
