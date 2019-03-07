@@ -705,6 +705,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             marker.isVisible = false
 
             markers.add(marker)
+
+
+            if(i == 0) {
+                val cu = CameraUpdateFactory.newLatLngZoom(latlng, 14.1f)
+                googleMap!!.animateCamera(cu)
+            }
+
         }
 
         // fitBounds()
