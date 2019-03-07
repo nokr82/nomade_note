@@ -163,6 +163,23 @@ class FindIDAndPasswdActivity : RootActivity() {
             phoneidLL.visibility = View.VISIBLE
             sendphoneTV.setText(getString(R.string.send_code))
             sendemailTV.setText(getString(R.string.send_code))
+        }else{
+            logoTV.text = getString(R.string.find_id)
+            idV.visibility = View.VISIBLE
+            passwordV.visibility = View.GONE
+            idTV.setTextColor(Color.parseColor("#000000"))
+            passwordTV.setTextColor(Color.parseColor("#878787"))
+            snsLL.visibility = View.GONE
+            snsV.visibility = View.GONE
+            idandpasswordTV.visibility = View.VISIBLE
+            idandpasswordLL.visibility = View.GONE
+            emailidLL.visibility = View.GONE
+            phoneidLL.visibility = View.GONE
+            phoneidET.setText("")
+            idET.setText("")
+            sendphoneTV.setText(getString(R.string.confirm))
+            sendemailTV.setText(getString(R.string.confirm))
+            type = "id"
         }
 
         titleBackLL.setOnClickListener {
@@ -932,6 +949,9 @@ class FindIDAndPasswdActivity : RootActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
+        if (callback != null) {
+            Session.getCurrentSession().removeCallback(callback)
+        }
 
         if (progressDialog != null) {
             progressDialog!!.dismiss()

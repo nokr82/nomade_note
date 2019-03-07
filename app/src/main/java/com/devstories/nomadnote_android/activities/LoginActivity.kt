@@ -142,9 +142,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 //            println("login:::::::is_push:::::::::::::$is_push last_id::$last_id::::::::created=$created")
 //        }
 
-        callback = SessionCallback()
-        Session.getCurrentSession().addCallback(callback)
-
         FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
         userManagement = UserManagement.getInstance()
@@ -691,6 +688,11 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        callback = SessionCallback()
+        Session.getCurrentSession().addCallback(callback)
+    }
 
     override fun onDestroy() {
         super.onDestroy()
