@@ -224,7 +224,7 @@ class FindIDAndPasswdActivity : RootActivity() {
         }
 
         idLL.setOnClickListener {
-            logoTV.text = getString(R.string.find_password)
+            logoTV.text = getString(R.string.find_id)
             idV.visibility = View.VISIBLE
             passwordV.visibility = View.GONE
             idTV.setTextColor(Color.parseColor("#000000"))
