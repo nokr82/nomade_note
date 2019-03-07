@@ -20,7 +20,10 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -88,6 +91,7 @@ class Solo_detail_Activity : RootActivity() {
     lateinit var data:JSONObject;
 
     var bytes = 0
+    var imageindex = 1
 
     lateinit var activity : Solo_detail_Activity
 
@@ -129,12 +133,14 @@ class Solo_detail_Activity : RootActivity() {
             }
 
             override fun onPageScrollStateChanged(state: Int) {
-
+                circleLL.removeAllViews()
                 for (i in imagePaths.indices) {
                     if (i == adPosition) {
-//                        addDot(circleLL, true)
+                        addDot(circleLL, true)
+                        imageindex = i + 1
+                        imageindexTV.setText(imageindex.toString() + "/"+imagePaths.size.toString())
                     } else {
-//                        addDot(circleLL, false)
+                        addDot(circleLL, false)
                     }
                 }
             }
@@ -229,7 +235,7 @@ class Solo_detail_Activity : RootActivity() {
         }
 
 
-        translateIV.setOnClickListener {
+        translateLL.setOnClickListener {
             translatedTV.text = "translated"
 
             val task = TranslateAsyncTask(context, it, data, translatedTV)
@@ -310,6 +316,7 @@ class Solo_detail_Activity : RootActivity() {
                             if (imagePaths != null) {
                                 imagePaths.clear()
                             }
+                            imageindexLL.visibility = View.VISIBLE
 
                             pagerVP.visibility = View.VISIBLE
                             logoIV.visibility = View.GONE
@@ -333,7 +340,15 @@ class Solo_detail_Activity : RootActivity() {
                                 imagePaths.add(image_item)
                                 share_image_uri = image_uri
 
+                                if (i == 0) {
+                                    addDot(circleLL, true)
+                                } else {
+                                    addDot(circleLL, false)
+                                }
+
                             }
+
+                            imageindexTV.setText(imageindex.toString() + "/"+imagePaths.size.toString())
                             fullScreenAdapter.notifyDataSetChanged()
                         } else {
                             pagerVP.visibility = View.GONE
@@ -1268,6 +1283,28 @@ class Solo_detail_Activity : RootActivity() {
             }
 
         }
+    }
+
+    private fun addDot(circleLL: LinearLayout, selected: Boolean) {
+        val iv = ImageView(context)
+        if (selected) {
+            iv.setBackgroundResource(R.drawable.circle_background1)
+        } else {
+            iv.setBackgroundResource(R.drawable.circle_background2)
+        }
+
+        val width = Utils.pxToDp(6.0f).toInt()
+        val height = Utils.pxToDp(6.0f).toInt()
+
+        iv.layoutParams = LinearLayout.LayoutParams(width, height)
+        iv.scaleType = ImageView.ScaleType.CENTER_CROP
+
+        val lpt = iv.layoutParams as ViewGroup.MarginLayoutParams
+        val marginRight = Utils.pxToDp(7.0f).toInt()
+        lpt.setMargins(0, 0, marginRight, 0)
+        iv.layoutParams = lpt
+
+        circleLL.addView(iv)
     }
 
 }

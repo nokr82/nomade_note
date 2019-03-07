@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
@@ -32,7 +33,7 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.random.Random
 
-open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
+open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
     override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
 
     }
@@ -115,6 +116,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         activity.registerReceiver(deleteReciver, filter2)
 
 
+
         my_recycler_view.apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -122,14 +124,14 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
             // use a linear layout manager
             val gridLayoutManager = GridLayoutManager(myContext, 6)
-            gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
 
                     val remainder = position % 5
                     val random = Random.nextInt(1, 3)
 
 
-                    return when(position % 6) {
+                    return when (position % 6) {
                         0 -> 6
                         1 -> 3
                         2 -> 3
@@ -167,7 +169,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
             val soloItemAdapter = SoloItemAdapter(myContext, activity, timelineDatas)
             adapter = soloItemAdapter
 
-            val recyclerItemClickListener = RecyclerItemClickListener(activity, this, object: RecyclerItemClickListener.OnItemClickListener {
+            val recyclerItemClickListener = RecyclerItemClickListener(activity, this, object : RecyclerItemClickListener.OnItemClickListener {
                 override fun onItemClick(view: View?, position: Int) {
 
                     val item = timelineDatas.get(position)
@@ -187,7 +189,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
             addOnItemTouchListener(recyclerItemClickListener)
 
-            val simpleItemTouchCallback = object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
                 override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
 
                     val fromPosition = source.adapterPosition
@@ -232,13 +234,32 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
         loadFriendRequestData()
 
+        my_recycler_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx:Int, dy:Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                var lastVisibleItemPosition = (recyclerView.getLayoutManager() as LinearLayoutManager).findLastCompletelyVisibleItemPosition();
+                var itemTotalCount = recyclerView.getAdapter()!!.getItemCount() - 1;
+
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    if (totalPage > page) {
+                        page++
+//                        lastcount = totalItemCountScroll
+
+                        loadData()
+                    }
+                }
+
+            }
+        })
+
         /*
         gridGV.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
 
             }
 
-            override fun onScrollStateChanged(gridGV:AbsListView, newState: Int) {
+            override fun onScrollStateChanged(gridGV: AbsListView, newState: Int) {
 
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                     userScrolled = true
@@ -247,7 +268,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                 }
 
                 if (!gridGV.canScrollVertically(-1)) {
-                    page=1
+                    page = 1
                     loadData()
                 } else if (!gridGV.canScrollVertically(1)) {
                     if (totalPage > page) {
@@ -287,7 +308,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
         gridGV.setOnItemClickListener { parent, view, position, id ->
 
-//            val timeline = timelineDatas.get(position) as JSONArray
+            //            val timeline = timelineDatas.get(position) as JSONArray
 //
 //            val timeline_id = Utils.getString(timeline, "id")
 //
@@ -328,7 +349,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                     progressDialog!!.dismiss()
                 }
 
-                if(activity == null || !isAdded) {
+                if (activity == null || !isAdded) {
                     return
                 }
 
@@ -336,7 +357,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
-                        if (page == 1){
+                        if (page == 1) {
                             timelineDatas.clear()
                         }
                         totalPage = response!!.getInt("last_page")
@@ -723,7 +744,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         super.onPause()
         keywordET.setText("")
     }
-
 
 
 }

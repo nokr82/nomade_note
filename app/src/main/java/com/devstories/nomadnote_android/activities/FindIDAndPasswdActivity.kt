@@ -120,9 +120,9 @@ class FindIDAndPasswdActivity : RootActivity() {
 
         spinnerItem.add(getString(R.string.direct_input))
         get_emaillist()
-        var spinnerAdpater = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, spinnerItem)
+        var spinnerAdpater = ArrayAdapter(context, R.layout.spiner_item, spinnerItem)
         spinnerS.adapter = spinnerAdpater
-
+        spinnerAdpater.setDropDownViewResource(R.layout.spiner_item)
         spinnerS.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -150,6 +150,7 @@ class FindIDAndPasswdActivity : RootActivity() {
         var intent = getIntent()
         type = intent.getStringExtra("type")
         if (type == "password"){
+            logoTV.text = getString(R.string.find_password)
             idV.visibility = View.GONE
             passwordV.visibility = View.VISIBLE
             idTV.setTextColor(Color.parseColor("#878787"))
@@ -223,6 +224,7 @@ class FindIDAndPasswdActivity : RootActivity() {
         }
 
         idLL.setOnClickListener {
+            logoTV.setText(getString(R.string.find_id))
             idV.visibility = View.VISIBLE
             passwordV.visibility = View.GONE
             idTV.setTextColor(Color.parseColor("#000000"))
@@ -241,6 +243,7 @@ class FindIDAndPasswdActivity : RootActivity() {
         }
 
         passwordLL.setOnClickListener {
+            logoTV.setText(getString(R.string.find_password))
             idV.visibility = View.GONE
             passwordV.visibility = View.VISIBLE
             idTV.setTextColor(Color.parseColor("#878787"))
