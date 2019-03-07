@@ -31,7 +31,11 @@ import com.devstories.nomadnote_android.actions.QnasAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
 import com.devstories.nomadnote_android.base.*
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.FacebookSdk
+import com.facebook.share.Sharer
 import com.facebook.share.model.SharePhoto
 import com.facebook.share.model.SharePhotoContent
 import com.facebook.share.model.ShareVideo
@@ -91,6 +95,8 @@ class Solo_detail_Activity : RootActivity() {
 
     lateinit var activity : Solo_detail_Activity
 
+    private lateinit var callbackManager: CallbackManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -103,6 +109,7 @@ class Solo_detail_Activity : RootActivity() {
 
         GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "게시글 상세")
 
+        callbackManager = CallbackManager.Factory.create();
 
         this.activity = this
         this.context = this
@@ -552,6 +559,7 @@ class Solo_detail_Activity : RootActivity() {
             }
         }
 
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     fun delete_timeline() {
@@ -950,7 +958,7 @@ class Solo_detail_Activity : RootActivity() {
 
             Handler().postDelayed({
                 contentResolver.delete(instagramShareUri, null, null)
-            }, 5000)
+            }, 1000 * 30)
 
         } catch (e: ActivityNotFoundException) {
             e.printStackTrace()
@@ -1044,9 +1052,26 @@ class Solo_detail_Activity : RootActivity() {
                             .build();
                     val shareDialog = ShareDialog(activity)
 
+                    shareDialog.registerCallback(callbackManager, object: FacebookCallback<Sharer.Result> {
+                        override fun onSuccess(result: Sharer.Result?) {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+
+                        override fun onError(error: FacebookException?) {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+
+                        override fun onCancel() {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+                    })
+
                     if (ShareDialog.canShow(ShareVideoContent::class.java)) {
                         shareDialog.show(content);
                     } else{
+
+                        contentResolver.delete(facebookShareUri, null, null)
+
                         Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
                     }
 
@@ -1060,13 +1085,34 @@ class Solo_detail_Activity : RootActivity() {
                             .build();
                     val shareDialog = ShareDialog(activity)
 
+                    shareDialog.registerCallback(callbackManager, object: FacebookCallback<Sharer.Result> {
+                        override fun onSuccess(result: Sharer.Result?) {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+
+                        override fun onError(error: FacebookException?) {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+
+                        override fun onCancel() {
+                            contentResolver.delete(facebookShareUri, null, null)
+                        }
+                    })
+
                     if (ShareDialog.canShow(SharePhotoContent::class.java)) {
                         shareDialog.show(content);
                     } else{
+
+                        contentResolver.delete(facebookShareUri, null, null)
+
                         Toast.makeText(context, getString(R.string.facebook_required), Toast.LENGTH_SHORT).show()
                     }
 
                 }
+
+                Handler().postDelayed({
+                    contentResolver.delete(facebookShareUri, null, null)
+                }, 1000 * 30)
 
             })
         }).execute(uri);

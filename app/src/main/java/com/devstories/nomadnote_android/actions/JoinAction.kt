@@ -38,5 +38,4 @@ object JoinAction {
         HttpClient.post("/api/join/find_pw_by_sns", params, handler)
     }
 
-
 }
