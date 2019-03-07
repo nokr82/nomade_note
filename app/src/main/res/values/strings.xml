@@ -202,6 +202,11 @@
     <string name="info_check">개인정보 동의하기에 동의해주세요.</string>
     <string name="already_email">이미 사용중인 이메일입니다.</string>
     <string name="enter_are">지역은 필수입력 입니다.</string>
+    <string name="add_friends_empty">일치하는 회원이 존재하지 않습니다.</string>
+    <string name="add_friends">추가하였습니다.</string>
+    <string name="add_friends_already">이미 친구입니다.</string>
+    <string name="age">세</string>
+
 
 
 </resources>

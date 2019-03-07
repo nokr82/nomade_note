@@ -40,6 +40,8 @@ class MemberInputActivity : RootActivity() {
     var age = ""
     var phone = ""
 
+    var notice_type = -1
+
     var FEMALE = 100
     var MALE = 101
 
@@ -68,6 +70,24 @@ class MemberInputActivity : RootActivity() {
     }
 
     fun click(){
+        companyinfoTV.setOnClickListener {
+            var intent = Intent(context, CompanyInfomationActivity::class.java)
+            startActivity(intent)
+        }
+        privacyTV.setOnClickListener {
+            notice_type=2
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
+        serviceTV.setOnClickListener {
+            notice_type=3
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
+
+
         manLL.setOnClickListener {
             setmenu()
             gender = "M"

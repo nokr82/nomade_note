@@ -114,10 +114,10 @@ class Friend_id_Fragment : Fragment()  {
                             genderIV.setImageResource(R.mipmap.famal)
                         }
                         nameTV.setText(name)
-                        statTV.setText(age.toString()+"세")
+                        statTV.setText(age.toString()+getString(R.string.age))
 
                     } else {
-                        Toast.makeText(myContext, "일치하는 회원이 존재하지 않습니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(myContext, getString(R.string.add_friends_empty), Toast.LENGTH_LONG).show()
                     }
 
                 } catch (e: JSONException) {
@@ -187,9 +187,9 @@ class Friend_id_Fragment : Fragment()  {
 
                     if ("ok" == result) {
                         addTV.visibility = View.GONE
-                        Toast.makeText(myContext, "추가하였습니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(myContext, getString(R.string.add_friends), Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(myContext, "이미 친구입니다.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(myContext, getString(R.string.add_friends_already), Toast.LENGTH_LONG).show()
                     }
 
                 } catch (e: JSONException) {

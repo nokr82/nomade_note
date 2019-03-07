@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.FindIDAndPasswdActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activities.FindIDAndPasswdActivity">
 
     <RelativeLayout
         android:id="@+id/titleLL"
@@ -16,27 +16,25 @@
             android:id="@+id/titleBackLL"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="25dp"
-            android:paddingRight="10dp"
             android:gravity="center"
-            >
+            android:paddingLeft="25dp"
+            android:paddingRight="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/back"/>
+                android:src="@mipmap/back" />
 
         </LinearLayout>
 
 
-
-            <TextView
-                android:id="@+id/logoTV"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="@string/find_id"/>
+        <TextView
+            android:id="@+id/logoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/find_id"
+            android:textSize="15sp" />
 
 
     </RelativeLayout>
@@ -118,7 +116,6 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
             <View
@@ -129,9 +126,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="20dp">
+                android:layout_marginBottom="12dp">
+
                 <TextView
                     android:id="@+id/idandpasswordTV"
                     android:layout_width="wrap_content"
@@ -139,13 +137,15 @@
                     android:gravity="center"
                     android:text="@string/find_id_choice"
                     android:textColor="#9B9B9B"
-                    android:textSize="13dp"/>
+                    android:textSize="13dp" />
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/idandpasswordLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -153,14 +153,15 @@
                         android:gravity="bottom"
                         android:text="@string/find_password_choice"
                         android:textColor="#9B9B9B"
-                        android:textSize="13dp"/>
+                        android:textSize="13dp" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/identity_verification"
                         android:textColor="#9B9B9B"
-                        android:textSize="13dp"/>
+                        android:textSize="13dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -168,7 +169,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
-                android:background="#d7d7d7"/>
+                android:background="#d7d7d7" />
 
             <LinearLayout
                 android:id="@+id/findphoneLL"
@@ -194,7 +195,7 @@
                     android:padding="17dp"
                     android:src="@mipmap/icon_arrow" />
 
-        </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/phoneV"
@@ -203,32 +204,32 @@
                 android:background="#9b9b9b" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/op_phoneLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/phoneidLL"
-                    android:visibility="gone"
-                    android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="22dp"
-                    android:gravity="center_vertical">
+                    android:background="@drawable/background_border_radius13"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/phoneidET"
-                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:hint="@string/id"
                         android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/id"
+                        android:padding="5dp"
                         android:singleLine="true"
                         android:textColor="#878787"
                         android:textSize="12sp" />
@@ -236,23 +237,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
+                    android:background="@drawable/background_border_radius13"
                     android:gravity="center_vertical">
 
                     <EditText
                         android:id="@+id/nameET"
-                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:hint="@string/name"
                         android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/name"
+                        android:padding="5dp"
                         android:singleLine="true"
                         android:textColor="#878787"
                         android:textSize="12sp" />
@@ -260,24 +261,24 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
+                    android:background="@drawable/background_border_radius13"
                     android:gravity="center_vertical">
 
                     <EditText
                         android:id="@+id/phoneET"
-                        android:inputType="number"
-                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:hint="@string/phon_edit_message"
                         android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/phon_edit_message"
+                        android:inputType="number"
+                        android:padding="5dp"
                         android:singleLine="true"
                         android:textColor="#878787"
                         android:textSize="12sp" />
@@ -286,17 +287,16 @@
 
                 <TextView
                     android:id="@+id/sendphoneTV"
-                    android:background="@drawable/background_border_radius14"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginBottom="15dp"
+                    android:background="@drawable/background_border_radius14"
+                    android:gravity="center"
                     android:text="@string/confirm"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center" />
-
+                    android:textColor="#FFFFFF" />
 
 
                 <View
@@ -347,27 +347,26 @@
                 android:visibility="gone">
 
 
-
                 <LinearLayout
                     android:id="@+id/emailidLL"
-                    android:visibility="gone"
-                    android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="22dp"
-                    android:gravity="center_vertical">
+                    android:background="@drawable/background_border_radius13"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/idET"
-                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:hint="@string/id"
                         android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/id"
+                        android:padding="5dp"
                         android:singleLine="true"
                         android:textColor="#878787"
                         android:textSize="12sp" />
@@ -375,23 +374,23 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:background="@drawable/background_border_radius13"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
+                    android:background="@drawable/background_border_radius13"
                     android:gravity="center_vertical">
 
                     <EditText
                         android:id="@+id/emailnameET"
-                        android:padding="5dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:hint="@string/name"
                         android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/name"
+                        android:padding="5dp"
                         android:singleLine="true"
                         android:textColor="#878787"
                         android:textSize="12sp" />
@@ -407,56 +406,59 @@
                     android:gravity="center_vertical">
 
                     <LinearLayout
-                        android:background="@drawable/background_border_radius13"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:layout_marginRight="5dp">
+                        android:background="@drawable/background_border_radius13">
+
                         <EditText
                             android:id="@+id/useremailET"
-                            android:padding="5dp"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical"
                             android:layout_weight="1"
-                            android:hint="@string/email"
                             android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="@string/email"
+                            android:padding="5dp"
                             android:singleLine="true"
                             android:textColor="#878787"
                             android:textSize="12sp" />
-                </LinearLayout>
+                    </LinearLayout>
+
                     <RelativeLayout
                         android:layout_width="150dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/background_border_radius13">
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/emailTV"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@null"
                             android:hint="@string/direct_input"
+                            android:padding="5dp"
                             android:textSize="12dp"
-                            android:padding="5dp"/>
+                            android:visibility="gone" />
 
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:padding="10dp"
+                            android:rotation="90"
+                            android:src="@mipmap/icon_arrow" />
 
-                            <ImageView
-                                android:layout_alignParentRight="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:padding="10dp"
-                                android:src="@mipmap/icon_arrow"
-                                android:rotation="90"/>
-                            <Spinner
-                                android:popupBackground="@drawable/background_border_spiner"
-                                android:paddingLeft="5dp"
-                                android:id="@+id/spinnerS"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@null"/>
+                        <Spinner
+                            android:id="@+id/spinnerS"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:paddingLeft="5dp"
+                            android:popupBackground="@drawable/background_border_spiner" />
+
                         <EditText
                             android:id="@+id/emailET"
                             android:layout_width="0dp"
@@ -464,8 +466,8 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:hint="@string/direct_input"
-                            android:textSize="12dp"
-                            android:padding="5dp"/>
+                            android:padding="5dp"
+                            android:textSize="12dp" />
                     </RelativeLayout>
 
 
@@ -473,17 +475,16 @@
 
                 <TextView
                     android:id="@+id/sendemailTV"
-                    android:background="@drawable/background_border_radius14"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginBottom="15dp"
+                    android:background="@drawable/background_border_radius14"
+                    android:gravity="center"
                     android:text="@string/confirm"
-                    android:textColor="#FFFFFF"
-                    android:gravity="center" />
-
+                    android:textColor="#FFFFFF" />
 
 
                 <View
@@ -495,10 +496,10 @@
 
             <LinearLayout
                 android:id="@+id/snsLL"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
 
                 <TextView
@@ -523,85 +524,85 @@
             </LinearLayout>
 
             <View
-                android:visibility="gone"
                 android:id="@+id/snsV"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#9b9b9b" />
+                android:background="#9b9b9b"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/op_snsLL"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SNS 계정으로 가입했거나  SNS 연결 설정한 경우 해당 SNS 로그인을 통해 비밀번호를 설정할 수 있습니다."
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
+                    android:text="SNS 계정으로 가입했거나  SNS 연결 설정한 경우 해당 SNS 로그인을 통해 비밀번호를 설정할 수 있습니다."
                     android:textColor="#9B9B9B"
-                    android:textSize="12dp"/>
+                    android:textSize="12dp" />
 
-               <LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="22dp"
                     android:gravity="center_vertical"
-                   android:orientation="horizontal">
+                    android:orientation="horizontal">
 
-                   <LinearLayout
-                       android:id="@+id/naverLL"
-                       android:layout_weight="1"
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:background="@drawable/background_naver"
-                       android:gravity="center_vertical|center">
+                    <LinearLayout
+                        android:id="@+id/naverLL"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_naver"
+                        android:gravity="center_vertical|center">
 
-                       <ImageView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:paddingRight="7dp"
-                           android:src="@mipmap/naver" />
-
-
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="@string/activity_login_naver"
-                           android:textColor="#ffffff"
-                           android:textSize="12dp" />
-
-                   </LinearLayout>
-
-                   <LinearLayout
-                       android:layout_marginLeft="10dp"
-                       android:id="@+id/kakaoLL"
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:layout_weight="1"
-                       android:background="@drawable/background_kakao"
-                       android:gravity="center_vertical|center">
-
-                       <ImageView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:paddingRight="7dp"
-                           android:src="@mipmap/kakao" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="7dp"
+                            android:src="@mipmap/naver" />
 
 
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="@string/activity_login_kakao"
-                           android:textColor="#3c1d21"
-                           android:textSize="12dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_login_naver"
+                            android:textColor="#ffffff"
+                            android:textSize="12dp" />
 
-                   </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/kakaoLL"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_kakao"
+                        android:gravity="center_vertical|center">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="7dp"
+                            android:src="@mipmap/kakao" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/activity_login_kakao"
+                            android:textColor="#3c1d21"
+                            android:textSize="12dp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -641,8 +642,8 @@
                         android:id="@+id/googleLL"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
-                        android:layout_weight="1"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
                         android:background="@drawable/background_google"
                         android:gravity="center_vertical|center">
 
@@ -665,105 +666,113 @@
                 </LinearLayout>
 
 
-
                 <View
 
-                    android:layout_marginTop="25dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="25dp"
                     android:background="#9b9b9b" />
-
+                r
             </LinearLayout>
 
 
-
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="1"
-                android:gravity="bottom">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                android:gravity="center|bottom"
+                android:orientation="vertical">
 
-                    <LinearLayout
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom">
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="22dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@mipmap/login_logo" />
+
+                    <me.grantland.widget.AutofitTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="bottom">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="22dp"
-                            android:src="@mipmap/login_logo"
-                            android:layout_marginBottom="3dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/service_center"
-                            android:textSize="12dp"
-                            android:textColor="#878787"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" 0000-0000"
-                            android:textSize="12dp"
-                            android:textColor="#878787"/>
-                    </LinearLayout>
+                        android:maxLines="1"
+                        android:text="@string/service_center"
+                        android:textColor="#878787"
+                        android:textSize="12dp"
+                        autofit:minTextSize="3dp" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/serviceTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#878787"
-                            android:text="@string/terms_and_conditions"
-                            android:textSize="12dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#878787"
-                            android:text="|"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:textSize="12dp"/>
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/privacyTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#878787"
-                            android:text="@string/private_infomation"
-                            android:textSize="12dp"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#878787"
-                            android:text="|"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:textSize="12dp"/>
-                        <me.grantland.widget.AutofitTextView
-                            android:id="@+id/companyinfoTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#878787"
-                            android:text="@string/business_infomation"
-                            android:textSize="12dp"
-                            tools:ignore="HardcodedText" />
-                    </LinearLayout>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="11dp"
+                        android:text=" 0000-0000"
                         android:textColor="#878787"
-                        android:layout_marginBottom="15dp"
-                        android:text="Copyright (c) nomadnote. All rights reserved."/>
+                        android:textSize="12dp" />
                 </LinearLayout>
 
-            </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp">
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/serviceTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="@string/terms_and_conditions"
+                        android:textColor="#878787"
+                        android:textSize="12dp"
+                        autofit:minTextSize="3dp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#878787" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/privacyTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="@string/private_infomation"
+                        android:textColor="#878787"
+                        android:textSize="12dp"
+                        autofit:minTextSize="3dp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#878787" />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:id="@+id/companyinfoTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:text="@string/business_infomation"
+                        android:textColor="#878787"
+                        android:textSize="12dp"
+                        autofit:minTextSize="3dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Copyright (c) nomadnote. All rights reserved."
+                    android:textColor="#878787"
+                    android:textSize="11dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

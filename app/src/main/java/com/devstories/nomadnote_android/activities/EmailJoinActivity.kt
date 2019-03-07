@@ -28,7 +28,7 @@ class EmailJoinActivity : RootActivity() {
     var pw = ""
     var pw2 = ""
     var email = ""
-
+    var notice_type = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_join)
@@ -47,7 +47,18 @@ class EmailJoinActivity : RootActivity() {
             var intent = Intent(context, CompanyInfomationActivity::class.java)
             startActivity(intent)
         }
-
+        privacyTV.setOnClickListener {
+            notice_type=2
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
+        serviceTV.setOnClickListener {
+            notice_type=3
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
         joinTV.setOnClickListener {
             email = Utils.getString(emailET)
             pw = Utils.getString(pwET)
