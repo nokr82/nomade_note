@@ -220,5 +220,6 @@
     <string name="age">岁</string>
     <string name="success_member">成功注册</string>
     <string name="delete_message">删除</string>
+    <string name="find_email">用已登记的电子邮件查找</string>
 
 </resources>

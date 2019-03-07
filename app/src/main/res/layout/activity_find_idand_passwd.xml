@@ -319,7 +319,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="25dp"
-                    android:text="등록된 이메일로 찾기"
+                    android:text="@string/find_email"
                     android:textColor="#878787"
                     android:textSize="12sp" />
 
