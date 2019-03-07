@@ -99,22 +99,22 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:gravity="center"
-                android:text="@string/setprofile"
-                android:textColor="#878787"
-                android:textSize="13sp" />
-
-            <TextView
                 android:id="@+id/choosegender"
+                android:layout_marginTop="18dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 android:gravity="center"
                 android:text="@string/chooseyourgender"
+                android:textColor="#878787"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setprofile"
                 android:textColor="#878787"
                 android:textSize="13sp" />
 
@@ -210,9 +210,94 @@
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 android:gravity="center"
-                android:text="시작하기를 눌러 이용약관 및 개인정보 처리방침,\n위치기반 서비스 이용약관에 동의해주세요."
+                android:text="@string/started_message"
                 android:textColor="#878787"
                 android:textSize="10sp" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="bottom">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="22dp"
+                            android:src="@mipmap/login_logo"
+                            android:layout_marginBottom="3dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/service_center"
+                            android:textSize="12dp"
+                            android:textColor="#878787"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 0000-0000"
+                            android:textSize="12dp"
+                            android:textColor="#878787"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#878787"
+                            android:text="@string/terms_and_conditions"
+                            android:textSize="12dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#878787"
+                            android:text="|"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"/>
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#878787"
+                            android:text="@string/private_infomation"
+                            android:textSize="12dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#878787"
+                            android:text="|"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:textSize="12dp"/>
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/companyinfoTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#878787"
+                            android:text="@string/business_infomation"
+                            android:textSize="12dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11dp"
+                        android:textColor="#878787"
+                        android:layout_marginBottom="15dp"
+                        android:text="Copyright (c) nomadnote. All rights reserved."/>
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
