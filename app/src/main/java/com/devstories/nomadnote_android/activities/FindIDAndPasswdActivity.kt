@@ -72,6 +72,7 @@ class FindIDAndPasswdActivity : RootActivity() {
     private lateinit var findIDAndPasswdActivity: FindIDAndPasswdActivity
 
     var type = ""
+    var notice_type = -1
     var spinnerItem:ArrayList<String> = ArrayList<String>()
     var authNumber = ""
 
@@ -168,6 +169,18 @@ class FindIDAndPasswdActivity : RootActivity() {
             Utils.hideKeyboard(this)
         }
 
+        privacyTV.setOnClickListener {
+            notice_type=2
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
+        serviceTV.setOnClickListener {
+            notice_type=3
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type",notice_type)
+            startActivity(intent)
+        }
         companyinfoTV.setOnClickListener {
             var intent = Intent(context, CompanyInfomationActivity::class.java)
             startActivity(intent)

@@ -683,7 +683,7 @@
 
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -721,6 +721,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <me.grantland.widget.AutofitTextView
+                            android:id="@+id/serviceTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#878787"
@@ -735,6 +736,7 @@
                             android:layout_marginRight="5dp"
                             android:textSize="12dp"/>
                         <me.grantland.widget.AutofitTextView
+                            android:id="@+id/privacyTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#878787"
@@ -766,7 +768,7 @@
                         android:text="Copyright (c) nomadnote. All rights reserved."/>
                 </LinearLayout>
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

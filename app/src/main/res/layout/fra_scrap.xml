@@ -146,7 +146,7 @@
             <ImageView
                 android:id="@+id/searchIV"
                 android:layout_width="18.5dp"
-                android:layout_height="14.3dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="9dp"
                 android:src="@mipmap/search_op" />

@@ -197,6 +197,8 @@
     <string name="voucher_used_error">이미 사용된 시리얼 코드입니다.</string>
     <string name="voucher_block_error">차단된 시리얼 코드입니다.</string>
     <string name="voucher_use">사용되었습니다.</string>
+    <string name="started_message">按下開始，請同意使用條款及個人信息處理方針、以位置為基礎的服務使用條款。</string>
+    <string name="chk_info">同意個人信息</string>
     <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
 
 </resources>
