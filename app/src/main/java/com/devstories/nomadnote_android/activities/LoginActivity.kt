@@ -189,12 +189,18 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         )
 
         findidTV.setOnClickListener {
+
+            Session.getCurrentSession().removeCallback(callback)
+
             val intent = Intent(context, FindIDAndPasswdActivity::class.java)
             intent.putExtra("type","id")
             startActivity(intent)
         }
 
         findpasswordTV.setOnClickListener {
+
+            Session.getCurrentSession().removeCallback(callback)
+
             val intent = Intent(context, FindIDAndPasswdActivity::class.java)
             intent.putExtra("type","password")
             startActivity(intent)
@@ -578,7 +584,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         ) { `object`, response ->
             var id: String? = null
             var name: String? = null
-            var eamil: String? = null
+            var eamil: String? = ""
 
             try {
                 if (`object`.has("id") && !`object`.isNull("id")) {
@@ -600,7 +606,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             facebook_ID = id
             facebook_NAME = name
 
-            sns_join(eamil!!, "4", facebook_ID, facebook_NAME)
+            sns_join(eamil, "4", facebook_ID, facebook_NAME)
         }
         val parameters = Bundle()
         parameters.putString("fields", "id,name,link, email")
