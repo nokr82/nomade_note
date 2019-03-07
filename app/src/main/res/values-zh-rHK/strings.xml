@@ -111,8 +111,8 @@
     <string name="enteryourage">请输入您的年龄。</string>
     <string name="total">枪</string>
     <string name="view_my_friends">添加到列表</string>
-    <string name="prd_1gb">1GB (55TWD)</string>
-    <string name="prd_600mb">600MB (31TWD)</string>
+    <string name="prd_1gb">1GB (55HKD)</string>
+    <string name="prd_600mb">600MB (31HKD)</string>
     <string name="prd_20kb">20MB (免费)</string>
     <string name="enter_question_title">请输入标题。</string>
     <string name="enter_question_contents">请输入内容</string>
@@ -126,7 +126,7 @@
     <string name="no_image_data">没有可用的图像。</string>
     <string name="instagram_not_installed">Instagram没有安装。</string>
     <string name="over_free_space">超过免费服务容量。</string>
-    <string name="unit">TWD</string>
+    <string name="unit">HKD</string>
 
 
     <string name="voucher_error">请重新确认谷物代码。</string>

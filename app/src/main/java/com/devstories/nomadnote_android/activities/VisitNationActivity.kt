@@ -67,9 +67,13 @@ class VisitNationActivity : FragmentActivity(), OnMapReadyCallback {
                 country = Utils.getString(item, language)
             } else if(language == "zh") {
                 language = Locale.getDefault().isO3Country
-                if(language == "CHN") {
+                if(language == "CHN") { // CNY(통화단위)
                     country = Utils.getString(item, "zh_rCN")
-                } else if(language == "TWN") {
+                } else if(language == "TWN") { // TWD(통화단위)
+                    country = Utils.getString(item, "zh_rTW")
+                } else if(language == "MAC") { // MOP(통화단위)
+                    country = Utils.getString(item, "zh_rTW")
+                } else if(language == "HKG") { // HKO(통화단위)
                     country = Utils.getString(item, "zh_rTW")
                 }
             }
