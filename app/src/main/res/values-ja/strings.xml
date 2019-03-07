@@ -244,13 +244,17 @@
     <string name="service_center">サービスセンター</string>
 
 
-    <string name="voucher_used_error">이미 사용된 시리얼 코드입니다.</string>
-    <string name="voucher_block_error">차단된 시리얼 코드입니다.</string>
-    <string name="voucher_use">사용되었습니다.</string>
+    <string name="voucher_used_error">既に使用されたシリアルコードです。</string>
+    <string name="voucher_block_error">遮断されたシリアルコードです。</string>
+    <string name="voucher_use">使用されました</string>
     <string name="started_message">｢スタート」を押して利用約款及び個人情報処理方針、位置基盤サービス利用約款に同意してください。</string>
     <string name="chk_info">個人情報に同意する。</string>
-    <string name="find_pw_send_email">해당 이메일로 비밀번호를 전송하였습니다.</string>
-    <string name="find_id_send_email">해당 이메일로 아이디를 전송하였습니다.</string>
+    <string name="find_pw_send_email">該当Eメールでパスワードを転送しました。</string>
+    <string name="find_id_send_email">該当EメールでIDを送信しました。</string>
     <string name="addtofriends">友達に追加</string>
+    <string name="add_friends_empty">一致する会員が存在しません。</string>
+    <string name="add_friends">追加しました。</string>
+    <string name="add_friends_already">もう友達です</string>
+    <string name="age">歳</string>
 
 </resources>
