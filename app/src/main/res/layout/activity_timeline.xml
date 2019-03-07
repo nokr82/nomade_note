@@ -59,18 +59,26 @@
                             android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
                             android:src="@mipmap/man" />
-                        <ImageView
-                            android:id="@+id/translateIV"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/logo_translation"
-                            android:scaleType="fitXY"
-                            android:paddingLeft="2dp"
-                            android:paddingRight="2dp"
+                        <LinearLayout
+                            android:id="@+id/translateLL"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
-                            android:background="#638d96"/>
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="bottom">
+                            <ImageView
+                                android:id="@+id/translateIV"
+                                android:layout_width="30dp"
+                                android:layout_height="13dp"
+                                android:src="@mipmap/translation"
+                                android:scaleType="fitXY"
+                                android:paddingLeft="2dp"
+                                android:paddingRight="2dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentRight="true"/>
+                        </LinearLayout>
+
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -80,9 +88,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:text=""
                     android:textColor="#878787"
                     android:textSize="12sp" />
+                <LinearLayout
+                    android:id="@+id/circleLL"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="7.35dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -117,6 +132,28 @@
                     android:layout_marginBottom="6dp"
                     android:paddingTop="10dp"
                     android:src="@mipmap/nomad_small"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="18dp"
+                android:layout_marginRight="25dp"
+                android:id="@+id/imageindexLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/imageindexTV"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1/3"
+                    android:textColor="#ffffff"/>
 
             </LinearLayout>
 
@@ -353,7 +390,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:padding="7dp"
-                                    android:src="@mipmap/delete" />
+                                    android:src="@mipmap/deletebt" />
 
                             </LinearLayout>
 

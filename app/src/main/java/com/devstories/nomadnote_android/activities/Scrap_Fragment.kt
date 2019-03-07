@@ -163,11 +163,11 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             startActivity(intent)
         }
 
-        /*
         searchIV.setOnClickListener {
-            search_scrap()
+            Utils.hideKeyboard(myContext)
+            page = 1
+            getTimeline()
         }
-        */
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {

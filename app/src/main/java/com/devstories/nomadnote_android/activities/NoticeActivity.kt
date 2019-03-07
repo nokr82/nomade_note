@@ -5,10 +5,7 @@ import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.base.GlobalApplication
-import com.devstories.nomadnote_android.base.GoogleAnalytics
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import kotlinx.android.synthetic.main.activity_notice.*
 
 class NoticeActivity : RootActivity() {
@@ -33,9 +30,13 @@ class NoticeActivity : RootActivity() {
         type = intent.getIntExtra("type", -1)
 
 
-      if (type ==2){
+        if (type == 2) {
+            val url = Config.url + "/admin/agree2view"
+            noticeWV.loadUrl(url)
             logoTV.text = getString(R.string.private_infomation)
-        }else if (type ==3){
+        } else if (type == 3) {
+            val url = Config.url + "/admin/agree1view"
+            noticeWV.loadUrl(url)
             logoTV.text = getString(R.string.terms_and_conditions)
         }
 
