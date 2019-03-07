@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_company_infomation.*
 
 class CompanyInfomationActivity : RootActivity() {
 
-
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 

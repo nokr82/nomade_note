@@ -190,16 +190,17 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
             val simpleItemTouchCallback = object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
                 override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
 
-                    val fromPosition = source.layoutPosition
-                    val toPosition = target.layoutPosition
+                    val fromPosition = source.adapterPosition
+                    val toPosition = target.adapterPosition
 
                     println("fromPosition : $fromPosition, toPosition : $toPosition")
 
                     Collections.swap(timelineDatas, fromPosition, toPosition)
 
+                    soloItemAdapter.notifyItemMoved(fromPosition, toPosition)
                     soloItemAdapter.notifyDataSetChanged()
 
-                    return false
+                    return true
 
                 }
 
@@ -214,6 +215,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                 override fun isItemViewSwipeEnabled(): Boolean {
                     return false
                 }
+
             }
 
             val helper = ItemTouchHelper(simpleItemTouchCallback)

@@ -203,5 +203,6 @@
     <string name="voucher_used_error">이미 사용된 시리얼 코드입니다.</string>
     <string name="voucher_block_error">차단된 시리얼 코드입니다.</string>
     <string name="voucher_use">사용되었습니다.</string>
+    <string name="started_message">按下开始，请同意使用条款及个人信息处理方针、以位置为基础的服务使用条款。</string>
 
 </resources>

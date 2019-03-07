@@ -72,16 +72,26 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -233,9 +243,94 @@
                 android:text="@string/setmyinfo"
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
+                </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom">
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="22dp"
+                                android:src="@mipmap/login_logo"
+                                android:layout_marginBottom="3dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/service_center"
+                                android:textSize="12dp"
+                                android:textColor="#878787"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 0000-0000"
+                                android:textSize="12dp"
+                                android:textColor="#878787"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#878787"
+                                android:text="@string/terms_and_conditions"
+                                android:textSize="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#878787"
+                                android:text="|"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:textSize="12dp"/>
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#878787"
+                                android:text="@string/private_infomation"
+                                android:textSize="12dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#878787"
+                                android:text="|"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:textSize="12dp"/>
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/companyinfoTV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#878787"
+                                android:text="@string/business_infomation"
+                                android:textSize="12dp"/>
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="11dp"
+                            android:textColor="#878787"
+                            android:layout_marginBottom="15dp"
+                            android:text="Copyright (c) nomadnote. All rights reserved."/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </RelativeLayout>
         </LinearLayout>
+
+
 
 
     </ScrollView>
