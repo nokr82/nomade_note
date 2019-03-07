@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.LoginAction
@@ -90,9 +91,13 @@ class Login2Activity : RootActivity() {
     }
 
     fun login(email: String, passwd: String) {
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val params = RequestParams()
         params.put("email", email)
         params.put("passwd", passwd)
+        params.put("android_id", android_id)
 
 
         println("login::::::::::autoLogin::::::::::::::::::::::::::::::$autoLogin")
