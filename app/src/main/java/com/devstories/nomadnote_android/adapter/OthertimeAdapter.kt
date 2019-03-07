@@ -48,6 +48,7 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         var place_name = Utils.getString(json,"place_name")
         var duration = Utils.getString(json,"duration")
         var cost = Utils.getString(json,"cost")
+        var cost_str = Utils.getString(json,"cost_str")
         var contents = Utils.getString(json,"contents")
         var created = Utils.getString(json,"created_at")
         var timeline_id = Utils.getString(json,"id")
@@ -106,12 +107,19 @@ open class OthertimeAdapter(context: Context, view: Int, data: ArrayList<JSONObj
         item.placeTV.setText(place_name)
         item.durationTV.setText(duration)
 //        item.costTV.setText(cost+"$ ")
-        var language = Locale.getDefault().language
-        if(language == "en" || language == "ja") {
-            item.costTV.setText(other_time_Fragment.getString(R.string.unit) + cost)
+
+        if (cost_str.count() > 0 && cost_str != "") {
+            item.costTV.setText(cost_str)
         } else {
-            item.costTV.setText(cost + other_time_Fragment.getString(R.string.unit))
+            var language = Locale.getDefault().language
+            if(language == "en" || language == "ja") {
+                item.costTV.setText(other_time_Fragment.getString(R.string.unit) + cost)
+            } else {
+                item.costTV.setText(cost + other_time_Fragment.getString(R.string.unit))
+            }
         }
+
+
 
         item.contentTV.setText(contents)
         if (timesplit.get(0).toInt() >= 12){

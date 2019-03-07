@@ -96,7 +96,7 @@
 
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/op_travelLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="60dp"
@@ -128,7 +128,7 @@
                     <me.grantland.widget.AutofitTextView
                         android:maxLines="2"
                         autofit:minTextSize="3dp"
-                        android:padding="2dp"
+                        android:padding="9dp"
                         android:id="@+id/healTV"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -144,7 +144,7 @@
                         android:maxLines="2"
                         android:id="@+id/hotplaceTV"
                         autofit:minTextSize="3dp"
-                        android:padding="5dp"
+                        android:padding="9dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="9dp"
@@ -158,7 +158,7 @@
                     <me.grantland.widget.AutofitTextView
                         android:maxLines="2"
                         autofit:minTextSize="3dp"
-                        android:padding="2dp"
+                        android:padding="9dp"
                         android:id="@+id/cultureTV"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -176,7 +176,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="60dp"
@@ -186,7 +186,7 @@
                         android:maxLines="2"
                         autofit:minTextSize="3dp"
                         android:id="@+id/sidmierTV"
-                        android:padding="5dp"
+                        android:padding="9dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="9dp"
@@ -200,7 +200,7 @@
                     <me.grantland.widget.AutofitTextView
                         android:maxLines="2"
                         autofit:minTextSize="3dp"
-                        android:padding="2dp"
+                        android:padding="9dp"
                         android:id="@+id/museumTV"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -215,7 +215,7 @@
                     <me.grantland.widget.AutofitTextView
                         android:maxLines="2"
                         android:id="@+id/artTV"
-                        android:padding="10dp"
+                        android:padding="9dp"
                         autofit:minTextSize="3dp"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -695,7 +695,6 @@
                             android:background="@drawable/background_border_radius5_9b9b9b"
                             android:layout_marginLeft="12dp"
                             android:hint="0000"
-                            android:inputType="number"
                             android:textColor="#878787"
                             android:textSize="12sp"
                             android:singleLine="true"
@@ -714,7 +713,6 @@
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
                             android:gravity="center"
-                            android:inputType="number"
                             android:layout_marginLeft="3dp"
                             android:hint="0000"
                             android:textColor="#878787"
@@ -735,7 +733,6 @@
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
                             android:gravity="center"
-                            android:inputType="number"
                             android:layout_marginLeft="3dp"
                             android:hint="0000"
                             android:textColor="#878787"
@@ -756,7 +753,6 @@
                             android:layout_height="28dp"
                             android:background="@drawable/background_border_radius5_9b9b9b"
                             android:gravity="center"
-                            android:inputType="number"
                             android:layout_marginLeft="3dp"
                             android:hint="0000"
                             android:textColor="#878787"

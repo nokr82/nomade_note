@@ -150,13 +150,14 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
         }
 
         searchIV.setOnClickListener {
+            page = 1
             getTimeline()
         }
 
         keywordET.setOnEditorActionListener() { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 Utils.hideKeyboard(myContext)
-
+                page = 1
                 getTimeline()
 
             } else {

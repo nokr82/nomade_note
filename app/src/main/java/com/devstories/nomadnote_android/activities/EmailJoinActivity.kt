@@ -53,6 +53,12 @@ class EmailJoinActivity : RootActivity() {
                 Toast.makeText(context,"이메일을 입력해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            if (!Utils.isValidEmail(email)) {
+                Toast.makeText(context,"이메일을 확인해주세요.",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (pw.equals("")){
                 Toast.makeText(context,"비밀번호를 입력해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
