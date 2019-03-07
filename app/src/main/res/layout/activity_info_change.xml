@@ -201,16 +201,16 @@
                     android:background="@drawable/background_border_radius5_000000"
                     android:padding="10dp">
 
-                    <EditText
-                        android:id="@+id/ageET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:hint="@string/enteryourage"
-                        android:inputType="number"
-                        android:textColorHint="#878787"
-                        android:textSize="14dp" />
+                <EditText
+                    android:id="@+id/ageET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="@string/enteryourage"
+                    android:inputType="number"
+                    android:textColorHint="#878787"
+                    android:textSize="14dp" />
 
 
                 </LinearLayout>
@@ -348,7 +348,10 @@
         </LinearLayout>
 
 
+
+
     </ScrollView>
+
 
 
 </LinearLayout>

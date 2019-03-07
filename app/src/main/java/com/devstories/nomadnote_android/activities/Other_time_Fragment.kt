@@ -1,8 +1,12 @@
 package com.devstories.nomadnote_android.activities
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -15,12 +19,10 @@ import android.widget.RelativeLayout
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.CertificationController
 import com.devstories.nomadnote_android.actions.TimelineAction
-import com.devstories.nomadnote_android.base.GlobalApplication
-import com.devstories.nomadnote_android.base.GoogleAnalytics
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
+import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_other_time.*
@@ -51,7 +53,20 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
     private var lastcount = 0
     private var totalItemCountScroll = 0
 
+    var timeline_position = 0
+
     private var visibleThreshold = 2
+
+    val SELECT_TIMELINE = 1000
+
+    internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                var timeline_id = intent.getStringExtra("timeline_id")
+                detail_timeline(timeline_id)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
@@ -77,6 +92,12 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
 
         activity = getActivity() as MainActivity
         activity.titleLL.visibility = View.GONE
+
+        val filter1 = IntentFilter("UPDATE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter1)
+
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter2)
 
         click()
 
@@ -146,7 +167,7 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
 
             val intent = Intent(myContext, Solo_detail_Activity::class.java)
             intent.putExtra("timeline_id",timeline_id)
-            startActivity(intent)
+            startActivityForResult(intent,SELECT_TIMELINE)
         }
 
         searchIV.setOnClickListener {
@@ -490,6 +511,92 @@ open class Other_time_Fragment : Fragment() , AbsListView.OnScrollListener {
         keywordET.setText("")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
 
+        if (progressDialog != null) {
+            progressDialog!!.dismiss()
+        }
+
+        try {
+            if (ResetReceiver != null) {
+                context!!.unregisterReceiver(ResetReceiver)
+            }
+        } catch (e: IllegalArgumentException) {
+        }
+
+    }
+
+    fun detail_timeline(timeline_id:String) {
+        val params = RequestParams()
+        params.put("timeline_id", timeline_id)
+
+        TimelineAction.detail_timeline(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result = Utils.getString(response, "result")
+                    if ("ok" == result) {
+                        var timeline = response!!.getJSONObject("timeline")
+                        val data_id = Utils.getString(timeline,"id")
+                        for (i in 0 until timelineDatas.size){
+                            val item = timelineDatas.get(i)
+                            val id = Utils.getString(item,"id")
+                            if (data_id == id){
+                                timelineDatas.set(i,timeline)
+                            }
+                        }
+                        OthertimeAdapter.notifyDataSetChanged()
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
+                super.onSuccess(statusCode, headers, response)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+        })
+
+    }
+
+    @SuppressLint("NewApi")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            when (requestCode) {
+                SELECT_TIMELINE-> {
+                    if (data!!.getStringExtra("timeline_id") != null) {
+                        val timeline_id = data!!.getStringExtra("timeline_id")
+                        for (i in 0 until timelineDatas.size){
+                            val item = timelineDatas.get(i)
+                            val id = Utils.getString(item,"id")
+                            if (timeline_id == id){
+                                timelineDatas.removeAt(i)
+                                break
+                            }
+                        }
+                        OthertimeAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+
+    }
 
 }

@@ -3,8 +3,10 @@ package com.devstories.nomadnote_android.activities
 import android.Manifest
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.location.Location
@@ -76,6 +78,18 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     private val markers = ArrayList<Marker>()
     var places = JSONArray()
 
+    val SELECT_ITEM = 1000
+
+
+    internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (intent != null) {
+                load_place()
+                initGPS()
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
@@ -113,6 +127,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
         childFragmentManager.beginTransaction().replace(R.id.gmap, mapFragment).commit()
 
+        val filter1 = IntentFilter("UPDATE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter1)
+
+        val filter2 = IntentFilter("DELETE_TIMELINE")
+        activity.registerReceiver(ResetReceiver, filter2)
 
         initGPS()
 
@@ -321,6 +340,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         params.put("keyword", keyword)
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
+        println("-----load_place----")
 
         PlaceAction.load_place(params, object : JsonHttpResponseHandler() {
 
@@ -333,6 +353,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                     val result = Utils.getString(response, "result")
                     if ("ok" == result) {
+
                         places = response!!.getJSONArray("place")
 
                         addMarkers()
@@ -496,6 +517,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             progressDialog!!.dismiss()
         }
 
+        try {
+            if (ResetReceiver != null) {
+                activity.unregisterReceiver(ResetReceiver)
+            }
+        } catch (e: IllegalArgumentException) {
+        }
+
     }
 
 
@@ -519,7 +547,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             intent.putExtra("place_id", place_id)
             intent.putExtra("keyword", keyword)
 
-            startActivity(intent)
+            startActivityForResult(intent,SELECT_ITEM)
 
             true
         })
@@ -677,6 +705,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             marker.isVisible = false
 
             markers.add(marker)
+
+
+            if(i == 0) {
+                val cu = CameraUpdateFactory.newLatLngZoom(latlng, 14.1f)
+                googleMap!!.animateCamera(cu)
+            }
+
         }
 
         // fitBounds()
