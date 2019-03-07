@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
@@ -27,8 +28,8 @@ class Friend_phone_Fragment : Fragment()  {
 
 
 
-
-
+    var option_phone = arrayOf("+82")
+    lateinit var adapter: ArrayAdapter<String>
     var searchtype = "phone"
     var phone = ""
     var name = ""
@@ -53,9 +54,13 @@ class Friend_phone_Fragment : Fragment()  {
             loadInfo()
         }
 
-        search2IV.setOnClickListener {
+       /* search2IV.setOnClickListener {
             loadInfo()
-        }
+        }*/
+        adapter = ArrayAdapter(myContext, R.layout.spiner_item, option_phone)
+        phoneSP.adapter = adapter
+
+
         addTV.setOnClickListener {
             add_friend()
         }
