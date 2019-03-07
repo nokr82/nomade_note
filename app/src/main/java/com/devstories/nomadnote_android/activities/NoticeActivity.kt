@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.activity_notice.*
 
 class NoticeActivity : RootActivity() {
 
-
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 

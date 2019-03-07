@@ -240,6 +240,7 @@ class MapSearchActivity : RootActivity() {
 
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
+
                         if (timelineDatas != null){
                             timelineDatas.clear()
                         }
