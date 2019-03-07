@@ -151,6 +151,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             startActivity(intent)
         }
 
+        searchIV.setOnClickListener {
+            load_place()
+
+            Utils.hideKeyboard(myContext)
+        }
+
 
         /*   mapView.setMapCenterPoint(mapPoint, true)
         mapRL.addView(mapView)
@@ -355,6 +361,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
                     if ("ok" == result) {
 
                         places = response!!.getJSONArray("place")
+
+                        println("----------places-----$response")
 
                         addMarkers()
                     }
@@ -592,6 +600,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         }
 
         googleMap?.clear()
+        markers.clear()
 
         for (i in 0 until places.length()) {
             val place = places.getJSONObject(i)
@@ -702,7 +711,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             val marker = googleMap!!.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
             marker.tag = place
+            val zoom = googleMap!!.cameraPosition.zoom
+            if (zoom >= 14){
+            marker.isVisible = true
+            } else {
             marker.isVisible = false
+            }
 
             markers.add(marker)
         }
