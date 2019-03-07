@@ -173,7 +173,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                 Utils.hideKeyboard(myContext)
-
+                page = 1
                 getTimeline()
 
             } else {
