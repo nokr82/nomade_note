@@ -504,11 +504,9 @@ class FindIDAndPasswdActivity : RootActivity() {
         }
 
         val phone = phoneET.text.toString()
-        if (type == "phone") {
-            if (phone == null || phone == "") {
-                Toast.makeText(context, getString(R.string.enter_phonenumber), Toast.LENGTH_SHORT).show()
-                return
-            }
+        if (phone == null || phone == "") {
+            Toast.makeText(context, getString(R.string.enter_phonenumber), Toast.LENGTH_SHORT).show()
+            return
         }
 
         val params = RequestParams()
@@ -531,7 +529,12 @@ class FindIDAndPasswdActivity : RootActivity() {
                     val result =   Utils.getString(response,"result")
                     if ("ok" == result) {
 
-                        Toast.makeText(context,getString(R.string.nomember), Toast.LENGTH_SHORT).show()
+                        if (type == "password"){
+                            Toast.makeText(context,getString(R.string.find_pw_send_email), Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context,getString(R.string.find_id_send_email), Toast.LENGTH_SHORT).show()
+                        }
+
 
                     } else if ("empty" == result){
                         Toast.makeText(context,getString(R.string.nomember), Toast.LENGTH_SHORT).show()
@@ -721,6 +724,10 @@ class FindIDAndPasswdActivity : RootActivity() {
                         if (type == "password"){
                             val authnumber = Utils.getString(response,"authNumber")
                             authNumber = authnumber
+
+                            Toast.makeText(context, getString(R.string.find_pw_send_email), Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, getString(R.string.find_id_send_email), Toast.LENGTH_LONG).show()
                         }
 
                     } else if ("empty" == result) {
