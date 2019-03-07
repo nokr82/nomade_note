@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.NumberPicker
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.RootActivity
 import kotlinx.android.synthetic.main.activity_dlg_select_time.*
 import java.text.ParseException
@@ -32,6 +34,8 @@ class DlgSelectTimeActivity : RootActivity() {
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "사업자정보")
 
         var intent = getIntent()
         var intent_ampm = intent.getStringExtra("ampm")

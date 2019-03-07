@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity
 import android.view.View
 import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.Utils
 import kotlinx.android.synthetic.main.fra_friend_add.*
 
@@ -31,6 +33,8 @@ class AddFriendActivity : FragmentActivity() {
 //        progressDialog = ProgressDialog(myContext)
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "친구추가")
 
         setmenu()
 

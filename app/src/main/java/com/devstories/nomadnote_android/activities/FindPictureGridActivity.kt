@@ -17,9 +17,7 @@ import android.widget.AdapterView
 import android.widget.BaseAdapter
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
-import com.devstories.nomadnote_android.base.ImageLoader
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.com.devstories.nomadnote_android.adapter.ImageAdapter
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_find_picture_grid.*
@@ -63,6 +61,8 @@ class FindPictureGridActivity() : RootActivity(), AdapterView.OnItemClickListene
         setContentView(R.layout.activity_find_picture_grid)
 
         context = this
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "사진선택")
 
         mAuth = FirebaseAuth.getInstance();
         var cursor: Cursor? = null

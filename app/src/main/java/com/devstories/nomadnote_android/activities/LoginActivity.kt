@@ -1,18 +1,21 @@
 package com.devstories.nomadnote_android.activities
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.app.FragmentActivity
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.JoinAction
+import com.devstories.nomadnote_android.base.GlobalApplication
+import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
 import com.facebook.*
@@ -51,10 +54,17 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 import java.lang.ref.WeakReference
+import java.net.NetworkInterface
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.security.spec.InvalidKeySpecException
 import java.util.*
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 
 class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedListener {
     override fun onConnectionFailed(p0: ConnectionResult) {
@@ -74,7 +84,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     private var facebook_ID: String? = null
     private var facebook_NAME: String? = null
     private val RC_SIGN_IN = 1000
-    private lateinit var mAuth: FirebaseAuth;
+    private lateinit var mAuth: FirebaseAuth
     private var mGoogleApiClient: GoogleApiClient? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     var email = ""
@@ -90,6 +100,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     var last_id = ""
     var created = ""
     var timeline_id = -1
+
+    private val marshmallowMacAddress = "02:00:00:00:00:00"
+    private val fileAddressMac = "/sys/class/net/wlan0/address"
 
     companion object {
         fun processLoginData(context: Context, data: JSONObject) {
@@ -117,7 +130,9 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
-        var intent = getIntent()
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "로그인")
+
+        var intent = intent
 //        is_push = intent.getBooleanExtra("is_push", false)
 //
 //        if (is_push){
@@ -142,7 +157,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                  .enableAutoManage(this, this)
                  .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                  .build()*/
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -210,7 +225,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
              intent.putExtra("jointype",jointype)
              startActivity(intent)*/
 //            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-            val signInIntent = mGoogleSignInClient!!.getSignInIntent()
+            val signInIntent = mGoogleSignInClient!!.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
 
@@ -293,7 +308,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                             // System.out.println("user : "  + user);
 
                             if (user != null) {
-                                sns_join(user.getEmail(), "3", user.getUid(), user.getDisplayName()!!)
+                                sns_join(user.email, "3", user.uid, user.displayName!!)
                             }
                             //                            isMember(user.getEmail(), "4", user.getUid(), user.getDisplayName());
                         } else {
@@ -301,7 +316,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                             // Utils.alert(context, "Exception 2 : " + task.getException().getLocalizedMessage());
 
                             var errorMag = "로그인에 실패하였습니다."
-                            val errorCode = (task.exception as FirebaseAuthException).getErrorCode()
+                            val errorCode = (task.exception as FirebaseAuthException).errorCode
 
                             println("errorCode : $errorCode")
 
@@ -393,11 +408,17 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     }
 
     fun sns_join(email: String?, join_type: String, sns_key: String?, name: String?) {
+
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
         params.put("email", email)
         params.put("sns_key", sns_key)
+        params.put("android_id", android_id)
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
@@ -431,7 +452,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     } else {
 
 
-                        Toast.makeText(context, response!!.getString("message"), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, response.getString("message"), Toast.LENGTH_LONG).show()
 
                     }
 
@@ -439,10 +460,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -464,7 +481,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
                     progressDialog!!.dismiss()
                 }
 
-                // System.out.println(responseString);
+                System.out.println(responseString);
 
                 throwable.printStackTrace()
                 error()
@@ -592,7 +609,7 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
     }
 
     fun naverLogin() {
-        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
+        mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler)
     }
 
     /**
@@ -604,25 +621,25 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             print("success : $success")
 
             if (success) {
-                val accessToken = mOAuthLoginModule.getAccessToken(context);
-                val refreshToken = mOAuthLoginModule.getRefreshToken(context);
-                val expiresAt = mOAuthLoginModule.getExpiresAt(context);
-                val tokenType = mOAuthLoginModule.getTokenType(context);
+                val accessToken = mOAuthLoginModule.getAccessToken(context)
+                val refreshToken = mOAuthLoginModule.getRefreshToken(context)
+                val expiresAt = mOAuthLoginModule.getExpiresAt(context)
+                val tokenType = mOAuthLoginModule.getTokenType(context)
 
                 RequestApiTask(loginActivity, mOAuthLoginModule).execute()
 
             } else {
-                val errorCode = mOAuthLoginModule.getLastErrorCode(context).getCode();
-                val errorDesc = mOAuthLoginModule.getLastErrorDesc(context);
-                Toast.makeText(context, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
+                val errorCode = mOAuthLoginModule.getLastErrorCode(context).code
+                val errorDesc = mOAuthLoginModule.getLastErrorDesc(context)
+                Toast.makeText(context, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private class RequestApiTask(loginActivity: LoginActivity, mOAuthLoginModule: OAuthLogin) : AsyncTask<Void, Void, String?>() {
 
-        private var activityRef: WeakReference<LoginActivity> = WeakReference(loginActivity);
-        private var mOAuthLoginModuleRef: WeakReference<OAuthLogin> = WeakReference(mOAuthLoginModule);
+        private var activityRef: WeakReference<LoginActivity> = WeakReference(loginActivity)
+        private var mOAuthLoginModuleRef: WeakReference<OAuthLogin> = WeakReference(mOAuthLoginModule)
 
         override fun onPreExecute() {
 
@@ -676,6 +693,117 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
             progressDialog!!.dismiss()
         }
 
+    }
+
+
+    fun recupAdresseMAC(wifiMan: WifiManager): String? {
+
+        val wifiInf = wifiMan.connectionInfo
+
+        if (wifiInf.macAddress == marshmallowMacAddress) {
+            var ret: String? = null
+            try {
+                ret = getAdressMacByInterface()
+                if (ret != null && ret.isNotEmpty()) {
+                    return ret
+                } else {
+                    ret = getAddressMacByFile(wifiMan)
+                    return ret
+                }
+            } catch (e: IOException) {
+                Log.e("MobileAccess", "Erreur lecture propriete Adresse MAC")
+            } catch (e: Exception) {
+                Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ")
+            }
+
+        } else {
+            return wifiInf.macAddress
+        }
+        return marshmallowMacAddress
+    }
+
+    private fun getAdressMacByInterface(): String? {
+        try {
+            val all = Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (nif in all) {
+                if (nif.name.equals("wlan0", ignoreCase = true)) {
+                    val macBytes = nif.hardwareAddress ?: return ""
+
+                    val res1 = StringBuilder()
+                    for (b in macBytes) {
+                        res1.append(String.format("%02X:", b))
+                    }
+
+                    if (res1.length > 0) {
+                        res1.deleteCharAt(res1.length - 1)
+                    }
+                    return res1.toString()
+                }
+            }
+
+        } catch (e: Exception) {
+            Log.e("MobileAcces", "Erreur lecture propriete Adresse MAC ")
+        }
+
+        return null
+    }
+
+    @Throws(Exception::class)
+    private fun getAddressMacByFile(wifiMan: WifiManager): String {
+        val ret: String
+        val wifiState = wifiMan.wifiState
+
+        wifiMan.isWifiEnabled = true
+        val fl = File(fileAddressMac)
+        val fin = FileInputStream(fl)
+        val builder = StringBuilder()
+        while (true) {
+            val ch = fin.read()
+            if(ch != -1) {
+                break
+            }
+            builder.append(ch.toChar())
+        }
+
+        ret = builder.toString()
+        fin.close()
+
+        val enabled = WifiManager.WIFI_STATE_ENABLED == wifiState
+        wifiMan.isWifiEnabled = enabled
+        return ret
+    }
+
+    @Throws(NoSuchAlgorithmException::class, InvalidKeySpecException::class)
+    fun generateKey(wifiManager:WifiManager, macAddress:String?): SecretKey {
+
+        println("macAddress : $macAddress")
+
+        if(macAddress == null) {
+            return SecretKeySpec("".toByteArray(), "AES")
+        }
+
+
+        val macAddressLength = macAddress.length
+
+        var macAddressWithPadding = macAddress
+
+        if(macAddressLength < 16) {
+            for (idx in 0 until (16 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        } else if(macAddressLength < 24) {
+            for (idx in 0 until (24 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        } else if(macAddressLength < 32) {
+            for (idx in 0 until (32 - macAddressLength)) {
+                macAddressWithPadding += "$"
+            }
+        }
+
+        println("macAddress.length : ${macAddressWithPadding.length}")
+
+        return SecretKeySpec(macAddressWithPadding.toByteArray(), "AES")
     }
 
 }

@@ -185,5 +185,6 @@
     <string name="start">시작</string>
     <string name="end">종료</string>
     <string name="block_notifications">알람 전체 차단</string>
+    <string name="service_center">고객센터</string>
 
 </resources>

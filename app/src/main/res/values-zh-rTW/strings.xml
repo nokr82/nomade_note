@@ -191,5 +191,6 @@
     <string name="start">開始</string>
     <string name="end">結束</string>
     <string name="block_notifications">阻止所有通知</string>
+    <string name="service_center">服務中心</string>
 
 </resources>

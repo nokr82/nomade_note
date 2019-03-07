@@ -5,9 +5,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.*
+import android.graphics.Rect
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +20,17 @@ import android.widget.GridView
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.TimelineAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.adapter.SoloItemAdapter
+import com.devstories.nomadnote_android.base.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
-import donggolf.android.adapters.SoloTimeAdapter
 import kotlinx.android.synthetic.main.fra_solo_time.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
+import kotlin.random.Random
 
 open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
@@ -40,8 +44,8 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
 
-    var timelineDatas: ArrayList<JSONArray> = ArrayList<JSONArray>()
-    lateinit var timelineAdaper: SoloTimeAdapter
+    var timelineDatas: ArrayList<JSONObject> = ArrayList<JSONObject>()
+    // lateinit var timelineAdaper: SoloTimeAdapter
 
     lateinit var gridGV: GridView
 
@@ -79,6 +83,9 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         this.myContext = container!!.context
         progressDialog = ProgressDialog(myContext, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "개인타임라인")
 //        progressDialog = ProgressDialog(myContext)
 
         return inflater.inflate(R.layout.fra_solo_time, container, false)
@@ -90,8 +97,8 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         gridGV = view.findViewById(R.id.gridGV)
 
 
-        timelineAdaper = SoloTimeAdapter(myContext!!, R.layout.item_solo_grid, timelineDatas,this)
-        gridGV.adapter = timelineAdaper
+        // timelineAdaper = SoloTimeAdapter(myContext, R.layout.item_solo_grid, timelineDatas,this)
+        // gridGV.adapter = timelineAdaper
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -107,12 +114,123 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         val filter2 = IntentFilter("DELETE_TIMELINE")
         activity.registerReceiver(deleteReciver, filter2)
 
+
+        my_recycler_view.apply {
+            // use this setting to improve performance if you know that changes
+            // in content do not change the layout size of the RecyclerView
+            // setHasFixedSize(true)
+
+            // use a linear layout manager
+            val gridLayoutManager = GridLayoutManager(myContext, 6)
+            gridLayoutManager.spanSizeLookup = object: GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+
+                    val remainder = position % 5
+                    val random = Random.nextInt(1, 3)
+
+
+                    return when(position % 6) {
+                        0 -> 6
+                        1 -> 3
+                        2 -> 3
+                        3 -> 2
+                        4 -> 2
+                        5 -> 2
+                        else -> 6
+                    }
+                }
+            }
+
+            val space = Utils.dpToPx(10f).toInt()
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+
+                    // println(outRect)
+
+                    // outRect.left = space;
+                    outRect.right = space
+                    // outRect.bottom = space;
+
+                    // Add top margin only for the first item to avoid double space between items
+                    if (parent.getChildLayoutPosition(view) == 0) {
+                        // outRect.top = space;
+                    } else {
+                        // outRect.top = 0;
+                    }
+                }
+            })
+
+
+            layoutManager = gridLayoutManager
+
+            // specify an viewAdapter (ee also next example)
+            val soloItemAdapter = SoloItemAdapter(myContext, activity, timelineDatas)
+            adapter = soloItemAdapter
+
+            val recyclerItemClickListener = RecyclerItemClickListener(activity, this, object: RecyclerItemClickListener.OnItemClickListener {
+                override fun onItemClick(view: View?, position: Int) {
+
+                    val item = timelineDatas.get(position)
+
+                    val timeline_id = Utils.getString(item, "id")
+
+                    val intent = Intent(context, Solo_detail_Activity::class.java)
+                    intent.putExtra("timeline_id", timeline_id)
+                    startActivity(intent)
+                }
+
+                override fun onLongItemClick(view: View?, position: Int) {
+
+                }
+
+            })
+
+            addOnItemTouchListener(recyclerItemClickListener)
+
+            val simpleItemTouchCallback = object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+                override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+
+                    val fromPosition = source.layoutPosition
+                    val toPosition = target.layoutPosition
+
+                    println("fromPosition : $fromPosition, toPosition : $toPosition")
+
+                    Collections.swap(timelineDatas, fromPosition, toPosition)
+
+                    soloItemAdapter.notifyDataSetChanged()
+
+                    return false
+
+                }
+
+                override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+
+                }
+
+                override fun isLongPressDragEnabled(): Boolean {
+                    return true
+                }
+
+                override fun isItemViewSwipeEnabled(): Boolean {
+                    return false
+                }
+            }
+
+            val helper = ItemTouchHelper(simpleItemTouchCallback)
+            helper.attachToRecyclerView(this)
+
+        }
+
+
+
+
         click()
 
         loadData()
 
         loadFriendRequestData()
 
+        /*
         gridGV.setOnScrollListener(object : AbsListView.OnScrollListener {
             override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
 
@@ -139,6 +257,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                 }
             }
         })
+        */
 
     }
 
@@ -176,7 +295,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
         }
 
-        keywordET.setOnEditorActionListener() { v, actionId, event ->
+        keywordET.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                 timelineDatas.clear()
@@ -200,7 +319,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         params.put("keyword", keyword)
         params.put("page", page)
 
-        TimelineAction.my_timeline(params, object : JsonHttpResponseHandler() {
+        TimelineAction.my_timeline2(params, object : JsonHttpResponseHandler() {
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject?) {
                 if (progressDialog != null) {
@@ -218,13 +337,14 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                         if (page == 1){
                             timelineDatas.clear()
                         }
-                        totalPage = response!!.getInt("last_page");
-                        page = response!!.getInt("current_page");
+                        totalPage = response!!.getInt("last_page")
+                        page = response.getInt("current_page")
 
                         println("-------page $page")
                         println("-------totalpage $totalPage")
 
-                        val friends = response!!.getJSONArray("friend")
+                        /*
+                        val friends = response.getJSONArray("friend")
                         Log.d("친구", friends.toString())
                         if (friends.length() > 0) {
                             for (i in 0 until friends.length()) {
@@ -242,26 +362,24 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
                             }
                         }
+                        */
 
-
-                        val data = response!!.getJSONArray("data")
+                        val data = response.getJSONArray("data")
                         if (data.length() > 0) {
                             for (i in 0 until data.length()) {
-                                val timeline = data.get(i) as JSONArray
+                                val timeline = data.get(i) as JSONObject
                                 timelineDatas.add(timeline)
                             }
                         }
-                        timelineAdaper.notifyDataSetChanged()
+                        // timelineAdaper.notifyDataSetChanged()
+
+                        my_recycler_view.adapter?.notifyDataSetChanged()
                     }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -283,7 +401,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                     progressDialog!!.dismiss()
                 }
 
-                System.out.println(responseString);
+                System.out.println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -384,10 +502,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -407,7 +521,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                     progressDialog!!.dismiss()
                 }
 
-                System.out.println(responseString);
+                System.out.println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -483,10 +597,6 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -506,7 +616,7 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
                     progressDialog!!.dismiss()
                 }
 
-                System.out.println(responseString);
+                System.out.println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -611,6 +721,8 @@ open class Solo_time_Fragment : Fragment() , AbsListView.OnScrollListener{
         super.onPause()
         keywordET.setText("")
     }
+
+
 
 }
 

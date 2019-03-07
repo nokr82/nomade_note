@@ -9,13 +9,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.os.Parcelable
+import android.provider.Settings
 import android.util.Base64
 import android.util.Log
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.LoginAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.RootActivity
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -38,8 +37,8 @@ class IntroActivity : RootActivity() {
 
     private var is_push:Boolean = false
 
-    var last_id = ""
-    var created = ""
+    var last_id:String? = null
+    var created:String? = null
     var timeline_id = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +50,8 @@ class IntroActivity : RootActivity() {
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "인트로")
 
 
         when {
@@ -178,6 +179,9 @@ class IntroActivity : RootActivity() {
 
     // 로그인
     private fun login() {
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val email = PrefUtils.getStringPreference(context, "email")
         val passwd = PrefUtils.getStringPreference(context, "passwd")
         val sns_key = PrefUtils.getStringPreference(context, "sns_key")
@@ -188,6 +192,7 @@ class IntroActivity : RootActivity() {
         params.put("passwd", passwd)
         params.put("join_type", join_type)
         params.put("sns_key", sns_key)
+        params.put("android_id", android_id)
 
         println("params : $params")
 

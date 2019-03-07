@@ -7,12 +7,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.devstories.nomadnote_android.base.RootActivity
 import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.QuestionAction
 import com.devstories.nomadnote_android.actions.TimelineAction
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
@@ -33,6 +31,9 @@ class QuestionActivity : RootActivity() {
         this.context = this
         progressDialog = ProgressDialog(context, R.style.CustomProgressBar)
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
+
+
+        GoogleAnalytics.sendEventGoogleAnalytics(application as GlobalApplication, "android", "문의하기")
 
         var intent = getIntent()
 

@@ -27,10 +27,7 @@ import com.devstories.nomadnote_android.actions.ChargeAction
 import com.devstories.nomadnote_android.actions.MemberAction
 import com.devstories.nomadnote_android.actions.VoucherAction
 import com.devstories.nomadnote_android.adapter.AdvertiseAdapter
-import com.devstories.nomadnote_android.adapter.FullScreenImageAdapter
-import com.devstories.nomadnote_android.base.Config
-import com.devstories.nomadnote_android.base.PrefUtils
-import com.devstories.nomadnote_android.base.Utils
+import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.billing.IAPHelper
 import com.facebook.FacebookSdk
 import com.facebook.FacebookSdk.getApplicationContext
@@ -93,6 +90,8 @@ class Seting_Fragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         progressDialog = ProgressDialog(myContext)
+
+        GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "세팅")
 
         activity = getActivity() as MainActivity
         FacebookSdk.sdkInitialize(getApplicationContext())
@@ -162,7 +161,9 @@ class Seting_Fragment : Fragment() {
 
             override fun bought(sku: String, purchaseToken: String) {
 
-                println("$sku bought!!!");
+                println("$sku bought!!! $purchaseToken")
+
+
 
                 if ("1gb" == sku) {
                     setCharge(1024*1024*1024, purchaseToken)
@@ -250,11 +251,6 @@ class Seting_Fragment : Fragment() {
 
     }
 
-    override fun onPause() {
-        super.onPause()
-        arguments = null
-        s_type = -1
-    }
 
     fun op_click() {
 
@@ -743,6 +739,13 @@ class Seting_Fragment : Fragment() {
             progressDialog!!.dismiss()
         }
 
+        if(handler != null) {
+            handler!!.removeCallbacksAndMessages(null);
+        }
+
+        if(iapHelper != null) {
+            iapHelper?.destroy()
+        }
     }
 
     fun setStyleImage(style_id: String) {
@@ -1078,6 +1081,7 @@ class Seting_Fragment : Fragment() {
 
         val params = RequestParams()
         params.put("quota", quota)
+        params.put("purchaseToken", purchaseToken)
         params.put("member_id", PrefUtils.getIntPreference(myContext, "member_id"))
 
         ChargeAction.setCharge(params, object : JsonHttpResponseHandler() {
@@ -1267,7 +1271,12 @@ class Seting_Fragment : Fragment() {
         iapHelper?.onActivityResult(requestCode, resultCode, data)
     }
 
-
+    override fun onPause() {
+        super.onPause()
+        if (handler != null) {
+            handler!!.removeCallbacksAndMessages(null);
+        }
+    }
 
     private fun shareInstagram() {
         val shareIntent = Intent(Intent.ACTION_SEND)
