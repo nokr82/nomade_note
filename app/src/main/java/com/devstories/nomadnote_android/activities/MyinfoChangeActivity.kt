@@ -36,11 +36,13 @@ class MyinfoChangeActivity : RootActivity() {
     var phone = ""
     var gender = ""
 
+    var notice_type = -1
+
     var MALE = 100
     var FEMALE = 101
 
     var maleimage: Bitmap? = null
-    var femaleimage : Bitmap? = null
+    var femaleimage: Bitmap? = null
     var myprofile = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +59,19 @@ class MyinfoChangeActivity : RootActivity() {
             finish()
         }
 
+
+        privacyTV.setOnClickListener {
+            notice_type = 2
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type", notice_type)
+            startActivity(intent)
+        }
+        serviceTV.setOnClickListener {
+            notice_type = 3
+            val intent = Intent(context, NoticeActivity::class.java)
+            intent.putExtra("type", notice_type)
+            startActivity(intent)
+        }
         companyinfoTV.setOnClickListener {
             var intent = Intent(context, CompanyInfomationActivity::class.java)
             startActivity(intent)
@@ -97,28 +112,28 @@ class MyinfoChangeActivity : RootActivity() {
 
     }
 
-    fun setmenu(){
-        manIV.visibility= View.INVISIBLE
+    fun setmenu() {
+        manIV.visibility = View.INVISIBLE
         femaleckIV.visibility = View.INVISIBLE
     }
 
-    fun edit_profile(){
+    fun edit_profile() {
         val params = RequestParams()
         params.put("member_id", PrefUtils.getIntPreference(context, "member_id"))
-        params.put("name",name)
+        params.put("name", name)
         params.put("age", age)
         params.put("gender", gender)
         params.put("phone", phone)
 
-        if (myprofile != ""){
+        if (myprofile != "") {
 //            var uri = Config.url + myprofile
 //            val image = Utils.getImage(context.contentResolver,uri)
 //            params.put("photo", ByteArrayInputStream(Utils.getByteArray(image)))
         }
-        if (maleimage != null){
+        if (maleimage != null) {
             params.put("photo", ByteArrayInputStream(Utils.getByteArray(maleimage)))
         }
-        if (femaleimage != null){
+        if (femaleimage != null) {
             params.put("photo", ByteArrayInputStream(Utils.getByteArray(femaleimage)))
         }
 
@@ -204,6 +219,7 @@ class MyinfoChangeActivity : RootActivity() {
             }
         })
     }
+
     //사용자정보
     fun loadInfo() {
         val params = RequestParams()
@@ -216,7 +232,7 @@ class MyinfoChangeActivity : RootActivity() {
                     progressDialog!!.dismiss()
                 }
 
-                Log.d("결과",response.toString())
+                Log.d("결과", response.toString())
 
                 try {
                     val result = response!!.getString("result")
@@ -224,33 +240,33 @@ class MyinfoChangeActivity : RootActivity() {
                     if ("ok" == result) {
 
                         var member = response.getJSONObject("member")
-                        name =  Utils.getString(member, "name")
-                        age =  Utils.getInt(member, "age")
-                        gender =  Utils.getString(member, "gender")
-                        phone = Utils.getString(member,"phone")
-                        myprofile = Utils.getString(member,"profile")
+                        name = Utils.getString(member, "name")
+                        age = Utils.getInt(member, "age")
+                        gender = Utils.getString(member, "gender")
+                        phone = Utils.getString(member, "phone")
+                        myprofile = Utils.getString(member, "profile")
 //                        val disk =member.getJSONArray("disk")
-                        val payment_sum = Utils.getInt(member,"payment_sum")
+                        val payment_sum = Utils.getInt(member, "payment_sum")
 
-                        if (gender == "M"){
+                        if (gender == "M") {
                             manIV.visibility = View.VISIBLE
-                        }else if (gender =="F"){
+                        } else if (gender == "F") {
                             femaleckIV.visibility = View.VISIBLE
                         }
                         nameET.setText(name)
 
                         println("-----age----$age , $phone")
-                        if (Utils.getInt(member,"age") != -1 && Utils.getInt(member,"age") != 1) {
+                        if (Utils.getInt(member, "age") != -1 && Utils.getInt(member, "age") != 1) {
                             ageET.setText(age.toString())
                         }
 
-                        if (Utils.getInt(member,"phone") != -1 && Utils.getInt(member,"phone") != 1){
+                        if (Utils.getInt(member, "phone") != -1 && Utils.getInt(member, "phone") != 1) {
                             phoneET.setText(phone)
                         }
 
-                        if (myprofile != ""){
+                        if (myprofile != "") {
                             if (gender == "M") {
-                                var uri = Config.url  + myprofile
+                                var uri = Config.url + myprofile
                                 ImageLoader.getInstance().displayImage(uri, maleIV, Utils.UILoptionsUserProfile)
                             } else {
                                 var uri = Config.url + myprofile
@@ -259,21 +275,21 @@ class MyinfoChangeActivity : RootActivity() {
                         }
 
 //                        var disk_byte = 1073741824
-                   /*     if (disk.length()>0){
-                            for (i in 0 until disk.length()){
-                                val disk_item = disk.get(i) as JSONObject
-                                val category = Utils.getInt(disk_item,"category")
+                        /*     if (disk.length()>0){
+                                 for (i in 0 until disk.length()){
+                                     val disk_item = disk.get(i) as JSONObject
+                                     val category = Utils.getInt(disk_item,"category")
 
-                                if (category == 1){
-                                    disk_byte += 1073741824
-                                } else if (category == 2){
-                                    disk_byte += 644245094
-                                } else {
-                                    disk_byte += 21474836
-                                }
+                                     if (category == 1){
+                                         disk_byte += 1073741824
+                                     } else if (category == 2){
+                                         disk_byte += 644245094
+                                     } else {
+                                         disk_byte += 21474836
+                                     }
 
-                            }
-                        }*/
+                                 }
+                             }*/
 
 //                        PrefUtils.setPreference(context, "disk", disk_byte)
 //                        PrefUtils.setPreference(context, "payment_byte", payment_sum)
@@ -327,6 +343,7 @@ class MyinfoChangeActivity : RootActivity() {
             }
         })
     }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -402,12 +419,10 @@ class MyinfoChangeActivity : RootActivity() {
 
             when (requestCode) {
                 MALE -> {
-                    if (data != null)
-                    {
+                    if (data != null) {
                         val contentURI = data.data
-                        Log.d("uri",contentURI.toString())
-                        try
-                        {
+                        Log.d("uri", contentURI.toString())
+                        try {
 
                             val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
 
@@ -421,14 +436,13 @@ class MyinfoChangeActivity : RootActivity() {
                                 ImageLoader.getInstance().displayImage(contentURI.toString(), maleIV, Utils.UILoptionsProfile)
 
                                 femaleIV.setImageResource(R.mipmap.famal)
-                                maleimage = Utils.getImage(context.contentResolver,picturePath)
+                                maleimage = Utils.getImage(context.contentResolver, picturePath)
                                 println("-----maleimage---- $maleimage")
                                 femaleimage = null
 
                             }
 
-                        }
-                        catch (e: IOException) {
+                        } catch (e: IOException) {
                             e.printStackTrace()
                             Toast.makeText(context, "바꾸기실패", Toast.LENGTH_SHORT).show()
                         }
@@ -437,12 +451,10 @@ class MyinfoChangeActivity : RootActivity() {
                 }
 
                 FEMALE -> {
-                    if (data != null)
-                    {
+                    if (data != null) {
                         val contentURI = data.data
-                        Log.d("uri",contentURI.toString())
-                        try
-                        {
+                        Log.d("uri", contentURI.toString())
+                        try {
 
                             val filePathColumn = arrayOf(MediaStore.MediaColumns.DATA)
 
@@ -457,12 +469,11 @@ class MyinfoChangeActivity : RootActivity() {
                                 maleIV.setImageResource(R.mipmap.man)
 
                                 maleimage = null
-                                femaleimage = Utils.getImage(context.contentResolver,picturePath)
+                                femaleimage = Utils.getImage(context.contentResolver, picturePath)
 
                             }
 
-                        }
-                        catch (e: IOException) {
+                        } catch (e: IOException) {
                             e.printStackTrace()
                             Toast.makeText(context, "바꾸기실패", Toast.LENGTH_SHORT).show()
                         }
