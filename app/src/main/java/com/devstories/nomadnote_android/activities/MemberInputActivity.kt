@@ -26,6 +26,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.util.*
 
 class MemberInputActivity : RootActivity() {
 
@@ -149,6 +150,16 @@ class MemberInputActivity : RootActivity() {
 
         val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
         val params = RequestParams()
         params.put("name", name)
         params.put("email",email )
@@ -158,6 +169,7 @@ class MemberInputActivity : RootActivity() {
         params.put("phone",phone)
         params.put("join_type", 5)
         params.put("android_id", android_id)
+        params.put("language", language)
 
         if (maleimage != null){
             params.put("photo", ByteArrayInputStream(Utils.getByteArray(maleimage)))

@@ -23,6 +23,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 
 class IntroActivity : RootActivity() {
@@ -182,6 +183,16 @@ class IntroActivity : RootActivity() {
 
         val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
         val email = PrefUtils.getStringPreference(context, "email")
         val passwd = PrefUtils.getStringPreference(context, "passwd")
         val sns_key = PrefUtils.getStringPreference(context, "sns_key")
@@ -193,6 +204,7 @@ class IntroActivity : RootActivity() {
         params.put("join_type", join_type)
         params.put("sns_key", sns_key)
         params.put("android_id", android_id)
+        params.put("language", language)
 
         println("params : $params")
 

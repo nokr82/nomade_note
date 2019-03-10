@@ -416,12 +416,23 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
         params.put("email", email)
         params.put("sns_key", sns_key)
         params.put("android_id", android_id)
+        params.put("language", language)
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
