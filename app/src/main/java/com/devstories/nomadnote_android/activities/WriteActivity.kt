@@ -1,6 +1,7 @@
 package com.devstories.nomadnote_android.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
@@ -15,10 +16,7 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -32,6 +30,7 @@ import com.devstories.nomadnote_android.R
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.sms.SMSAction
+import com.google.android.gms.location.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.loopj.android.http.JsonHttpResponseHandler
@@ -40,9 +39,6 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import io.nlopez.smartlocation.location.config.LocationParams
-import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_write.*
 import kotlinx.android.synthetic.main.item_addgoods.view.*
 import org.json.JSONArray
@@ -90,6 +86,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     private var timeline_file_ids = arrayListOf<Int>()
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
@@ -98,9 +97,21 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         progressDialog!!.setProgressStyle(android.R.style.Widget_DeviceDefault_Light_ProgressBar_Large)
 //        progressDialog = ProgressDialog(context)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+
+                fusedLocationClient.removeLocationUpdates(locationCallback)
+
+                locationResult ?: return
+                onLocationUpdated(locationResult?.lastLocation)
+            }
+        }
+
         click()
 
-        var intent = getIntent()
+        var intent = intent
 
         val time = Utils.timeStr()
         var timesplit = time.split(":")
@@ -112,7 +123,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         } else {
             edittime += " AM " + timesplit.get(0)+ ":" + timesplit.get(1)
         }
-        pulldateTV.setText(Utils.todayStr() + "" + edittime)
+        pulldateTV.text = Utils.todayStr() + "" + edittime
 
 
         if (intent.getStringExtra("timeline_id") != null){
@@ -137,19 +148,19 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 created_at = getTime
             }
 
-            var d1 = sdf.parse(created_at);
-            var d2 = sdf.parse(getTime);
+            var d1 = sdf.parse(created_at)
+            var d2 = sdf.parse(getTime)
 
             val diff = d2.time - d1.time
-            val days = TimeUnit.MILLISECONDS.toDays(diff);
-            val remainingHoursInMillis = diff - TimeUnit.DAYS.toMillis(days);
-            val hours = TimeUnit.MILLISECONDS.toHours(remainingHoursInMillis);
-            val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours);
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis);
+            val days = TimeUnit.MILLISECONDS.toDays(diff)
+            val remainingHoursInMillis = diff - TimeUnit.DAYS.toMillis(days)
+            val hours = TimeUnit.MILLISECONDS.toHours(remainingHoursInMillis)
+            val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis)
             timeET.setText(hours.toString())
             minuteET.setText(minutes.toString())
-            timetakeTV.setText(getString(R.string.activity_write_time))
-            logoIV.setText(getString(R.string.reply))
+            timetakeTV.text = getString(R.string.activity_write_time)
+            logoIV.text = getString(R.string.reply)
 
         }
 
@@ -160,7 +171,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             val uri = Uri.parse(action_send_uri)
 
-            val bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
 
             reset(uri.toString(), 0, "picture", MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE, -1, -1, bitmap)
         }
@@ -446,7 +457,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     if ("ok" == result) {
                         var intent = Intent()
                         intent.putExtra("reset","reset")
-                        setResult(RESULT_OK, intent);
+                        setResult(RESULT_OK, intent)
 
                         val uIntent = Intent()
                         uIntent.action = "UPDATE_TIMELINE"
@@ -462,10 +473,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -487,7 +494,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                println(responseString);
+                println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -670,7 +677,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         intent.putExtra("timeline_id",timeline_id)
                         intent.action = "UPDATE_TIMELINE"
                         sendBroadcast(intent)
-                        setResult(RESULT_OK, intent);
+                        setResult(RESULT_OK, intent)
 
                         finish()
 
@@ -681,10 +688,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -706,7 +709,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     progressDialog!!.dismiss()
                 }
 
-                System.out.println(responseString);
+                System.out.println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -812,7 +815,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                                 var path = Config.url+  Utils.getString(image_item, "image_uri")
                                 val video_path = Utils.getString(image_item, "video_path")
                                 val timeline_file_id = Utils.getInt(image_item, "id")
-                                var mediaType = 1;
+                                var mediaType = 1
                                 if(!video_path.isEmpty()) {
                                     mediaType = 3
                                 }
@@ -822,9 +825,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                         }
 
                         if (timesplit.get(0).toInt() >= 12){
-                            pulldateTV.setText(createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1))
+                            pulldateTV.text = createdsplit.get(0) + " PM" + timesplit.get(0) + ":"+timesplit.get(1)
                         } else {
-                            pulldateTV.setText(createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1))
+                            pulldateTV.text = createdsplit.get(0) + " AM" + timesplit.get(0) + ":"+timesplit.get(1)
                         }
 
                         when(style){
@@ -860,10 +863,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -970,7 +969,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                 .setPermissionListener(permissionlistener)
                 .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있습니다.")
                 .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();
+                .check()
 
     }
 
@@ -989,7 +988,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 //                    addPicturesLL!!.removeAllViews()
                     for (i in 0..(images!!.size - 1)) {
                         val id = ids!![i]
-                        val str = images!![i]
+                        val str = images[i]
                         val mediaType = mediaTypes!![i]
 
 //                        images_path!!.add(str)
@@ -1102,7 +1101,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
 
         delIV.tag = mediaInfo
-        fullImageLL.setTag(idx)
+        fullImageLL.tag = idx
         delIV.setOnClickListener {
 
             val mediaInfo = it.tag as JSONObject
@@ -1223,6 +1222,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocation() {
 
         if (progressDialog != null) {
@@ -1231,6 +1231,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             progressDialog!!.show()
         }
 
+        /*
         val smartLocation = SmartLocation.Builder(context).logging(true).build()
         val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
 
@@ -1243,6 +1244,14 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
 
         smartLocation.location().oneFix().start(this)
+        */
+
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10 * 1000  /* 10 secs */
+        locationRequest.fastestInterval = 2000 /* 2 sec */
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
     }
 
@@ -1273,22 +1282,24 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     override fun onLocationUpdated(location: Location?) {
 
+        println("location : $location")
+
         if(isFinishing || isDestroyed) {
             return
         }
 
         if (location != null) {
             if (myLocation) {
-                latitude = location.getLatitude()
-                longitude = location.getLongitude()
+                latitude = location.latitude
+                longitude = location.longitude
             }
 
 
-            var systemLocale = getApplicationContext().getResources().getConfiguration().locale
+            var systemLocale = applicationContext.resources.configuration.locale
             val strLanguage = systemLocale.language
-            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN);
+            var geocoder: Geocoder = Geocoder(context, Locale.KOREAN)
 
-            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
+            var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10)
             if(list.size > 0){
                 println("list ---- ${list.get(0)}")
 
@@ -1307,10 +1318,10 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
             }
 
-            geocoder = Geocoder(context);
+            geocoder = Geocoder(context)
 
-            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10);
-            if(list.size > 0){
+            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10)
+            if(list.isNotEmpty()){
                 println("list ---- ${list.get(0)}")
 
                 if(list.get(0).adminArea != null) {
@@ -1366,10 +1377,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {

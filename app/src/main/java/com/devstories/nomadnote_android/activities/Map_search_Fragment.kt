@@ -1,6 +1,7 @@
 package com.devstories.nomadnote_android.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
@@ -10,15 +11,11 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.location.Location
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.checkSelfPermission
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +26,7 @@ import com.devstories.nomadnote_android.base.GlobalApplication
 import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,14 +37,8 @@ import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import io.nlopez.smartlocation.location.config.LocationParams
-import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_map_search.*
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapPoint
-import net.daum.mf.map.api.MapView
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -54,7 +46,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 
-class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapViewEventListener, MapView.POIItemEventListener, OnMapReadyCallback {
+class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, OnMapReadyCallback {
 
     lateinit var myContext: Context
     private var progressDialog: ProgressDialog? = null
@@ -81,10 +73,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     val SELECT_ITEM = 1000
 
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+
     internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
-                load_place()
                 initGPS()
             }
         }
@@ -98,11 +92,6 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         GoogleAnalytics.sendEventGoogleAnalytics(GlobalApplication.getGlobalApplicationContext() as GlobalApplication, "android", "지도검색")
 
         return inflater.inflate(R.layout.fra_map_search, container, false)
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
     }
 
@@ -122,6 +111,18 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         mapView.setCurrentLocationMarker(MapCurrentLocationMarker())
         */
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+
+                fusedLocationClient.removeLocationUpdates(locationCallback)
+
+                locationResult ?: return
+                onLocationUpdated(locationResult.lastLocation)
+            }
+        }
+
         mapFragment = SupportMapFragment.newInstance()
         mapFragment.getMapAsync(this)
 
@@ -133,18 +134,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         val filter2 = IntentFilter("DELETE_TIMELINE")
         activity.registerReceiver(ResetReceiver, filter2)
 
-        initGPS()
-
-        if (permissionCheck()) {
-            // mapView.setShowCurrentLocationMarker(true)
-            // mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-            isShowing = true
-        } else {
-            // mapView.setShowCurrentLocationMarker(false)
-            // val mapPoint = MapPoint.mapPointWithGeoCoord(latitude, longitude)
-            // mapView.setMapCenterPoint(mapPoint, true)
-            isShowing = false
-        }
+        isShowing = permissionCheck()
 
         writeRL.setOnClickListener {
             val intent = Intent(myContext, WriteActivity::class.java)
@@ -181,7 +171,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         marker2.selectedMarkerType = MapPOIItem.MarkerType.RedPin
         mapView.addPOIItem(marker2)*/
 
-        keywordET.setOnEditorActionListener() { v, actionId, event ->
+        keywordET.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                 load_place()
@@ -241,6 +231,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocation() {
 
         if (progressDialog != null) {
@@ -249,18 +240,27 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             progressDialog!!.show()
         }
 
-        val smartLocation = SmartLocation.Builder(myContext).logging(true).build()
+        /*
+        val smartLocation = SmartLocation.Builder(context).logging(true).build()
         val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
 
-        if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isGpsAvailable) {
+        if (SmartLocation.with(context).location(LocationManagerProvider()).state().isGpsAvailable) {
             val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.MEDIUM).build()
             locationControl.config(locationParams)
-        } else if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isNetworkAvailable) {
+        } else if (SmartLocation.with(context).location(LocationManagerProvider()).state().isNetworkAvailable) {
             val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.LOW).build()
             locationControl.config(locationParams)
         }
 
         smartLocation.location().oneFix().start(this)
+        */
+
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10 * 1000  /* 10 secs */
+        locationRequest.fastestInterval = 2000 /* 2 sec */
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper())
 
     }
 
@@ -286,55 +286,6 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
                 checkGPs()
             }
         }
-    }
-
-    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewInitialized(p0: MapView?) {
-        // mapView.setPOIItemEventListener(this)
-    }
-
-    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-    }
-
-    override fun onMapViewMoveFinished(mapView: MapView?, mapPoint: MapPoint?) {
-        if (isShowing) {
-            if (mapView != null) {
-                if (mapView.isShowingCurrentLocationMarker) {
-                    if (mapView != null) {
-                        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
-                    }
-                }
-            }
-        }
-
-        // myLocation = false
-        /*    val mapPoint = MapPoint.mapPointWithGeoCoord(37.5514579595, 126.951949155)
-            val marker = MapPOIItem()
-            marker.itemName = "테스트"
-            marker.mapPoint = mapPoint
-            marker.markerType = MapPOIItem.MarkerType.BluePin
-            marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
-            marker.isShowCalloutBalloonOnTouch = true
-            mapView.addPOIItem(marker)
-            val mapPoint2 = MapPoint.mapPointWithGeoCoord(37.48906326293945, 126.75608825683594)
-            val marker2 = MapPOIItem()
-            marker2.itemName = "테스트"
-            marker2.mapPoint = mapPoint2
-            marker2.markerType = MapPOIItem.MarkerType.BluePin
-            marker2.selectedMarkerType = MapPOIItem.MarkerType.RedPin
-            marker2.isShowCalloutBalloonOnTouch = true
-            mapView.addPOIItem(marker2)*/
-        val gc = mapPoint!!.getMapPointGeoCoord()
-        load_place()
-        latitude = gc.latitude
-        longitude = gc.longitude
-        Log.d("좌표", latitude.toString())
-        Log.d("좌표", longitude.toString())
-
-
     }
 
     //장소불러오기
@@ -364,17 +315,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
                         println("----------places-----$response")
 
-                        addMarkers()
+                        addMarkers(keyword)
                     }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
 
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
@@ -445,23 +392,6 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
     }
 
-
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-    }
-
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-    }
-
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-    }
-
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-    }
-
-    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-    }
-
-
     override fun onLocationUpdated(location: Location?) {
         stopLocation()
 
@@ -473,8 +403,8 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
         if (location != null) {
 
-            latitude = location.getLatitude()
-            longitude = location.getLongitude()
+            latitude = location.latitude
+            longitude = location.longitude
 
             myLocationSetted = true
 
@@ -489,20 +419,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             }
         }
 
-    }
-
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?, p2: MapPOIItem.CalloutBalloonButtonType?) {
-
-    }
-
-    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
-
-    }
-
-    override fun onPOIItemSelected(MapView: MapView?, marker: MapPOIItem?) {
-        selected_item = marker!!.userObject as JSONObject
-        showplace(selected_item!!)
-
+        load_place()
     }
 
     fun showplace(json: JSONObject) {
@@ -510,11 +427,6 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
         val intent = Intent(myContext, MapSearchActivity::class.java)
         intent.putExtra("place_id", place_id)
         startActivity(intent)
-
-    }
-
-
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
 
     }
 
@@ -538,7 +450,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
 
-        googleMap!!.getUiSettings().setRotateGesturesEnabled(false)
+        googleMap!!.uiSettings.isRotateGesturesEnabled = false
 
         googleMap!!.setOnMarkerClickListener(GoogleMap.OnMarkerClickListener { marker ->
             // System.out.println(marker);
@@ -589,11 +501,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             googleMap?.animateCamera(cu)
         }
 
-        load_place()
+
+        initGPS()
+
     }
 
 
-    private fun addMarkers() {
+    private fun addMarkers(keyword: String) {
 
         if(activity == null || !isAdded) {
             return
@@ -612,13 +526,13 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
 
             val latlng = LatLng(lat, lng)
 
-            var bitmap = BitmapFactory.decodeResource(myContext.getResources(), R.mipmap.pin2);
+            var bitmap = BitmapFactory.decodeResource(myContext.resources, R.mipmap.pin2)
 
             // draw
 
             val scale = resources.displayMetrics.density
 
-            var bitmapConfig = bitmap.config;
+            var bitmapConfig = bitmap.config
             // set default bitmap config if none
             if (bitmapConfig == null) {
                 bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888
@@ -712,16 +626,11 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, MapView.MapVi
             val marker = googleMap!!.addMarker(MarkerOptions().position(latlng).icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
             marker.tag = place
             val zoom = googleMap!!.cameraPosition.zoom
-            if (zoom >= 14){
-            marker.isVisible = true
-            } else {
-            marker.isVisible = false
-            }
+            marker.isVisible = zoom >= 14
 
             markers.add(marker)
 
-
-            if(i == 0) {
+            if(keyword.isNotEmpty() && i == 0) {
                 val cu = CameraUpdateFactory.newLatLngZoom(latlng, 14.1f)
                 googleMap!!.animateCamera(cu)
             }
