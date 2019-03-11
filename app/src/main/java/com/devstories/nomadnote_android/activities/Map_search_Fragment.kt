@@ -630,10 +630,12 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, OnMapReadyCal
 
             markers.add(marker)
 
+            /*
             if(keyword.isNotEmpty() && i == 0) {
                 val cu = CameraUpdateFactory.newLatLngZoom(latlng, 14.1f)
                 googleMap!!.animateCamera(cu)
             }
+            */
 
         }
 
