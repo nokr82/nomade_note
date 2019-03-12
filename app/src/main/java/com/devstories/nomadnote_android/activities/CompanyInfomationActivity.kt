@@ -19,7 +19,6 @@ class CompanyInfomationActivity : RootActivity() {
     lateinit var context: Context
     private var progressDialog: ProgressDialog? = null
 
-
     var type = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
