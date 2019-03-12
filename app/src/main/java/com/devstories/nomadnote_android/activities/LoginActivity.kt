@@ -142,9 +142,6 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 //            println("login:::::::is_push:::::::::::::$is_push last_id::$last_id::::::::created=$created")
 //        }
 
-        callback = SessionCallback()
-        Session.getCurrentSession().addCallback(callback)
-
         FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
         userManagement = UserManagement.getInstance()
@@ -419,12 +416,23 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
         val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
         val params = RequestParams()
         params.put("name", name)
         params.put("join_type", join_type)
         params.put("email", email)
         params.put("sns_key", sns_key)
         params.put("android_id", android_id)
+        params.put("language", language)
 
         JoinAction.join(params, object : JsonHttpResponseHandler() {
 
@@ -691,6 +699,11 @@ class LoginActivity : FragmentActivity(), GoogleApiClient.OnConnectionFailedList
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        callback = SessionCallback()
+        Session.getCurrentSession().addCallback(callback)
+    }
 
     override fun onDestroy() {
         super.onDestroy()

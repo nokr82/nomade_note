@@ -208,9 +208,23 @@
     <string name="find_pw_send_email">已通过该邮箱发送密码。</string>
     <string name="find_id_send_email">用该邮件发送用户名。</string>
     <string name="addtofriends">加好友</string>
+    <string name="check_email">请确认邮件。</string>
+    <string name="enter_password">请输入密码。</string>
+    <string name="mismatch_password">密码不一致。</string>
+    <string name="info_check">请同意个人信息</string>
+    <string name="already_email">已经使用的邮件。</string>
+    <string name="enter_are">地区是必填内容。</string>
     <string name="add_friends_empty">不存在一致的会员。</string>
     <string name="add_friends">添加了。</string>
     <string name="add_friends_already">已经是朋友了。</string>
     <string name="age">岁</string>
+    <string name="success_member">成功注册</string>
+    <string name="delete_message">删除</string>
+    <string name="find_email">用已登记的电子邮件查找</string>
+    <string name="back_message">再按一次"向后"键即可结束。</string>
+    <string name="duration_time">平均停留时间</string>
+    <string name="consumption_amount">平均消费时间</string>
+    <string name="seocho">2019-首尔瑞草-0657</string>
+    <string name="gavia">WIX, 加比亚</string>
 
 </resources>

@@ -12,10 +12,7 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.os.*
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -33,14 +30,12 @@ import com.devstories.nomadnote_android.base.GlobalApplication
 import com.devstories.nomadnote_android.base.GoogleAnalytics
 import com.devstories.nomadnote_android.base.PrefUtils
 import com.devstories.nomadnote_android.base.Utils
+import com.google.android.gms.location.*
 import com.loopj.android.http.JsonHttpResponseHandler
 import com.loopj.android.http.RequestParams
 import cz.msebera.android.httpclient.Header
 import io.nlopez.smartlocation.OnLocationUpdatedListener
 import io.nlopez.smartlocation.SmartLocation
-import io.nlopez.smartlocation.location.config.LocationAccuracy
-import io.nlopez.smartlocation.location.config.LocationParams
-import io.nlopez.smartlocation.location.providers.LocationManagerProvider
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fra_scrap.*
 import org.json.JSONArray
@@ -80,6 +75,9 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
 
     val SELECT_TIMELINE = 1000
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+
     internal var ResetReceiver: BroadcastReceiver? = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             if (intent != null) {
@@ -117,6 +115,18 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
 
         val filter2 = IntentFilter("DELETE_TIMELINE")
         activity.registerReceiver(ResetReceiver, filter2)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+
+                fusedLocationClient.removeLocationUpdates(locationCallback)
+
+                locationResult ?: return
+                onLocationUpdated(locationResult?.lastLocation)
+            }
+        }
 
         click()
 
@@ -579,20 +589,30 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun startLocation() {
 
-        val smartLocation = SmartLocation.Builder(myContext).logging(true).build()
+        /*
+        val smartLocation = SmartLocation.Builder(context).logging(true).build()
         val locationControl = smartLocation.location(LocationManagerProvider()).oneFix()
 
-        if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isGpsAvailable) {
+        if (SmartLocation.with(context).location(LocationManagerProvider()).state().isGpsAvailable) {
             val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.MEDIUM).build()
             locationControl.config(locationParams)
-        } else if (SmartLocation.with(myContext).location(LocationManagerProvider()).state().isNetworkAvailable) {
+        } else if (SmartLocation.with(context).location(LocationManagerProvider()).state().isNetworkAvailable) {
             val locationParams = LocationParams.Builder().setAccuracy(LocationAccuracy.LOW).build()
             locationControl.config(locationParams)
         }
 
         smartLocation.location().oneFix().start(this)
+        */
+
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10 * 1000  /* 10 secs */
+        locationRequest.fastestInterval = 2000 /* 2 sec */
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
 
     }
 

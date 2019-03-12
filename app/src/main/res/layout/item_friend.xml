@@ -63,7 +63,7 @@
                        android:gravity="center"
                        android:textSize="13dp"
                        android:textColor="#D0021B"
-                       android:text="삭제"
+                       android:text="@string/delete_message"
                        android:layout_marginRight="15dp"
                        />
 

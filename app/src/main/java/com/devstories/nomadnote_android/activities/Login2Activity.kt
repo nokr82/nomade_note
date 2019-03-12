@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_login2.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 
 class Login2Activity : RootActivity() {
 
@@ -60,12 +61,12 @@ class Login2Activity : RootActivity() {
             email = Utils.getString(emailET)
 
             if (email == "") {
-                Toast.makeText(context, "이메일을 입력해주세요.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.enter_email), Toast.LENGTH_LONG).show();
                 return@setOnClickListener
             }
 
             if (email == "") {
-                Toast.makeText(context, "비밀번호를 입력해주세요.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, getString(R.string.enter_password), Toast.LENGTH_LONG).show();
                 return@setOnClickListener
             }
 
@@ -94,10 +95,21 @@ class Login2Activity : RootActivity() {
 
         val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
 
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
         val params = RequestParams()
         params.put("email", email)
         params.put("passwd", passwd)
         params.put("android_id", android_id)
+        params.put("language", language)
 
 
         println("login::::::::::autoLogin::::::::::::::::::::::::::::::$autoLogin")

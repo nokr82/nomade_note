@@ -37,9 +37,9 @@
     <!--로마-->
     <string name="activity_write_healing">Healing Style</string>
     <!--힐링 스타일-->
-    <string name="activity_write_hotplace">Popular Destinations</string>
+    <string name="activity_write_hotplace">Hot Place</string>
     <string name="culturalstyle">Cultural Style</string>
-    <string name="historicalstyle">Historical Style</string>
+    <string name="historicalstyle">History Style</string>
     <string name="museumstyle">Museum Style</string>
     <string name="entertext">Enter text</string>
     <string name="builderwanttopost">Do you want to post?</string>
@@ -146,9 +146,9 @@
     <string name="direct_input">Enter the address.</string>
     <string name="send_code">Send a password</string>
     <string name="find_sns_login">Find through SNS log-in.</string>
-    <string name="terms_and_conditions">Terms and Conditions</string>
-    <string name="private_infomation">Private Information Processing Policy</string>
-    <string name="business_infomation">Business Information Confirmation</string>
+    <string name="terms_and_conditions">Terms\nand Conditions</string>
+    <string name="private_infomation">Private Information\nProcessing Policy</string>
+    <string name="business_infomation">Business Information\nConfirmation</string>
     <string name="service_registration_number">Telecommunication Service Registration Number</string>
     <string name="company_registration_number">Company Registration Number</string>
     <string name="registration_status">Registration Status</string>
@@ -200,9 +200,23 @@
     <string name="find_pw_send_email">You have sent your password via the email.</string>
     <string name="find_id_send_email">You have sent your ID to the appropriate email.</string>
     <string name="addtofriends">Add to friends</string>
+    <string name="check_email">Please check your e-mail.</string>
+    <string name="enter_password">Please enter your password.</string>
+    <string name="mismatch_password">Password mismatch.</string>
+    <string name="info_check">Please agree to consent to personal information.</string>
+    <string name="already_email">This email is already in use.</string>
+    <string name="enter_are">The area is required.</string>
     <string name="add_friends_empty">No matching member exists.</string>
     <string name="add_friends">Added.</string>
     <string name="add_friends_already">I＇m already a friend.</string>
     <string name="age">years old</string>
+    <string name="success_member">a successful accession</string>
+    <string name="delete_message">Delete</string>
+    <string name="find_email">Find by registered email</string>
+    <string name="back_message">Press the \'Back\' button once more to exit.</string>
+    <string name="duration_time">Average duration time</string>
+    <string name="consumption_amount">Average consumption amount</string>
+    <string name="seocho">2019-Seoul Seocho-0657</string>
+    <string name="gavia">WIX, GAVIA</string>
 
 </resources>

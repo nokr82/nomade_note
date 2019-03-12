@@ -82,16 +82,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"></LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="100dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -201,16 +197,16 @@
                     android:background="@drawable/background_border_radius5_000000"
                     android:padding="10dp">
 
-                <EditText
-                    android:id="@+id/ageET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:hint="@string/enteryourage"
-                    android:inputType="number"
-                    android:textColorHint="#878787"
-                    android:textSize="14dp" />
+                    <EditText
+                        android:id="@+id/ageET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="@string/enteryourage"
+                        android:inputType="number"
+                        android:textColorHint="#878787"
+                        android:textSize="14dp" />
 
 
                 </LinearLayout>
@@ -253,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="20dp"
-                android:layout_weight="1"
+                android:layout_weight="0.1"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -288,31 +284,38 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp">
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/serviceTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="right|center_vertical"
                         android:maxLines="2"
                         android:text="@string/terms_and_conditions"
                         android:textColor="#878787"
                         android:textSize="12dp"
                         autofit:minTextSize="3dp" />
 
-                    <View
-                        android:layout_width="1dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="#878787" />
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="4dp"
+                            android:background="#878787" />
+                    </LinearLayout>
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/privacyTV"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
                         android:maxLines="2"
                         android:text="@string/private_infomation"
@@ -320,17 +323,25 @@
                         android:textSize="12dp"
                         autofit:minTextSize="3dp" />
 
-                    <View
-                        android:layout_width="1dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="#878787" />
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="5dp"
+                            android:background="#878787" />
+                    </LinearLayout>
 
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/companyinfoTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
                         android:maxLines="2"
                         android:text="@string/business_infomation"
                         android:textColor="#878787"
@@ -348,10 +359,7 @@
         </LinearLayout>
 
 
-
-
     </ScrollView>
-
 
 
 </LinearLayout>

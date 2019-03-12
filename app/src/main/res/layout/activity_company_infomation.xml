@@ -80,7 +80,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
-                    android:text="-"/>
+                    android:text="@string/seocho"
+                    android:textColor="#878787"
+                    android:textSize="12sp"/>
 
 
             </LinearLayout>
@@ -270,7 +272,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
-                    android:text="00-0000"
+                    android:text=""
                     android:textColor="#878787"
                     android:textSize="11dp"/>
 
@@ -398,7 +400,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
-                    android:text="-"
+                    android:text="20190226"
                     android:textColor="#878787"
                     android:textSize="11dp"/>
 
@@ -494,7 +496,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
-                    android:text="WIX, 가비아"
+                    android:text="@string/gavia"
                     android:textColor="#878787"
                     android:textSize="11dp"/>
 
@@ -526,7 +528,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingLeft="25dp"
-                    android:text="-"
+                    android:text="@string/seocho"
                     android:textColor="#878787"
                     android:textSize="11dp"/>
 
@@ -611,31 +613,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp">
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/serviceTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="right|center_vertical"
                 android:maxLines="2"
                 android:text="@string/terms_and_conditions"
                 android:textColor="#878787"
                 android:textSize="12dp"
                 autofit:minTextSize="3dp" />
 
-            <View
-                android:layout_width="1dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#878787" />
+                android:gravity="center">
+                <View
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#878787" />
+            </LinearLayout>
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/privacyTV"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:maxLines="2"
                 android:text="@string/private_infomation"
@@ -643,17 +651,24 @@
                 android:textSize="12dp"
                 autofit:minTextSize="3dp" />
 
-            <View
-                android:layout_width="1dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="#878787" />
+                android:gravity="center">
+                <View
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#878787" />
+            </LinearLayout>
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/companyinfoTV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="left|center_vertical"
                 android:maxLines="2"
                 android:text="@string/business_infomation"
                 android:textColor="#878787"

@@ -46,7 +46,7 @@
         <LinearLayout
             android:id="@+id/kakaoLL"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:background="#ffde00"
             android:gravity="center_vertical|center">
@@ -70,7 +70,7 @@
         <LinearLayout
             android:id="@+id/naverLL"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:background="#00b700"
             android:gravity="center_vertical|center">
@@ -94,7 +94,7 @@
         <LinearLayout
             android:id="@+id/googleLL"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
             android:background="#CC00"
             android:gravity="center_vertical|center">
@@ -118,7 +118,7 @@
         <LinearLayout
             android:id="@+id/facebookLL"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="4dp"
             android:background="#3b5997"
             android:gravity="center_vertical|center">
@@ -170,34 +170,37 @@
         android:layout_marginTop="30dp"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/joinTV"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            android:text="@string/activity_login_signup"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            android:gravity="center">
+            <TextView
+                android:id="@+id/joinTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:text="@string/activity_login_signup"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="/"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="/"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/loginTV"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/activity_login_login"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/loginTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/activity_login_login"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -206,34 +209,38 @@
         android:layout_height="30dp"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/findidTV"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="300dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            android:text="@string/find_id"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            android:gravity="center">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="/"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/findidTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:text="@string/find_id"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/findpasswordTV"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/find_password"
-            android:textColor="#779ba4"
-            android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="/"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/findpasswordTV"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/find_password"
+                android:textColor="#779ba4"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </LinearLayout>
 

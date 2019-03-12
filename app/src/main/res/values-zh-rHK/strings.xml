@@ -206,5 +206,19 @@
     <string name="add_friends">添加了。</string>
     <string name="add_friends_already">已经是朋友了。</string>
     <string name="age">岁</string>
+    <string name="check_email">請確認郵件。</string>
+    <string name="enter_password">請輸入密碼。</string>
+    <string name="mismatch_password">密碼不一致。</string>
+    <string name="info_check">請同意個人信息</string>
+    <string name="already_email">已經使用的郵件。</string>
+    <string name="enter_are">地區是必填內容。</string>
+    <string name="success_member">成功註冊</string>
+    <string name="delete_message">刪除</string>
+    <string name="find_email">用已登記的電子郵件查找</string>
+    <string name="back_message">再按一次"向後"鍵即可結束。</string>
+    <string name="duration_time">平均停留時間</string>
+    <string name="consumption_amount">平均消費時間</string>
+    <string name="seocho">2019-首爾瑞草-0657</string>
+    <string name="gavia">WIX, 加比亞</string>
 
 </resources>

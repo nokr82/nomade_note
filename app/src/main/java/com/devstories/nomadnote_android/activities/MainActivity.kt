@@ -624,7 +624,7 @@ class MainActivity : FragmentActivity() {
         if (System.currentTimeMillis() - backPressedTime < BACK_PRESSED_TERM) {
             finish()
         } else {
-            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.back_message), Toast.LENGTH_SHORT).show()
             backPressedTime = System.currentTimeMillis()
             Utils.hideKeyboard(context)
         }
