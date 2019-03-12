@@ -257,7 +257,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             }
 
             private fun error() {
-                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, getString(R.string.error))
             }
 
             override fun onFailure(
@@ -378,7 +378,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             }
 
             private fun error() {
-                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, getString(R.string.error))
             }
 
             override fun onFailure(
@@ -489,7 +489,7 @@ open class Scrap_Fragment : Fragment(), OnLocationUpdatedListener, AbsListView.O
             }
 
             private fun error() {
-                Utils.alert(myContext, "조회중 장애가 발생하였습니다.")
+                Utils.alert(myContext, getString(R.string.error))
             }
 
             override fun onFailure(

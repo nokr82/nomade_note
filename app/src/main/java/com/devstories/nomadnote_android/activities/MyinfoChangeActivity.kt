@@ -173,7 +173,7 @@ class MyinfoChangeActivity : RootActivity() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(context, getString(R.string.error))
             }
 
             override fun onFailure(statusCode: Int, headers: Array<Header>?, responseString: String?, throwable: Throwable) {
@@ -309,7 +309,7 @@ class MyinfoChangeActivity : RootActivity() {
             }
 
             private fun error() {
-                Utils.alert(context, "조회중 장애가 발생하였습니다.")
+                Utils.alert(context, getString(R.string.error))
             }
 
             override fun onFailure(
