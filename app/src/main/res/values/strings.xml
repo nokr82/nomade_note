@@ -215,5 +215,6 @@
     <string name="seocho">2019-서울서초-0657</string>
     <string name="gavia">WIX, 가비아</string>
 
+    <string name="error">조회중 장애가 발생하였습니다.</string>
 
 </resources>

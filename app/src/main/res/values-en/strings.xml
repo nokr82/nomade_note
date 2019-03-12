@@ -219,4 +219,6 @@
     <string name="seocho">2019-Seoul Seocho-0657</string>
     <string name="gavia">WIX, GAVIA</string>
 
+    <string name="error">A fault occurred during the inquiry.</string>
+
 </resources>

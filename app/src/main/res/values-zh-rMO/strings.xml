@@ -221,4 +221,6 @@
     <string name="seocho">2019-首爾瑞草-0657</string>
     <string name="gavia">WIX, 加比亞</string>
 
+
+    <string name="error">查詢中發生故障。</string>
 </resources>

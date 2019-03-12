@@ -271,4 +271,6 @@
     <string name="seocho">2019-ソウル瑞草(ソチョ)-0657</string>
     <string name="gavia">WIX, ガビア</string>
 
+    <string name="error">照会中に障害が発生しました。</string>
+
 </resources>
