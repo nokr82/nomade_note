@@ -212,6 +212,8 @@
     <string name="back_message">\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.</string>
     <string name="duration_time">평균 체류시간</string>
     <string name="consumption_amount">평균 소비금액</string>
+    <string name="seocho">2019-서울서초-0657</string>
+    <string name="gavia">WIX, 가비아</string>
 
 
 </resources>

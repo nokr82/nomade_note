@@ -216,5 +216,7 @@
     <string name="back_message">Press the \'Back\' button once more to exit.</string>
     <string name="duration_time">Average duration time</string>
     <string name="consumption_amount">Average consumption amount</string>
+    <string name="seocho">2019-Seoul Seocho-0657</string>
+    <string name="gavia">WIX, GAVIA</string>
 
 </resources>

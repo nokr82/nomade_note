@@ -218,5 +218,7 @@
     <string name="back_message">再按一次"向後"鍵即可結束。</string>
     <string name="duration_time">平均停留時間</string>
     <string name="consumption_amount">平均消費時間</string>
+    <string name="seocho">2019-首爾瑞草-0657</string>
+    <string name="gavia">WIX, 加比亞</string>
 
 </resources>

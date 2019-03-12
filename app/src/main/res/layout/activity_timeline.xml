@@ -69,8 +69,8 @@
                             android:gravity="bottom">
                             <ImageView
                                 android:id="@+id/translateIV"
-                                android:layout_width="30dp"
-                                android:layout_height="13dp"
+                                android:layout_width="33dp"
+                                android:layout_height="12dp"
                                 android:src="@mipmap/translation"
                                 android:scaleType="fitXY"
                                 android:paddingLeft="2dp"
