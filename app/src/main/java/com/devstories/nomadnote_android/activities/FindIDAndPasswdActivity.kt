@@ -737,6 +737,11 @@ class FindIDAndPasswdActivity : RootActivity() {
             email = email + "@" + selectemailtv
         }
 
+        if (!Utils.isValidEmail(email)) {
+            Toast.makeText(context,getString(R.string.check_email),Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val params = RequestParams()
         if (type == "password") {
             params.put("id", id)
