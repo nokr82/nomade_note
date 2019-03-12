@@ -636,7 +636,7 @@
                     android:layout_marginRight="2dp"
                     android:layout_marginLeft="2dp"
                     android:layout_width="1dp"
-                    android:layout_height="15dp"
+                    android:layout_height="match_parent"
                     android:background="#878787" />
             </LinearLayout>
 
@@ -660,7 +660,7 @@
                     android:layout_marginRight="2dp"
                     android:layout_marginLeft="2dp"
                     android:layout_width="1dp"
-                    android:layout_height="15dp"
+                    android:layout_height="match_parent"
                     android:background="#878787" />
             </LinearLayout>
 
