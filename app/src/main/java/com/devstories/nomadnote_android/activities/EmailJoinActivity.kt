@@ -64,26 +64,26 @@ class EmailJoinActivity : RootActivity() {
             pw = Utils.getString(pwET)
             pw2 = Utils.getString(pw2ET)
             if (email.equals("")){
-                Toast.makeText(context,getString(R.string.enter_email),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"이메일을 입력해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (!Utils.isValidEmail(email)) {
-                Toast.makeText(context,getString(R.string.check_email),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"이메일을 확인해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (pw.equals("")){
-                Toast.makeText(context,getString(R.string.enter_password),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"비밀번호를 입력해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (pw !=pw2){
-                Toast.makeText(context,getString(R.string.mismatch_password),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (fillIV.visibility == View.GONE){
-                Toast.makeText(context,getString(R.string.info_check),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"개인정보 동의하기에 동의해주세요.",Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -129,7 +129,7 @@ class EmailJoinActivity : RootActivity() {
 
 
                     } else {
-                      Toast.makeText(context,getString(R.string.already_email),Toast.LENGTH_SHORT).show()
+                      Toast.makeText(context,"이미 사용중인 이메일입니다.",Toast.LENGTH_SHORT).show()
                     }
 
                 } catch (e: JSONException) {
