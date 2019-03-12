@@ -74,7 +74,7 @@
     <string name="searchphone">Search By Contact Info</string>
     <string name="inquire">Inquire</string>
     <string name="enteryourname">Enter Your Name.</string>
-    <string name="enteryouraddress">Enter Your Address.</string>
+    <string name="enteryouraddress">Please enter your contact number.</string>
     <string name="chooseyourgender">Choose Your Gender</string>
     <string name="title">Title</string>
     <string name="createnote">Create Note</string>

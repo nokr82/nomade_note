@@ -344,7 +344,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -451,25 +451,35 @@
                             android:rotation="90"
                             android:src="@mipmap/icon_arrow" />
 
-                        <Spinner
-                            android:id="@+id/spinnerS"
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="@null"
-                            android:paddingLeft="5dp"
-                            android:popupBackground="@drawable/background_border_spiner" />
+                            android:popupBackground="@drawable/background_border_spiner">
 
-                        <EditText
-                            android:id="@+id/emailET"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="@string/direct_input"
-                            android:padding="5dp"
-                            android:textSize="12dp" />
+                            <Spinner
+                                android:id="@+id/spinnerS"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:paddingLeft="5dp" />
+
+                            <EditText
+                                android:id="@+id/emailET"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="30dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="1.5dp"
+                                android:layout_marginBottom="1.5dp"
+                                android:background="#FFFFFF"
+                                android:hint="@string/direct_input"
+                                android:text=""
+                                android:textSize="12dp"
+                                android:visibility="visible" />
+
+                        </RelativeLayout>
+
                     </RelativeLayout>
-
 
                 </LinearLayout>
 

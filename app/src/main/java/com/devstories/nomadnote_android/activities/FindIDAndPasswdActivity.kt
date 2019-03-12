@@ -123,29 +123,45 @@ class FindIDAndPasswdActivity : RootActivity() {
         var spinnerAdpater = ArrayAdapter(context, R.layout.spiner_item, spinnerItem)
         spinnerS.adapter = spinnerAdpater
         spinnerAdpater.setDropDownViewResource(R.layout.spiner_item)
-        spinnerS.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                val email = spinnerItem.get(pos)
-                if (email == getString(R.string.direct_input)){
+        spinnerS.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (position == 0) {
                     emailET.visibility = View.VISIBLE
-                    emailTV.visibility = View.GONE
-                    emailET.setHint(getString(R.string.direct_input))
                     emailET.setText("")
-                    emailTV.setText("")
                 } else {
                     emailET.visibility = View.GONE
-                    emailTV.visibility = View.VISIBLE
-                    emailET.setText("")
-                    emailTV.setText(email)
                 }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<out Adapter>?) {
 
             }
 
-        }
+            override fun onNothingSelected(adapterView: AdapterView<*>) {
+
+            }
+        })
+
+//        spinnerS.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//
+//            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+//                val email = spinnerItem.get(pos)
+//                if (pos == 1){
+//                    emailET.visibility = View.VISIBLE
+//                    emailTV.visibility = View.GONE
+//                    emailET.setHint(getString(R.string.direct_input))
+//                    emailET.setText("")
+//                    emailTV.setText("")
+//                } else {
+//                    emailET.visibility = View.GONE
+//                    emailTV.visibility = View.VISIBLE
+//                    emailET.setText("")
+//                    emailTV.setText(email)
+//                }
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<out Adapter>?) {
+//
+//            }
+//
+//        }
 
         var intent = getIntent()
         type = intent.getStringExtra("type")
@@ -729,6 +745,18 @@ class FindIDAndPasswdActivity : RootActivity() {
         params.put("name",name)
         params.put("email",email)
         params.put("type",type)
+
+        var language = Locale.getDefault().language
+        if(language == "zh") {
+            language = Locale.getDefault().isO3Country
+            if (language == "CHN") {
+                language = "zh_rCN"
+            } else {
+                language = "zh_rTW"
+            }
+        }
+
+        params.put("language", language)
 
         JoinAction.send_mail(params, object : JsonHttpResponseHandler() {
 
