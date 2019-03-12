@@ -147,7 +147,7 @@
     <string name="send_code">Send a password</string>
     <string name="find_sns_login">Find through SNS log-in.</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
-    <string name="private_infomation">Private Information Processing Policy</string>
+    <string name="private_infomation">Private Information \n Processing Policy</string>
     <string name="business_infomation">Business Information Confirmation</string>
     <string name="service_registration_number">Telecommunication Service Registration Number</string>
     <string name="company_registration_number">Company Registration Number</string>
