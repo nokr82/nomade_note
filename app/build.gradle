@@ -31,7 +31,7 @@ android {
     signingConfigs {
         nomad_note {
 //            storeFile file("D:/CloudStation/android_keystore/nomad_note/nomad_note.jks")
-            storeFile file("/Users/theclub/CloudStation/android_keystore/nomad_note/nomad_note.jks")
+            storeFile file("/Users/wangbumlee/CloudStation/android_keystore/nomad_note/nomad_note.jks")
             // storePassword "123456"
             keyAlias "nomad_note"
             keyPassword "123456"
