@@ -169,8 +169,8 @@ class MainActivity : FragmentActivity() {
         var filter5 = IntentFilter("DATA_LIMIT")
         registerReceiver(datachangeReciver, filter5)
 
-        val filter6 = IntentFilter("MY_STEP_UPDATED")
-        registerReceiver(myQuotaUpdatedReceiver, filter1)
+        val filter6 = IntentFilter("MY_QUOTA_UPDATED")
+        registerReceiver(myQuotaUpdatedReceiver, filter6)
 
         updateToken()
         loadInfo()
