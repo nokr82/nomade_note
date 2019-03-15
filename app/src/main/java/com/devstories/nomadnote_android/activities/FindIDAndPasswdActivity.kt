@@ -123,7 +123,7 @@ class FindIDAndPasswdActivity : RootActivity() {
         var spinnerAdpater = ArrayAdapter(context, R.layout.spiner_item, spinnerItem)
         spinnerS.adapter = spinnerAdpater
         spinnerAdpater.setDropDownViewResource(R.layout.spiner_item)
-        spinnerS.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerS.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 if (position == 0) {
                     emailET.visibility = View.VISIBLE
@@ -137,7 +137,7 @@ class FindIDAndPasswdActivity : RootActivity() {
             override fun onNothingSelected(adapterView: AdapterView<*>) {
 
             }
-        })
+        }
 
 //        spinnerS.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //
@@ -163,7 +163,7 @@ class FindIDAndPasswdActivity : RootActivity() {
 //
 //        }
 
-        var intent = getIntent()
+        var intent = intent
         type = intent.getStringExtra("type")
         if (type == "password"){
             logoTV.text = getString(R.string.find_password)
@@ -175,10 +175,10 @@ class FindIDAndPasswdActivity : RootActivity() {
             snsV.visibility = View.VISIBLE
             idandpasswordTV.visibility = View.GONE
             idandpasswordLL.visibility = View.VISIBLE
-            emailidLL.visibility = View.VISIBLE
+            // emailidLL.visibility = View.VISIBLE
             phoneidLL.visibility = View.VISIBLE
-            sendphoneTV.setText(getString(R.string.send_code))
-            sendemailTV.setText(getString(R.string.send_code))
+            sendphoneTV.text = getString(R.string.send_code)
+            sendemailTV.text = getString(R.string.send_code)
         }else{
             logoTV.text = getString(R.string.find_id)
             idV.visibility = View.VISIBLE
@@ -189,12 +189,12 @@ class FindIDAndPasswdActivity : RootActivity() {
             snsV.visibility = View.GONE
             idandpasswordTV.visibility = View.VISIBLE
             idandpasswordLL.visibility = View.GONE
-            emailidLL.visibility = View.GONE
+            // emailidLL.visibility = View.GONE
             phoneidLL.visibility = View.GONE
             phoneidET.setText("")
-            idET.setText("")
-            sendphoneTV.setText(getString(R.string.confirm))
-            sendemailTV.setText(getString(R.string.confirm))
+            // idET.setText("")
+            sendphoneTV.text = getString(R.string.confirm)
+            sendemailTV.text = getString(R.string.confirm)
             type = "id"
         }
 
@@ -266,12 +266,12 @@ class FindIDAndPasswdActivity : RootActivity() {
             snsV.visibility = View.GONE
             idandpasswordTV.visibility = View.VISIBLE
             idandpasswordLL.visibility = View.GONE
-            emailidLL.visibility = View.GONE
+            // emailidLL.visibility = View.GONE
             phoneidLL.visibility = View.GONE
             phoneidET.setText("")
-            idET.setText("")
-            sendphoneTV.setText(getString(R.string.confirm))
-            sendemailTV.setText(getString(R.string.confirm))
+            // idET.setText("")
+            sendphoneTV.text = getString(R.string.confirm)
+            sendemailTV.text = getString(R.string.confirm)
             type = "id"
         }
 
@@ -285,10 +285,10 @@ class FindIDAndPasswdActivity : RootActivity() {
             snsV.visibility = View.VISIBLE
             idandpasswordTV.visibility = View.GONE
             idandpasswordLL.visibility = View.VISIBLE
-            emailidLL.visibility = View.VISIBLE
+            // emailidLL.visibility = View.VISIBLE
             phoneidLL.visibility = View.VISIBLE
-            sendphoneTV.setText(getString(R.string.send_code))
-            sendemailTV.setText(getString(R.string.send_code))
+            sendphoneTV.text = getString(R.string.send_code)
+            sendemailTV.text = getString(R.string.send_code)
             type = "password"
         }
 
@@ -583,10 +583,6 @@ class FindIDAndPasswdActivity : RootActivity() {
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -606,7 +602,7 @@ class FindIDAndPasswdActivity : RootActivity() {
                     progressDialog!!.dismiss()
                 }
 
-                println(responseString);
+                println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -685,10 +681,6 @@ class FindIDAndPasswdActivity : RootActivity() {
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -704,6 +696,7 @@ class FindIDAndPasswdActivity : RootActivity() {
 
     fun send_mail(){
 
+        /*
         val id = idET.text.toString()
         if (type == "password") {
             if (id == null || id == "") {
@@ -711,6 +704,7 @@ class FindIDAndPasswdActivity : RootActivity() {
                 return
             }
         }
+        */
 
         val name = emailnameET.text.toString()
         if (name == null || name == ""){
@@ -743,9 +737,12 @@ class FindIDAndPasswdActivity : RootActivity() {
         }
 
         val params = RequestParams()
+
+        /*
         if (type == "password") {
             params.put("id", id)
         }
+        */
 
         params.put("name",name)
         params.put("email",email)
@@ -794,10 +791,6 @@ class FindIDAndPasswdActivity : RootActivity() {
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -817,7 +810,7 @@ class FindIDAndPasswdActivity : RootActivity() {
                     progressDialog!!.dismiss()
                 }
 
-                println(responseString);
+                println(responseString)
 
                 throwable.printStackTrace()
                 error()
@@ -904,10 +897,6 @@ class FindIDAndPasswdActivity : RootActivity() {
 
             }
 
-            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONArray?) {
-                super.onSuccess(statusCode, headers, response)
-            }
-
             override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
 
                 // System.out.println(responseString);
@@ -927,7 +916,7 @@ class FindIDAndPasswdActivity : RootActivity() {
                     progressDialog!!.dismiss()
                 }
 
-                println(responseString);
+                println(responseString)
 
                 throwable.printStackTrace()
                 error()

@@ -175,15 +175,20 @@ class MainActivity : FragmentActivity() {
         updateToken()
         loadInfo()
 
-        var intent = getIntent()
         val is_push = PrefUtils.getBooleanPreference(context, "is_push")
         if (is_push) {
             val last_id = PrefUtils.getStringPreference(context,"last_id")
-            val created = PrefUtils.getStringPreference(context,"created")
-            val intent = Intent(context, WriteActivity::class.java)
-            intent.putExtra("qnas_id", last_id)
-            intent.putExtra("created_at", created)
-            startActivity(intent)
+
+            println("last_id : $last_id")
+
+            if(last_id != null && last_id != "-1") {
+                val created = PrefUtils.getStringPreference(context,"created")
+                val intent = Intent(context, WriteActivity::class.java)
+                intent.putExtra("qnas_id", last_id)
+                intent.putExtra("created_at", created)
+                startActivity(intent)
+            }
+
         }
 
         PrefUtils.removePreference(context, "is_push")
@@ -683,11 +688,16 @@ class MainActivity : FragmentActivity() {
         val is_push = PrefUtils.getBooleanPreference(context, "is_push")
         if (is_push) {
             val last_id = PrefUtils.getStringPreference(context,"last_id")
-            val created = PrefUtils.getStringPreference(context,"created")
-            val intent = Intent(context, WriteActivity::class.java)
-            intent.putExtra("qnas_id", last_id)
-            intent.putExtra("created_at", created)
-            startActivity(intent)
+
+            println("last_id 2 : $last_id")
+
+            if(last_id != null && last_id != "-1") {
+                val created = PrefUtils.getStringPreference(context, "created")
+                val intent = Intent(context, WriteActivity::class.java)
+                intent.putExtra("qnas_id", last_id)
+                intent.putExtra("created_at", created)
+                startActivity(intent)
+            }
         }
 
         PrefUtils.removePreference(context, "is_push")

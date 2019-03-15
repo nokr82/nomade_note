@@ -347,7 +347,7 @@
                 android:visibility="visible">
 
 
-                <LinearLayout
+                <!-- LinearLayout
                     android:id="@+id/emailidLL"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
@@ -371,7 +371,7 @@
                         android:textColor="#878787"
                         android:textSize="12sp" />
 
-                </LinearLayout>
+                </LinearLayout -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -467,9 +467,9 @@
                                 android:id="@+id/emailET"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="30dp"
                                 android:layout_marginLeft="5dp"
                                 android:layout_marginTop="1.5dp"
+                                android:layout_marginRight="30dp"
                                 android:layout_marginBottom="1.5dp"
                                 android:background="#FFFFFF"
                                 android:hint="@string/direct_input"
@@ -675,14 +675,11 @@
 
                 </LinearLayout>
 
-
                 <View
-
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="25dp"
                     android:background="#9b9b9b" />
-                r
             </LinearLayout>
 
 
@@ -744,11 +741,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center">
+
                         <View
-                            android:layout_marginRight="4dp"
-                            android:layout_marginLeft="5dp"
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="4dp"
                             android:background="#878787" />
                     </LinearLayout>
 
@@ -762,15 +760,17 @@
                         android:textColor="#878787"
                         android:textSize="12dp"
                         autofit:minTextSize="3dp" />
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center">
+
                         <View
-                            android:layout_marginRight="5dp"
-                            android:layout_marginLeft="4dp"
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="5dp"
                             android:background="#878787" />
                     </LinearLayout>
 

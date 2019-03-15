@@ -48,25 +48,27 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         val sdf = SimpleDateFormat("yy-MM-dd HH:mm:ss")
         val getTime = sdf.format(date)
 
-        var d1 = sdf.parse(created_at);
-        var d2 = sdf.parse(getTime);
+        var d1 = sdf.parse(created_at)
+        var d2 = sdf.parse(getTime)
 
         val diff = d2.time - d1.time
-        val days = TimeUnit.MILLISECONDS.toDays(diff);
-        val remainingHoursInMillis = diff - TimeUnit.DAYS.toMillis(days);
-        val hours = TimeUnit.MILLISECONDS.toHours(remainingHoursInMillis);
-        val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours);
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis);
+        val days = TimeUnit.MILLISECONDS.toDays(diff)
+        val remainingHoursInMillis = diff - TimeUnit.DAYS.toMillis(days)
+        val hours = TimeUnit.MILLISECONDS.toHours(remainingHoursInMillis)
+        val remainingMinutesInMillis = remainingHoursInMillis - TimeUnit.HOURS.toMillis(hours)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(remainingMinutesInMillis)
 
 
         if (days > 0){
-            item.timeTV.setText(days.toString() + "D")
+            item.timeTV.text = days.toString() + "D"
+            item.timeLL.setBackgroundResource(R.drawable.circle_background4)
         } else {
             if (hours.toInt() == 0 ){
-                item.timeTV.setText(minutes.toString() + "M")
+                item.timeTV.text = minutes.toString() + "M"
             } else {
-                item.timeTV.setText(hours.toString() + "H")
+                item.timeTV.text = hours.toString() + "H"
             }
+            item.timeLL.setBackgroundResource(R.drawable.circle_background2)
         }
 
         /*
@@ -75,7 +77,7 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
         }
         */
 
-        item.contentTV.setText(question)
+        item.contentTV.text = question
 
 
         return retView
@@ -104,6 +106,7 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
     class ViewHolder(v: View) {
 
+        var timeLL: LinearLayout
         var timeTV: TextView
         var contentTV: TextView
         var answerLL: LinearLayout
@@ -111,6 +114,7 @@ open class QuestAdapter(context: Context, view: Int, data: ArrayList<JSONObject>
 
         init {
 
+            timeLL = v.findViewById<View>(R.id.timeLL) as LinearLayout
             timeTV = v.findViewById<View>(R.id.timeTV) as TextView
             contentTV = v.findViewById<View>(R.id.contentTV) as TextView
             answerLL = v.findViewById<View>(R.id.answerLL) as LinearLayout

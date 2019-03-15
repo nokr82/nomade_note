@@ -159,8 +159,7 @@
     <string name="service_mode">판매방식</string>
     <string name="internet">인터넷</string>
     <string name="handled_item">취급품목</string>
-    <string name="multishop">종합몰</string>
-    <string name="giftcard">상품권</string>
+    <string name="multishop">종합몰, 상품권</string>
     <string name="email_global">전자우편(E-mail)</string>
     <string name="reporting_date">신고일자</string>
     <string name="business_address">사업장소재지(도로명)</string>
@@ -169,7 +168,6 @@
     <string name="host_server">호스트서버소재지</string>
     <string name="reporting_agency">통신판매업 신고기관명</string>
     <string name="company_message">본 자료는 전자상거래시장에서 소비자가 정확한 사업자 정보를 가지고 안전한거래를 할 수 있도록 전국 시,군,구에서 신고된 통신판매업자의 신원정보를 전자상거래소비자보호법 제12조 4항에 따라 제공하는 정보입니다. 사업자 정보에 대한 궁금한 사항이나 사업자의 신원정보가 정보공개 내용과 불일치 할 경우에는 사업자 정보검색시 확인되는 해당 신고기관(지방자치단체)에 문의하여 주시기바랍니다. 일부 사업자의 경우, 부가가치세법상 사업자 폐업신고는 하였으나 전자상거래법상 통신판매업 폐업 신고는 하지 않은 사례가 있을 수 있습니다. 소비자 피해를 방지하기 위해 부가가치세법상 사업자 폐업여부도 국세청 홈페이지(www.hometax.go.kr)의 사업자등록상태조회 코너를 통해 확인하시기바랍니다.</string>
-    <string name="link">[바로가기링크]</string>
     <string name="find_password_choice">비밀번호를 찾을 방법을 선택해주세요.</string>
     <string name="identity_verification">본인확인 후 비밀번호를 다시 설정할 수 있습니다.</string>
     <string name="enter_name">이름은 필수 입력입니다.</string>
@@ -213,8 +211,10 @@
     <string name="duration_time">평균 체류시간</string>
     <string name="consumption_amount">평균 소비금액</string>
     <string name="seocho">2019-서울서초-0657</string>
-    <string name="gavia">WIX, 가비아</string>
+    <string name="gavia">경기도 성남시 분당구 야탑동 343번지 2호 KT-IDC 5층</string>
 
     <string name="error">조회중 장애가 발생하였습니다.</string>
+
+    <string name="already_joined">회원가입할 수 없습니다.</string>
 
 </resources>

@@ -213,8 +213,7 @@
     <string name="service_mode">販売方式</string>
     <string name="internet">インターネット</string>
     <string name="handled_item">取扱品目</string>
-    <string name="multishop">総合モール</string>
-    <string name="giftcard">商品券</string>
+    <string name="multishop">総合モール, 商品券</string>
     <string name="email_global">電子メール（E-mail）</string>
     <string name="reporting_date">登録日付</string>
     <string name="business_address">事業場所在地(道路名)</string>
@@ -226,7 +225,6 @@
 
 
 一部の事業者の場合、付加価値税法上事業者廃業届は出したが、電子商取引法上通信販売業廃業届は出していなこともあります。 消費者被害防止のために付加価値税法上事業者廃業可否も国税庁ホームページ(www.hometax.go.kr)の事業者登録状態照会コーナーを通してご確認ください。</string>
-    <string name="link">[ショートカットのリンク] </string>
     <string name="find_password_choice">パスワードを探す方法を選択してください。</string>
     <string name="identity_verification">本人確認後、パスワードを再設定することができます。</string>
     <string name="enter_name">お名前を入力してください。</string>
@@ -269,8 +267,10 @@
     <string name="duration_time">平均滞在時間</string>
     <string name="consumption_amount">平均消費金額</string>
     <string name="seocho">2019-ソウル瑞草(ソチョ)-0657</string>
-    <string name="gavia">WIX, ガビア</string>
+    <string name="gavia">京畿(キョンギ)道城南(ソンナム)市盆唐(プンダン)区野塔(ヤタッ)洞343番地2号KT-IDC5階</string>
 
     <string name="error">照会中に障害が発生しました。</string>
+
+    <string name="already_joined">登録できませんでした。</string>
 
 </resources>

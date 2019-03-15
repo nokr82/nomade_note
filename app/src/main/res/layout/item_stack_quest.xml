@@ -13,11 +13,12 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/timeLL"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/circle_background2"
+            android:background="@drawable/circle_background4"
             android:gravity="center">
 
             <TextView

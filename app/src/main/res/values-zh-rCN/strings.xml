@@ -168,8 +168,7 @@
     <string name="service_mode">销售方式</string>
     <string name="internet">网络</string>
     <string name="handled_item">处理种类</string>
-    <string name="multishop">综合商城</string>
-    <string name="giftcard">商品券</string>
+    <string name="multishop">综合商城, 商品券</string>
     <string name="email_global">电子邮件（E-mail)</string>
     <string name="reporting_date">申报日期</string>
     <string name="business_address">营业场所所在地(道路名)</string>
@@ -180,7 +179,6 @@
     <string name="company_message">本资料是为使消费者在电子商务市场准确地掌握准确经营者信息，实现安全交易，根据《电子商务消费者保护法》第十二条第四款的规定，向全国市、郡、区提供申报的通信销售经营者的身份信息。对经营者信息的疑问事项或经营者的身份信息与信息公开内容不一致时，请在搜索经营者信息时，可向确认的相关申报机关(地方自治团体)进行咨询。
 
 部分经营者虽然按照附加价值税法进行了事业者停业申报，但是可能没有根据电子商务法进行通信销售业停业申报。为防止消费者遭受损失,请通过国税厅网站(www.hometax.go.kr)的经营者注册状态查询栏，确认在附加价值税法上经营者是否也已经停业。</string>
-    <string name="link">【快捷键链接】</string>
     <string name="find_password_choice">请选择找回密码的方法。</string>
     <string name="identity_verification">本人确认后可重新设置密码。</string>
     <string name="enter_name">请输入姓名。</string>
@@ -225,8 +223,11 @@
     <string name="duration_time">平均停留时间</string>
     <string name="consumption_amount">平均消费时间</string>
     <string name="seocho">2019-首尔瑞草-0657</string>
-    <string name="gavia">WIX, 加比亚</string>
+    <string name="gavia">京畿道城南市盆唐區野塔洞343號2號KT-IDC 5層</string>
 
 
     <string name="error">查询中发生故障。</string>
+
+    <string name="already_joined">無法註冊。</string>
+
 </resources>

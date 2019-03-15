@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
@@ -105,8 +106,12 @@ class EmailJoinActivity : RootActivity() {
     }
     //email중복체크
     fun email(email: String) {
+
+        val android_id = Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+
         val params = RequestParams()
         params.put("email", email)
+        params.put("android_id", android_id)
 
         JoinAction.check_email(params, object : JsonHttpResponseHandler() {
 
@@ -118,16 +123,15 @@ class EmailJoinActivity : RootActivity() {
                 try {
 
                     val result =   Utils.getString(response,"result")
-
-
-
-                    if ("ok" == result) {
-                        val intent = Intent(context, MemberInputActivity::class.java)
-                        intent.putExtra("email",email)
-                        intent.putExtra("pw",pw)
-                        startActivity(intent)
-                    } else {
-                      Toast.makeText(context,getString(R.string.already_email),Toast.LENGTH_SHORT).show()
+                    when (result) {
+                        "ok" -> {
+                            val intent = Intent(context, MemberInputActivity::class.java)
+                            intent.putExtra("email", email)
+                            intent.putExtra("pw", pw)
+                            startActivity(intent)
+                        }
+                        "joined" -> Toast.makeText(context,getString(R.string.already_joined),Toast.LENGTH_SHORT).show()
+                        else -> Toast.makeText(context,getString(R.string.already_email),Toast.LENGTH_SHORT).show()
                     }
 
                 } catch (e: JSONException) {

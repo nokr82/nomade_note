@@ -163,8 +163,7 @@
     <string name="service_mode">Service Mode</string>
     <string name="internet">Internet</string>
     <string name="handled_item">Handled Item</string>
-    <string name="multishop">Multi shop</string>
-    <string name="giftcard">gift cards</string>
+    <string name="multishop">Multi shop, gift cards</string>
     <string name="email_global">E-mail</string>
     <string name="reporting_date">Reporting Date</string>
     <string name="business_address">Business Address (Road-based system)</string>
@@ -173,7 +172,6 @@
     <string name="host_server">Location of host server</string>
     <string name="reporting_agency">Telecommunication Service Reporting Agency</string>
     <string name="company_message">This is the information of the Telecommunication Service Provider Identification according to the reports submitted to local agencies in the country (Si, Gun, Gu), provided pursuant to the E-commerce Consumer Protection Law Article 12 (4) in order to ensure that consumers can make safe transactions with accurate business information in e-commerce market.  If you have any inquiries about business information or the identity information of the business is inconsistent with the information disclosure, please contact the relevant reporting agency (local government) that is confirmed by search results of the business information.                In case of some business operators, there may be cases where they have filed notices of business closure in accordance with the VAT Law, but not filed notices of mail order business closure in accordance with the E-Commerce Act. In order to prevent consumer loss, please check whether the business has filed closure according to the VAT Law, refer to the registration status inquiry section on the website of the National Tax Service</string>
-    <string name="link">(www.hometax.go.kr)</string>
     <string name="find_password_choice">Please select the method of finding your Password.</string>
     <string name="identity_verification">You can reset your password after identity verification.</string>
     <string name="enter_name">Enter your name.</string>
@@ -217,8 +215,10 @@
     <string name="duration_time">Average duration time</string>
     <string name="consumption_amount">Average consumption amount</string>
     <string name="seocho">2019-Seoul Seocho-0657</string>
-    <string name="gavia">WIX, GAVIA</string>
+    <string name="gavia">2ho, 5th floor, KT-IDC, 343 Yatapdong, Bundanggu, Seongnamsi, Gyeonggido</string>
 
     <string name="error">A fault occurred during the inquiry.</string>
+
+    <string name="already_joined">Could not be Registration.</string>
 
 </resources>

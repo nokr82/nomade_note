@@ -495,6 +495,10 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
 
                         for (i in 0 until friends.length()) {
                             val friend = friends[i] as JSONObject
+                            if(!friend.has("Member") || friend.isNull("Member")) {
+                                continue
+                            }
+
                             val member = friend.getJSONObject("Member")
 
                             val name = Utils.getString(member, "name")
