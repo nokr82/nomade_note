@@ -557,7 +557,7 @@ class Map_search_Fragment : Fragment(), OnLocationUpdatedListener, OnMapReadyCal
                 language = Locale.getDefault().isO3Country
                 if(language == "CHN") {
                     place_name = Utils.getString(place, "zh_rCN")
-                } else if(language == "TWN") {
+                } else {
                     place_name = Utils.getString(place, "zh_rTW")
                 }
             }

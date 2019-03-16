@@ -27,6 +27,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import com.devstories.nomadnote_android.R
+import com.devstories.nomadnote_android.actions.CityAction
 import com.devstories.nomadnote_android.actions.TimelineAction
 import com.devstories.nomadnote_android.base.*
 import com.devstories.nomadnote_android.sms.SMSAction
@@ -72,8 +73,6 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
 
     var latitude = 37.5203175
     var longitude = 126.9107831
-
-    private var myLocation = true
 
     private var main_index = -1
 
@@ -130,7 +129,7 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             timeline_id = intent.getStringExtra("timeline_id")
             detail_timeline()
         } else {
-            loadLatestSms()
+            // loadLatestSms()
         }
 
         if (intent.getStringExtra("qnas_id") != null){
@@ -1289,10 +1288,9 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
         }
 
         if (location != null) {
-            if (myLocation) {
-                latitude = location.latitude
-                longitude = location.longitude
-            }
+
+            latitude = location.latitude
+            longitude = location.longitude
 
 
             var systemLocale = applicationContext.resources.configuration.locale
@@ -1300,45 +1298,34 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
             var geocoder: Geocoder = Geocoder(context, Locale.KOREAN)
 
             var list:List<Address> = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10)
-            if(list.size > 0){
-                println("list ---- ${list.get(0)}")
+            if(list.isNotEmpty()) {
+                println("list ---- ${list[0]}")
 
-                country = list.get(0).countryName
+                country = list[0].countryName
 
-                if(list.get(0).countryName != null) {
-                    country = list.get(0).countryName
+                if(list[0].countryName != null) {
+                    country = list[0].countryName
                 }
 
 
-                if(list.get(0).adminArea != null) {
-                    admin_area_kr = list.get(0).adminArea
-                } else if(list.get(0).locality != null) {
-                    admin_area_kr = list.get(0).locality
+                if(list[0].adminArea != null) {
+                    admin_area_kr = list[0].adminArea
+                } else if(list[0].locality != null) {
+                    admin_area_kr = list[0].locality
                 }
 
-            }
-
-            geocoder = Geocoder(context)
-
-            list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10)
-            if(list.isNotEmpty()){
-                println("list ---- ${list.get(0)}")
-
-                if(list.get(0).adminArea != null) {
-                    locationET.setText(list.get(0).adminArea)
-                } else if(list.get(0).locality != null) {
-                    locationET.setText(list.get(0).locality)
-                }
             }
 
             if (progressDialog != null) {
                 progressDialog!!.dismiss()
             }
+
+            findCity()
+
         }
 
         stopLocation()
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -1371,6 +1358,131 @@ class WriteActivity : RootActivity(), OnLocationUpdatedListener {
                     if ("ok" == result) {
                         val money = Utils.getInt(response, "money")
                         moneyET.setText(money.toString())
+                    }
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, responseString: String?) {
+
+                // System.out.println(responseString);
+            }
+
+            private fun error() {
+                Utils.alert(context, getString(R.string.error))
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    responseString: String?,
+                    throwable: Throwable
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                // System.out.println(responseString);
+
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONObject?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onFailure(
+                    statusCode: Int,
+                    headers: Array<Header>?,
+                    throwable: Throwable,
+                    errorResponse: JSONArray?
+            ) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+                throwable.printStackTrace()
+                error()
+            }
+
+            override fun onStart() {
+                // show dialog
+                if (progressDialog != null) {
+
+                    progressDialog!!.show()
+                }
+            }
+
+            override fun onFinish() {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+            }
+        })
+
+    }
+
+    private fun findCity() {
+        val params = RequestParams()
+        params.put("latitude", latitude)
+        params.put("longitude", longitude)
+
+        CityAction.findCity(params, object : JsonHttpResponseHandler() {
+
+            override fun onSuccess(statusCode: Int, headers: Array<Header>?, response: JSONObject) {
+                if (progressDialog != null) {
+                    progressDialog!!.dismiss()
+                }
+
+                try {
+
+                    val result =   Utils.getString(response,"result")
+                    if ("ok" == result) {
+                        val cityO = response.getJSONObject("city")
+
+                        var city = Utils.getString(cityO, "city")
+
+                        var language = Locale.getDefault().language
+                        if(language == "en" || language == "ja") {
+                            city = Utils.getString(cityO, language)
+                        } else if(language == "zh") {
+                            language = Locale.getDefault().isO3Country
+                            if(language == "CHN") {
+                                city = Utils.getString(cityO, "zh_rCN")
+                            } else {
+                                city = Utils.getString(cityO, "zh_rTW")
+                            }
+                        }
+
+                        locationET.setText(city)
+
+                    } else {
+
+                        val geocoder = Geocoder(context)
+
+                        val list = geocoder.getFromLocation(latitude.toDouble(), longitude.toDouble(), 10)
+                        if(list.isNotEmpty()){
+                            println("list ---- ${list[0]}")
+
+                            if(list[0].adminArea != null) {
+                                locationET.setText(list[0].adminArea)
+                            } else if(list[0].locality != null) {
+                                locationET.setText(list[0].locality)
+                            }
+                        }
+
                     }
 
                 } catch (e: JSONException) {

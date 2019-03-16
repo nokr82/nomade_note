@@ -49,7 +49,7 @@ open class VisitNationAdapter(context: Context, view: Int, data: ArrayList<JSONO
             language = Locale.getDefault().isO3Country
             if(language == "CHN") {
                 countryName = Utils.getString(json, "zh_rCN")
-            } else if(language == "TWN") {
+            } else {
                 countryName = Utils.getString(json, "zh_rTW")
             }
         }
