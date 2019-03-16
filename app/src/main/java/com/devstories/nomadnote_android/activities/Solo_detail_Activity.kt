@@ -590,12 +590,21 @@ class Solo_detail_Activity : RootActivity() {
                         intent.putExtra("timeline_id",timeline_id)
                         intent.action = "DELETE_TIMELINE"
                         sendBroadcast(intent)
+
+                        intent = Intent()
+                        intent.action = "MY_QUOTA_UPDATED"
+                        sendBroadcast(intent)
+
                         setResult(RESULT_OK, intent);
                         finish()
+
+                        /*
                         var usebytes = PrefUtils.getIntPreference(context, "byte")
                         usebytes -= bytes
                         PrefUtils.setPreference(context, "byte", usebytes.toInt())
                         println("--------usebytes : $usebytes")
+                        */
+
                     }
 
                 } catch (e: JSONException) {

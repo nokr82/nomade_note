@@ -104,6 +104,10 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private var fromPosition = -1
+
+    private var toPosition = -1
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -190,17 +194,11 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
             addOnItemTouchListener(recyclerItemClickListener)
 
             val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+
                 override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
 
                     val fromPosition = source.adapterPosition
-                    val toPosition = target.adapterPosition
-
-                    println("fromPosition : $fromPosition, toPosition : $toPosition")
-
-                    Collections.swap(timelineDatas, fromPosition, toPosition)
-
-                    soloItemAdapter.notifyItemMoved(fromPosition, toPosition)
-                    soloItemAdapter.notifyDataSetChanged()
+                    toPosition = target.adapterPosition
 
                     return true
 
@@ -218,6 +216,26 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
                     return false
                 }
 
+                override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                    super.onSelectedChanged(viewHolder, actionState)
+
+                    if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                        if(viewHolder != null) {
+                            fromPosition = viewHolder.layoutPosition
+                        }
+                    } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+
+                        if(fromPosition >= 0 && toPosition >= 0) {
+                            Collections.swap(timelineDatas, fromPosition, toPosition)
+
+                            my_recycler_view.post {
+                                soloItemAdapter.notifyDataSetChanged()
+                            }
+
+                            fromPosition = -1;
+                        }
+                    }
+                }
             }
 
             val helper = ItemTouchHelper(simpleItemTouchCallback)
@@ -238,8 +256,8 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
             override fun onScrolled(recyclerView: RecyclerView, dx:Int, dy:Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                var lastVisibleItemPosition = (recyclerView.getLayoutManager() as LinearLayoutManager).findLastCompletelyVisibleItemPosition();
-                var itemTotalCount = recyclerView.getAdapter()!!.getItemCount() - 1;
+                var lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                var itemTotalCount = recyclerView.adapter!!.itemCount - 1
 
                 if (lastVisibleItemPosition == itemTotalCount) {
                     if (totalPage > page) {
@@ -747,6 +765,9 @@ open class Solo_time_Fragment : Fragment(), AbsListView.OnScrollListener {
     override fun onPause() {
         super.onPause()
         keywordET.setText("")
+
+        fromPosition = -1
+        toPosition = -1
     }
 
 
